@@ -1,0 +1,96 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+
+@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+
+<style>
+    #generic-wizard li[status="current"] > div {
+        font-weight: bold;
+    }
+
+    #generic-wizard li[disabled] > div {
+        color: var(--neutral-stroke-strong-rest);
+        opacity: var(--disabled-opacity);
+    }
+</style>
+
+<CascadingValue Value="@Content">
+    <CascadingValue Value="@FormWizard">
+        <GenericFormWizardHeader TModel="TModel" />
+        <FluentDialogBody>
+            <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
+                <FluentWizard Id="generic-wizard" @bind-Value="@ActiveId" StepTitleHiddenWhen="@GridItemHidden.None" Width="100%" StepperPosition="Position">
+                    <Steps>
+                        @foreach (var _rubric in _rubrics)
+                        {
+                            @if (ContainsStepData(_rubric))
+                            {
+                                <GenericFormWizardStep Rubric="_rubric" Data="@(GetStepData(_rubric))"  />
+                            }
+                        }
+                    </Steps>
+                    <ButtonTemplate>
+                        <FluentDialogFooter>
+                            <GenericFormWizardButtons TModel="TModel" GoToFirstEnabled="@GoToFirstEnabled" GoToLastEnabled="@GoToLastEnabled" />
+                        </FluentDialogFooter>
+                    </ButtonTemplate>
+                </FluentWizard>
+            </GenericFormSet>
+        </FluentDialogBody>
+    </CascadingValue>
+</CascadingValue>
+
+@code
+{
+    private IViewRubrics _rubrics => Content.Rubrics;
+
+    public int ActiveId
+    {
+        get => Content.ActiveRubric.RubricOrdinal;
+        set => Content.ActiveRubric = Content.Rubrics[value];
+    }
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    public IViewItem FormWizard => this;
+
+    [Parameter]
+    public bool GoToFirstEnabled { get; set; }
+
+
+    [Parameter]
+    public bool GoToLastEnabled { get; set; }
+
+    [Parameter]
+    public StepperPosition Position { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+        if (!Content.Rubrics.Any())
+            Content.MapRubrics(t => t.Rubrics, p => p.Visible);
+        var firstRubric = Content.Rubrics.FirstOrDefault();
+        if (firstRubric != null)
+            Content.ActiveRubric = firstRubric;
+        base.OnInitialized();
+    }
+
+    private IViewData GetStepData(IViewRubric rubric)
+    {
+        var data = typeof(ViewData<>).MakeGenericType(rubric.RubricType).New<IViewData>(Model.Proxy[rubric.RubricId]);
+        data.Title = (rubric.DisplayName != null) ? rubric.DisplayName : rubric.RubricName;
+        data.MapRubrics(t => t.Rubrics, p => p.Visible);
+        return data;
+    }
+
+    private bool ContainsStepData(IViewRubric rubric)
+    {
+        return Model.Proxy[rubric.RubricId] != null;
+    }
+}

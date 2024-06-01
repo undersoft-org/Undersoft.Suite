@@ -1,0 +1,5 @@
+﻿.datagrid {
+    overflow-y: auto;
+    min-height: 400px;
+    max-height: calc(100dvh - 160px);
+}

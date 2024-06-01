@@ -1,0 +1,50 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div>
+    <!-- Header -->
+    <FluentDialogHeader>
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="20">
+            <FluentMessageBarProvider Section="@ViewSection.DIALOG" MaxMessageCount="1" />
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" VerticalGap="0" Style="text-align: center;">
+                @if (Content.Icon != null)
+                {
+                    <FluentIcon Value="@Content.Icon" />
+                }
+                <FluentLabel Typo="Typography.PaneHeader">
+                    @Dialog.Instance.Parameters.Title
+                </FluentLabel>
+            </FluentStack>
+            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="0">
+            <FluentLabel Typo="Typography.Body">
+                @Content.Description
+            </FluentLabel>
+            <FluentLabel Typo="Typography.Body" Color="Color.Error">
+                    @Content.Notes.Errors
+            </FluentLabel>
+            <FluentLabel Typo="Typography.Body" Color="Color.Success">
+                    @Content.Notes.Success
+            </FluentLabel>
+            <FluentLabel Typo="Typography.Body" Color="Color.Neutral">
+                    @Content.Notes.Info
+            </FluentLabel>
+            </FluentStack>
+        </FluentStack>
+    </FluentDialogHeader>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public IViewItem FormTabs { get; set; } = default!;
+
+    [CascadingParameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+}

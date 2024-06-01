@@ -1,0 +1,24 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+
+@inherits ViewItem
+
+<div style="width:@Width">
+    @if (_isFile)
+    {
+        <img src="@_dataUri" />
+    }
+    else if (_isBit)
+    {
+        <FluentCheckbox Value="@_bitValue"  />
+    }
+    else
+    {
+        <FluentLabel @ref="Reference">
+            @TextValue
+        </FluentLabel>
+    }
+</div>
+

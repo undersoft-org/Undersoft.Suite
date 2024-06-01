@@ -1,0 +1,14 @@
+﻿@inherits LayoutComponentBase
+
+<FluentDesignTheme CustomColor="@Color" Mode="@(AppearanceState.IsDarkMode ? DesignThemeModes.Dark : DesignThemeModes.Light)" />
+<FluentDesignSystemProvider ControlCornerRadius="@ControlCornerRadius" LayerCornerRadius="@LayerCornerRadius" Density="@Density">
+    <div @ref="@Reference" class="@ClassValue" style="@StyleValue" @attributes="AdditionalAttributes">
+        <FluentMessageBarProvider Section="@ViewSection.TOP" />
+        <CascadingValue Value="@AppearanceState">
+            @Body
+        </CascadingValue>
+        <FluentToastProvider MaxToastCount="10" />
+        <FluentDialogProvider />
+        <FluentTooltipProvider />
+    </div>
+</FluentDesignSystemProvider>

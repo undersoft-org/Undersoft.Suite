@@ -1,0 +1,58 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+
+<div>
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+        <div>
+            @if (!Rubric.IsMenuGroup)
+            {
+                @if (_type == typeof(bool))
+                {
+                    <FluentMenuItem Id="@ViewId" Label="@_label" Role="MenuItemRole.MenuItemCheckbox" OnClick="@((e) => OnClick())" @ref="@Reference">
+                        @if (ShowIcons && Rubric.Icon != null)
+                        {
+                            <FluentIcon Value="@(Rubric.Icon)" Color="Color.FillInverse" Slot="checkbox-indicator" />
+                        }
+                    </FluentMenuItem>
+                }
+                else
+                {
+                    <FluentMenuItem Id="@ViewId" Label="@_label" OnClick="@((e) => OnClick())" @ref="@Reference">
+                        @if (ShowIcons && Rubric.Icon != null)
+                        {
+                            <span slot="@(Rubric.IconSlot.ToString().ToLower())">
+                                <FluentIcon Value="@(Rubric.Icon)" Color="Color.FillInverse" />
+                            </span>
+                        }
+                    </FluentMenuItem>
+                }
+            }
+            else
+            {
+                <FluentMenuItem Id="@ViewId" Label="@_label" OnClick="@((e) => OnClick())" @ref="@Reference">
+                    <MenuItems>
+                        @if (ShowIcons && Rubric.Icon != null)
+                        {
+                            <span slot="start">
+                                <FluentIcon Value="@(Rubric.Icon)" Color="Color.FillInverse" />
+                            </span>
+                        }
+                        @foreach (var rubric in ExpandData.ExtendedRubrics)
+                        {
+                            <div>
+                                <GenericMenuItem Rubric="@rubric" Data="@ExpandData" Parent="@this" />
+                            </div>
+                        }
+                    </MenuItems>
+                </FluentMenuItem>
+            }
+        </div>
+    </FluentStack>
+</div>
+
+

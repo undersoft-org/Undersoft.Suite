@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SDK.Proxies
+
+@attribute [Authorize]
+
+@page "/presenting/ecosystem/application/members"
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.Member" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Row" Title="Application members" />

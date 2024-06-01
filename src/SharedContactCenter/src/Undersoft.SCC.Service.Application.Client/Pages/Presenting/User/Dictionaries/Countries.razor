@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/dictionaries/countries"
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.Country" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" Title="Countries" />

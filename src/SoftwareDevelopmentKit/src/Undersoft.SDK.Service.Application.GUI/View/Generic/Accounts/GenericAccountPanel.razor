@@ -1,0 +1,49 @@
+﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy, IAuthorization
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+@inject IMessageService MessageService
+
+
+
+<CascadingValue Value="@Content">
+
+    <!-- Header -->
+    <GenericFormTabsHeader TModel="TModel" />
+
+    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="20">
+
+        <GenericPersona TModel="TModel" Content="@Content" ForFirstName="@ForFirstName" ForLastName="@ForLastName" ForImage="@ForImage" ForImageData="@ForImageData" ImageSize="150px" Style="height:auto;" />
+
+        <!-- Body -->
+        <GenericFormTabsBody TValidator="TValidator" TModel="TModel" Orientation="Orientation.Vertical" />
+
+    </FluentStack>
+    <FluentSpacer />
+    <!-- Footer -->
+    <GenericFormTabsFooter TModel="TModel" />
+
+</CascadingValue>
+
+@code
+{
+    private Func<TModel, string> ForFirstName => f => f.Credentials.FirstName;
+    private Func<TModel, string> ForLastName => f => f.Credentials.LastName;
+    private Func<TModel, string> ForImage => f => f.Credentials.Image;
+    private Func<TModel, byte[]> ForImageData => f => f.Credentials.ImageData;
+
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private string? _image = null;
+
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+
+}

@@ -1,0 +1,14 @@
+﻿@using Undersoft.SDK.Service.Access
+@inherits LayoutComponentBase
+@layout GenericLayout
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+@typeparam TAccount where TAccount : class, IOrigin, IInnerProxy
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy, IAuthorization
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+<GenericLandingHeader TMenu="TMenu" TModel="TModel" TAccount="TAccount" TValidator="TValidator" />
+<CascadingValue Value="@Body">
+    <GenericLandingBody />
+</CascadingValue>
+<GenericLandingFooter />

@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@page "/"
+
+@inject NavigationManager _navigation
+
+@inject IAuthorization _authorization
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        if (_authorization.Credentials.Authenticated)
+        {
+            _navigation.NavigateTo("/presenting/user/contacts");
+        }
+        else
+            _navigation.NavigateTo("/presenting/contacts");
+
+        base.OnInitialized();
+    }
+}

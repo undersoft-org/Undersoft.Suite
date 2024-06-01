@@ -1,0 +1,59 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+@implements IIdentifiable
+@implements IViewItem
+
+<div>
+    @if (!Rubric.IsMenuGroup)
+    {
+        <FluentNavLink Id="@ViewId"
+                       IconColor="Color.FillInverse"
+                       Icon="@Rubric.Icon"
+                       Match="@Match"
+                       Disabled="@Disabled"
+                       OnClick="@((e) => OnClick())"
+                       @ref="@Reference"
+                       Style="margin:0px">
+
+            <FluentLabel Color="Color.FillInverse">
+                @_label
+            </FluentLabel>
+
+        </FluentNavLink>
+    }
+    else
+    {
+        <FluentNavGroup Id="@ViewId" @bind-Expanded="@Expanded"
+                        IconColor="Color.Accent"
+                        Icon="@Rubric.Icon"
+                        Match="@Match"
+                        Disabled="@Disabled"
+                        OnClick="@((e) => OnClick())"
+                        @ref="@Reference"
+                        Style="margin:0px">
+
+            <TitleTemplate>
+                <FluentLabel Typo="Typography.H6" Weight="FontWeight.Bold" Color="Color.FillInverse">
+                    @_label
+                </FluentLabel>
+            </TitleTemplate>
+
+            <ChildContent>
+                @foreach (var rubric in ExtendData.ExtendedRubrics)
+                {
+                    <div>
+                        <GenericNavItem Rubric="@rubric" Data="@ExtendData" Parent="@this" />
+                    </div>
+                }
+            </ChildContent>
+
+        </FluentNavGroup>
+    }
+</div>
+
+

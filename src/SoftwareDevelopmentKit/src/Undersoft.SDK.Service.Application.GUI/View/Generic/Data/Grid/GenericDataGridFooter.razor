@@ -1,0 +1,63 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Proxies
+
+@inherits ViewStore
+
+<div class="generic datagrid-footer">
+
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Wrap="true">
+        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
+            Total: @DataStore.Pagination.TotalCount results
+        </FluentLabel>
+
+        <FluentSpacer />
+
+        @if (DataStore.Pagination.TotalCount > DataStore.Pagination.PageSize)
+        {
+
+
+            @if (_pagination.HasPreviousPage)
+            {
+                <FluentButton @onclick="@(() => GoToPageAsync(1))"
+                              IconStart="@(new Icons.Regular.Size20.ChevronDoubleLeft())"
+                              Appearance="@Appearance.Neutral"
+                              aria-label="Go to first page" />
+
+                <FluentButton @onclick="@(() => PreviousPageAsync())"
+                              IconStart="@(new Icons.Regular.Size20.ChevronLeft())"
+                              Appearance="@Appearance.Neutral"
+                              aria-label="Previous page" />
+            }
+
+            for (var pageIndex = _pagination.GetLowestPageIndex(); pageIndex <= _pagination.GetHighestPageIndex(); pageIndex++)
+            {
+                var index = pageIndex;
+                <FluentButton @onclick="@(() => GoToPageAsync(index))"             
+                              Appearance="@PageButtonAppearance(index)"
+                              aria-current="@AriaCurrentValue(index)"
+                              aria-label="@AriaLabel(index)">
+                    @(index)
+                </FluentButton>
+            }
+
+            @if (_pagination.HasNextPage)
+            {
+                <FluentButton @onclick="@(() => NextPageAsync())"
+                              IconStart="@(new Icons.Regular.Size20.ChevronRight())"
+                              Appearance="@Appearance.Neutral"
+                              aria-label="Next page" />
+
+                <FluentButton @onclick="@(() => GoToPageAsync(_pagination.TotalPages))"
+                              IconStart="@(new Icons.Regular.Size20.ChevronDoubleRight())"
+                              Appearance="@Appearance.Neutral"
+                              aria-label="Go to last page" />
+            }
+        }
+    </FluentStack>
+</div>
+
+
+
+

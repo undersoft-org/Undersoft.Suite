@@ -1,0 +1,52 @@
+﻿@using System.Text.Json
+@using Undersoft.SDK.Service;
+@using Undersoft.SDK.Service.Application.Extensions
+@using Undersoft.SDK.Service.Application.GUI;
+@using Undersoft.SDK.Service.Access;
+@using Undersoft.SDK.Service.Application.GUI.View;
+@using Undersoft.SDK.Service.Operation
+
+<div>
+    <FluentIcon Value="@(new Icons.Regular.Size20.Settings())" Color="Color.FillInverse" Title="Site settings" OnClick="OpenAppearancePanel" />
+</div>
+
+@code
+{
+    [Inject]
+    public NavigationManager _navigation { get; set; } = default!;
+
+    [Inject]
+    public IServicer _servicer { get; set; } = default!;
+
+    [Inject]
+    public IDialogService DialogService { get; set; } = default!;
+
+    [Inject]
+    private IJSRuntime JS { get; set; } = default!;
+
+    [Inject]
+    private AppearanceState AppearanceState { get; set; } = default!;
+
+    private IViewPanel<AppearanceState> _panel = default!;
+
+    protected override void OnInitialized()
+    {
+        _panel = _servicer.Initialize<ViewPanel<GenericAppearancePanel<AppearanceState>, AppearanceState>>(DialogService);
+    }
+
+    private async Task OpenAppearancePanel()
+    {
+        var data = new ViewData<AppearanceState>(AppearanceState);
+        data.HorizontalAlignment = HorizontalAlignment.Right;
+
+        await _panel.Show(data, (p) =>
+        {
+            p.ShowDismiss = true;
+            p.Title = $"Appearance";
+            p.PrimaryAction = "Submit";
+            p.Alignment = HorizontalAlignment.Right;
+        });
+
+        await JS.SetInLocalStorage("APPEARANCEKEY", data.Model.ToJsonString());
+    }
+}

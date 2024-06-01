@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Undersoft.SDK.Service</RootNamespace>
+    <Company>Undersoft</Company>
+    <Authors>Dariusz Hanc</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>2.6.2</Version>
+    <RepositoryUrl>https://github.com/undersoft-org/SoftwareDevelopmentKit</RepositoryUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>$(MSBuildProjectName.Replace(" ", "_"))</AssemblyName>
+    <AssemblyVersion>2.6.2.1</AssemblyVersion>
+    <FileVersion>2.6.2.1</FileVersion>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>  
+    <PackageReference Include="IdentityModel" Version="6.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*-*" />
+    <PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
+    <PackageReference Include="Polly" Version="6.1.2" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.4" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.*-*" />   
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.*-*" />
+    <PackageReference Include="Microsoft.OData.Edm" Version="7.21.2" />
+    <PackageReference Include="Microsoft.OData.Client" Version="7.21.2" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.21.2" />
+    <PackageReference Include="Quartz" Version="3.7.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.7.0" />
+    <PackageReference Include="Quartz.Plugins.TimeZoneConverter" Version="3.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Undersoft.SDK\Undersoft.SDK.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Undersoft.SDK.Extracting" />
+    <Using Include="Undersoft.SDK.Invoking" />
+    <Using Include="Undersoft.SDK.Series" />
+    <Using Include="Undersoft.SDK.Instant.Series" />
+    <Using Include="Undersoft.SDK.Instant.Math" />
+    <Using Include="Undersoft.SDK.Rubrics" />
+    <Using Include="Undersoft.SDK.Instant" />
+    <Using Include="Undersoft.SDK.Updating" />
+    <Using Include="Undersoft.SDK.Proxies" />
+    <Using Include="Undersoft.SDK.Logging" />
+    <Using Include="Undersoft.SDK.Uniques" />
+    <Using Include="Undersoft.SDK.Service.Data.Remote" />
+    <Using Include="Undersoft.SDK.Service.Data.Store" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,42 @@
+﻿@using Undersoft.SDK.Service.Access
+@inherits FluentComponentBase
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+@typeparam TAccount where TAccount : class, IOrigin, IInnerProxy
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy, IAuthorization
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+<FluentHeader class="siteheader" Height="40">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:40px">
+                        
+        <FluentSpacer />
+        
+        <div class="top-bar-tools" style="height:30px">
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="15">
+                <div class="github" style="height:20px">
+                    <FluentAnchor Appearance="Appearance.Hypertext" Href="http://github.com/undersoft-org/undersoft" Target="_blank" Rel="noreferrer noopener" title="Undersoft source on GitHub" aria-label="SSC Repository">
+                        <div >
+                            <FluentIcon Value="@(new ViewGraphic.Logo.GitHub())" Width="18" Color="Color.FillInverse" />
+                        </div>
+                    </FluentAnchor>
+                </div>
+                <div class="notification" style="height:20px">
+                    <GenericNotificationPanelButton />
+                </div>
+                <div class="appearance" style="height:20px">
+                    <GenericAppearancePanelButton />
+                </div>
+                <div class="account" style="margin-right:-15px;">
+                    <GenericAccountMenuPersona TAccount="TAccount" TModel="TModel" TValidator="TValidator" ImageSize="30px" />
+                </div>
+            </FluentStack>
+        </div>
+
+    </FluentStack>
+</FluentHeader>
+
+@code
+{
+    [Inject]
+    private AppearanceState appearance { get; set; } = default!;
+}

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: undersoft-ssc-ingress-server
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: public-iks-k8s-nginx
+  rules:
+  - host: undersoft.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: undersoft-ssc-service-application-server
+            port: 
+              number: 80

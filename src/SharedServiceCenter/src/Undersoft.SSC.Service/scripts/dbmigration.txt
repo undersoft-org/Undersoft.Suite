@@ -1,0 +1,5 @@
+dotnet ef migrations add InitialCreate --context ServiceEntryStore --output-dir Infrastructure/Stores/Migrations/ServiceEntries
+dotnet ef migrations add InitialCreate --context ServiceReportStore --output-dir Infrastructure/Stores/Migrations/ServiceReports
+dotnet ef migrations add InitialCreate --context ServiceEventStore --output-dir Infrastructure/Stores/Migrations/ServiceEvents
+dotnet ef migrations add InitialCreate --context ServiceIdentityStore --output-dir Infrastructure/Stores/Migrations/ServiceIdentities
+dotnet ef migrations add InitialCreate --context AppEventStore --output-dir Infrastructure/Stores/Migrations/AppEvents

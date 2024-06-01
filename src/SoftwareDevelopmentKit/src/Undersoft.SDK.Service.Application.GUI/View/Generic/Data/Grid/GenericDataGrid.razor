@@ -1,0 +1,54 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits GenericDataStore<TStore, TModel>
+
+@typeparam TStore where TStore : IDataServiceStore
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div id="@BindingId" class="generic-datagrid">
+    <CascadingValue Value="@DataStore">
+            <CascadingValue Value="@Root">
+                <CascadingValue Value="@EditMode">
+                    <CascadingValue Value="@FeatureFlags">
+                        <CascadingValue Value="@Checked">
+                            <CascadingValue Value="@Resizable">
+                                <CascadingValue Value="@RubricOrdinalSeed">
+                                    <CascadingValue Value="@GridTemplateColumns">
+
+                                        <div class="datagrid" tabindex="-1">
+
+                                            @if (ShowTitle)
+                                            {
+                                                <FluentLabel Typo="Typography.PageTitle" Color="Color.FillInverse" Style="padding:5px">
+                                                    @Title
+                                                </FluentLabel>
+                                            }
+
+                                            <FluentDataGrid GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+
+                                                <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
+
+                                                <GenericDataGridBody Parent="@this" />
+
+                                            </FluentDataGrid>
+
+                                        </div>
+
+                                        <GenericDataGridFooter Parent="@this" />
+
+                                    </CascadingValue>
+                                </CascadingValue>
+                            </CascadingValue>
+                        </CascadingValue>
+                    </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</div>
+
+

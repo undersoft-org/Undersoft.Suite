@@ -1,0 +1,47 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewItem
+
+<FluentLabel Typo="Typography.Body" MarginBlock="5px">
+    @DisplayName
+</FluentLabel>
+<FluentInputFile @ref="@FileByStream"
+                 Id="@CodeNo"
+                 DragDropZoneVisible="true"
+                 Mode="InputFileMode.Stream"
+                 Multiple="false"
+                 MaximumFileSize="@(5 * 1024 * 1024)"
+                 @bind-ProgressPercent="@progressPercent"
+                 Accept=".png, .jpg, .svg"
+                 OnFileUploaded="@OnFileUploadedAsync"
+                 OnCompleted="@OnCompleted">
+    <ChildContent>
+        <label for="@CodeNo" style="padding-top:15px;">
+            <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
+        </label>
+        <div>
+            <label for="@CodeNo">
+                <small>
+                    Drag or browse
+                </small>
+            </label>
+        </div>
+    </ChildContent>
+</FluentInputFile>
+
+@if (Files.Any())
+{
+    @foreach (var file in Files)
+    {
+        <div>
+            @file
+            - uploaded.
+        </div>
+    }
+}
+

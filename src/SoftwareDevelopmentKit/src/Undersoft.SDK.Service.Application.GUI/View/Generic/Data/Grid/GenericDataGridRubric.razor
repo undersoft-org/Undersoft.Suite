@@ -1,0 +1,69 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+
+<FluentDataGridCell TGridItem="string"
+                    GridColumn=@_ordinal
+                    CellType="DataGridCellType.ColumnHeader"
+                    Class="@("rubric-header " + @RubricHeaderClass(Rubric) + (Resizable ? " resizable" : ""))"
+                    Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@Rubric" scope="col">
+
+    @if (ChildContent == null)
+    {
+       
+
+        @if (Rubric.Filterable)
+        {
+            @if (Rubric.Filtered)
+            {
+                <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" />
+            }
+            else
+            {
+                <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" />
+            }
+        }
+
+        @if (Rubric.Sortable)
+        {
+            <FluentButton Appearance="Appearance.Stealth" Style="width:100%;">
+                <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" >
+                    @Rubric.DisplayName
+                </FluentLabel>
+                @if (Rubric.Sorted)
+                {
+                    @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
+                    {
+                        <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" />
+                    }
+                    else
+                    {
+                        <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" />
+                    }
+                }
+            </FluentButton>
+        }
+        else
+        {
+            <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                @Rubric.DisplayName
+            </FluentLabel>
+        }
+
+        @if (Resizable)
+        {
+            <FluentDivider class="col-width-draghandle" Orientation="Orientation.Vertical" Role="DividerRole.Separator" />
+        }
+    }
+    else
+    {
+        @ChildContent
+    }
+</FluentDataGridCell>
+
+
+

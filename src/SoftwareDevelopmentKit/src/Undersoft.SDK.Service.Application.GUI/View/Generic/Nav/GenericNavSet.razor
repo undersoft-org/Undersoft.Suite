@@ -1,0 +1,56 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Proxies
+
+@inherits ViewItem<TMenu>
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+
+<div class="generic nav-menu">
+    <CascadingValue Value="@Root">
+        
+        <FluentAccordion ActiveId="@ActiveId" ExpandMode="AccordionExpandMode.Single" Style="gap:0">
+        
+            @foreach (var rubric in Data.ExtendedRubrics)
+            {
+                <FluentAccordionItem Id="@rubric.RubricName" Class="fluent-nav-group fluent-nav-item" Style="margin:0px; " ExpandedChanged="@((e) => OnExpandLink(rubric))">
+                    
+                    <HeadingTemplate>
+                        <div class="generic-nav-category"  style="padding:0px; margin:0px; height:20px">
+                            
+                            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+                                
+                                <FluentIcon Value="@(rubric.Icon)" Color="Color.Accent" Width="20px" Title="@rubric.DisplayName" Slot="start" />
+                                
+                                @if (Expanded)
+                                {
+                                    <FluentLabel Typo="Typography.Subject" Weight="FontWeight.Bold" Color="Color.FillInverse">
+                                        @rubric.DisplayName
+                                    </FluentLabel>
+                                }
+
+                            </FluentStack>
+
+                        </div>
+                    </HeadingTemplate>
+                    
+                    <ChildContent>
+                        <div style="background:var(--neutral-fill-alt-rest); padding:0px; margin:0px;">
+
+                            <GenericNav Rubric="@rubric" Data="@(Data[rubric.RubricId])" Parent="this" />
+
+                        </div>
+                    </ChildContent>
+
+                </FluentAccordionItem>
+            }
+            
+        </FluentAccordion>
+
+    </CascadingValue>
+</div>
+
+
+
+

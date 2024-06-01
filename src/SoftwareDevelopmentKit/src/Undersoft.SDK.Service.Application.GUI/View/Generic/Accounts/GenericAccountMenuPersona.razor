@@ -1,0 +1,54 @@
+﻿@using System.Text
+@using Undersoft.SDK.Service
+@using Undersoft.SDK.Service.Access
+@using Undersoft.SDK.Service.Data.Event
+
+@inherits ViewItem<TAccount>
+
+@typeparam TAccount where TAccount : class, IOrigin, IInnerProxy
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy, IAuthorization
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+
+<div id="account-top-menu" role="button">
+    <GenericPersona TModel="IAuthorization" ForFirstName="@ForFirstName" ForLastName="@ForLastName"
+                    ForImage="@ForImage" ForImageData="@ForImageData" ImageSize="@ImageSize"
+                    Content="@(new ViewData<IAuthorization>(Authorization))" />
+</div>
+<FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Right" HorizontalGap="5">
+    <div>
+        <GenericAccountMenu TModel="TModel" TValidator="TValidator" Position="HorizontalPosition.Left" Rubric="@Data.ExtendedRubrics.FirstOrDefault()" AnchorId="account-top-menu" Data="@Data.FirstOrDefault()" Anchored="true" Style="@("margin-top:8px;")" />
+    </div>
+</FluentStack>
+@code {
+
+    [Inject]
+    public IAuthorization Authorization { get; set; } = default!;
+    private Func<IAuthorization, string> ForFirstName => f => f.Credentials.FirstName;
+    private Func<IAuthorization, string> ForLastName => f => f.Credentials.LastName;
+    private Func<IAuthorization, string> ForImage => f => f.Credentials.Image;
+    private Func<IAuthorization, byte[]> ForImageData => f => f.Credentials.ImageData;
+
+    [Parameter]
+    public string? ImageSize { get; set; } = "35px";
+
+    protected override void OnParametersSet()
+    {
+        if (Data == null)
+            Data = new ViewData<TAccount>(typeof(TAccount).New<TAccount>());
+
+        Data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+        Data.ExtendedRubrics.ForEach(r =>
+            {
+                Model.Proxy[r.RubricId] = r.RubricType.New();
+                if (r.DisplayName == null)
+                    r.DisplayName = r.RubricName;
+
+            });
+
+
+        Data.Put(Data.ExtendedRubrics.ForEach(r => typeof(ViewData<>).MakeGenericType(r.RubricType).New<IViewData>(Model.Proxy[r.RubricId])));
+
+        base.OnParametersSet();
+    }
+}

@@ -1,0 +1,23 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+<div>
+    <!-- Body -->
+    <FluentDialogBody>
+
+        <!-- Auto Form -->
+        <GenericForm TValidator="TValidator" TModel="TModel" Content="@Content" />
+
+    </FluentDialogBody>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+}

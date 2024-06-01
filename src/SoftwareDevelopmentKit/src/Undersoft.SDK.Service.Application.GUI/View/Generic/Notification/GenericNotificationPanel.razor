@@ -1,0 +1,38 @@
+﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+@inject IMessageService MessageService
+
+<div>
+
+    <FluentStack>
+
+        <FluentSpacer />
+        
+        <FluentAnchor Appearance="@Appearance.Hypertext" Href="" OnClick="@(e => MessageService.Clear(ViewSection.PANEL) )">
+            Dismiss all
+        </FluentAnchor>
+    </FluentStack>
+
+    <br />
+
+    <FluentMessageBarProvider Section="@ViewSection.PANEL" MaxMessageCount="-1" Type="@MessageType.Notification" />
+</div>
+
+@code {
+
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+
+}

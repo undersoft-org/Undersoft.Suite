@@ -1,0 +1,98 @@
+using Microsoft.FluentUI.AspNetCore.Components;
+using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Service.Application.GUI.View.Model;
+
+namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid;
+
+public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel>, IGenericDataGridDialog where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
+{
+    public GenericDataGridDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService)
+    {
+        JS = jS;
+    }
+
+    public IJSRuntime JS { get; private set; }
+
+    public virtual async Task ShowPreview(IViewData data)
+    {
+        if (Service != null)
+        {
+            data.Rubrics.ForEach(r => r.Disabled = true).Commit();
+            data.ExtendedRubrics.ForEach(r => r.Disabled = true).Commit();
+
+            Reference = await Service.ShowDialogAsync<TDialog>(data, new DialogParameters<IViewData<TModel>>()
+            {
+                Height = data.Height,
+                Width = data.Width,
+                Title = data.Title,
+                PrimaryActionEnabled = false,
+                SecondaryAction = "Close",
+                SecondaryActionEnabled = true,
+                Content = (IViewData<TModel>)data,
+                PreventDismissOnOverlayClick = false,
+                ShowDismiss = true,
+                Modal = true,
+                PreventScroll = true
+            });
+
+            var result = await Reference.Result;
+            if (!result.Cancelled && result.Data != null)
+            {
+                Content = (IViewData<TModel>)result.Data;
+            }
+        }
+    }
+
+    public virtual async Task ShowEdit(IViewData data)
+    {
+        if (Service != null)
+        {
+            Reference = await Service.ShowDialogAsync<TDialog>(data, new DialogParameters<IViewData<TModel>>()
+            {
+                Height = data.Height,
+                Width = data.Width,
+                Title = data.Title,
+                PrimaryAction = "Submit",
+                SecondaryAction = "Cancel",
+                Content = (IViewData<TModel>)data,
+                PreventDismissOnOverlayClick = true,
+                ShowDismiss = false,
+                Modal = true,
+                PreventScroll = true
+            });
+
+            var result = await Reference.Result;
+            if (!result.Cancelled && result.Data != null)
+            {
+                Content = (IViewData<TModel>)result.Data;
+            }
+        }
+    }
+
+    public virtual async Task ShowDelete(IViewData data)
+    {
+        if (Service != null)
+        {
+            Reference = await Service.ShowDialogAsync<TDialog>(data, new DialogParameters<IViewData<TModel>>()
+            {
+                Height = data.Height,
+                Width = data.Width,
+                Title = data.Title,
+                PrimaryAction = "Confirm",
+                SecondaryAction = "Cancel",
+                Content = (IViewData<TModel>)data,
+                PreventDismissOnOverlayClick = true,
+                ShowDismiss = false,
+                Modal = true,
+                PreventScroll = true
+            });
+
+            var result = await Reference.Result;
+            if (!result.Cancelled && result.Data != null)
+            {
+                Content = (IViewData<TModel>)result.Data;
+            }
+        }
+    }
+}

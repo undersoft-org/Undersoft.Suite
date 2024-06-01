@@ -1,0 +1,52 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Proxies
+
+@inherits ViewStore
+
+<FluentDataGridRow TGridItem="string" RowType="DataGridRowType.StickyHeader" @ref="Reference">
+
+    <CascadingValue Value="@Resizable">
+
+        @if (FeatureFlags.Expandable)
+        {
+            <GenericDataGridFeatureRubric Ordinal="1" Parent="this" Style="padding-inline:13px">
+                <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
+            </GenericDataGridFeatureRubric>
+        }
+
+        @if (FeatureFlags.Multiselect)
+        {
+            <GenericDataGridFeatureRubric Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
+                <FluentCheckbox @bind-Value="@Checked" />
+            </GenericDataGridFeatureRubric>
+        }
+
+        @foreach (var rubric in DataStore.Rubrics)
+        {
+            <GenericDataGridRubric Rubric="rubric" Parent="this" Style="padding-inline:13px" />
+        }
+
+        @if (FeatureFlags.Editable && EditMode != EditMode.None)
+        {
+            <GenericDataGridFeatureRubric Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="padding-inline:13px">
+                <div id="@($"{Model.Id.ToString()}-operation")" role="button">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.GroupList())" Color="Color.Accent" />
+                </div>
+                <div>
+                    <GenericMenu Position="HorizontalPosition.Left"
+                                 AnchorId="@($"{Model.Id.ToString()}-operation")"
+                                 Data="@(GetOperationData())"
+                                 Anchored="true" />
+                </div>
+            </GenericDataGridFeatureRubric>
+        }
+
+    </CascadingValue>
+
+</FluentDataGridRow>
+
+
+
+

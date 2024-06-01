@@ -1,0 +1,38 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+
+<CascadingValue Value="@Content">
+    <CascadingValue Value="@FormTabs">
+        <!-- Header -->
+    <GenericFormTabsHeader TModel="TModel" />
+
+    <!-- Body -->
+    <GenericFormTabsBody TValidator="TValidator" TModel="TModel" />
+
+    <!-- Footer -->
+    <GenericFormTabsFooter TModel="TModel" />
+
+    </CascadingValue>
+</CascadingValue>
+
+@code
+{
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    public IViewItem FormTabs => this;
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+
+    }
+}

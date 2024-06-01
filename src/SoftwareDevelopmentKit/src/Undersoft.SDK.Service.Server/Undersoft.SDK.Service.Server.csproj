@@ -1,0 +1,140 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <Company>Undersoft</Company>
+    <Authors>Dariusz Hanc</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>2.6.2</Version>
+    <RepositoryUrl>https://github.com/undersoft-org/SoftwareDevelopmentKit</RepositoryUrl>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>$(MSBuildProjectName.Replace(" ", "_"))</AssemblyName>
+    <AssemblyVersion>2.6.2.1</AssemblyVersion>
+    <FileVersion>2.6.2.1</FileVersion>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.9" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.57.0" />
+    <PackageReference Include="protobuf-net" Version="3.1.22" />
+    <PackageReference Include="protobuf-net.Core" Version="3.1.22" />
+    <PackageReference Include="protobuf-net.Grpc" Version="1.0.177" />
+    <PackageReference Include="protobuf-net.Grpc.ClientFactory" Version="1.0.177" />
+    <PackageReference Include="protobuf-net.Grpc.Native" Version="1.0.177" />
+    <PackageReference Include="protobuf-net.Grpc.Reflection" Version="1.0.177" />
+    <PackageReference Include="protobuf-net.MSBuild" Version="3.1.22" />
+    <PackageReference Include="protobuf-net.Reflection" Version="3.1.22" />
+    <PackageReference Include="protobuf-net.ServiceModel" Version="3.1.17" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.57.0" />
+    <PackageReference Include="IdentityModel" Version="6.2.0" />
+    <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.*-*" />
+    <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="7.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="7.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="7.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.2.0" />
+    <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.0.177" />
+    <PackageReference Include="protobuf-net.Grpc.AspNetCore.Reflection" Version="1.0.177" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*-*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="8.*-*" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="MongoDB.EntityFramework" Version="1.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.*-*" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.*-*" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.*-*" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.*-*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Undersoft.SDK.Service.Infrastructure\Undersoft.SDK.Service.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Undersoft.SDK.Service.Data.Entity" />
+    <Using Include="Undersoft.SDK.Service.Data.Contract" />
+    <Using Include="Undersoft.SDK.Service.Data.Identifier" />
+    <Using Include="Undersoft.SDK.Service.Data.Object" />
+    <Using Include="Undersoft.SDK.Service.Data.Event" />
+    <Using Include="Undersoft.SDK.Service.Data.Query" />
+    <Using Include="Undersoft.SDK.Service.Data.Mapper" />
+    <Using Include="Undersoft.SDK.Service.Data.Store" />
+    <Using Include="Undersoft.SDK.Service.Data.Client" />
+    <Using Include="Undersoft.SDK.Service.Data.Repository" />
+    <Using Include="Undersoft.SDK.Service.Data.Repository.Client" />
+    <Using Include="Undersoft.SDK.Service.Data.Remote.Repository" />
+    <Using Include="Undersoft.SDK.Service.Data.Repository.Source" />
+    <Using Include="Undersoft.SDK.Service.Data.Store.Repository" />
+    <Using Include="Undersoft.SDK.Service.Operation.Command" />
+    <Using Include="Undersoft.SDK.Service.Operation.Command.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Command.Validator" />
+    <Using Include="Undersoft.SDK.Service.Operation.Command.Notification" />
+    <Using Include="Undersoft.SDK.Service.Operation.Command.Notification.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Query" />    
+    <Using Include="Undersoft.SDK.Service.Operation.Query.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Query.Validator" />
+    <Using Include="Undersoft.SDK.Service.Operation.Invocation" />
+    <Using Include="Undersoft.SDK.Service.Operation.Invocation.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Invocation.Notification" />
+    <Using Include="Undersoft.SDK.Service.Operation.Invocation.Notification.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Command" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Command.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Command.Validator" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Command.Notification" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Command.Notification.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Query" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Query.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Query.Validator" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Invocation" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Invocation.Handler" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Invocation.Notification" />
+    <Using Include="Undersoft.SDK.Service.Operation.Remote.Invocation.Notification.Handler" />
+    <Using Include="Undersoft.SDK.Extracting" />
+    <Using Include="Undersoft.SDK.Invoking" />
+    <Using Include="Undersoft.SDK.Series" />
+    <Using Include="Undersoft.SDK.Instant" />
+    <Using Include="Undersoft.SDK.Instant.Series.Querying" />
+    <Using Include="Undersoft.SDK.Instant.Attributes" />
+    <Using Include="Undersoft.SDK.Rubrics" />
+    <Using Include="Undersoft.SDK.Instant.Series" />
+    <Using Include="Undersoft.SDK.Instant.Math" />
+    <Using Include="Undersoft.SDK.Updating" />
+    <Using Include="Undersoft.SDK.Proxies" />
+    <Using Include="Undersoft.SDK.Logging" />
+    <Using Include="Undersoft.SDK.Uniques" />
+    <Using Include="Undersoft.SDK.Serialization" />
+    <Using Include="Undersoft.SDK.Extracting" />
+  </ItemGroup>
+  
+</Project>

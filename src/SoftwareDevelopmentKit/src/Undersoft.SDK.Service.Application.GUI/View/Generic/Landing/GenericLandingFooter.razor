@@ -1,0 +1,18 @@
+﻿@inherits FluentComponentBase
+
+
+<FluentFooter Style="@("display:flex; height: 40px; width:100%;")">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%">
+       <FluentLabel>
+        <small>        
+            v@(AppearanceState?.Version) dh@undersoft.pl        
+        </small>
+        </FluentLabel>
+        <FluentSpacer/>
+        <FluentLabel>
+        <small>        
+           Undersoft © 2024         
+        </small>
+        </FluentLabel>
+    </FluentStack>
+</FluentFooter>

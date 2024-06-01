@@ -1,0 +1,68 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+
+@inject NavigationManager _navigation
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+<CascadingValue Value="@Content">
+        <!-- Header -->
+        <GenericModelFormDialogHeader TModel="TModel" />
+
+        <!-- Body -->
+        <GenericModelFormDialogBody TValidator="TValidator" TModel="TModel" />
+
+    </CascadingValue>
+
+<!-- Footer -->
+<FluentDialogFooter>
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+        <FluentSpacer />
+        <FluentButton OnClick="@OnSignIn" Appearance="Appearance.Lightweight">
+            Sign in
+        </FluentButton>
+        <FluentButton Appearance="Appearance.Accent"        
+                      OnClick="@SaveAsync">
+            Sign up
+        </FluentButton>
+    </FluentStack>
+</FluentDialogFooter>
+
+@code
+{
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task OnSignIn(MouseEventArgs e)
+    {
+        Content.NextHref = "access/sign_in";
+
+        await Dialog.CloseAsync(Content);
+    }
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+        base.OnInitialized();
+    }
+
+    private async Task SaveAsync()
+    {
+        if ((await Content.Validator.ValidateAsync()).IsValid)
+        {
+            await Dialog.CloseAsync(Content);
+        }
+    }
+
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+}

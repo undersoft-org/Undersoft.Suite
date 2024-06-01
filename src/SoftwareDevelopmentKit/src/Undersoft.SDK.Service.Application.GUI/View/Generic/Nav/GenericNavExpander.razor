@@ -1,0 +1,33 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Proxies
+
+@inherits ViewItem<TMenu>
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+
+<div id="@BindingId" role="button" class="nav-expander" style="@Style">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="@HorizontalAlignment" HorizontalGap="5">
+
+        @if (Expanded)
+        {
+            <FluentIcon Value="@ExpandedIcon" Width="20px" Color="@IconColor" Title="@Label" />
+        }
+        else
+        {
+            <FluentIcon Value="@CollapsedIcon" Width="20px" Color="@IconColor" Title="@Label" />
+        }
+
+        @if (ShowLabel)
+        {
+            <FluentLabel Typo="Typography.H6" Weight="FontWeight.Bold" Color="Color.FillInverse">
+                @Label
+            </FluentLabel>
+        }
+    </FluentStack>
+</div>
+
+
+
+

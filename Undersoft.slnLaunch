@@ -1,0 +1,57 @@
+[
+  {
+    "Name": "SSC-Client-Hybrid-Kestrel-Android",
+    "Projects": [
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Server\\Undersoft.SSC.Service.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Undersoft.SSC.Service.Server"
+      },
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Application.Server\\Undersoft.SSC.Service.Application.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Undersoft.SSC.Service.Application.Server"
+      },
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Application.Hybrid\\Undersoft.SSC.Service.Application.Hybrid.csproj",
+        "Action": "Start",
+        "DebugTarget": "Pixel 5 - API 33 (Android 13.0 - API 33)"
+      }
+    ]
+  },
+  {
+    "Name": "SSC-Client-Hybrid-Kestrel-Win",
+    "Projects": [
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Server\\Undersoft.SSC.Service.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Undersoft.SSC.Service.Server"
+      },
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Application.Server\\Undersoft.SSC.Service.Application.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Undersoft.SSC.Service.Application.Server"
+      },
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Application.Hybrid\\Undersoft.SSC.Service.Application.Hybrid.csproj",
+        "Action": "Start",
+        "DebugTarget": "Windows Machine"
+      }
+    ]
+  },
+  {
+    "Name": "SSC-Client-Bridge-Kube",
+    "Projects": [
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Server\\Undersoft.SSC.Service.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Bridge to Kubernetes"
+      },
+      {
+        "Name": "src\\SharedServiceCenter\\src\\Undersoft.SSC.Service.Application.Server\\Undersoft.SSC.Service.Application.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "Bridge to Kubernetes"
+      }
+    ]
+  }
+]

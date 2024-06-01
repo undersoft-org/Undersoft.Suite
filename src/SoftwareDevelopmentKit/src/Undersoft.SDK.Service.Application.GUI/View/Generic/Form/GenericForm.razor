@@ -1,0 +1,86 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+<div class="generics generic-form forms">
+    <CascadingValue Value="@FormContext">
+        <EditForm EditContext="@FormContext" FormName="generic_form" @ref="@Reference">
+            <CascadingValue Value="@Content">
+                <GenericValidator TValidator="TValidator" TModel="TModel" />
+                <FluentStack Orientation="@Orientation" Wrap="true" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment" VerticalGap="3">
+                    @foreach (var _rubric in _rubrics)
+                    {
+                        <GenericField Rubric="@_rubric" />
+                    }
+                </FluentStack>
+            </CascadingValue>
+        </EditForm>
+    </CascadingValue>
+</div>
+
+@code {
+    private IViewRubrics _rubrics => Data.Rubrics;
+
+    protected override void OnInitialized()
+    {
+        if (Content != null)
+        {
+            if(Content.ViewItem == null)
+                Content.ViewItem = this;
+            if (FormContext == null)
+            {
+                FormContext = new EditContext(Content);
+                FormContext.OnFieldChanged += FieldChanged;
+            }
+        }
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        var _firstRubric = _rubrics.FirstOrDefault();
+        if (_firstRubric != null)
+        {
+            var reference = _firstRubric.ViewItem?.Reference;
+            if (reference != null)
+            {
+                ((FluentComponentBase)reference).Element.FocusAsync();
+            }
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    [Parameter]
+    public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Center;
+
+    [Parameter]
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Center;
+
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+    [CascadingParameter]
+    public EditContext? FormContext { get; set; } = default!;
+
+    private void FieldChanged(object? sender, FieldChangedEventArgs args)
+    {
+        if (OnFieldChanged != null)
+            OnFieldChanged(sender, args);
+    }
+
+
+    public event EventHandler<FieldChangedEventArgs>? onFieldChanged;
+
+    [Parameter]
+    public EventHandler<FieldChangedEventArgs>? OnFieldChanged { get => onFieldChanged; set => onFieldChanged += value; }
+}
+

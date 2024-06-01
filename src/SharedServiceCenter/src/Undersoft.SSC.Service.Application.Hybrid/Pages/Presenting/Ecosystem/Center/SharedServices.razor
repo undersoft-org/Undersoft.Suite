@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SDK.Proxies
+
+@page "/presenting/ecosystem/center/shared_services"
+
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.Service" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Row" Title="Shared services" />

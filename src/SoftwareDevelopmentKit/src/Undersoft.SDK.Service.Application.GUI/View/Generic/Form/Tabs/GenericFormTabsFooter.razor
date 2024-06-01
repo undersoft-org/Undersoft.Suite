@@ -1,0 +1,51 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div>
+    <!-- Footer -->
+    <FluentDialogFooter>
+        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Left">
+            @if (Dialog.Instance.Parameters.PrimaryActionEnabled)
+            {
+                <FluentButton Appearance="Appearance.Accent"
+                              OnClick="@SaveAsync">
+                    @Dialog.Instance.Parameters.PrimaryAction
+                </FluentButton>
+            }
+            @if (Dialog.Instance.Parameters.SecondaryActionEnabled)
+            {
+                <FluentButton OnClick="@CancelAsync" Appearance="Appearance.Neutral">
+                    @Dialog.Instance.Parameters.SecondaryAction
+            </FluentButton>
+            }
+        </FluentStack>
+    </FluentDialogFooter>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    [CascadingParameter]
+    public IViewItem FormTabs { get; set; } = default!;
+
+    private async Task SaveAsync()
+    {
+        var result = await Content.Validator.ValidateAsync();
+        if (result.IsValid)       
+            await Dialog.CloseAsync(Content);        
+        else
+            FormTabs.RenderView();
+    }
+
+    private async Task CancelAsync(MouseEventArgs e)
+    {
+        await Dialog.CancelAsync();
+
+    }
+}

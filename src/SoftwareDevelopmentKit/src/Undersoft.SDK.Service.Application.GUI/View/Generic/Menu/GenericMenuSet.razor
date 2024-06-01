@@ -1,0 +1,45 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Proxies
+
+@inherits ViewItem<TMenu>
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+
+<div class="generic top-menu">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Right" HorizontalGap="5">
+        @foreach (var rubric in Data.ExtendedRubrics)
+        {
+            <div id="@($"{Model.Id.ToString()}-{@rubric.Id.ToString()}")" role="button">
+                @if (ShowIcons && rubric.Icon != null && rubric.IconSlot == IconSlot.Start)
+                {
+                    <FluentIcon Value="@(rubric.Icon)" Color="Color.FillInverse" Title="@rubric.DisplayName" />
+                }
+                @if (ShowLabels)
+                {
+                    <FluentLabel Typo="Typography.Body" Weight="FontWeight.Bold" Color="Color.Lightweight">
+                        @rubric.DisplayName
+                    </FluentLabel>
+                }
+                @if (ShowIcons && rubric.Icon != null && rubric.IconSlot == IconSlot.End)
+                {
+                    <FluentIcon Value="@(rubric.Icon)" Color="Color.FillInverse" Title="@rubric.DisplayName" />
+                }
+
+            </div>
+            <div>
+                <GenericMenu Position="HorizontalPosition.Right" 
+                             Rubric="@rubric" 
+                             AnchorId="@($"{Model.Id.ToString()}-{@rubric.Id.ToString()}")" 
+                             Data="@(Data[rubric.RubricId])" 
+                             Anchored="true" Style="@("margin-top:12px;")" 
+                             OnMenuItemChange="@OnMenuItemChange" />
+            </div>
+        }
+    </FluentStack>
+</div>
+
+
+
+

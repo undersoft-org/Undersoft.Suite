@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/admin/contacts"
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.Contact" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" Title="Contacts" />

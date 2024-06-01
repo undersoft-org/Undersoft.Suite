@@ -1,0 +1,43 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewItem
+
+<div class="generics generic-form-item forms" style="@Style">
+    <CascadingValue Value="@Data">
+        <FluentStack Orientation="@Orientation" Wrap="true" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment" VerticalGap="3">
+            @foreach (var _rubric in _rubrics)
+            {
+                <GenericField Rubric="@_rubric" />
+            }
+        </FluentStack>
+    </CascadingValue>
+</div>
+
+@code {
+    [Parameter]
+    public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Center;
+
+    [Parameter]
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Center;
+
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+    private IViewRubrics _rubrics => Data.Rubrics;
+
+    protected override void OnInitialized()
+    {
+        if (Data != null && Data.ViewItem == null)
+            Data.ViewItem = this;
+        if (Rubric != null && Rubric.ViewItem == null)
+            Rubric.ViewItem = this;
+
+        base.OnInitialized();
+    }
+}
+

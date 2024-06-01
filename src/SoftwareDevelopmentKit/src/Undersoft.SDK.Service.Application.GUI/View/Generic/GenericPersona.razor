@@ -1,0 +1,14 @@
+﻿@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div>
+    @if (ShowName)
+    {
+        <FluentPersona Name="@Name" Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
+    }
+    else
+    {
+        <FluentPersona Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
+    }
+</div>

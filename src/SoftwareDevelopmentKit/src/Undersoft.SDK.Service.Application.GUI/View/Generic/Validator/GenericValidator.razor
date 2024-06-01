@@ -1,0 +1,19 @@
+﻿@using FluentValidation;
+@using FluentValidation.Results;
+@using Microsoft.AspNetCore.Components.Forms;
+@using Undersoft.SDK.Proxies;
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK.Invoking
+@using Undersoft.SDK.Series
+@using ValidationResult = FluentValidation.Results.ValidationResult;
+@using Undersoft.SDK.Service.Application.GUI.View;
+
+@inherits FluentComponentBase
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+@code
+{
+    [Inject]
+    private IValidator<IViewData<TModel>> Validator { get; set; } = default!;
+}

@@ -1,0 +1,47 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+
+@inherits ViewItem
+
+<FluentTab Id="@Rubric.RubricName">
+    <Header>
+        @if(Icon != null)
+        {
+            <FluentIcon Value="@Icon" />
+        }
+        <div>
+            @Data.Title
+        </div>
+    </Header>
+  
+    <Content>
+        
+        @if (ShowTitle)
+        {
+            <FluentLabel Typo="Typography.Header">@Data.Title</FluentLabel>
+        }
+        <GenericFormItem Data="@Data" Rubric="@Rubric" HorizontalAlignment="HorizontalAlignment.Start" />
+        
+    </Content>
+  </FluentTab>
+
+
+@code
+{
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    [CascadingParameter]
+    public IViewItem FormTabs { get; set; } = default!;
+
+    [Parameter]
+    public bool ShowTitle { get; set; } = false;
+
+
+    protected override void OnInitialized()
+    {
+        Data.ViewItem = this;     
+    }
+}

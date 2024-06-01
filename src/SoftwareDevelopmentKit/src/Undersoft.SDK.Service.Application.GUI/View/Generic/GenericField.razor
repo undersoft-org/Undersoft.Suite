@@ -1,0 +1,99 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+
+@inherits ViewItem
+
+@if (_isUpload)
+{
+    <div style="width:@Width">
+        <GenericUpload Rubric="@Rubric" Data="@Data" DisplayName="@_label" @ref="Reference" />
+    </div>
+}
+else if (_type.IsPrimitive)
+{
+    @if (_type.IsAssignableTo(typeof(long)))
+    {
+        <div style="width:@Width">
+            <FluentNumberField Name="@_name" @bind-Value="@_longValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(int)))
+    {
+        <div style="width:@Width">
+            <FluentNumberField Name="@_name" @bind-Value="@_intValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(double)))
+    {
+        <div style="width:@Width">
+            <FluentNumberField Name="@_name" @bind-Value="@_doubleValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(float)))
+    {
+        <div style="width:@Width">
+            <FluentNumberField Name="@_name" @bind-Value="@_floatValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(decimal)))
+    {
+        <div style="width:@Width">
+            <FluentNumberField Name="@_name" @bind-Value="@_decimalValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(bool)))
+    {
+        <div style="width:@Width">
+            <FluentCheckbox Name="@_name" @bind-Value="@_bitValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else
+    {
+        <div style="width:@Width">
+            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+}
+else if (_type.IsValueType)
+{
+    @if (_type.IsAssignableTo(typeof(DateTime)))
+    {
+        <div style="width:@Width">
+            <FluentDatePicker Name="@_name" @bind-Value="@_timeValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else
+    {
+        <div style="width:@Width">
+            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+}
+else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
+{
+    @if (_size > 128)
+    {
+        <div style="width:@Width">
+            <FluentTextArea Maxlength="@_size" Form="generic_form" Id="@_name" Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else
+    {
+        <div style="width:@Width">
+            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+}
+
+<FluentStack Orientation="Orientation.Vertical" VerticalGap="0" HorizontalAlignment="HorizontalAlignment.Center">
+    @foreach (var error in Rubric.Errors)
+    {
+        <FluentLabel Typo="Typography.Body" Color="Color.Error">
+            @error
+        </FluentLabel>
+    }
+</FluentStack>
+
+

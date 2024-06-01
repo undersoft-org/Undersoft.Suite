@@ -1,0 +1,76 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Collections
+
+@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+
+<FluentDialogBody>
+    <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
+        <FluentTabs @bind-ActiveTabId="@ActiveId" Width="100%" Orientation="@Orientation">
+            @foreach (var _rubric in _rubrics)
+            {
+                @if (ContainsTabData(_rubric))
+                {
+                    <GenericFormTabsTab Rubric="_rubric" Data="@(GetTabData(_rubric))" />
+                }
+            }
+        </FluentTabs>
+    </GenericFormSet>
+</FluentDialogBody>
+
+@code
+{
+    [CascadingParameter]
+    public override IViewData<TModel> Content { get; set; } = default!;
+
+    private IViewRubrics _rubrics => Content.ExtendedRubrics;
+
+    public string ActiveId
+    {
+        get => Content.ActiveRubric.RubricName;
+        set => Content.ActiveRubric = Content.ExtendedRubrics[value];
+    }
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    [CascadingParameter]
+    public IViewItem FormTabs { get; set; } = default!;
+
+    [Parameter]
+    public Orientation Orientation { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Content.ViewItem = this;
+        Content.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+        var firstRubric = Content.ExtendedRubrics.FirstOrDefault();
+        if (firstRubric != null)
+            Content.ActiveRubric = firstRubric;
+    }
+
+    private IViewData GetTabData(IViewRubric rubric)
+    {
+        var data = typeof(ViewData<>).MakeGenericType(rubric.RubricType).New<IViewData>(Model.Proxy[rubric.RubricId]);
+        data.Title = (rubric.DisplayName != null) ? rubric.DisplayName : rubric.RubricName;
+        data.MapRubrics(t => t.Rubrics, p => p.Visible);
+        if (rubric.Disabled)
+            data.Rubrics.ForEach(r => r.Disabled = true).Commit();
+        return data;
+    }
+
+    private bool ContainsTabData(IViewRubric rubric)
+    {
+        var t = rubric.RubricType;
+        if (Model.Proxy[rubric.RubricId] == null)
+        {
+            Model.Proxy[rubric.RubricId] = t.New();
+        }
+        if (t.IsClass && !t.IsAssignableTo(typeof(IEnumerable)))
+            return true;
+        return false;
+    }
+}

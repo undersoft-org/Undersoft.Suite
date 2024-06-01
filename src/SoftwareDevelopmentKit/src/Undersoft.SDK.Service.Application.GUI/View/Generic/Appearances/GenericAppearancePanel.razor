@@ -1,0 +1,147 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Extensions
+@using Undersoft.SDK
+@using Undersoft.SDK.Proxies
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+<div>
+    <FluentDesignTheme @ref=_theme
+                       @bind-Mode="@Mode"
+                       @bind-CustomColor="@CurrentColor"                 
+                       StorageName="theme" />
+
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+        <FluentSelect Label="Theme"
+                      Width="100%"
+                      Style="margin-bottom: 30px;"
+                      Items="@AllModes"
+                      @bind-SelectedOption="@Mode" />
+
+        <FluentSelect Label="Color"
+                      Style="margin-bottom: 30px;"
+                      Width="100%"
+                      Items="@(UndersoftColorUtilities.AllColors.Cast<UndersoftColors?>())"
+                      Height="200px"
+                      @bind-SelectedOption="@UndersoftColor">
+            <OptionTemplate>
+                <FluentStack>
+                    <FluentIcon Value="@(new Icons.Filled.Size20.RectangleLandscape())"
+                                Color="Color.Custom"
+                                CustomColor="@GetCustomColor(@context)" />
+                    <FluentLabel>@context</FluentLabel>
+                </FluentStack>
+            </OptionTemplate>
+        </FluentSelect>
+
+        <FluentLabel>
+            These values are persisted in the LocalStorage.
+            and will be recovered during your next visits.<br /><br />
+            Use the 'Reset settings button' below to go back to the system theme and a random color.
+        </FluentLabel>
+        <FluentDivider Style="width: 100%; margin: 1rem 0" />
+        <FluentPopover Style="width: 350px;" AnchorId="info" @bind-Open="@_popVisible">
+            <Header>Reset site settings</Header>
+            <Body>
+                <p>
+                    This site stores settings for the theme and color and downloaded samples, emoji and icons in the browser' cache and local storage.
+                </p>
+                <p>
+                    You can check the contents of the cache and storage in the browser's developer tools. If you are using Edge or Chrome, you can do this by
+                    going to the Application tab and then clicking on the Cache Storage or Local Storagesection.<br />
+                    In Firefox, you can do this by going to the Storage tab and then clicking on the Cache Storage or Local Storage section.
+                </p>
+
+                <p>
+                    If you feel like you're not seeing the latest and greatest of samples. emoji or icons, or you want to clear out the stored theme and color,
+                    click the button below to clear the cache and delete local storage.
+                </p>
+                <p>
+                    <strong>Don't worry, this will <strong>only</strong> reset stored data for <strong>this</strong> site. It will not clear any of your browser's cache for other sites!</strong>
+                </p>
+            </Body>
+        </FluentPopover>
+
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentButton OnClick="@ResetSiteAsync">Reset settings</FluentButton>
+            <FluentIcon Id="info" Value="@(new Icons.Regular.Size24.Info())" OnClick="@(() => _popVisible = !_popVisible)" />
+        </FluentStack>
+
+        <p style="margin-top: 1rem;">
+            <em><strong>@_status</strong></em>
+        </p>
+    </FluentStack>
+</div>
+
+
+@code {
+    private string? _status;
+    private bool _popVisible;
+    private bool _ltr = true;
+    private FluentDesignTheme? _theme;
+
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [Inject]
+    public required GlobalState GlobalState { get; set; }
+
+    public AppearanceState AppearanceState { get; set; } = default!;
+
+    public DesignThemeModes mode;
+    public DesignThemeModes Mode { get => mode; set { mode = value; AppearanceState.IsDarkMode = (value == DesignThemeModes.Dark) ? true : false; } }
+
+    private UndersoftColors? undersoftColors;
+    public UndersoftColors? UndersoftColor { get => undersoftColors; set { undersoftColors = value; AppearanceState.Color = value.ToAttributeValue(); } }
+
+    public string? CurrentColor { get => UndersoftColor.ToAttributeValue(); set => UndersoftColor = AllUndersoftColors.Where(c => c.ToAttributeValue() == value).FirstOrDefault();  }
+
+    private static IEnumerable<DesignThemeModes> AllModes => Enum.GetValues<DesignThemeModes>();
+
+    protected override void OnInitialized()
+    {
+        AppearanceState = (AppearanceState)(object)Content.Model;
+        Content.View = this;
+        base.OnInitialized();
+    }
+
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+
+    private static IEnumerable<UndersoftColors?> AllUndersoftColors
+    {
+        get
+        {
+            return Enum.GetValues<UndersoftColors>().Select(i => (UndersoftColors?)i);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+    }
+
+    private void ResetSiteAsync()
+    {
+        var msg = "Site settings reset and cache cleared!";
+
+        _theme?.ClearLocalStorageAsync();
+
+        _status = msg;
+
+        UndersoftColor = UndersoftColorUtilities.GetRandom();
+        Mode = DesignThemeModes.System;
+    }
+
+    private string? GetCustomColor(UndersoftColors? color)
+    {
+        return color switch
+        {
+            null => UndersoftColorUtilities.GetRandom(true).ToAttributeValue(),
+            UndersoftColors.Default => "#194d6d", _ => color.ToAttributeValue(),
+        };
+    }
+}

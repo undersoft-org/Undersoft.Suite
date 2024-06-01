@@ -1,0 +1,80 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+<div class="generics generic-form-set forms">
+    <CascadingValue Value="@FormContext">
+        <CascadingValue Value="@Content">
+            <CascadingValue Value="@Data">
+                <EditForm EditContext="@FormContext" FormName="generic_form" @ref="@Reference">
+                    <GenericValidator TValidator="TValidator" TModel="TModel" />
+                    @ChildContent
+                </EditForm>
+            </CascadingValue>
+        </CascadingValue>
+    </CascadingValue>
+</div>
+
+@code {
+    private IViewRubrics _rubrics => Data.Rubrics;
+
+    protected override void OnInitialized()
+    {
+        if (Data != null)
+        {
+            if(Data.ViewItem == null)
+                Data.ViewItem = this;
+            if (FormContext == null)
+            {
+                FormContext = new EditContext(Data);
+                FormContext.OnFieldChanged += FieldChanged;
+            }
+        }
+        base.OnInitialized();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var data = Data.FirstOrDefault();
+            if (data != null)
+            {
+                var _firstRubric = data.Rubrics.FirstOrDefault();
+                if (_firstRubric != null)
+                {
+                    var reference = _firstRubric.ViewItem?.Reference;
+                    if (reference != null)
+                    {
+                        ((FluentComponentBase)reference).Element.FocusAsync();
+                    }
+                }
+            }
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    [Parameter]
+    public EditContext? FormContext { get; set; } = default!;
+
+    private void FieldChanged(object? sender, FieldChangedEventArgs args)
+    {
+        if (OnFieldChanged != null)
+            OnFieldChanged(sender, args);
+    }
+
+    public event EventHandler<FieldChangedEventArgs>? onFieldChanged;
+
+    [Parameter]
+    public EventHandler<FieldChangedEventArgs>? OnFieldChanged { get => onFieldChanged; set => onFieldChanged += value; }
+}
+

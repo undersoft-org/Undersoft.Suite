@@ -1,0 +1,17 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+
+<FluentDataGridCell GridColumn=@_ordinal Class="@Rubric.Class" Style="@Rubric.Style" @key="@Rubric" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
+
+    <GenericValue Rubric="@Rubric" Width="100%" />
+
+</FluentDataGridCell>
+
+
+
+

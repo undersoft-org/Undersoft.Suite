@@ -1,0 +1,8 @@
+﻿@inherits FluentComponentBase
+
+<div>
+    @if (ShowBackButton)
+    {
+        <FluentButton Appearance=Microsoft.FluentUI.AspNetCore.Components.Appearance.Accent @onclick="BackToTopAsync" Id="backtotop" title="Back to top of page">Go top</FluentButton>
+    }
+</div>

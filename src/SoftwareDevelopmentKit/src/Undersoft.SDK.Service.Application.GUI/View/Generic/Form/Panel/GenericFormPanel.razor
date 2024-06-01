@@ -1,0 +1,44 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+
+<CascadingValue Value="@Content">
+
+    <!-- Header -->
+    <GenericFormPanelHeader TModel="TModel" />
+
+    <!-- Body -->
+    <GenericFormPanelBody TValidator="TValidator" TModel="TModel" />
+
+    <!-- Footer -->
+    <GenericFormPanelFooter TModel="TModel" />
+
+</CascadingValue>
+
+@code
+{
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+        base.OnInitialized();
+    }
+
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+}

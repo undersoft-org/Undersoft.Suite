@@ -1,0 +1,44 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewItem<TMenu>
+
+@typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
+
+<div class="navmenu">
+    <CascadingValue Value="@Root">
+        <CascadingValue Value="@Expanded">
+
+            <nav class="sitenav" aria-labelledby="main-menu">
+
+                <FluentNavMenu @bind-Expanded="@Expanded" Style="@Style" @ref="@Reference" Width="@Width" Margin="@Margin">
+
+
+                    @if (Collapsible)
+                    {
+                        <FluentKeyCode Anchor="@BindingId" OnKeyDown="@HandleExpandCollapseKeyDownAsync" />
+                    }
+                    @if (!SingleMenu)
+                    {
+                        <GenericNavSet TMenu="TMenu" Content="@Content" Parent="this" />
+                    }
+                    else
+                    {
+                        <GenericNav Rubric="@Rubric" Data="@Data" Parent="this" />
+                    }
+
+                </FluentNavMenu>
+
+            </nav>
+
+            @ChildContent
+
+        </CascadingValue>
+    </CascadingValue>
+</div>
+
+
