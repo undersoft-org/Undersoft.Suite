@@ -1,8 +1,9 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SCC.Service.Contracts.Accounts;
 
-public class AccountAddress : DataObject
+public class AccountAddress : DataObject, IContract
 {
     [VisibleRubric]
     public string Country { get; set; } = default!;

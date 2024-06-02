@@ -16,21 +16,5 @@ public class GroupValidator : ViewValidator<Group>
                 ValidateRequired(p => p.Model.Name!);
             }
         );
-
-        //ValidationScope(
-        //    OperationType.Create,
-        //    () =>
-        //    {
-        //        ValidateNotExist<IDataStore, Group>(c => p => p.Name!.Equals(c.Name));
-        //    }
-        //);
-
-        //ValidationScope(
-        //    OperationType.Delete | OperationType.Update,
-        //    () =>
-        //    {
-        //        ValidateExist<IDataStore, Group>(c => p => p.Name!.Equals(c.Name));
-        //    }
-        //);
     }
 }

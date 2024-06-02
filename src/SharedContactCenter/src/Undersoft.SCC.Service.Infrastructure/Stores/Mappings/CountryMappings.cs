@@ -21,7 +21,8 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
                 .RelateOneToSet<Country, CountryState>(
                     c => c.Country,
                     c => c.States,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 );
         }
     }

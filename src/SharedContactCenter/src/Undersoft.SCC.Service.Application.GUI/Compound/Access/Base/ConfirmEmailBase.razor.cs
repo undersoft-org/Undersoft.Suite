@@ -30,7 +30,7 @@ namespace Undersoft.SCC.Service.Application.GUI.Compound.Access
         [Parameter]
         public string? Email { get; set; }
 
-        private IViewModelDialog<Credentials> _dialog = default!;
+        private IViewDialog<Credentials> _dialog = default!;
 
         protected override void OnInitialized()
         {

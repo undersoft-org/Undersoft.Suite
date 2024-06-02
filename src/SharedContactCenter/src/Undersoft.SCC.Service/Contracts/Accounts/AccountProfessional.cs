@@ -1,8 +1,9 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SCC.Service.Contracts.Accounts;
 
-public class AccountProfessional : DataObject
+public class AccountProfessional : DataObject, IContract
 {
     [VisibleRubric]
     [DisplayRubric("Industry")]

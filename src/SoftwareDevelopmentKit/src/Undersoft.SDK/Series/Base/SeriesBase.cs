@@ -1368,7 +1368,7 @@ namespace Undersoft.SDK.Series.Base
             this.Add(other);
         }
 
-        bool IList.IsFixedSize => throw new NotImplementedException();
+        bool IList.IsFixedSize => false;
 
         object IList.this[int index] { get => this[index]; set => this[index] = (V)value; }
 

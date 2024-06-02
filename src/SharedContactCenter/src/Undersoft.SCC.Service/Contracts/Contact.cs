@@ -26,14 +26,14 @@ namespace Undersoft.SCC.Service.Contracts
         [VisibleRubric]
         [RubricSize(64)]
         [DisplayRubric("Email")]
-        public virtual string? Email { get => Personal?.Email; set => (Personal ??= new ContactPersonal()).Email = value!; }
+        public virtual string? Email { get => Personal?.Email; set => (Personal ??= new Personal()).Email = value!; }
 
         [IgnoreDataMember]
         [JsonIgnore]
         [VisibleRubric]
         [RubricSize(64)]
         [DisplayRubric("Phone number")]
-        public virtual string? PhoneNumber { get => Personal?.PhoneNumber; set => (Personal ??= new ContactPersonal()).PhoneNumber = value!; }
+        public virtual string? PhoneNumber { get => Personal?.PhoneNumber; set => (Personal ??= new Personal()).PhoneNumber = value!; }
 
         [VisibleRubric]
         [RubricSize(16)]
@@ -53,11 +53,11 @@ namespace Undersoft.SCC.Service.Contracts
         [RubricSize(32)]
         [DisplayRubric("Image")]
         [FileRubric(FileRubricType.Path, "PersonaImageData")]
-        public string? PersonalImage { get => Personal?.PersonalImage; set => (Personal ??= new ContactPersonal()).PersonalImage = value!; }
+        public string? PersonalImage { get => Personal?.PersonalImage; set => (Personal ??= new Personal()).PersonalImage = value!; }
 
         [JsonIgnore]
         [IgnoreDataMember]
-        public byte[]? PersonaImageData { get => Personal?.PersonalImageData; set => (Personal ??= new ContactPersonal()).PersonalImageData = value!; }
+        public byte[]? PersonaImageData { get => Personal?.PersonalImageData; set => (Personal ??= new Personal()).PersonalImageData = value!; }
 
         public virtual string? Notes { get; set; }
 
@@ -65,25 +65,25 @@ namespace Undersoft.SCC.Service.Contracts
 
         [Extended]
         [AutoExpand]
-        public virtual ContactPersonal? Personal { get; set; } = default!;
+        public virtual Personal? Personal { get; set; } = default!;
 
         public long? AddressId { get; set; }
 
         [Extended]
         [AutoExpand]
-        public virtual ContactAddress? Address { get; set; } = default!;
+        public virtual Address? Address { get; set; } = default!;
 
         public long? ProfessionalId { get; set; }
 
         [Extended]
         [AutoExpand]
-        public virtual ContactProfessional? Professional { get; set; } = default!;
+        public virtual Professional? Professional { get; set; } = default!;
 
         public long? OrganizationId { get; set; }
 
         [Extended]
         [AutoExpand]
-        public virtual ContactOrganization? Organization { get; set; } = default!;
+        public virtual Organization? Organization { get; set; } = default!;
 
         public virtual Listing<Group>? Groups { get; set; } = default!;
     }

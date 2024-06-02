@@ -18,6 +18,8 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Diagnostics.Metrics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
@@ -84,6 +86,24 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         registry.AddObject<ISourceProviderConfiguration>(sspc);
         ServiceManager.AddRootObject<ISourceProviderConfiguration>(sspc);
 
+        return this;
+    }
+
+    public IServiceSetup AddJsonOptions()
+    {
+        mvc.AddJsonOptions(json =>
+        {
+            var options = json.JsonSerializerOptions;
+            options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            options.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+            options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.IgnoreReadOnlyProperties = true;
+            options.IgnoreReadOnlyProperties = true;
+            options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, true));
+            options.AllowTrailingCommas = true;
+            options.Converters.Add(new BinaryJsonConverter());
+        });
         return this;
     }
 
@@ -497,6 +517,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
     )
     {
         Assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        AddJsonOptions();
 
         AddSourceProviderConfiguration();
 

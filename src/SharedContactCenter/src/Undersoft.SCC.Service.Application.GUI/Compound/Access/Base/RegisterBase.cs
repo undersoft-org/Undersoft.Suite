@@ -28,7 +28,7 @@ namespace Undersoft.SCC.Service.Application.GUI.Compound.Access
         [Inject]
         public IDialogService DialogService { get; set; } = default!;
 
-        private IViewModelDialog<Account> _dialog = default!;
+        private IViewDialog<Account> _dialog = default!;
 
         protected override void OnInitialized()
         {

@@ -7,8 +7,10 @@ using Microsoft.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using ServiceStack;
+using System.Collections;
 using System.Reflection;
 using Undersoft.SDK.Service.Data.Client.Attributes;
+using Undersoft.SDK.Service.Data.Model;
 
 namespace Undersoft.SDK.Service.Server;
 
@@ -19,6 +21,7 @@ public class OpenDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuild
     protected ODataConventionModelBuilder odataBuilder;
     protected IEdmModel edmModel;
     protected static bool actionSetAdded;
+    //  protected HashSet<string> invocationsAdded = new HashSet<string>();
 
     public OpenDataServerBuilder(IServiceRegistry registry) : base()
     {
@@ -51,12 +54,40 @@ public class OpenDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuild
         var ets = odataBuilder.AddEntitySet(entitySetName, etc);
         ets.EntityType.HasKey(entityType.GetProperty("Id"));
 
+        //if (invocationsAdded.Add(entityType.FullName))
+        //    AddInvocations(entityType);
+
+        SubEntitySet(entityType);
+
         return ets;
     }
 
     public object EntitySet<TDto>() where TDto : class
     {
         return odataBuilder.EntitySet<TDto>(typeof(TDto).Name);
+    }
+
+    public void AddInvocations(Type entityType)
+    {
+        var method = this.GetType().GetGenericMethod("AddInvocations");
+        var methodInfo = method.MakeGenericMethod(entityType);
+        methodInfo.Invoke(this, new object[0]);
+    }
+
+    public void SubEntitySet(Type subEntityType)
+    {
+        subEntityType
+            .GetProperties()
+            .Select(p => p.PropertyType)
+            .ForEach(
+                pt => pt.IsAssignableTo(typeof(IEnumerable)) ? pt.GetEnumerableElementType() : pt
+            )
+            .Where(p => p.IsAssignableTo(typeof(IContract)) || p.IsAssignableTo(typeof(IViewModel)))
+            .ForEach(subType =>
+
+             EntitySet(subType))
+
+            .Commit();
     }
 
     public IEdmModel GetEdm()

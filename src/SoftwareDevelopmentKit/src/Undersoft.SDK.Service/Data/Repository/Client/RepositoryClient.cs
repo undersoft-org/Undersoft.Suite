@@ -21,22 +21,26 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
     {
         Site = DataSite.Client;
     }
+
     public RepositoryClient(Type contextType, IServiceConfiguration config) : this()
     {
         var endpoint = config.Client(contextType.FullName);
         var connectionString = config.ClientConnectionString(contextType.FullName);
-        var provider = config.ClientProvider(contextType.FullName);
         PoolSize = config.ClientPoolSize(endpoint);
         InnerContext = CreateContext(contextType, new Uri(connectionString));
     }
+
     public RepositoryClient(Type contextType, Uri serviceRoot) : this()
     {
         InnerContext = CreateContext(contextType, serviceRoot);
     }
-    public RepositoryClient(Type contextType, ClientProvider provider, string connectionString) : this()
+
+    public RepositoryClient(Type contextType, string connectionString)
+        : this()
     {
         InnerContext = CreateContext(contextType, new Uri(connectionString));
     }
+
     public RepositoryClient(IRepositoryClient pool) : this()
     {
         PoolSize = pool.PoolSize;
@@ -60,6 +64,7 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
     {
         return ContextType.New<OpenDataContext>(uri);
     }
+
     public virtual object CreateContext(Type contextType, Uri serviceRoot)
     {
         uri ??= serviceRoot;
@@ -77,7 +82,9 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
         contextType ??= typeof(TContext);
         return typeof(TContext).New<TContext>(uri);
     }
-    public virtual TContext CreateContext<TContext>(Uri serviceRoot) where TContext : OpenDataContext
+
+    public virtual TContext CreateContext<TContext>(Uri serviceRoot)
+        where TContext : OpenDataContext
     {
         uri = serviceRoot;
         contextType ??= typeof(TContext);
@@ -99,7 +106,10 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
 
     public override long TypeId
     {
-        get => servicecode.TypeId == 0 ? servicecode.TypeId = ContextType.GetDataTypeId() : servicecode.TypeId;
+        get =>
+            servicecode.TypeId == 0
+                ? servicecode.TypeId = ContextType.GetDataTypeId()
+                : servicecode.TypeId;
         set => servicecode.TypeId = value;
     }
 
@@ -143,9 +153,8 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
             return context;
         }
 
-        return context = (IRepositoryContext)typeof(RepositoryClient<>)
-                                       .MakeGenericType(ContextType)
-                                       .New(this);
+        return context = (IRepositoryContext)
+            typeof(RepositoryClient<>).MakeGenericType(ContextType).New(this);
     }
 
     public virtual void Return()
@@ -156,17 +165,19 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
 
     public virtual Task ReturnAsync(CancellationToken token = default)
     {
-        return Task.Run(() =>
-        {
-            ResetStateAsync(token);
-            ContextPool.Add((IRepositoryContext)this);
-        }, token);
+        return Task.Run(
+            () =>
+            {
+                ResetStateAsync(token);
+                ContextPool.Add((IRepositoryContext)this);
+            },
+            token
+        );
     }
 
     public virtual void CreatePool()
     {
-        Type repotype = typeof(RepositoryClient<>)
-                        .MakeGenericType(ContextType);
+        Type repotype = typeof(RepositoryClient<>).MakeGenericType(ContextType);
         var size = PoolSize - Count;
         for (int i = 0; i < size; i++)
         {
@@ -174,10 +185,10 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
             Add(repo);
         }
     }
+
     public virtual void CreatePool<TContext>()
     {
-        Type repotype = typeof(RepositoryClient<>)
-                        .MakeGenericType(typeof(TContext));
+        Type repotype = typeof(RepositoryClient<>).MakeGenericType(typeof(TContext));
         var size = PoolSize - Count;
         for (int i = 0; i < size; i++)
         {
@@ -221,22 +232,25 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
 
     public virtual Task<bool> ReleaseAsync(CancellationToken token = default)
     {
-        return Task.Run(() =>
-        {
-            if (Leased)
+        return Task.Run(
+            () =>
             {
-                var destContext = ContextLease;
-                destContext.ContextLease = null;
-                destContext.InnerContext = null;
-                destContext = null;
-                ContextLease = null;
+                if (Leased)
+                {
+                    var destContext = ContextLease;
+                    destContext.ContextLease = null;
+                    destContext.InnerContext = null;
+                    destContext = null;
+                    ContextLease = null;
 
-                _ = ReturnAsync(token);
+                    _ = ReturnAsync(token);
 
-                return true;
-            }
-            return false;
-        }, token);
+                    return true;
+                }
+                return false;
+            },
+            token
+        );
     }
 
     public virtual void Lease(IRepositoryContext destContext)
@@ -258,7 +272,10 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
         disposedValue = false;
     }
 
-    public virtual Task LeaseAsync(IRepositoryContext destContext, CancellationToken token = default)
+    public virtual Task LeaseAsync(
+        IRepositoryContext destContext,
+        CancellationToken token = default
+    )
     {
         return Task.Run(() => Lease(destContext), token);
     }
@@ -272,23 +289,24 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
         else
             return await saveChanges(Context, token);
         // }
-        return 0;
     }
 
-    private async Task<int> saveAsTransaction(OpenDataContext context, CancellationToken token = default)
+    private async Task<int> saveAsTransaction(
+        OpenDataContext context,
+        CancellationToken token = default
+    )
     {
         try
         {
-            var result = await context.CommandHandler();
-            return result.Length;
-
-            //return (await context.SaveChangesAsync(SaveChangesOptions.BatchWithIndependentOperations | SaveChangesOptions.UseJsonBatch, token)).Count();
+            return (await context.CommitChanges(true)).Length;
         }
         catch (Exception e)
         {
             context.Failure<Datalog>(
-                $"Fail on update dataservice as singlechangeset, using context:{context.GetType().Name}, " +
-                $"TimeStamp: {DateTime.Now.ToString()}", ex: e);
+                $"Fail on update dataservice as singlechangeset, using context:{context.GetType().Name}, "
+                    + $"TimeStamp: {DateTime.Now.ToString()}",
+                ex: e
+            );
         }
 
         return -1;
@@ -298,15 +316,15 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
     {
         try
         {
-            return (await context.CommandHandler()).Length;
-
-            //return (await context.SaveChangesAsync(SaveChangesOptions.ContinueOnError, token)).Count();
+            return (await context.CommitChanges()).Length;
         }
         catch (Exception e)
         {
             context.Failure<Datalog>(
-                $"Fail on update dataservice as independent operations, using context:{context.GetType().Name}, " +
-                $"TimeStamp: {DateTime.Now.ToString()}", ex: e);
+                $"Fail on update dataservice as independent operations, using context:{context.GetType().Name}, "
+                    + $"TimeStamp: {DateTime.Now.ToString()}",
+                ex: e
+            );
         }
 
         return -1;

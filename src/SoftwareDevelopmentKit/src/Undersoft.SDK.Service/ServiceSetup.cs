@@ -243,8 +243,7 @@ public partial class ServiceSetup : IServiceSetup
             Type iRepoType = typeof(IRepositoryClient<>).MakeGenericType(contextType);
             Type repoType = typeof(RepositoryClient<>).MakeGenericType(contextType);
 
-            IRepositoryClient repoClient = (IRepositoryClient)
-                repoType.New(provider, _connectionString);
+            IRepositoryClient repoClient = (IRepositoryClient)repoType.New(_connectionString);
 
             Type storeDbType = typeof(OpenDataClient<>).MakeGenericType(
                 OpenDataRegistry.GetLinkedStoreType(contextType)

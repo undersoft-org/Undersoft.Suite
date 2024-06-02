@@ -25,7 +25,7 @@ namespace Undersoft.SCC.Service.Application.GUI.Compound.Access
         [Inject]
         public IDialogService DialogService { get; set; } = default!;
 
-        private IViewModelDialog<Credentials> _dialog = default!;
+        private IViewDialog<Credentials> _dialog = default!;
 
         [Parameter]
         public string? Email { get; set; }

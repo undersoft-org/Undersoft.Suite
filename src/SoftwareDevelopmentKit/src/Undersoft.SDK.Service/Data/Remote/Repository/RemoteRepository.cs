@@ -57,6 +57,7 @@ public class RemoteRepository<TStore, TEntity>
 public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRepository<TEntity>
     where TEntity : class, IOrigin, IInnerProxy
 {
+
     protected OpenDataContext RemoteContext => (OpenDataContext)InnerContext;
     protected DataServiceQuery<TEntity> RemoteQuery;
 
@@ -213,13 +214,12 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
 
     public override TEntity InnerPatch<TModel>(TModel source, TEntity target) where TModel : class
     {
-        return Patch((TEntity)source.PatchTo(target.Proxy, PatchingInvoker).Target);
+        return Patch((TEntity)source.PatchTo(target.Proxy).Target);
     }
 
     public override TEntity InnerPut<TModel>(TModel source, TEntity target) where TModel : class
     {
-
-        return Update((TEntity)source.PutTo(target.Proxy, PatchingInvoker).Target);
+        return Update((TEntity)source.PutTo(target.Proxy).Target);
     }
 
     public override TEntity InnerSet<TModel>(TModel source, TEntity target) where TModel : class
@@ -453,16 +453,19 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         Type type = null
     )
     {
-        if (target == null)
+        if (type == null)
         {
-            if (!RemoteContext.EntityTracker.Entities.Select(e => ((IIdentifiable)e.Entity).Id).Contains(((IIdentifiable)((IProxy)source).Target).Id))
-                RemoteContext.LoadProperty(((IProxy)source).Target, propertyName);
-            target = ((IProxy)source)[propertyName];
-            if (target == null)
-                ((IProxy)source)[propertyName] = target = type.New();
+            RemoteContext.AttachTo(target.GetType().Name, target);
+            return target;
         }
-
-        return target;
+        else
+        {
+            var proxy = (IProxy)source;
+            target = proxy[propertyName];
+            if (target == null)
+                proxy[propertyName] = target = type.New();
+            return target;
+        }
     }
 
     public override object TraceAdding(
@@ -474,7 +477,11 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
     {
         if (target == null)
         {
-            if (!RemoteContext.EntityTracker.Entities.Select(e => ((IIdentifiable)e.Entity).Id).Contains(((IIdentifiable)((IProxy)source).Target).Id))
+            if (
+                !RemoteContext.EntityTracker.Entities
+                    .Select(e => ((IIdentifiable)e.Entity).Id)
+                    .Contains(((IIdentifiable)((IProxy)source).Target).Id)
+            )
                 target = ((IProxy)source)[propertyName];
             if (target == null)
                 ((IProxy)source)[propertyName] = target = type.New();

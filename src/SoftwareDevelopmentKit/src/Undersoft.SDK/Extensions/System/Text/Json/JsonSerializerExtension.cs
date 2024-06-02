@@ -16,10 +16,10 @@ namespace System.Text.Json
             _jsonOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             _jsonOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
             _jsonOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            _jsonOptions.IgnoreReadOnlyProperties = true;
+            _jsonOptions.IgnoreReadOnlyProperties = true;
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, true));
             _jsonOptions.Converters.Add(new BinaryJsonConverter());
-            _jsonOptions.IgnoreReadOnlyProperties = true;
-            _jsonOptions.IgnoreReadOnlyProperties = true;
-            _jsonOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.KebabCaseUpper, true));
 
 
 #if NET6_0

@@ -5,11 +5,16 @@ namespace Undersoft.SDK.Service.Data.Client
 {
     public partial class ApiDataContext : ApiDataClient
     {
-        protected ISeries<Arguments> CommandRegistry = new Registry<Arguments>();
+        private readonly ISeries<Arguments> CommandRegistry;
 
         private ISecurityString _securityString;
 
-        public ApiDataContext(Uri serviceUri) : base(serviceUri) { }
+        public ApiDataContext(Uri serviceUri) : base(serviceUri)
+        {
+            CommandRegistry = new Registry<Arguments>();
+        }
+
+        public bool HasCommands => CommandRegistry.Count > 0;
 
         public Task CommandAsync<TEntity>(CommandType command, TEntity payload, string name)
         {
@@ -80,7 +85,7 @@ namespace Undersoft.SDK.Service.Data.Client
                             .ForEach(
                                 async (method) =>
                                 {
-                                    return await SendCommand(
+                                    return await CommandRequest(
                                         method.Key,
                                         cmd.TargetName,
                                         new DataContent(
@@ -106,7 +111,7 @@ namespace Undersoft.SDK.Service.Data.Client
                                     method.ForEach(
                                         async (arg) =>
                                         {
-                                            return await SendCommand(
+                                            return await CommandRequest(
                                                 method.Key,
                                                 $"{cmd.TargetName}/{arg.DataKey}",
                                                 new DataContent(arg)
@@ -119,7 +124,7 @@ namespace Undersoft.SDK.Service.Data.Client
             );
         }
 
-        protected Task<HttpResponseMessage> SendCommand(
+        protected async Task<HttpResponseMessage> CommandRequest(
             string command,
             string name,
             DataContent content
@@ -128,23 +133,43 @@ namespace Undersoft.SDK.Service.Data.Client
             if (_securityString != null)
                 this.SetBearerToken(_securityString.Encoded);
 
-            if (command == "POST")
-                return PostAsync(name, content);
-            if (command == "PATCH")
-                return PatchAsync(name, content);
-            if (command == "PUT")
-                return PutAsync(name, content);
-            if (command == "DELETE")
-                return DeleteAsync(name);
+            if (Enum.TryParse<CommandType>(command, out CommandType commandEnum))
+            {
+                switch (commandEnum)
+                {
+                    case CommandType.POST: return await PostAsync(name, content);
+                    case CommandType.PATCH: return await PatchAsync(name, content);
+                    case CommandType.DELETE: return await DeleteAsync(name);
+                    case CommandType.PUT: return await PutAsync(name, content);
+                    default: break;
+                }
+            }
             return default;
         }
 
-        public Task<HttpResponseMessage[]> CommitExecution(bool transaction)
+        public async Task<Task<string>[]> SendCommands(bool changesets)
         {
-            if (transaction)
-                return CommandSetHandler();
+            if (!HasCommands)
+                return default;
+
+            if (changesets)
+                return (await CommandSetHandler()).Select(async m =>
+                {
+                    var contentString = await m.Content.ReadAsStringAsync();
+                    if ((int)m.StatusCode > 210)
+                        this.Warning<Weblog>(contentString);
+                    return contentString;
+                }).ToArray();
             else
-                return CommandHandler();
+            {
+                return (await CommandHandler()).Select(async m =>
+                    {
+                        var contentString = await m.Content.ReadAsStringAsync();
+                        if ((int)m.StatusCode > 210)
+                            this.Warning<Weblog>(contentString);
+                        return contentString;
+                    }).ToArray();
+            }
         }
     }
 

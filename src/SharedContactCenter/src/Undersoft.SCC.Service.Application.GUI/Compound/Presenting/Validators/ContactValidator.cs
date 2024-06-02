@@ -21,20 +21,5 @@ public class ContactValidator : ViewValidator<Contact>
             }
         );
 
-        //ValidationScope(
-        //    OperationType.Create,
-        //    () =>
-        //    {
-        //        ValidateNotExist<IDataStore, Contact>(c => p => p.Personal!.Email.Equals(c.Personal!.Email));
-        //    }
-        //);
-
-        //ValidationScope(
-        //    OperationType.Delete | OperationType.Update,
-        //    () =>
-        //    {
-        //        ValidateExist<IDataStore, Contact>(c => p => p.Personal!.Email.Equals(c.Personal!.Email));
-        //    }
-        //);
     }
 }

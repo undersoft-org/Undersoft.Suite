@@ -1,5 +1,3 @@
-using System;
-
 namespace Undersoft.SDK.Service.Data.Repository.Client;
 
 using Configuration;
@@ -13,11 +11,10 @@ public class RepositoryClient<TContext> : RepositoryClient, IRepositoryClient<TC
         var contextType = typeof(TContext);
         var endpoint = config.Client(contextType.FullName);
         var connectionString = config.ClientConnectionString(contextType.FullName);
-        var provider = config.ClientProvider(contextType.FullName);
         PoolSize = config.ClientPoolSize(endpoint);
         InnerContext = CreateContext(contextType, new Uri(connectionString));
     }
-    public RepositoryClient(ClientProvider provider, string connectionString)
+    public RepositoryClient(string connectionString)
     {
         ContextPool = this;
         contextType = typeof(TContext);

@@ -299,10 +299,10 @@ public class Updater : IUpdater
 
         if (targetValue == null)
         {
+            target[targetRubric.RubricId] = targetValue = targetType.New();
+
             if (traceable)
                 targetValue = TraceEvent.Invoke(target.Target, targetRubric.RubricName, null, targetType);
-            else
-                target[targetRubric.RubricId] = targetValue = targetType.New();
         }
 
         if (originValue == null)
@@ -371,7 +371,7 @@ public class Updater : IUpdater
         }
 
         if (traceable)
-            targetValue = TraceEvent.Invoke(target, targetRubric.RubricName, targetValue, targetType);
+            targetValue = TraceEvent.Invoke(target.Target, targetRubric.RubricName, targetValue, targetType);
 
         ForUpdate(new Updater(originValue, TraceEvent), targetValue);
 

@@ -11,7 +11,7 @@ public class AccountPanel
 {
     public AccountPanel() { }
 
-    public async Task Open(IViewModelPanel<Account> _panel)
+    public async Task Open(IViewPanel<Account> _panel)
     {
         IViewData<Account> data;
         if (_panel.Content != null)

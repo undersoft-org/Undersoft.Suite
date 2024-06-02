@@ -53,7 +53,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             if (_dialog != null)
             {
                 item.Title = $"{item.ModelType.Name} details";
-                item.Height = "640";
+                item.Height = "650px";
 
                 await _dialog.ShowPreview(item);
             }
@@ -69,7 +69,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                     .MakeGenericType(modelType)
                     .New<IViewData>(modelType.New());
                 data.Title = $"Add {modelType.Name.ToLower()}";
-                data.Height = "650";
+                data.Height = "650px";
 
                 await _dialog.ShowEdit(data);
 
@@ -97,7 +97,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                     .MakeGenericType(modelType)
                     .New<IViewData>(tempModel);
                 tempData.Title = $"Edit {modelType.Name.ToLower()}";
-                tempData.Height = "650";
+                tempData.Height = "650px";
 
                 await _dialog.ShowEdit(tempData);
 
@@ -116,7 +116,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             if (_dialog != null)
             {
                 item.Title = $"Delete {item.ModelType.Name.ToLower()}";
-                item.Height = "250";
+                item.Height = "250px";
 
                 await _dialog.ShowDelete(item);
 

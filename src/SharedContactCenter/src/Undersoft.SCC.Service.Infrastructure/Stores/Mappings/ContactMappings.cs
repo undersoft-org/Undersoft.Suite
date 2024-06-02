@@ -21,27 +21,32 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
                 .RelateSetToSet<Contact, Group>(
                     c => c.Contacts,
                     c => c.Groups,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 )
                 .RelateOneToOne<Contact, ContactAddress>(
                     r => r.Contact,
                     r => r.Address,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 )
                 .RelateOneToOne<Contact, ContactPersonal>(
                     r => r.Contact,
                     r => r.Personal,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 )
                 .RelateOneToOne<Contact, ContactProfessional>(
                     r => r.Contact,
                     r => r.Professional,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 )
                 .RelateOneToOne<Contact, ContactOrganization>(
                     l => l.Contact,
                     r => r.Organization,
-                    ExpandSite.OnRight
+                    ExpandSite.OnRight,
+                    true
                 );
         }
     }

@@ -9,7 +9,7 @@ namespace Undersoft.SDK.Service.Data.Client
 
         private ISecurityString _securityString;
 
-        protected ApiDataContext<TStore> ApiData;
+        protected ApiDataContext ApiData;
 
         protected OpenDataContext OpenData;
 

@@ -2,6 +2,7 @@
 
 using Undersoft.SCC.Service.Clients;
 using Undersoft.SCC.Service.Contracts;
+using Undersoft.SCC.Service.Contracts.Contacts;
 using Undersoft.SCC.Service.Infrastructure.Stores;
 using Undersoft.SDK.Service.Application.Server;
 using Undersoft.SDK.Service.Application.Server.Hosting;
@@ -35,6 +36,10 @@ public class Setup
                         .AddInvocations<Contact>()
                         .AddInvocations<Country>()
                         .AddInvocations<Group>()
+                        .AddInvocations<Personal>()
+                        .AddInvocations<Professional>()
+                        .AddInvocations<Address>()
+                        .AddInvocations<Organization>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

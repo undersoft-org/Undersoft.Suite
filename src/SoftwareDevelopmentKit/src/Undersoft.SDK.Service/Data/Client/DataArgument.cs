@@ -32,4 +32,3 @@ public class DataArgument : Argument
         TypeId = ArgumentTypeName.UniqueKey();
     }
 }
-}

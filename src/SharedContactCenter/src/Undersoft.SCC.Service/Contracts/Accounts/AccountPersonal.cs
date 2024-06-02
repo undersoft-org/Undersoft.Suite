@@ -1,8 +1,9 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SCC.Service.Contracts.Accounts;
 
-public class AccountPersonal : DataObject
+public class AccountPersonal : DataObject, IContract
 {
     [VisibleRubric]
     [RequiredRubric]

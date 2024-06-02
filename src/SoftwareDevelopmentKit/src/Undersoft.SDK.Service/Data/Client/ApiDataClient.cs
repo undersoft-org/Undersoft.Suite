@@ -17,10 +17,9 @@ namespace Undersoft.SDK.Service.Data.Client
             BaseAddress = new Uri(serviceUri.OriginalString + "/");
             DefaultRequestVersion = HttpVersion.Version20;
             DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
-            Timeout = TimeSpan.FromSeconds(10);
-            BaseAddress = new Uri(serviceUri.OriginalString + "/");
-            this.DefaultRequestHeaders.Add("page", Page.ToString());
-            this.DefaultRequestHeaders.Add("limit", Limit.ToString());
+            Timeout = TimeSpan.FromSeconds(30);
+            this.DefaultRequestHeaders.Add("page", "0");
+            this.DefaultRequestHeaders.Add("limit", "0");
         }
 
         public void SetAuthorization(string securityString)

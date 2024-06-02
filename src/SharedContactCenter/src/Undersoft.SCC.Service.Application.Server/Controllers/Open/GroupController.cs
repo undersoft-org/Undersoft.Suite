@@ -7,7 +7,13 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Open
 {
     [AllowAnonymous]
     public class GroupController
-        : OpenDataRemoteController<long, IDataStore, Contracts.Group, Contracts.Group, ServiceManager>
+        : OpenDataRemoteController<
+            long,
+            IDataStore,
+            Contracts.Group,
+            Contracts.Group,
+            ServiceManager
+        >
     {
         public GroupController(IServicer servicer) : base(servicer) { }
     }

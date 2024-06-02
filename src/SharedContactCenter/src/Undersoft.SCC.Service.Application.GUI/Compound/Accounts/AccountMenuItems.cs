@@ -13,7 +13,7 @@ public class AccountMenuItems : DataObject
     [Extended]
     [DisplayRubric("Account")]
     [Invoke(typeof(AccountPanel), "Open")]
-    public IViewModelPanel<Account> Account { get; set; } = default!;
+    public IViewPanel<Account> Account { get; set; } = default!;
 
     [Link]
     [MenuItem]

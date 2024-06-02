@@ -143,12 +143,12 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
 
     public virtual TEntity InnerPatch<TModel>(TModel source, TEntity target) where TModel : class
     {
-        return Stamp((TEntity)source.PatchTo(target.Proxy, PatchingInvoker).Target);
+        return Stamp((TEntity)source.PatchTo(target.Proxy).Target);
     }
 
     public virtual TEntity InnerPut<TModel>(TModel source, TEntity target) where TModel : class
     {
-        return Stamp((TEntity)source.PutTo(target.Proxy, PatchingInvoker).Target);
+        return Stamp((TEntity)source.PutTo(target.Proxy).Target);
     }
 
     public virtual TEntity InnerSet<TModel>(TModel source, TEntity target) where TModel : class

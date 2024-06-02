@@ -28,7 +28,12 @@ namespace Undersoft.SCC.Service.Application.Client
             var manager = builder.Services
                 .AddServiceSetup(builder.Configuration)
                 .ConfigureServices(
-                    new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) }
+                    new[]
+                    {
+                        typeof(ApplicationClient),
+                        typeof(AccessClient),
+                        typeof(EventClient)
+                    }
                 )
                 .Manager;
 
@@ -41,11 +46,7 @@ namespace Undersoft.SCC.Service.Application.Client
                     var reg = manager.GetRegistry();
                     reg.AddAuthorizationCore()
                         .AddFluentUIComponents(
-                            (o) =>
-                            {
-                                o.UseTooltipServiceProvider = true;
-                            }
-                        )
+                            (o) => o.UseTooltipServiceProvider = true)
                         .AddScoped<
                             IRemoteRepository<IAccountStore, Account>,
                             RemoteRepository<IAccountStore, Account>

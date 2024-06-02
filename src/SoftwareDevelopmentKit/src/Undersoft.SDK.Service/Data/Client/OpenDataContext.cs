@@ -16,21 +16,30 @@ namespace Undersoft.SDK.Service.Data.Client
                 throw new ArgumentNullException(nameof(serviceUri));
 
             ApiContext = new ApiDataContext(
-                new Uri(serviceUri.OriginalString.Replace("open", "api") + "/")
+                new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
             MergeOption = MergeOption.AppendOnly;
+
             IgnoreResourceNotFoundException = true;
+
+            AutoNullPropagation = true;
             HttpRequestTransportMode = HttpRequestTransportMode.HttpClient;
-            DisableInstanceAnnotationMaterialization = true;
-            EnableWritingODataAnnotationWithoutPrefix = false;
+            DisableInstanceAnnotationMaterialization = false;
+            EnableWritingODataAnnotationWithoutPrefix = true;
             AddAndUpdateResponsePreference = DataServiceResponsePreference.None;
             SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;
             ResolveName = (t) => this.GetMappedName(t);
             ResolveType = (n) => this.GetMappedType(n);
             SendingRequest2 += RequestAuthorization;
             Format.LoadServiceModel = GetServiceModel;
+            //ResolveEntitySet = (s) => 
         }
+
+        //public Uri ResolveEntitySet(string  entitySetUri)
+        //{
+
+        //}
 
         public Registry<RemoteRelation> Remotes { get; set; } = new Registry<RemoteRelation>(true);
 
@@ -113,10 +122,14 @@ namespace Undersoft.SDK.Service.Data.Client
             ApiContext.CommandSet(command, payload, name);
         }
 
-        public async Task<int> Save(bool transaction)
+        public async Task<string[]> CommitChanges(bool changesets = false)
         {
-            var responses = await ApiContext.CommitExecution(transaction);
-            return responses.Length;
+            var responseContents = await ApiContext.SendCommands(changesets);
+            if (responseContents != null)
+            {
+                return await Task.WhenAll(responseContents);
+            }
+            return new string[0];
         }
     }
 }

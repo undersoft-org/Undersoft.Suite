@@ -20,7 +20,8 @@ public class CountryLanguageMappings : EntityTypeMapping<CountryLanguage>
             .RelateOneToSet<CountryLanguage, Country>(
                 c => c.Language,
                 c => c.Countries,
-                ExpandSite.OnLeft
+                ExpandSite.OnLeft,
+                true
             );
     }
 }

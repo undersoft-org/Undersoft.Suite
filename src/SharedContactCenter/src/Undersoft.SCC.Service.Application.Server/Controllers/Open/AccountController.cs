@@ -8,7 +8,13 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Open
 {
     [AllowAnonymous]
     public class AccountController
-        : OpenDataRemoteController<long, IAccountStore, Contracts.Account, Contracts.Account, AccountService<Contracts.Account>>
+        : OpenDataRemoteController<
+            long,
+            IAccountStore,
+            Contracts.Account,
+            Contracts.Account,
+            AccountService<Contracts.Account>
+        >
     {
         public AccountController(IServicer servicer) : base(servicer) { }
     }
