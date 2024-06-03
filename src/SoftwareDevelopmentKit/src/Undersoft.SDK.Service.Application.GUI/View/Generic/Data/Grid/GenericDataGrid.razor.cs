@@ -66,6 +66,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [Parameter]
+        public bool ShowHover { get; set; } = false;
+
+        [Parameter]
         public bool ShowTitle { get; set; } = true;
 
         [Parameter]
@@ -85,6 +88,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         [Parameter]
         public bool Editable { get => FeatureFlags.Editable; set => FeatureFlags.Editable = value; }
+
+        [Parameter]
+        public bool Showable { get => FeatureFlags.Showable; set => FeatureFlags.Showable = value; }
 
         [CascadingParameter]
         public override IViewDataStore DataStore

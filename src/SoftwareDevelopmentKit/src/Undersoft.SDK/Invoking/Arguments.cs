@@ -7,9 +7,9 @@
 
     [DataContract]
     [Serializable]
-    public class Arguments : Listing<Argument>
+    public class Arguments : Registry<Argument>
     {
-        public Arguments() : base() { }
+        public Arguments() : base(true) { }
 
         public Arguments(Type targetType) : base()
         {
@@ -23,15 +23,15 @@
 
         public Arguments(string methodName, object argValue, string targetName = null, Type targetType = null)
            : this(methodName, new Argument(argValue, methodName, targetName), targetName, targetType) { }
-        
+
         public Arguments(string methodName, string argName, object argValue, string targetName = null, Type targetType = null)
             : this(methodName, new Argument(argName, argValue, methodName, targetName), targetName, targetType) { }
-        
+
         public Arguments(string methodName, Argument argument, string targetName = null, Type targetType = null)
             : this(targetType)
         {
             argument.MethodName = methodName;
-            argument.TargetName = targetName;   
+            argument.TargetName = targetName;
             this.Add(argument);
         }
 
@@ -55,7 +55,7 @@
             this.Add(parameters.DoEach(p => new Argument(p, methodName, targetName)));
         }
 
-        public Arguments(            
+        public Arguments(
             string methodName,
             Dictionary<string, object> dictionary,
             string targetName

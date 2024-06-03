@@ -1,4 +1,5 @@
-﻿
+﻿@inherits ViewItem<TModel>
+
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
@@ -7,34 +8,31 @@
 
 
 <CascadingValue Value="@Content">
+    <CascadingValue Value="Form">
+        <!-- Header -->
+        <GenericFormDialogHeader TModel="TModel" />
 
-    <!-- Header -->
-    <GenericFormDialogHeader TModel="TModel" />
+        <!-- Body -->
+        <GenericFormDialogBody TValidator="TValidator" TModel="TModel" Orientation="@Orientation"/>
 
-    <!-- Body -->
-    <GenericFormDialogBody TValidator="TValidator" TModel="TModel" />
-
-    <!-- Footer -->
-    <GenericFormDialogFooter TModel="TModel" />
-
+        <!-- Footer -->
+        <GenericFormDialogFooter TModel="TModel" />
+    </CascadingValue>
 </CascadingValue>
 
 @code
 {
-    [Parameter]
-    public IViewData<TModel> Content { get; set; } = default!;
+    public IViewItem Form => this;
 
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
     protected override void OnInitialized()
     {
-        Content.View = this;        
+        Content.View = this;
         base.OnInitialized();
     }
 
-    public void RenderView()
-    {
-        this.StateHasChanged();
-    }
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
 }

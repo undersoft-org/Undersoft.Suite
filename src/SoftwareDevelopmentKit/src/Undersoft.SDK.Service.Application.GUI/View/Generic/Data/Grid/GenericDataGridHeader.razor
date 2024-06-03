@@ -19,7 +19,9 @@
         @if (FeatureFlags.Multiselect)
         {
             <GenericDataGridFeatureRubric Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
-                <FluentCheckbox @bind-Value="@Checked" />
+                <div id="@($"{Model.Id.ToString()}-{DataStore.Pagination.PageIndex}-multiselect")">
+                    <FluentCheckbox @bind-Value="@Checked" CheckStateChanged="@OnCheckStateChanged" />
+                </div>
             </GenericDataGridFeatureRubric>
         }
 

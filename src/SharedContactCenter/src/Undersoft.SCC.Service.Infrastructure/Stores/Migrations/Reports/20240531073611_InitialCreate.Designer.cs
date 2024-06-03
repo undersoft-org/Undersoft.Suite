@@ -902,7 +902,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("Address")
+                        .WithOne("ContactAddress")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", "AddressId");
 
                     b.Navigation("Contact");
@@ -911,7 +911,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("Organization")
+                        .WithOne("ContactOrganization")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", "OrganizationId");
 
                     b.Navigation("Contact");
@@ -920,7 +920,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactPersonal", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("Personal")
+                        .WithOne("ContactPersonal")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactPersonal", "PersonalId");
 
                     b.Navigation("Contact");
@@ -929,7 +929,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactProfessional", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("Professional")
+                        .WithOne("ContactProfessional")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactProfessional", "ProfessionalId");
 
                     b.Navigation("Contact");
@@ -978,13 +978,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contact", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("ContactAddress");
 
-                    b.Navigation("Organization");
+                    b.Navigation("ContactOrganization");
 
-                    b.Navigation("Personal");
+                    b.Navigation("ContactPersonal");
 
-                    b.Navigation("Professional");
+                    b.Navigation("ContactProfessional");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.CountryLanguage", b =>

@@ -229,10 +229,8 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
 
     public override TEntity Delete(TEntity entity)
     {
-        var item = lookup(entity.Id);
-        if (item != null)
-            RemoteContext.Command(CommandType.DELETE, item, Name);
-        return item;
+        RemoteContext.Command(CommandType.DELETE, entity, Name);
+        return entity;
     }
 
     public override TEntity Update(TEntity entity)
@@ -246,7 +244,7 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         return null;
     }
 
-    public TEntity Patch(TEntity entity)
+    public override TEntity Patch(TEntity entity)
     {
         if (entity != null)
         {
@@ -359,7 +357,7 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
     public DataServiceQuerySingle<TEntity> FindQuerySingle(params object[] keys)
     {
         if (keys != null)
-            return Context.CreateFunctionQuerySingle<TEntity>(KeyString(keys), null, true);
+            return RemoteContext.CreateFunctionQuerySingle<TEntity>(KeyString(keys), null, true);
         return null;
     }
 

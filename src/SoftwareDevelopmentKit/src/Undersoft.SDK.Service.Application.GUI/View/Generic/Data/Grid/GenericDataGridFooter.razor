@@ -16,8 +16,6 @@
 
         @if (DataStore.Pagination.TotalCount > DataStore.Pagination.PageSize)
         {
-
-
             @if (_pagination.HasPreviousPage)
             {
                 <FluentButton @onclick="@(() => GoToPageAsync(1))"

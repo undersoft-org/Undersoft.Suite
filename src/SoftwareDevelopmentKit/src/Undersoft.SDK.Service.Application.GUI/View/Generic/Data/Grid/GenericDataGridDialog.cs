@@ -33,7 +33,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 PreventDismissOnOverlayClick = false,
                 ShowDismiss = true,
                 Modal = true,
-                PreventScroll = true
+                PreventScroll = true,
             });
 
             var result = await Reference.Result;

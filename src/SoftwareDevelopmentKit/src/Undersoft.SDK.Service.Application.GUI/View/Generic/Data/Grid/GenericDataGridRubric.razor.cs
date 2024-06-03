@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
@@ -10,6 +11,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         [CascadingParameter]
         public int RubricOrdinalSeed { get; set; } = 1;
+
+        public string ViewId { get; set; }
 
         private int _ordinal => Rubric.RubricOrdinal + RubricOrdinalSeed;
 
@@ -34,6 +37,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         private void CloseColumnOptions()
         {
             StateHasChanged();
+        }
+
+        public void OnFilterDefine(MouseEventArgs args)
+        {
+        }
+
+        public void OnFilterDismiss(MouseEventArgs args)
+        {
+
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿@using System.ComponentModel.DataAnnotations
-
-@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy
 
 <div>
     <!-- Footer -->
     <FluentDialogFooter>
-        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Left">
+        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="@VerticalAlignment" HorizontalAlignment="@HorizontalAlignment">
             @if (Dialog.Instance.Parameters.PrimaryActionEnabled)
             {
                 <FluentButton Appearance="Appearance.Accent"
@@ -17,7 +15,7 @@
             {
                 <FluentButton OnClick="@CancelAsync" Appearance="Appearance.Neutral">
                     @Dialog.Instance.Parameters.SecondaryAction
-            </FluentButton>
+                </FluentButton>
             }
         </FluentStack>
     </FluentDialogFooter>
@@ -34,13 +32,27 @@
     [CascadingParameter]
     public IViewItem FormTabs { get; set; } = default!;
 
-    private async Task SaveAsync()
+    [Parameter]
+    public bool Validatable { get; set; } = true;
+
+    [Parameter]
+    public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Right;
+    [Parameter]
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Center;
+
+
+    public async Task SaveAsync()
     {
-        var result = await Content.Validator.ValidateAsync();
-        if (result.IsValid)       
-            await Dialog.CloseAsync(Content);        
+        if (Content.Validator != null && Validatable)
+        {
+            var result = await Content.Validator.ValidateAsync();
+            if (result.IsValid)
+                await Dialog.CloseAsync(Content);
+            else
+                FormTabs.RenderView();
+        }
         else
-            FormTabs.RenderView();
+            await Dialog.CloseAsync(Content);
     }
 
     private async Task CancelAsync(MouseEventArgs e)

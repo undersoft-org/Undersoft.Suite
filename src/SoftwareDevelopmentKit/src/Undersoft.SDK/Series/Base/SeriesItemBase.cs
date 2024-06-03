@@ -1,11 +1,11 @@
 ﻿namespace Undersoft.SDK.Series.Base
 {
+    using Enumerators;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using Uniques;
-    using Enumerators;
 
     [StructLayout(LayoutKind.Sequential)]
     public abstract class SeriesItemBase<V> : ISeriesItem<V>
@@ -37,8 +37,6 @@
         {
             Set(value);
         }
-
-        public virtual IUnique Empty => throw new NotImplementedException();
 
         public virtual ISeriesItem<V> Extended
         {
@@ -94,7 +92,7 @@
         {
             get => value;
             set => this.value = value;
-        }  
+        }
 
         public virtual int CompareTo(ISeriesItem<V> other)
         {

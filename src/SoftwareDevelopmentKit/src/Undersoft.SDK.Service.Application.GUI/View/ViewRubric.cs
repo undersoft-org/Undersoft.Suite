@@ -3,6 +3,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Application.GUI.View;
@@ -18,6 +19,16 @@ public class ViewRubric : MemberRubric, IViewRubric
     public string? Class { get; set; }
 
     public string? Style { get; set; }
+
+    public string? Width { get; set; }
+
+    public string? Height { get; set; }
+
+    public string? Z { get; set; }
+
+    public ViewImageMode ImageMode { get; set; }
+
+    public bool IsImage => ImageMode != ViewImageMode.None;
 
     public Align Align { get; set; }
 

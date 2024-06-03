@@ -3,6 +3,7 @@ using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Application.GUI.View.Generic.Validator;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Updating;
 
@@ -19,14 +20,14 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
             ViewResolveAttributes = new ViewAttributeResolvers();
 
             Registry.Add(
-                typeof(ClassAttribute),
+                typeof(ViewClassAttribute),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveClassAttributes
                 )
             );
             Registry.Add(
-                typeof(StyleAttribute),
+                typeof(ViewStyleAttribute),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveStyleAttributes
@@ -65,6 +66,20 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveValidatorAttributes
+                )
+            );
+            Registry.Add(
+                typeof(ViewImageAttribute),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveImageAttributes
+                )
+            );
+            Registry.Add(
+                typeof(ViewSizeAttribute),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveSizeAttributes
                 )
             );
         }
@@ -124,10 +139,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
         {
             var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
 
-            object? o = mi.GetCustomAttributes(typeof(ClassAttribute), false).FirstOrDefault();
+            object? o = mi.GetCustomAttributes(typeof(ViewClassAttribute), false).FirstOrDefault();
             if ((o != null))
             {
-                ClassAttribute fta = (ClassAttribute)o;
+                ViewClassAttribute fta = (ViewClassAttribute)o;
 
                 mr.Class = fta.Class;
             }
@@ -137,12 +152,45 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
         {
             var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
 
-            object? o = mi.GetCustomAttributes(typeof(StyleAttribute), false).FirstOrDefault();
+            object? o = mi.GetCustomAttributes(typeof(ViewStyleAttribute), false).FirstOrDefault();
             if ((o != null))
             {
-                StyleAttribute fta = (StyleAttribute)o;
+                ViewStyleAttribute fta = (ViewStyleAttribute)o;
 
                 mr.Style = fta.Style;
+            }
+        }
+
+        public void ResolveSizeAttributes(IViewData data)
+        {
+            var modelType = data.ModelType;
+
+            object? o = modelType
+                .GetCustomAttributes(typeof(ViewSizeAttribute), false)
+                .FirstOrDefault();
+            if ((o != null))
+            {
+                ViewSizeAttribute fta = (ViewSizeAttribute)o;
+
+                data.Width = fta.Width;
+                data.Height = fta.Height;
+                data.Z = fta.Z;
+            }
+        }
+
+        public void ResolveImageAttributes(ViewRubric mr)
+        {
+            var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
+
+            object? o = mi.GetCustomAttributes(typeof(ViewImageAttribute), false).FirstOrDefault();
+            if ((o != null))
+            {
+                ViewImageAttribute fta = (ViewImageAttribute)o;
+
+                mr.ImageMode = fta.Mode;
+                mr.Width = fta.Width;
+                mr.Height = fta.Height;
+                mr.Z = fta.Z;
             }
         }
 
@@ -209,7 +257,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 data.ValidatorTypeName = fta.ValidatorTypeName;
                 if (data.ValidatorType != null && data.Validator == null)
                 {
-                    data.Validator = typeof(GenericValidator<,>).MakeGenericType(data.ValidatorType, modelType).New<IViewValidator>();
+                    data.Validator = typeof(GenericValidator<,>)
+                        .MakeGenericType(data.ValidatorType, modelType)
+                        .New<IViewValidator>();
                 }
             }
         }

@@ -1,3 +1,4 @@
+using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
@@ -16,6 +17,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         {
             get => base.DataStore;
             set => base.DataStore = value;
+        }
+
+        [CascadingParameter]
+        public override EntryMode EntryMode
+        {
+            get => base.EntryMode;
+            set => base.EntryMode = value;
         }
     }
 }

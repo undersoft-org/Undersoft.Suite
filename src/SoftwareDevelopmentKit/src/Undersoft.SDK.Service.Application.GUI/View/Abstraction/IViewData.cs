@@ -19,6 +19,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         string? Class { get; set; }
         bool IsSingle { get; }
         string Height { get; set; }
+        string Z { get; set; }
         Icon? Icon { get; set; }
         Icon? Logo { get; set; }
         string? Href { get; set; }
@@ -32,9 +33,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         IViewRubric ActiveRubric { get; set; }
         IViewRubrics Rubrics { get; set; }
+
+        bool RubricsEnabled { get; set; }
+
         IViewRubrics ExtendedRubrics { get; set; }
 
+        bool ExtendedRubricsEnabled { get; set; }
+
         EditMode EditMode { get; set; }
+
+        EntryMode EntryMode { get; set; }
 
         StateFlags StateFlags { get; set; }
 
@@ -63,10 +71,17 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         void ClearErrors();
 
         IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
+
         void ClearData();
+
+        void InstantiateNulls(Func<IViewData, IViewRubrics> forRubrics);
+
         void SetRequired(params string[] requiredList);
+
         void SetVisible(params string[] visibleList);
+
         void SetExpandable(params string[] expandableList);
+
         void SetEditable(params string[] editableList);
     }
 }

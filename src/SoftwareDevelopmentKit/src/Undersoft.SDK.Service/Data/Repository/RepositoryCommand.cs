@@ -386,6 +386,8 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         }
     }
 
+    public abstract TEntity Patch(TEntity entity);
+
     public virtual async Task<TEntity> Patch<TModel>(TModel delta) where TModel : class, IOrigin
     {
         if (delta.Id == 0)

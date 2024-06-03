@@ -201,14 +201,7 @@
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    first = null;
-                    last = null;
-                }
-
-                table = null;
-                vector = null;
+                renewClear(minsize);
 
                 disposedValue = true;
             }

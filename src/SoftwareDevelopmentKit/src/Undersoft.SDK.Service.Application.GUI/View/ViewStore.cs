@@ -1,4 +1,5 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
@@ -13,9 +14,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             await LoadDataStore();
             await base.OnInitializedAsync();
         }
-
-        [Parameter]
-        public virtual IRemoteRepository<TStore, TModel> Repository { get; set; } = default!;
 
         [Parameter]
         public virtual Action<ViewDataStore<TStore, TModel>> Setup { get; set; } = default!;
@@ -33,16 +31,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             if (Data == null)
             {
-                DataStore = new ViewDataStore<TStore, TModel>(Repository, Setup);
-                DataStore.ViewStore = this;
-                if (Repository != null)
-                    await DataStore.LoadAsync();
+                DataStore = new ViewDataStore<TStore, TModel>(this, Setup);
+                await DataStore.LoadAsync();
             }
         }
     }
 
     public class ViewStore : ViewItem, IViewStore
     {
+        public virtual IServiceScope ServiceScope { get; set; } = default!;
+
         [Parameter]
         public virtual IServicer Servicer { get; set; } = default!;
 

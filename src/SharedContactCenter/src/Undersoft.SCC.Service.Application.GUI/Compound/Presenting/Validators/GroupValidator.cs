@@ -3,7 +3,7 @@ using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Application.GUI.View;
 
-namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
+namespace Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
 
 public class GroupValidator : ViewValidator<Group>
 {

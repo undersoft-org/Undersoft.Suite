@@ -1,7 +1,7 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SCC.Service.Contracts;
-using Undersoft.SCC.Service.Contracts.Accounts;
 using Undersoft.SDK;
+using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
@@ -17,22 +17,9 @@ public class AccountPanel
         if (_panel.Content != null)
             data = _panel.Content;
         else
-        {
-            var account = new Account()
-            {
-                Personal = new AccountPersonal(),
-                Address = new AccountAddress(),
-                Professional = new AccountProfessional(),
-                Organization = new AccountOrganization()
-            };
-            data = new ViewData<Account>(account, OperationType.Any);
-        }
-        data.SetVisible(
-            nameof(Account.Personal),
-            nameof(Account.Address),
-            nameof(Account.Professional),
-            nameof(Account.Organization)
-        );
+            data = new ViewData<Account>(new Account(), OperationType.Any);
+
+        data.EntryMode = EntryMode.Tabs;
         data.Width = "400px";
 
         await _panel.Show(

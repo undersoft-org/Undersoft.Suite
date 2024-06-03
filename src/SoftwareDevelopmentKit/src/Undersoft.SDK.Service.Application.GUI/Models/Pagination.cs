@@ -44,6 +44,22 @@ public class Pagination
         }
     }
 
+    public void IncreaseTotalCount(int increaseCount)
+    {
+        if (TotalCount < 0)
+            SetTotalCount(increaseCount);
+        else
+            SetTotalCount(TotalCount += increaseCount);
+    }
+    public void DecreaseTotalCount(int decreaseCount)
+    {
+        if (TotalCount <= 0)
+            return;
+        else
+            SetTotalCount(TotalCount -= decreaseCount);
+    }
+
+
     public void SetPagingLimit(int pagingLimit)
     {
         PagingLimit = pagingLimit;

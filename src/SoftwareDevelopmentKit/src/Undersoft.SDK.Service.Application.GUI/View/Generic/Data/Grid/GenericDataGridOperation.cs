@@ -18,13 +18,20 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         [MenuItem]
         [Extended]
         [Invoke(typeof(GenericDataGridOperation), "AddItem")]
-        public IViewData Add { get => _item; set => _item = value; }
+        public IViewData Add
+        {
+            get => _item;
+            set => _item = value;
+        }
 
         [MenuItem]
         [Extended]
         [Invoke(typeof(GenericDataGridOperation), "DeleteItems")]
-        public IViewData Delete { get => _item; set => _item = value; }
-
+        public IViewData Delete
+        {
+            get => _item;
+            set => _item = value;
+        }
 
         public async Task AddItem(IViewData item)
         {
@@ -36,38 +43,38 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                     .MakeGenericType(modelType)
                     .New<IViewData>(modelType.New());
                 newData.Title = $"Add {modelType.Name.ToLower()}";
-                newData.Height = "650px";
+                newData.Height = "auto";
+                newData.EntryMode = item.EntryMode;
 
                 await _dialog.ShowEdit(newData);
 
                 if (_dialog.Content != null)
                 {
-                    item.Put(_dialog.Content);
-                    _dialog.Content.StateFlags.Added = true;
-                    await SaveAsync(item);
+                    var newItem = ((IViewDataStore)item).Attach(_dialog.Content);
+                    newItem.StateFlags.Added = true;
+                    await SaveAsync(item, true);
                 }
             }
         }
+
         public async Task DeleteItems(IViewData item)
         {
             var _dialog = GetDialog(item, typeof(GenericDataGridDialogDelete<,>));
             if (_dialog != null)
             {
                 item.Title = $"Delete {item.ModelType.Name.ToLower()} selection";
-                item.Height = "250px";
+                item.Height = "auto";
+                item.Width = "auto";
 
                 await _dialog.ShowDelete(item);
 
                 if (_dialog.Content != null)
                 {
-                    if (item.Parent != null)
-                    {
-                        if (item.Parent.TryRemove(_dialog.Content))
-                        {
-                            _dialog.Content.StateFlags.Deleted = true;
-                            await SaveAsync(item);
-                        }
-                    }
+                    _dialog.Content
+                        .Where(item => item.StateFlags.Checked)
+                        .ForEach(item => item.StateFlags.Deleted = true)
+                        .Commit();
+                    await SaveAsync(item, true);
                 }
             }
         }

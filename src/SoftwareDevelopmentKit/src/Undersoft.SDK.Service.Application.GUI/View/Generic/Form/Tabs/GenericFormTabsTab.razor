@@ -22,7 +22,7 @@
         {
             <FluentLabel Typo="Typography.Header">@Data.Title</FluentLabel>
         }
-        <GenericFormItem Data="@Data" Rubric="@Rubric" HorizontalAlignment="HorizontalAlignment.Start" />
+        <GenericFormItem Data="@Data" Rubric="@Rubric" HorizontalAlignment="HorizontalAlignment.Start" Orientation="@Orientation" />
         
     </Content>
   </FluentTab>
@@ -39,9 +39,12 @@
     [Parameter]
     public bool ShowTitle { get; set; } = false;
 
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
+
 
     protected override void OnInitialized()
     {
-        Data.ViewItem = this;     
+        Data.ViewItem = this;             
     }
 }

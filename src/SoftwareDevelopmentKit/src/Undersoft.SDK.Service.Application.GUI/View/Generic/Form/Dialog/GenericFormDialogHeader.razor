@@ -1,9 +1,4 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using Undersoft.SDK.Proxies
-@using Undersoft.SDK.Rubrics
-@using Undersoft.SDK
-
-@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy
 
 <div>
     <!-- Header -->
@@ -46,8 +41,8 @@
 
 @code
 {
-    [Inject]
-    private AppearanceState appearance { get; set; } = default!;
+    [CascadingParameter]
+    public IViewItem Form { get; set; } = default!;
 
     [CascadingParameter]
     public IViewData<TModel> Content { get; set; } = default!;

@@ -1,9 +1,4 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using Undersoft.SDK.Proxies
-@using Undersoft.SDK.Rubrics
-@using Undersoft.SDK
-
-@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy
 
 <div>
     <!-- Footer -->
@@ -29,18 +24,29 @@
 @code
 {
     [CascadingParameter]
+    public IViewItem Form { get; set; } = default!;
+
+    [CascadingParameter]
     public IViewData<TModel> Content { get; set; } = default!;
 
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
+    [Parameter]
+    public bool Validatable { get; set; } = true;
+
     private async Task SaveAsync()
-    {                
-        var result = await Content.Validator.ValidateAsync();
-        if (result.IsValid)
+    {
+        if (Content.Validator != null && Validatable)
         {
-            await Dialog.CloseAsync(Content);
+            var result = await Content.Validator.ValidateAsync();
+            if (result.IsValid)
+                await Dialog.CloseAsync(Content);
+            else
+                Form.RenderView();
         }
+        else
+            await Dialog.CloseAsync(Content);
     }
 
     private async Task CancelAsync(MouseEventArgs e)

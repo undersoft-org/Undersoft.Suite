@@ -64,4 +64,8 @@
     <Using Include="Undersoft.SDK.Service.Data.Store" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Contract\Attributes\" />
+  </ItemGroup>
+
 </Project>

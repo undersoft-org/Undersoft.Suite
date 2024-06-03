@@ -34,6 +34,8 @@ namespace Undersoft.SDK.Service.Data.Repository
 
         IEnumerable<TEntity> Patch<TModel>(IEnumerable<TModel> entities, Func<TModel, Expression<Func<TEntity, bool>>> predicate, params Expression<Func<TEntity, object>>[] expanders) where TModel : class, IOrigin;
         IEnumerable<TEntity> Patch<TModel>(IEnumerable<TModel> entities, params Expression<Func<TEntity, object>>[] expanders) where TModel : class, IOrigin;
+
+        TEntity Patch(TEntity entity);
         Task<TEntity> Patch<TModel>(TModel delta) where TModel : class, IOrigin;
         Task<TEntity> Patch<TModel>(TModel delta, Func<TModel, Expression<Func<TEntity, bool>>> predicate) where TModel : class, IOrigin;
         Task<TEntity> Patch<TModel>(TModel delta, params object[] keys) where TModel : class, IOrigin;

@@ -1,5 +1,6 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 
 namespace Undersoft.SCC.Service.Contracts.Accounts;
 
@@ -26,7 +27,9 @@ public class AccountOrganization : DataObject, IContract
     public string? OrganizationWebsites { get; set; }
 
     [VisibleRubric]
-    [FileRubric(FileRubricType.Path, "OrganizationImageData")]
+    [DisplayRubric("ContactOrganization logo")]
+    [ViewImage(ViewImageMode.Regular, "30px", "30px")]
+    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
     public string? OrganizationImage { get; set; }
 
     public byte[]? OrganizationImageData { get; set; }

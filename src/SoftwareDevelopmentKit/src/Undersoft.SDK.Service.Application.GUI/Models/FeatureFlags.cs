@@ -18,6 +18,8 @@ public class FeatureFlags
 
     public bool Changable { get; set; }
 
+    public bool Showable { get; set; }
+
     public bool Executable { get; set; }
 
     public bool Resizable { get; set; }

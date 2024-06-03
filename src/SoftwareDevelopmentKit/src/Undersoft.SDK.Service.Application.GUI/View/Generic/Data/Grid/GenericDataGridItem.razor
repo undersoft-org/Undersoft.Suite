@@ -7,63 +7,79 @@
 @inherits ViewItem
 
 <CascadingValue Value="Data">
-    <FluentDataGridRow @key="@Id" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="height:35px" TGridItem="string" @ref=Reference>
 
-        @if (FeatureFlags.Expandable)
-        {
-            <GenericDataGridFeature Ordinal="1">
-                <div id="@($"{Model.Id.ToString()}-expander")" role="button">
-                    <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
-                </div>
-                <div>
-                    <GenericMenu Position="HorizontalPosition.Right"
-                                 VerticalPosition="VerticalPosition.Unset"
-                                 AnchorId="@($"{Model.Id.ToString()}-expander")"
-                                 Data="@Data"
-                                 Anchored="true" />
-                </div>
-            </GenericDataGridFeature>
-        }
+    <div id="@($"{Model.Id.ToString()}-rightclick-operation")">
+        <FluentDataGridRow @key="@Id" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="height:35px" TGridItem="string" @ref=Reference>
 
-        @if (FeatureFlags.Multiselect)
-        {
-            <GenericDataGridFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)">
-                <FluentCheckbox @bind-Value="@Checked" />
-            </GenericDataGridFeature>
-        }
-
-        @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.Row)
-        {
-            foreach (var rubric in Data.Rubrics)
+            @if (FeatureFlags.Expandable)
             {
-                <GenericDataGridField Rubric="rubric" Parent="this" />
+                <GenericDataGridFeature Ordinal="1">
+                    <div id="@($"{Model.Id.ToString()}-expander")" role="button">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
+                    </div>
+                    <div>
+                        <GenericMenu Position="HorizontalPosition.Right"
+                                     VerticalPosition="VerticalPosition.Unset"
+                                     AnchorId="@($"{Model.Id.ToString()}-expander")"
+                                     Data="@Data"
+                                     Anchored="true" />
+                    </div>
+                </GenericDataGridFeature>
             }
-        }
-        else
-        {
-            foreach (var rubric in Data.Rubrics)
+
+            @if (FeatureFlags.Multiselect)
             {
-                <GenericDataGridValue Rubric="rubric" Parent="this" />
+                <GenericDataGridFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)">
+                    <div id="@($"{Model.Id.ToString()}-selector")">
+                        <FluentCheckbox @bind-Value="@Checked" />
+                    </div>
+                </GenericDataGridFeature>
             }
-        }
 
-        @if (FeatureFlags.Editable && EditMode != EditMode.None)
-        {
-            <GenericDataGridFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this">
-                <div id="@($"{Model.Id.ToString()}-item-operation")" role="button">
-                    <FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Accent" />
-                </div>
-                <div>
-                    <GenericMenu Position="HorizontalPosition.Left"
-                                 VerticalPosition="VerticalPosition.Unset"
-                                 AnchorId="@($"{Model.Id.ToString()}-item-operation")"
-                                 Data="@(GetItemOperationData())"
-                                 Anchored="true" />
-                </div>
-            </GenericDataGridFeature>
-        }
+            @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.Row)
+            {
+                foreach (var rubric in Data.Rubrics)
+                {
+                    <GenericDataGridField Rubric="rubric" Parent="this" />
+                }
+            }
+            else
+            {
+                foreach (var rubric in Data.Rubrics)
+                {
+                    <GenericDataGridValue Rubric="rubric" Parent="this" />
+                }
+            }
 
-    </FluentDataGridRow>
+            @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
+            {
+                <GenericDataGridFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this">
+                    <div id="@($"{Model.Id.ToString()}-item-operation")" role="button">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Accent" />
+                    </div>
+                    <div id="@($"{Model.Id.ToString()}-item-menu")">
+                        <GenericMenu Position="HorizontalPosition.Left"
+                                     VerticalPosition="VerticalPosition.Unset"
+                                     AnchorId="@($"{Model.Id.ToString()}-item-operation")"
+                                     Data="@(GetItemOperationData())"
+                                     Anchored="true" />
+                    </div>
+                </GenericDataGridFeature>
+            }
+        </FluentDataGridRow>
+    </div>
+
+    @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
+    {
+        <div id="@($"{Model.Id.ToString()}-item-rightclick-menu")">
+            <GenericMenu Position="HorizontalPosition.Right"
+                         Trigger="MouseButton.Right"
+                         VerticalPosition="VerticalPosition.Unset"
+                         AnchorId="@($"{Model.Id.ToString()}-rightclick-operation")"
+                         Data="@(GetItemOperationData())"
+                         Anchored="false" />
+        </div>
+    }
 
     @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.SubRow)
     {
@@ -73,9 +89,10 @@
 
         </FluentDataGridRow>
     }
-    </CascadingValue>
 
-    @if (FeatureFlags.Expandable)
+</CascadingValue>
+
+@if (FeatureFlags.Expandable)
 {
     foreach (var data in Data.Where(d => d.StateFlags.Expanded))
     {

@@ -1,5 +1,6 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 
 namespace Undersoft.SCC.Service.Contracts.Accounts;
 
@@ -31,7 +32,8 @@ public class AccountPersonal : DataObject, IContract
 
     [VisibleRubric]
     [DisplayRubric("Upload image")]
-    [FileRubric(FileRubricType.Path, "ImageData")]
+    [ViewImage(ViewImageMode.Persona, "30px", "30px")]
+    [FileRubric(FileRubricType.Property, "ImageData")]
     public string Image { get; set; } = default!;
 
     public byte[] ImageData { get; set; } = default!;

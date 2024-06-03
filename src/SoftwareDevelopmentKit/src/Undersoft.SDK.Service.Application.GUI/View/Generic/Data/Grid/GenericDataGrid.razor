@@ -12,40 +12,40 @@
 
 <div id="@BindingId" class="generic-datagrid">
     <CascadingValue Value="@DataStore">
-            <CascadingValue Value="@Root">
-                <CascadingValue Value="@EditMode">
-                    <CascadingValue Value="@FeatureFlags">
-                        <CascadingValue Value="@Checked">
-                            <CascadingValue Value="@Resizable">
-                                <CascadingValue Value="@RubricOrdinalSeed">
-                                    <CascadingValue Value="@GridTemplateColumns">
+        <CascadingValue Value="@Root">
+            <CascadingValue Value="@EditMode">
+                <CascadingValue Value="@EntryMode">
+                <CascadingValue Value="@FeatureFlags">
+                    <CascadingValue Value="@Resizable">
+                        <CascadingValue Value="@RubricOrdinalSeed">
+                            <CascadingValue Value="@GridTemplateColumns">
 
-                                        <div class="datagrid" tabindex="-1">
+                                <div class="datagrid" tabindex="-1">
 
-                                            @if (ShowTitle)
-                                            {
-                                                <FluentLabel Typo="Typography.PageTitle" Color="Color.FillInverse" Style="padding:5px">
-                                                    @Title
-                                                </FluentLabel>
-                                            }
+                                    @if (ShowTitle)
+                                    {
+                                        <FluentLabel Typo="Typography.PageTitle" Color="Color.FillInverse" Style="padding:0px 0px 15px 5px">
+                                            @Title
+                                        </FluentLabel>
+                                    }
 
-                                            <FluentDataGrid GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+                                    <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
-                                                <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
+                                        <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 
-                                                <GenericDataGridBody Parent="@this" />
+                                        <GenericDataGridBody Parent="@this" />
 
-                                            </FluentDataGrid>
+                                    </FluentDataGrid>
 
-                                        </div>
+                                </div>
 
-                                        <GenericDataGridFooter Parent="@this" />
+                                <GenericDataGridFooter Parent="@this" />
 
-                                    </CascadingValue>
-                                </CascadingValue>
                             </CascadingValue>
                         </CascadingValue>
                     </CascadingValue>
+                   </CascadingValue>
+                </CascadingValue>
             </CascadingValue>
         </CascadingValue>
     </CascadingValue>

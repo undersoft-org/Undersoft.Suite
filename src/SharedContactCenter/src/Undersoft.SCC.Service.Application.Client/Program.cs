@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SCC.Service.Application.GUI.Compound.Access;
+using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
 using Undersoft.SCC.Service.Clients;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service;

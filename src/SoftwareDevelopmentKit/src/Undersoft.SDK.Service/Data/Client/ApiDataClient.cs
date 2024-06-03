@@ -17,7 +17,8 @@ namespace Undersoft.SDK.Service.Data.Client
             BaseAddress = new Uri(serviceUri.OriginalString + "/");
             DefaultRequestVersion = HttpVersion.Version20;
             DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
-            Timeout = TimeSpan.FromSeconds(30);
+
+            Timeout = TimeSpan.FromMinutes(5);
             this.DefaultRequestHeaders.Add("page", "0");
             this.DefaultRequestHeaders.Add("limit", "0");
         }
@@ -115,6 +116,13 @@ namespace Undersoft.SDK.Service.Data.Client
             var request = new HttpRequestMessage(HttpMethod.Delete, $"{typeof(TContract).Name}");
             request.Content = new ByteArrayContent(contracts.ToJsonBytes());
             return await (await this.SendAsync(request)).Content.ReadAsStringAsync();
+        }
+
+        public async Task<HttpResponseMessage> DeleteAsync(string requestUri, HttpContent content)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+            request.Content = content;
+            return await this.SendAsync(request);
         }
 
         public async Task<TContract> Action<TContract>(string method, Arguments arguments) where TContract : IOrigin, IInnerProxy

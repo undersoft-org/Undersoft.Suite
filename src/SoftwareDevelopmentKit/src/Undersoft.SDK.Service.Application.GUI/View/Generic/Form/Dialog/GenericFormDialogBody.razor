@@ -11,7 +11,7 @@
     <FluentDialogBody>
 
         <!-- Auto Form -->
-        <GenericForm TValidator="TValidator" TModel="@TModel" Content="@Content" />
+        <GenericForm TValidator="TValidator" TModel="@TModel" Content="@Content" Orientation="@Orientation" />
 
     </FluentDialogBody>
 </div>
@@ -23,4 +23,11 @@
 
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
+
+
+    [CascadingParameter]
+    public IViewItem Form { get; set; } = default!;
+
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
 }

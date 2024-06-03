@@ -13,7 +13,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [CascadingParameter]
-        public override FeatureFlags FeatureFlags { get => base.FeatureFlags; set => base.FeatureFlags = value; }
+        public override FeatureFlags FeatureFlags
+        {
+            get => base.FeatureFlags;
+            set => base.FeatureFlags = value;
+        }
 
         [CascadingParameter]
         public override EditMode EditMode
@@ -23,7 +27,17 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [CascadingParameter]
-        public bool Checked { get => StateFlags.Checked; set => StateFlags.Checked = value; }
+        public override EntryMode EntryMode
+        {
+            get => base.EntryMode;
+            set => base.EntryMode = value;
+        }
+
+        public bool Checked
+        {
+            get => Data.StateFlags.Checked;
+            set => Data.StateFlags.Checked = value;
+        }
 
         [CascadingParameter]
         public string GridTemplateColumns { get; set; } = default!;
@@ -31,9 +45,27 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         [CascadingParameter]
         public int RubricOrdinalSeed { get; set; } = 1;
 
-        private IViewData GetItemOperationData()
+        private IViewData? GetItemOperationData()
         {
-            var data = typeof(ViewData<>).MakeGenericType(typeof(GenericDataGridItemOperation)).New<IViewData>(new GenericDataGridItemOperation(Data));
+            Data.EntryMode = EntryMode;
+            if (FeatureFlags.Editable && EditMode != EditMode.None)
+            {
+                var data = typeof(ViewData<>)
+                    .MakeGenericType(typeof(GenericDataGridItemOperation))
+                    .New<IViewData>(new GenericDataGridItemOperation(Data));
+                data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+                return data;
+            }
+            else if (FeatureFlags.Showable)
+                return GetItemShowData();
+            return null;
+        }
+
+        private IViewData GetItemShowData()
+        {
+            var data = typeof(ViewData<>)
+                .MakeGenericType(typeof(GenericDataGridItemShow))
+                .New<IViewData>(new GenericDataGridItemShow(Data));
             data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
             return data;
         }

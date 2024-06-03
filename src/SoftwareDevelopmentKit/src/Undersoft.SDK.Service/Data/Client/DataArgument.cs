@@ -28,7 +28,8 @@ public class DataArgument : Argument
         Position = position;
         MethodName = method;
         TargetName = target;
-        Id = $"{ArgumentTypeName}_{Name}".UniqueKey();
         TypeId = ArgumentTypeName.UniqueKey();
+        Id = DataKey.UniqueKey64(MethodName.UniqueKey64());
+
     }
 }

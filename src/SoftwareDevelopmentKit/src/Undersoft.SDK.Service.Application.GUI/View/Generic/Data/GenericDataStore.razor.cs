@@ -10,8 +10,5 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data
 
         [Inject]
         public override IDialogService DialogService { get; set; } = default!;
-
-        [Inject]
-        public override IRemoteRepository<TStore, TModel> Repository { get; set; } = default!;
     }
 }

@@ -37,11 +37,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             return null;
         }
 
-        protected virtual async Task SaveAsync(IViewData item)
+        protected virtual async Task SaveAsync(IViewData item, bool changesets = false)
         {
             var vs = ((IViewDataStore)item.Root!).ViewStore;
-            vs.RenderView();
-            await vs.DataStore.SaveAsync();
+            await vs.DataStore.SaveAsync(changesets);
         }
     }
 }

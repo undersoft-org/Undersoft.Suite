@@ -33,11 +33,11 @@ public class Setup
                         .AddInvocations<Group>()
             )
             .AddDataServer<IEventStore>(
-                DataServerTypes.OData,
+                DataServerTypes.All,
                 builder => builder.AddInvocations<Event>()
             )
             .AddDataServer<IAccountStore>(
-                DataServerTypes.OData,
+                DataServerTypes.All,
                 builder => builder.AddInvocations<Account>()
             );
     }

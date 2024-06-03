@@ -66,7 +66,7 @@ namespace Undersoft.SDK.Service.Hosting
                             foreach (Type remoteStore in remoteStores)
                             {
                                 /*****************************************************************************************/
-                                service.AddTransient(
+                                service.AddScoped(
                                     typeof(IRemoteRepository<,>).MakeGenericType(remoteStore, entityType),
                                     typeof(RemoteRepository<,>).MakeGenericType(remoteStore, entityType)
                                 );
@@ -76,7 +76,7 @@ namespace Undersoft.SDK.Service.Hosting
                                     typeof(EntityCache<,>).MakeGenericType(remoteStore, entityType)
                                 );
                                 /*****************************************************************************************/
-                                service.AddTransient(
+                                service.AddScoped(
                                     typeof(IRemoteSet<,>).MakeGenericType(remoteStore, entityType),
                                     typeof(RemoteSet<,>).MakeGenericType(remoteStore, entityType)
                                 );

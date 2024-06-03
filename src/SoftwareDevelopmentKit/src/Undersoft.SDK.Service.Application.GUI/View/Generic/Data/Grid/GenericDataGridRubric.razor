@@ -6,64 +6,77 @@
 
 @inherits ViewItem
 
-<FluentDataGridCell TGridItem="string"
-                    GridColumn=@_ordinal
-                    CellType="DataGridCellType.ColumnHeader"
-                    Class="@("rubric-header " + @RubricHeaderClass(Rubric) + (Resizable ? " resizable" : ""))"
-                    Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@Rubric" scope="col">
+<div id="@ViewId" class="datagrid-rubric-header">
 
-    @if (ChildContent == null)
-    {
-       
+    <FluentDataGridCell TGridItem="string"
+                        GridColumn=@_ordinal
+                        CellType="DataGridCellType.ColumnHeader"
+                        Class="@("rubric-header " + @RubricHeaderClass(Rubric) + (Resizable ? " resizable" : ""))"
+                        Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@Rubric" scope="col">
 
-        @if (Rubric.Filterable)
+        @if (ChildContent == null)
         {
-            @if (Rubric.Filtered)
-            {
-                <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" />
-            }
-            else
-            {
-                <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" />
-            }
-        }
 
-        @if (Rubric.Sortable)
-        {
-            <FluentButton Appearance="Appearance.Stealth" Style="width:100%;">
-                <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" >
-                    @Rubric.DisplayName
-                </FluentLabel>
-                @if (Rubric.Sorted)
-                {
-                    @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
+
+            @if (Rubric.Filterable)
+            {
+                <div id="@($"{ViewId}-filter")" class="rubric-header-filter">
+
+                    @if (Rubric.Filtered)
                     {
-                        <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" />
+                        <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" OnClick="@OnFilterDefine" />
                     }
                     else
                     {
-                        <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" />
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" OnClick="@OnFilterDismiss" />
                     }
-                }
-            </FluentButton>
+
+                </div>
+            }
+
+            @if (Rubric.Sortable)
+            {
+                <div id="@($"{ViewId}-sorter")" class="rubric-header-sorter">
+
+                    <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                        @Rubric.DisplayName
+                    </FluentLabel>
+
+                    @if (Rubric.Sorted)
+                    {
+                        @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
+                        {
+                            <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" />
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="@($"{ViewId}-label")" class="rubric-header-Label">
+
+                    <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                        @Rubric.DisplayName
+                    </FluentLabel>
+                </div>
+            }
+
+            @if (Resizable)
+            {
+                <FluentDivider class="col-width-draghandle" Orientation="Orientation.Vertical" Role="DividerRole.Separator" />
+            }
         }
         else
         {
-            <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
-                @Rubric.DisplayName
-            </FluentLabel>
+            @ChildContent
         }
+    </FluentDataGridCell>
 
-        @if (Resizable)
-        {
-            <FluentDivider class="col-width-draghandle" Orientation="Orientation.Vertical" Role="DividerRole.Separator" />
-        }
-    }
-    else
-    {
-        @ChildContent
-    }
-</FluentDataGridCell>
+</div>
 
 
 

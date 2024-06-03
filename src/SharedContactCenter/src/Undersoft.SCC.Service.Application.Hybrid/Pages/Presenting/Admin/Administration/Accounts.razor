@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Administrator")]
 
 @page "/presenting/admin/administration/accounts"
 
-<GenericDataGrid TStore="IAccountStore" TModel="Contracts.Account" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" Title="Accounts" />
+<GenericDataGrid TStore="IAccountStore" TModel="Contracts.Account" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Tabs" Title="Accounts" />

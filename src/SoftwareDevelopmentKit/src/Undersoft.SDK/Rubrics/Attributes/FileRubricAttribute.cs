@@ -19,6 +19,7 @@
     public enum FileRubricType
     {
         None,
+        Property,
         Path,
         Stream,
         Blob

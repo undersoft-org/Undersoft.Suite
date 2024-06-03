@@ -36,10 +36,10 @@ public class Setup
                         .AddInvocations<Contact>()
                         .AddInvocations<Country>()
                         .AddInvocations<Group>()
-                        .AddInvocations<Personal>()
-                        .AddInvocations<Professional>()
-                        .AddInvocations<Address>()
-                        .AddInvocations<Organization>()
+                        .AddInvocations<ContactPersonal>()
+                        .AddInvocations<ContactProfessional>()
+                        .AddInvocations<ContactAddress>()
+                        .AddInvocations<ContactOrganization>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

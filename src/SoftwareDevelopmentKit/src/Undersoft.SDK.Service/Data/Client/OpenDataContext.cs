@@ -33,13 +33,7 @@ namespace Undersoft.SDK.Service.Data.Client
             ResolveType = (n) => this.GetMappedType(n);
             SendingRequest2 += RequestAuthorization;
             Format.LoadServiceModel = GetServiceModel;
-            //ResolveEntitySet = (s) => 
         }
-
-        //public Uri ResolveEntitySet(string  entitySetUri)
-        //{
-
-        //}
 
         public Registry<RemoteRelation> Remotes { get; set; } = new Registry<RemoteRelation>(true);
 
@@ -127,7 +121,7 @@ namespace Undersoft.SDK.Service.Data.Client
             var responseContents = await ApiContext.SendCommands(changesets);
             if (responseContents != null)
             {
-                return await Task.WhenAll(responseContents);
+                return responseContents;
             }
             return new string[0];
         }

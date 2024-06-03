@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System.Reflection;
 using Undersoft.SCC.Service.Application.GUI.Compound.Access;
+using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
 using Undersoft.SCC.Service.Clients;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service;
@@ -12,6 +13,7 @@ using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.Access;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 using Undersoft.SDK.Service.Data.Store;
 
@@ -53,7 +55,7 @@ public static class MauiProgram
         var manager = builder.Services
             .AddServiceSetup(config)
             .ConfigureServices(
-                new[] { typeof(ApplicationClient), typeof(AccessClient) },
+                new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) },
                 s => s.AddValidators()
             )
             .Manager;
@@ -85,6 +87,10 @@ public static class MauiProgram
                         IRemoteRepository<IDataStore, Contracts.Country>,
                         RemoteRepository<IDataStore, Contracts.Country>
                     >()
+                      .AddScoped<
+                        IRemoteRepository<IEventStore, Event>,
+                        RemoteRepository<IEventStore, Event>
+                    >()
                     .AddScoped<AccessProvider<Account>>()
                     .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(
                         sp => sp.GetRequiredService<AccessProvider<Account>>()
@@ -97,6 +103,9 @@ public static class MauiProgram
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
+                    .AddScoped<IValidator<IViewData<Contracts.Contact>>, ContactValidator>()
+                    .AddScoped<IValidator<IViewData<Group>>, GroupValidator>()
+                    .AddScoped<IValidator<IViewData<Contracts.Country>>, CountryValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()
                     .AddScoped<ContactValidator>()

@@ -282,13 +282,10 @@ public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient
 
     private async Task<int> saveClient(bool asTransaction, CancellationToken token = default)
     {
-        //if (Context.Entities.Any(s => s.State != EntityStates.Unchanged))
-        //{
         if (asTransaction)
             return await saveAsTransaction(Context, token);
         else
             return await saveChanges(Context, token);
-        // }
     }
 
     private async Task<int> saveAsTransaction(

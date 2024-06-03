@@ -1,17 +1,18 @@
 ﻿using IdentityModel.Client;
+using System.Net;
 using Undersoft.SDK.Service.Access;
 
 namespace Undersoft.SDK.Service.Data.Client
 {
     public partial class ApiDataContext : ApiDataClient
     {
-        private readonly ISeries<Arguments> CommandRegistry;
+        private readonly Registry<Arguments> CommandRegistry;
 
         private ISecurityString _securityString;
 
         public ApiDataContext(Uri serviceUri) : base(serviceUri)
         {
-            CommandRegistry = new Registry<Arguments>();
+            CommandRegistry = new Registry<Arguments>(true);
         }
 
         public bool HasCommands => CommandRegistry.Count > 0;
@@ -46,7 +47,7 @@ namespace Undersoft.SDK.Service.Data.Client
             }
             else
             {
-                args.Add(new DataArgument(command.ToString(), payload, name, typeof(TEntity).Name));
+                args.Put(new DataArgument(command.ToString(), payload, name, typeof(TEntity).Name));
             }
         }
 
@@ -71,57 +72,65 @@ namespace Undersoft.SDK.Service.Data.Client
             }
             else
             {
-                args.Add(new DataArgument(command.ToString(), payload, name, typeof(TEntity).Name));
+                args.Put(new DataArgument(command.ToString(), payload, name, typeof(TEntity).Name));
             }
         }
 
-        protected async Task<HttpResponseMessage[]> CommandSetHandler()
+        protected async Task<string[]> CommandSetHandler()
         {
-            return await Task.WhenAll(
-                CommandRegistry.SelectMany(
-                    (cmd) =>
+            var messages = new Registry<string>();
+
+            await using (CommandRegistry)
+            {
+
+                foreach (var cmdType in CommandRegistry)
+                {
+                    foreach (var cmdMethod in cmdType.Value.GroupBy(method => method.MethodName))
                     {
-                        return cmd.GroupBy(m => m.MethodName)
-                            .ForEach(
-                                async (method) =>
-                                {
-                                    return await CommandRequest(
-                                        method.Key,
-                                        cmd.TargetName,
-                                        new DataContent(
-                                            method.Select(a => ((DataArgument)a)).ToArray()
-                                        )
-                                    );
-                                }
-                            );
+                        var args = cmdMethod.Select(arg => (DataArgument)arg).ToArray();
+                        var response = await CommandRequest(
+                                                        cmdMethod.Key,
+                                                        cmdType.Value.TargetName,
+                                                        new DataContent(args)
+                                                    );
+
+                        var message = await GetResponseMessage(response);
+
+                        messages.Add(message);
                     }
-                )
-            );
+                }
+            }
+
+            return messages.ToArray();
         }
 
-        protected async Task<HttpResponseMessage[]> CommandHandler()
+        protected async Task<string[]> CommandHandler()
         {
-            return await Task.WhenAll(
-                CommandRegistry.SelectMany(
-                    (cmd) =>
+            var messages = new List<string>();
+
+            await using (CommandRegistry)
+            {
+                foreach (var cmdType in CommandRegistry)
+                {
+                    foreach (var cmdMethod in cmdType.Value.GroupBy(method => method.MethodName))
                     {
-                        return cmd.GroupBy(m => m.MethodName)
-                            .SelectMany(
-                                (method) =>
-                                    method.ForEach(
-                                        async (arg) =>
-                                        {
-                                            return await CommandRequest(
-                                                method.Key,
-                                                $"{cmd.TargetName}/{arg.DataKey}",
-                                                new DataContent(arg)
-                                            );
-                                        }
-                                    )
-                            );
+                        foreach (var arg in cmdMethod)
+                        {
+                            var response = await CommandRequest(
+                                                            cmdMethod.Key,
+                                                            cmdType.Value.TargetName,
+                                                            new DataContent((DataArgument)arg)
+                                                        );
+
+                            var message = await GetResponseMessage(response);
+
+                            messages.Add(message);
+                        }
                     }
-                )
-            );
+                }
+            }
+
+            return messages.ToArray();
         }
 
         protected async Task<HttpResponseMessage> CommandRequest(
@@ -137,39 +146,56 @@ namespace Undersoft.SDK.Service.Data.Client
             {
                 switch (commandEnum)
                 {
-                    case CommandType.POST: return await PostAsync(name, content);
-                    case CommandType.PATCH: return await PatchAsync(name, content);
-                    case CommandType.DELETE: return await DeleteAsync(name);
-                    case CommandType.PUT: return await PutAsync(name, content);
-                    default: break;
+                    case CommandType.POST:
+                        return await PostAsync(name, content);
+                    case CommandType.PATCH:
+                        return await PatchAsync(name, content);
+                    case CommandType.DELETE:
+                        return await DeleteAsync(name, content);
+                    case CommandType.PUT:
+                        return await PutAsync(name, content);
+                    default:
+                        break;
                 }
             }
-            return default;
+            return new HttpResponseMessage(HttpStatusCode.BadRequest)
+            {
+                Content = new StringContent("Unsupported commend")
+            };
         }
 
-        public async Task<Task<string>[]> SendCommands(bool changesets)
+        public async Task<string[]> SendCommands(bool changesets)
         {
             if (!HasCommands)
                 return default;
 
             if (changesets)
-                return (await CommandSetHandler()).Select(async m =>
-                {
-                    var contentString = await m.Content.ReadAsStringAsync();
-                    if ((int)m.StatusCode > 210)
-                        this.Warning<Weblog>(contentString);
-                    return contentString;
-                }).ToArray();
+                return await CommandSetHandler();
             else
+                return await CommandHandler();
+        }
+
+        private Registry<Arguments> GetProcessRegistry()
+        {
+            var processRegistry = new Registry<Arguments>();
+            CommandRegistry.ForEach(typeArgs =>
             {
-                return (await CommandHandler()).Select(async m =>
-                    {
-                        var contentString = await m.Content.ReadAsStringAsync();
-                        if ((int)m.StatusCode > 210)
-                            this.Warning<Weblog>(contentString);
-                        return contentString;
-                    }).ToArray();
-            }
+                var processArgs = new Arguments(typeArgs.TargetType);
+                processArgs.Add(typeArgs.ForEach(arg => typeArgs.Remove(arg.Id)).Commit());
+                processRegistry.Add(typeArgs.TargetType, processArgs);
+            });
+            return processRegistry;
+        }
+
+        private async Task<string> GetResponseMessage(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var message = $"StatusCode:{response.StatusCode.ToString()} Message:{content}";
+            if ((int)response.StatusCode > 210)
+                this.Info<Apilog>(message);
+            else
+                this.Info<Apilog>(message);
+            return message;
         }
     }
 

@@ -71,6 +71,9 @@
     public IViewItem FormWizard { get; set; } = default!;
 
     [Parameter]
+    public bool Validatable { get; set; } = true;
+
+    [Parameter]
     public bool GoToFirstEnabled { get; set; }
 
 
@@ -85,12 +88,16 @@
 
     private async Task SaveAsync()
     {
-        var result = await Content.Validator.ValidateAsync();
-
-        if (result.IsValid)
-            await Dialog.CloseAsync(Content);        
+        if (Content.Validator != null && Validatable)
+        {
+            var result = await Content.Validator.ValidateAsync();
+            if (result.IsValid)
+                await Dialog.CloseAsync(Content);
+            else
+                FormWizard.RenderView();
+        }
         else
-            FormWizard.RenderView();
+            await Dialog.CloseAsync(Content);
     }
 
     private void GoToFirst()
@@ -107,12 +114,20 @@
 
     private async Task Next()
     {
-        var result = await Content.Validator.ValidateAsync(
-                                Content.Rubrics[ActiveId].ViewItem!.Data, 
-                                Content.Rubrics[ActiveId].RubricName);
-        if(result.IsValid)
+        if (Content.Validator != null)
         {
-            if(!IsLast)
+            var result = await Content.Validator.ValidateAsync(
+                                    Content.Rubrics[ActiveId].ViewItem!.Data,
+                                    Content.Rubrics[ActiveId].RubricName);
+            if (result.IsValid)
+            {
+                if (!IsLast)
+                    ActiveId += 1;
+            }
+        }
+        else
+        {
+            if (!IsLast)
                 ActiveId += 1;
         }
         FormWizard.RenderView();

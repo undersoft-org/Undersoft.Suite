@@ -1,12 +1,16 @@
 using Microsoft.OData.ModelBuilder;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Undersoft.SCC.Service.Contracts.Countries;
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SCC.Service.Contracts
 {
     [Validator("CountryValidator")]
+    [ViewSize(width: "400px", height: "700px")]
     public partial class Country : DataObject, IContract
     {
         [VisibleRubric]
@@ -29,35 +33,43 @@ namespace Undersoft.SCC.Service.Contracts
         [DisplayRubric("Time zone UTC")]
         public string? TimeZone { get; set; }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         [VisibleRubric]
         [RubricSize(32)]
         [DisplayRubric("Currency code")]
-        public string? CurrencyCode { get => Currency?.CurrencyCode; set => Currency!.CurrencyCode = value; }
+        public string? CurrencyCode { get => Currency?.CurrencyCode; set => (Currency ??= new Currency()).CurrencyCode = value!; }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         [VisibleRubric]
         [RubricSize(32)]
         [DisplayRubric("Language")]
-        public string? LanguageName { get => Language?.Name; set => Language!.Name = value; }
+        public string? LanguageName { get => Language?.Name; set => (Language ??= new CountryLanguage()).Name = value!; }
 
         [VisibleRubric]
         [RubricSize(32)]
         [DisplayRubric("Country image")]
-        [FileRubric(FileRubricType.Path, "CountryImageData")]
+        [ViewImage(ViewImageMode.Regular, "30px", "30px")]
+        [FileRubric(FileRubricType.Property, "CountryImageData")]
         public string? CountryImage { get; set; } = default!;
 
         public byte[]? CountryImageData { get; set; } = default!;
 
         public long? CurrencyId { get; set; }
 
-        [Expand]
+        [Extended]
+        [AutoExpand]
         public virtual Currency? Currency { get; set; }
 
         public long? LanguageId { get; set; }
 
-        [Expand]
+        [Extended]
+        [AutoExpand]
         public virtual CountryLanguage? Language { get; set; }
 
-        [Expand]
+        [Extended]
+        [AutoExpand]
         public virtual Listing<CountryState>? States { get; set; }
 
     }

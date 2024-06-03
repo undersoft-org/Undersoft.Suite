@@ -9,15 +9,23 @@
 
 <FluentDialogBody>
     <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
-        <FluentTabs @bind-ActiveTabId="@ActiveId" Width="100%" Orientation="@Orientation">
-            @foreach (var _rubric in _rubrics)
-            {
-                @if (ContainsTabData(_rubric))
+        @if (Content.RubricsEnabled && _rubrics.Any())
+        {
+            <GenericFormItem Data="@Content" HorizontalAlignment="HorizontalAlignment.Center" Orientation="@Orientation" />
+        }
+        @if (Content.ExtendedRubricsEnabled && _extendedRubrics.Any())
+        {
+            <FluentTabs @bind-ActiveTabId="@ActiveId" Width="100%" Orientation="@Orientation">
+                @foreach (var _rubric in _extendedRubrics)
                 {
-                    <GenericFormTabsTab Rubric="_rubric" Data="@(GetTabData(_rubric))" />
+                    @if (ContainsTabData(_rubric))
+                    {
+                        <GenericFormTabsTab Rubric="_rubric" Data="@(GetTabData(_rubric))" Orientation="@Orientation" />
+                    }
+
                 }
-            }
-        </FluentTabs>
+            </FluentTabs>
+        }
     </GenericFormSet>
 </FluentDialogBody>
 
@@ -26,7 +34,8 @@
     [CascadingParameter]
     public override IViewData<TModel> Content { get; set; } = default!;
 
-    private IViewRubrics _rubrics => Content.ExtendedRubrics;
+    private IViewRubrics _rubrics => Content.Rubrics;
+    private IViewRubrics _extendedRubrics => Content.ExtendedRubrics;
 
     public string ActiveId
     {
@@ -41,15 +50,25 @@
     public IViewItem FormTabs { get; set; } = default!;
 
     [Parameter]
-    public Orientation Orientation { get; set; }
+    public override EntryMode EntryMode { get; set; } = EntryMode.Tabs!;
+
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
 
     protected override void OnInitialized()
     {
         Content.ViewItem = this;
-        Content.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-        var firstRubric = Content.ExtendedRubrics.FirstOrDefault();
-        if (firstRubric != null)
-            Content.ActiveRubric = firstRubric;
+        ResolveEntryMode();
+        if(Content.RubricsEnabled)        
+            Content.MapRubrics(t => t.Rubrics, p => p.Visible);        
+        if (Content.ExtendedRubricsEnabled)
+        {
+            Content.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            Content.InstantiateNulls(t => t.ExtendedRubrics);
+            var firstRubric = Content.ExtendedRubrics.FirstOrDefault();
+            if (firstRubric != null)
+                Content.ActiveRubric = firstRubric;
+        }     
     }
 
     private IViewData GetTabData(IViewRubric rubric)
@@ -64,13 +83,28 @@
 
     private bool ContainsTabData(IViewRubric rubric)
     {
-        var t = rubric.RubricType;
-        if (Model.Proxy[rubric.RubricId] == null)
+        return rubric.RubricType.IsClass ? true : false;        
+    }
+
+    private void ResolveEntryMode()
+    {
+        if (EntryMode != EntryMode.FormTabs)
         {
-            Model.Proxy[rubric.RubricId] = t.New();
+            if (EntryMode == EntryMode.Form)
+            {
+                Content.RubricsEnabled = true;
+                Content.ExtendedRubricsEnabled = false;
+            }
+            else if (EntryMode == EntryMode.Tabs)
+            {
+                Content.RubricsEnabled = false;
+                Content.ExtendedRubricsEnabled = true;
+            }
         }
-        if (t.IsClass && !t.IsAssignableTo(typeof(IEnumerable)))
-            return true;
-        return false;
+        else
+        {
+            Content.RubricsEnabled = true;
+            Content.ExtendedRubricsEnabled = true;
+        }
     }
 }

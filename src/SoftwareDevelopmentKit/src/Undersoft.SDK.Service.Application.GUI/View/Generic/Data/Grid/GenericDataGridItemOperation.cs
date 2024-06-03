@@ -5,20 +5,11 @@ using Undersoft.SDK.Updating;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
-    public class GenericDataGridItemOperation : GenericDataGridOperationBase
+    public class GenericDataGridItemOperation : GenericDataGridItemShow
     {
         public GenericDataGridItemOperation() : base() { }
 
         public GenericDataGridItemOperation(IViewData item) : base(item) { }
-
-        [MenuItem]
-        [Extended]
-        [Invoke(typeof(GenericDataGridItemOperation), "OpenItem")]
-        public IViewData Open
-        {
-            get => _item;
-            set => _item = value;
-        }
 
         [MenuItem]
         [Extended]
@@ -47,18 +38,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             set => _item = value;
         }
 
-        public async Task OpenItem(IViewData item)
-        {
-            var _dialog = GetDialog(item, typeof(GenericDataGridDialogEdit<,>));
-            if (_dialog != null)
-            {
-                item.Title = $"{item.ModelType.Name} details";
-                item.Height = "650px";
-
-                await _dialog.ShowPreview(item);
-            }
-        }
-
         public async Task AddItem(IViewData item)
         {
             var _dialog = GetDialog(item, typeof(GenericDataGridDialogEdit<,>));
@@ -69,7 +48,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                     .MakeGenericType(modelType)
                     .New<IViewData>(modelType.New());
                 data.Title = $"Add {modelType.Name.ToLower()}";
-                data.Height = "650px";
+                data.Height = "auto";
+                data.EntryMode = item.EntryMode;
 
                 await _dialog.ShowEdit(data);
 
@@ -77,9 +57,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                 {
                     if (item.Parent != null)
                     {
-                        item.Parent.Put(_dialog.Content);
-                        _dialog.Content.StateFlags.Added = true;
-                        await SaveAsync(item);
+                        var newItem = ((IViewDataStore)item.Parent).Attach(_dialog.Content);
+                        newItem.StateFlags.Added = true;
+                        await SaveAsync(item, true);
                     }
                 }
             }
@@ -92,20 +72,21 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             {
                 var modelType = item.ModelType;
                 var tempModel = modelType.New();
-                item.Model.PatchTo(tempModel);
                 var tempData = typeof(ViewData<>)
                     .MakeGenericType(modelType)
                     .New<IViewData>(tempModel);
+                item.Model.PutTo(tempData.Model);
                 tempData.Title = $"Edit {modelType.Name.ToLower()}";
-                tempData.Height = "650px";
+                tempData.Height = "auto";
+                tempData.EntryMode = item.EntryMode;
 
                 await _dialog.ShowEdit(tempData);
 
                 if (_dialog.Content != null)
                 {
-                    item.Model = _dialog.Content.Model;
+                    _dialog.Content.Model.PatchTo(item.Model);
                     item.StateFlags.Changed = true;
-                    await SaveAsync(item);
+                    await SaveAsync(item, true);
                 }
             }
         }
@@ -116,24 +97,17 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             if (_dialog != null)
             {
                 item.Title = $"Delete {item.ModelType.Name.ToLower()}";
-                item.Height = "250px";
+                item.Height = "auto";
+                item.Width = "auto";
 
                 await _dialog.ShowDelete(item);
 
                 if (_dialog.Content != null)
                 {
-                    if (item.Parent != null)
-                    {
-                        if (item.Parent.TryRemove(_dialog.Content))
-                        {
-                            _dialog.Content.StateFlags.Deleted = true;
-                            await SaveAsync(item);
-                        }
-                    }
+                    _dialog.Content.StateFlags.Deleted = true;
+                    await SaveAsync(item, true);
                 }
             }
         }
-
-
     }
 }

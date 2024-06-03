@@ -1057,7 +1057,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
 
             modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Account", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountAddress", "Address")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountAddress", "ContactAddress")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "AddressId");
 
@@ -1065,7 +1065,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "ConsentId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", "Organization")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", "ContactOrganization")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "OrganizationId");
 
@@ -1073,11 +1073,11 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "PaymentId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountPersonal", "Personal")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountPersonal", "ContactPersonal")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "PersonalId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", "Professional")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", "ContactProfessional")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "ProfessionalId");
 
@@ -1091,17 +1091,17 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("ContactAddress");
 
                     b.Navigation("Consent");
 
-                    b.Navigation("Organization");
+                    b.Navigation("ContactOrganization");
 
                     b.Navigation("Payment");
 
-                    b.Navigation("Personal");
+                    b.Navigation("ContactPersonal");
 
-                    b.Navigation("Professional");
+                    b.Navigation("ContactProfessional");
 
                     b.Navigation("Subscription");
 

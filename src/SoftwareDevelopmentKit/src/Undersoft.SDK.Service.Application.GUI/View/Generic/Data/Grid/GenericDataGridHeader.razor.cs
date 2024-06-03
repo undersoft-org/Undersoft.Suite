@@ -22,6 +22,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             set => base.DataStore = value;
         }
 
+        [CascadingParameter]
+        public override EntryMode EntryMode
+        {
+            get => base.EntryMode;
+            set => base.EntryMode = value;
+        }
+
         [Parameter]
         public bool Checked { get => Data.StateFlags.Checked; set => Data.StateFlags.Checked = value; }
 
@@ -36,9 +43,19 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         private IViewData GetOperationData()
         {
+            Data.EntryMode = EntryMode;
             var data = typeof(ViewData<>).MakeGenericType(typeof(GenericDataGridOperation)).New<IViewData>(new GenericDataGridOperation(Data));
             data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
             return data;
+        }
+
+        private void OnCheckStateChanged(bool? state)
+        {
+            if (state != null)
+            {
+                DataStore.Items.ForEach(item => item.StateFlags.Checked = (bool)state).Commit();
+                DataStore.ViewItem?.RenderView();
+            }
         }
 
     }

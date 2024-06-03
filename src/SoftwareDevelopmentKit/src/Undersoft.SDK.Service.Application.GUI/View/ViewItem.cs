@@ -147,6 +147,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         [Parameter]
         public virtual EditMode EditMode { get; set; }
 
+        [Parameter]
+        public virtual EntryMode EntryMode { get; set; }
+
         public string CodeNo
         {
             get => origin.CodeNo;
@@ -203,12 +206,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         }
 
         public event PropertyChangedEventHandler? PropertyChanged
-        {
-            add { origin.PropertyChanged += value; }
-            remove { origin.PropertyChanged -= value; }
-        }
-
-        event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
         {
             add { origin.PropertyChanged += value; }
             remove { origin.PropertyChanged -= value; }

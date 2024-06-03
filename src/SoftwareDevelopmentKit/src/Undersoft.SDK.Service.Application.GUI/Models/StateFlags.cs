@@ -27,4 +27,29 @@ public class StateFlags
     public bool Disabled { get; set; }
 
     public bool HaveNext { get; set; }
+
+    public void ClearCommandStates()
+    {
+        Editing = false;
+        Edited = false;
+        Updated = false;
+        Changed = false;
+        Added = false;
+        Deleted = false;
+        Canceled = false;
+    }
+
+    public void ClearMarkingStates()
+    {
+        Checked = false;
+        Selected = false;
+        Disabled = false;
+        Hidden = false;
+    }
+
+    public void ClearStates()
+    {
+        ClearCommandStates();
+        ClearMarkingStates();
+    }
 }

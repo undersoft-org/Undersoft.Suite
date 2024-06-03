@@ -7,8 +7,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         [Parameter]
         public int Ordinal { get; set; } = 1;
 
-        [CascadingParameter]
-        public bool Checked { get => StateFlags.Checked; set => StateFlags.Checked = value; }
+        public bool Checked { get => Data.StateFlags.Checked; set => Data.StateFlags.Checked = value; }
 
         [CascadingParameter]
         public override IViewData Data { get; set; } = default!;

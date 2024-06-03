@@ -1248,12 +1248,8 @@ namespace Undersoft.SDK.Series.Base
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    first = null;
-                    last = null;
-                    table = null;
-                }
+                renewClear(minsize);
+
                 disposedValue = true;
             }
         }
@@ -1268,9 +1264,7 @@ namespace Undersoft.SDK.Series.Base
         {
             await new ValueTask(Task.Run(() =>
             {
-                first = null;
-                last = null;
-                table = null;
+                renewClear(minsize);
 
             }));
         }

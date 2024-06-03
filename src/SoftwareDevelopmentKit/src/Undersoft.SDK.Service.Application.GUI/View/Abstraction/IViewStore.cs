@@ -12,8 +12,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         IList<TModel> Models { get; }
 
         Action<ViewDataStore<TStore, TModel>> Setup { get; set; }
-
-        IRemoteRepository<TStore, TModel> Repository { get; set; }
     }
 
     public interface IViewStore : IViewItem

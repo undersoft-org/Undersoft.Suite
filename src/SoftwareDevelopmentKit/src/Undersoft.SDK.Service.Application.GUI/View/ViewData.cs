@@ -102,6 +102,12 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
         set => Model.TypeId = value;
     }
 
+    public virtual void InstantiateNulls(Func<IViewData, IViewRubrics> forRubrics)
+    {
+        var rubrics = forRubrics(this);
+        rubrics.ForOnly(r => _proxy[r.RubricId] == null, r => _proxy[r.RubricId] = r.RubricType.New()).Commit();
+    }
+
     public virtual void SetRequired(params string[] requiredList)
     {
         var rubrics = requiredList
@@ -188,6 +194,8 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public string Width { get; set; } = "360px";
 
+    public string Z { get; set; }
+
     public string? Href { get; set; }
 
     public string? Class { get; set; }
@@ -211,6 +219,8 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public EditMode EditMode { get; set; }
 
+    public EntryMode EntryMode { get; set; }
+
     public StateFlags StateFlags { get; set; } = new();
 
     public OperationType Operation { get; set; }
@@ -219,7 +229,11 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public IViewRubrics Rubrics { get; set; } = new ViewRubrics();
 
+    public bool RubricsEnabled { get; set; } = true;
+
     public IViewRubrics ExtendedRubrics { get; set; } = new ViewRubrics();
+
+    public bool ExtendedRubricsEnabled { get; set; } = true;
 
     public IViewValidator Validator { get; set; } = default!;
 

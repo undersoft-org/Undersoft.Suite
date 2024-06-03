@@ -173,6 +173,16 @@ public partial class StoreRepository<TEntity> : Repository<TEntity>, IStoreRepos
         return StoreContext.Update(Stamp(entity));
     }
 
+    public override TEntity Patch(TEntity entity)
+    {
+        return StoreContext.Update(entity);
+    }
+
+    public override TEntity Delete(TEntity entity)
+    {
+        return StoreContext.Remove(entity);
+    }
+
     public override IAsyncEnumerable<TEntity> AddAsync(IEnumerable<TEntity> entity)
     {
         return entity.ForEachAsync((e) => StoreContext.Add(Sign(e)));
@@ -209,11 +219,6 @@ public partial class StoreRepository<TEntity> : Repository<TEntity>, IStoreRepos
     public virtual void CommitTransaction(IDbContextTransaction transaction)
     {
         transaction.Commit();
-    }
-
-    public override TEntity Delete(TEntity entity)
-    {
-        return StoreContext.Remove(entity);
     }
 
     public void LazyLoading(bool enable)
