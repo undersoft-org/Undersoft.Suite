@@ -11,7 +11,7 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Open
             long,
             IDataStore,
             Contracts.Group,
-            Contracts.Group,
+            ViewModels.Group,
             ServiceManager
         >
     {

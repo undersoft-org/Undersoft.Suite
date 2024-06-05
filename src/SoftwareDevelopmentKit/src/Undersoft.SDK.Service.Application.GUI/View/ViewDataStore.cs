@@ -48,10 +48,8 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         }
     }
 
-    public ViewDataStore(
-        IViewStore store,
-        Action<ViewDataStore<TStore, TModel>>? setup
-    ) : this(store)
+    public ViewDataStore(IViewStore store, Action<ViewDataStore<TStore, TModel>>? setup)
+        : this(store)
     {
         if (setup != null)
             setup(this);
@@ -68,6 +66,24 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         return Rubrics;
     }
 
+    public virtual IQueryParameters MapQuery(
+        Func<IViewData, IViewRubrics>? fromRubrics = null,
+        Func<IViewRubric, bool>? predicate = null
+    )
+    {
+        var rubrics = Rubrics;
+        if (fromRubrics != null)
+            rubrics = fromRubrics(this);
+
+        var query = Rubrics.GetQuery(predicate);
+        Query = new QueryParameters<TModel>(query.Filters, query.Sorters);
+
+        Query.Offset = Pagination.Offset;
+        Query.Limit = Pagination.PageSize;
+
+        return Query;
+    }
+
     private void OpenSession()
     {
         if (_servicer != null)
@@ -75,29 +91,36 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
             if (_session != null)
                 throw new Exception("Session already opened");
             _session = _servicer.CreateScope();
-            _repository = _session.ServiceProvider.GetRequiredService<IRemoteRepository<TStore, TModel>>();
+            _repository = _session.ServiceProvider.GetRequiredService<
+                IRemoteRepository<TStore, TModel>
+            >();
         }
     }
 
     public virtual async Task SaveAsync(bool changesets = false)
     {
-        var processSession = _session;
-        var processRepository = _repository;
+        var savingSession = _session;
+        var savingRepository = _repository;
         _session = null!;
 
         OpenSession();
 
-        using (processSession)
+        using (savingSession)
         {
-            await SaveAsync(processRepository, changesets);
+            await CommitAsync(savingRepository, changesets);
         }
+    }
+
+    public async Task StageAsync(bool changesets = false)
+    {
+        await CommitAsync(_repository, changesets);
     }
 
     private async Task CloseAsync(bool changesets = false)
     {
         using (_session)
         {
-            await SaveAsync(_repository, changesets);
+            await CommitAsync(_repository, changesets);
         }
     }
 
@@ -156,7 +179,6 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
                 data.Add(extends);
 
             this.Add(data);
-
         }
         else if (patch && model.Modified != ((TModel)data.Model).Modified)
         {
@@ -201,7 +223,6 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
                 data.Add(extends);
 
             this.Add(data);
-
         }
         else if (patch && ((TModel)viewData.Model).Modified != ((TModel)data.Model).Modified)
         {
@@ -226,15 +247,17 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         return this.Detach((TModel)model);
     }
 
-    public virtual void Load(IList<TModel> models, bool patch = false)
+    private Task<IQueryable<TModel>> LoadInternalAsync(bool patch = false)
     {
-        if (models == null || models.Count == 0)
-            return;
+        return Task.Factory.StartNew(() =>
+        {
+            return LoadInternal(patch);
+        });
+    }
 
-        if (Models != null && Models.Count > 0)
-            Models.Put(models);
-        else
-            Models = models.ToListing();
+    private IQueryable<TModel> LoadInternal(bool patch = false)
+    {
+        MapQuery();
 
         IQueryable<TModel>? query = null;
         if (_predicate != null)
@@ -245,6 +268,21 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         query = query.Skip(Pagination.Offset).Take(Pagination.PageSize);
 
         Items = query.ForEach(d => Attach(d, patch)).ToListing();
+
+        return query;
+    }
+
+    public virtual void Load(IList<TModel> models, bool patch = false)
+    {
+        if (models == null || models.Count == 0)
+            return;
+
+        if (Models != null && Models.Count > 0)
+            Models.Put(models);
+        else
+            Models = models.ToListing();
+
+        LoadInternal(patch);
 
         Pagination.IncreaseTotalCount(models.Count);
 
@@ -280,30 +318,22 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         }
     }
 
-    private async Task<QueryOperationResponse<TModel>> LoadRemoteAsync(int offset, int pageSize, bool includeCount)
+    private async Task<QueryOperationResponse<TModel>> LoadRemoteAsync(
+        int offset,
+        int pageSize,
+        bool includeCount
+    )
     {
-        if (_predicate != null)
-        {
-            return (QueryOperationResponse<TModel>)(await (
-                (DataServiceQuery<TModel>)
-                    _repository[_predicate, _sort, _expanders]
-                        .Skip(offset)
-                        .Take(pageSize)
-            )
-                .IncludeCount(includeCount)
-                .ExecuteAsync());
-        }
-        else
-        {
-            return (QueryOperationResponse<TModel>)(await (
-                (DataServiceQuery<TModel>)
-                    _repository[_sort, _expanders]
-                        .Skip(offset)
-                        .Take(pageSize)
-            )
-                .IncludeCount(includeCount)
-                .ExecuteAsync());
-        }
+        MapQuery();
+
+        IQueryable<TModel> query =
+            _predicate != null
+                ? _repository[offset, pageSize, _repository[_predicate, _sort, _expanders]]
+                : _repository[offset, pageSize, _repository[_sort, _expanders]];
+        return (QueryOperationResponse<TModel>)(
+
+            await ((DataServiceQuery<TModel>)query).IncludeCount(includeCount).ExecuteAsync()
+        );
     }
 
     public virtual async Task LoadAsync()
@@ -315,7 +345,11 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
             if (Pagination.TotalCount < 0 || Pagination.CountChanged)
                 includeCount = true;
 
-            var response = await LoadRemoteAsync(Pagination.Offset, Pagination.PageSize, includeCount);
+            var response = await LoadRemoteAsync(
+                Pagination.Offset,
+                Pagination.PageSize,
+                includeCount
+            );
 
             if (includeCount)
             {
@@ -340,19 +374,7 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
             if (Models == null || Models.Count == 0)
                 return;
 
-            IQueryable<TModel>? query = null;
-            if (_predicate != null)
-                query = _sort.Sort(Models.AsQueryable().Where(_predicate));
-            else
-                query = _sort.Sort(Models.AsQueryable());
-
-            Pagination.SetTotalCount(query.Count());
-
-            query = query.Skip(Pagination.Offset).Take(Pagination.PageSize);
-
-            Items = query.ForEach(d => Attach(d)).ToListing();
-
-            models = query.AsEnumerable();
+            models = await LoadInternalAsync();
         }
         if (LoadCompleted != null)
             LoadCompleted.Invoke(this, models);
@@ -405,15 +427,7 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         }
         else
         {
-            IQueryable<TModel>? query = null;
-            if (_predicate != null)
-                query = _sort.Sort(Models.AsQueryable().Where(_predicate));
-            else
-                query = _sort.Sort(Models.AsQueryable());
-
-            query = query.Skip(Pagination.Offset).Take(Pagination.PageSize);
-
-            Items = query.ForEach(d => Attach(d)).ToListing();
+            LoadInternal();
         }
 
         if (UnloadCompleted != null)
@@ -432,36 +446,42 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
         await this.LoadSingleAsync((TModel)single);
     }
 
-    private async Task SaveAsync(IRemoteRepository<TStore, TModel> repository, bool changesets = false)
+    private async Task CommitAsync(
+        IRemoteRepository<TStore, TModel> repository,
+        bool changesets = false
+    )
     {
         if (Root != null)
         {
-            var final = repository;
+            var append = repository;
 
             if (Root.Any(m => m.StateFlags.Added))
                 await LoadAsync(
-                    final
+                    append
                         .Add(Root.Where(d => d.StateFlags.Added).Select(m => (TModel)m.Model))
                         .Commit()
                 );
 
             if (Root.Any(m => m.StateFlags.Changed))
                 await LoadAsync(
-                    Root.Where(d => d.StateFlags.Changed).ForEach(m => final.Patch((TModel)m.Model))
+                    Root.Where(d => d.StateFlags.Changed)
+                        .ForEach(m => append.Patch((TModel)m.Model))
                         .Commit(),
                     true
                 );
 
             if (Root.Any(m => m.StateFlags.Updated))
                 await LoadAsync(
-                     Root.Where(d => d.StateFlags.Updated).ForEach(m => final.Update((TModel)m.Model))
+                    Root.Where(d => d.StateFlags.Updated)
+                        .ForEach(m => append.Update((TModel)m.Model))
                         .Commit(),
                     true
                 );
 
             if (Root.Any(m => m.StateFlags.Deleted))
                 await UnloadAsync(
-                        Root.Where(d => d.StateFlags.Deleted).ForEach(m => final.Delete((TModel)m.Model))
+                    Root.Where(d => d.StateFlags.Deleted)
+                        .ForEach(m => append.Delete((TModel)m.Model))
                         .Commit()
                 );
 

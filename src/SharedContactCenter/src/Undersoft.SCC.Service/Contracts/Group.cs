@@ -10,16 +10,18 @@ namespace Undersoft.SCC.Service.Contracts
     public partial class Group : DataObject, IContract
     {
         [VisibleRubric]
-        [RubricSize(128)]
-        [DisplayRubric("Group name")]
-        public string? Name { get; set; }
-
-        [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(3)]
         [DisplayRubric("Group image")]
-        [ViewImage(ViewImageMode.Regular, "50px", "50px")]
+        [ViewImage(ViewImageMode.Regular, "30px", "20px")]
         [FileRubric(FileRubricType.Property, "GroupImageData")]
         public string? GroupImage { get; set; } = default!;
+
+        [VisibleRubric]
+        [RubricSize(128)]
+        [Filterable]
+        [Sortable]
+        [DisplayRubric("Group name")]
+        public string? Name { get; set; }
 
         public byte[]? GroupImageData { get; set; } = default!;
     }

@@ -16,6 +16,8 @@ public class ViewRubric : MemberRubric, IViewRubric
 
     public IViewItem ViewItem { get; set; } = default!;
 
+    public string ViewId => CodeNo;
+
     public string? Class { get; set; }
 
     public string? Style { get; set; }
@@ -23,6 +25,10 @@ public class ViewRubric : MemberRubric, IViewRubric
     public string? Width { get; set; }
 
     public string? Height { get; set; }
+
+    public string? ImageWidth { get; set; }
+
+    public string? ImageHeight { get; set; }
 
     public string? Z { get; set; }
 
@@ -48,7 +54,7 @@ public class ViewRubric : MemberRubric, IViewRubric
 
     public bool IsMenuGroup { get; set; }
 
-    public ISeries<FilterItem> Filters { get; set; } = new Listing<FilterItem>();
+    public ISeries<Filter> Filters { get; set; } = new Listing<Filter>();
 
     public void RenderView()
     {

@@ -1,5 +1,6 @@
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
@@ -44,7 +45,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         private IViewData GetOperationData()
         {
             Data.EntryMode = EntryMode;
-            var data = typeof(ViewData<>).MakeGenericType(typeof(GenericDataGridOperation)).New<IViewData>(new GenericDataGridOperation(Data));
+            var data = typeof(ViewData<>).MakeGenericType(typeof(GenericDataGridHeaderMenuEdit)).New<IViewData>(new GenericDataGridHeaderMenuEdit(Data));
             data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
             return data;
         }

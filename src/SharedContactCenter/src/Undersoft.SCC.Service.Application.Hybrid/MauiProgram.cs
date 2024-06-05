@@ -76,12 +76,12 @@ public static class MauiProgram
                         RemoteRepository<IAccountStore, Account>
                     >()
                     .AddScoped<
-                        IRemoteRepository<IDataStore, Contracts.Contact>,
-                        RemoteRepository<IDataStore, Contracts.Contact>
+                        IRemoteRepository<IDataStore, ViewModels.Contact>,
+                        RemoteRepository<IDataStore, ViewModels.Contact>
                     >()
                     .AddScoped<
-                        IRemoteRepository<IDataStore, Group>,
-                        RemoteRepository<IDataStore, Group>
+                        IRemoteRepository<IDataStore, ViewModels.Group>,
+                        RemoteRepository<IDataStore, ViewModels.Group>
                     >()
                     .AddScoped<
                         IRemoteRepository<IDataStore, Contracts.Country>,
@@ -103,8 +103,8 @@ public static class MauiProgram
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
-                    .AddScoped<IValidator<IViewData<Contracts.Contact>>, ContactValidator>()
-                    .AddScoped<IValidator<IViewData<Group>>, GroupValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
                     .AddScoped<IValidator<IViewData<Contracts.Country>>, CountryValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()

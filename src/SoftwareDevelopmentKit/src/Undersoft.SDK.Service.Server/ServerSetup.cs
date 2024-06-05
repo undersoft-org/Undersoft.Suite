@@ -101,8 +101,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             options.IgnoreReadOnlyProperties = true;
             options.IgnoreReadOnlyProperties = true;
             options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, true));
-            options.AllowTrailingCommas = true;
-            options.Converters.Add(new BinaryJsonConverter());
+            //options.Converters.Add(new BinaryJsonConverter());
         });
         return this;
     }

@@ -34,17 +34,20 @@ public partial class GenericPersona<TModel> : ViewItem<TModel> where TModel : cl
 
     protected override void OnInitialized()
     {
-        if (ForFirstName != null)
-            Name += ForFirstName(Content.Model);
-        if (ForLastName != null)
+        if (Name == null)
         {
-            var last = ForLastName(Content.Model);
-            if (last != null)
+            if (ForFirstName != null)
+                Name += ForFirstName(Content.Model);
+            if (ForLastName != null)
             {
-                if (Name != null)
-                    Name += " " + last;
-                else
-                    Name = last;
+                var last = ForLastName(Content.Model);
+                if (last != null)
+                {
+                    if (Name != null)
+                        Name += " " + last;
+                    else
+                        Name = last;
+                }
             }
         }
 

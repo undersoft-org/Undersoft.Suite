@@ -8,6 +8,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         int progressPercent;
         string? progressTitle;
 
+        public string? Image { get; set; }
+
+        private string? _backgroudImage => Image != null ? $"background-image:{Image}" : null;
+
         [Parameter]
         public string DisplayName { get; set; } = default!;
 
@@ -33,10 +37,14 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             Model.Proxy[Rubric.RubricId] = fileInfo;
             Files.Add(file.Name);
 
+            var bytes = await file.Stream!.GetAllBytesAsync();
+
             if (Rubric.DataMember != null)
-                Model.Proxy[Rubric.DataMember] = await file.Stream!.GetAllBytesAsync();
+                Model.Proxy[Rubric.DataMember] = bytes;
             else if (Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data"))
-                Model.Proxy[Rubric.RubricName + "Data"] = await file.Stream!.GetAllBytesAsync();
+                Model.Proxy[Rubric.RubricName + "Data"] = bytes;
+
+            Image = GetDataUri(fileInfo, bytes);
 
             await file.Stream!.DisposeAsync();
         }
@@ -45,6 +53,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         {
             progressPercent = FileByStream!.ProgressPercent;
             progressTitle = FileByStream!.ProgressTitle;
+        }
+
+        private string? GetDataUri(string fileInfo, byte[] imageData)
+        {
+            var image = fileInfo;
+            if (image != null && imageData != null)
+            {
+                return ((byte[])imageData).ToDataUri(image.Split(";")[0]);
+            }
+            return null;
         }
     }
 }

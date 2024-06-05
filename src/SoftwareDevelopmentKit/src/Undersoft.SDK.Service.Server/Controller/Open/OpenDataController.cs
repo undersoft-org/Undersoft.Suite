@@ -68,17 +68,17 @@ public abstract class OpenDataController<TKey, TStore, TEntity, TDto, TService>
         );
     }
 
-    //public virtual async Task<IActionResult> Post(TDto dto)
-    //{
-    //    if (!ModelState.IsValid)
-    //        return BadRequest(ModelState);
+    public virtual async Task<IActionResult> Post(TDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-    //    var result = await _servicer.Send(new Create<TStore, TEntity, TDto>(_publishMode, dto));
+        var result = await _servicer.Send(new Create<TStore, TEntity, TDto>(_publishMode, dto));
 
-    //    return !result.IsValid
-    //        ? BadRequest(result.ErrorMessages)
-    //        : Created(result.Contract);
-    //}
+        return !result.IsValid
+            ? BadRequest(result.ErrorMessages)
+            : Created(result.Contract);
+    }
 
     public virtual async Task<IActionResult> Patch([FromRoute] TKey key, [FromBody] TDto dto)
     {

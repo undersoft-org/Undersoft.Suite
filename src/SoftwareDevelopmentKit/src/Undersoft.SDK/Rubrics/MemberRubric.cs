@@ -276,7 +276,7 @@
 
         public bool Visible { get; set; }
 
-        public string CodeNo { get => code.ToString(); set => code.FromTetrahex(value.ToCharArray()); }
+        public string CodeNo { get => code.CodeNo; set => code.CodeNo = value; }
 
         public DateTime Created { get; set; }
 

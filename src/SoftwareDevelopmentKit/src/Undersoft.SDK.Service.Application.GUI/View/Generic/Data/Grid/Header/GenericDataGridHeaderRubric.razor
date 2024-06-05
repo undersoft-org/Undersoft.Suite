@@ -1,0 +1,88 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+
+<div id="@(Rubric.Id.ToString()+"-rubric")" class="datagrid-rubric-header">
+
+    <FluentDataGridCell TGridItem="string"
+                        GridColumn=@_ordinal
+                        CellType="DataGridCellType.ColumnHeader"
+                        Class="@("rubric-header " + @RubricHeaderClass(Rubric) + (Resizable ? " resizable" : ""))"
+                        Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@Rubric" scope="col">
+
+        @if (ChildContent == null)
+        {
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="0">
+
+                @if (Rubric.Filterable)
+                {
+                    <div id="@($"{Rubric.Id.ToString()}-filter")" class="rubric-header-filter">
+
+                        @if (Rubric.Filtered)
+                        {
+                            <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" OnClick="@OnFilterDismiss" />
+                        }
+                        else
+                        {
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" OnClick="@OnFilterDefine" />
+                        }
+
+                    </div>
+                }
+
+                @if (Rubric.Sortable)
+                {
+                    <div id="@($"{Rubric.Id.ToString()}-sorter")" class="rubric-header-sorter" role="button" @onclick="@OnClickSort">
+
+                        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="0">
+
+                            <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                                @Rubric.DisplayName
+                            </FluentLabel>
+
+                            @if (Rubric.Sorted)
+                            {
+                                @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
+                                {
+                                    <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" />
+                                }
+                                else
+                                {
+                                    <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" />
+                                }
+                            }
+
+                        </FluentStack>
+                    </div>
+                }
+                else
+                {
+                    <div id="@($"{Rubric.Id.ToString()}-label")" class="rubric-header-Label">
+
+                        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                            @Rubric.DisplayName
+                        </FluentLabel>
+                    </div>
+                }
+
+            </FluentStack>
+
+            @if (Resizable)
+            {
+                <FluentDivider class="col-width-draghandle" Orientation="Orientation.Vertical" Role="DividerRole.Separator" />
+            }
+        }
+        else
+        {
+            @ChildContent
+        }
+
+    </FluentDataGridCell>
+</div>
+
+
+

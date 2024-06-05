@@ -57,13 +57,15 @@ namespace Undersoft.SDK
             if (entity == null)
             {
                 AutoId();
-                Time = Log.Clock;
+                if (!HaveTime())
+                    Time = Log.Clock;
                 Stamp<TEntity>();
                 Created = Time;
                 return default;
             }
             entity.AutoId();
-            entity.Time = Log.Clock;
+            if (!HaveTime())
+                entity.Time = Log.Clock;
             Stamp(entity);
             entity.Created = entity.Time;
             return entity;

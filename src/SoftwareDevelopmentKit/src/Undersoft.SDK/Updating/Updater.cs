@@ -160,7 +160,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.IsIdentity && !r.RubricName.Equals("proxy"))
             .ForEach(
                 (rubric) =>
                 {
@@ -185,7 +185,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.IsIdentity && !r.RubricName.Equals("proxy"))
             .ForEach(
                 (originRubric) =>
                 {
@@ -223,7 +223,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.RubricName.Equals("proxy"))
             .ForEach(
                 (rubric) =>
                 {
@@ -248,7 +248,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-           .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+           .Where(r => !r.RubricName.Equals("proxy"))
             .ForEach(
                 (originRubric) =>
                 {

@@ -172,7 +172,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
         Rubrics.Put(rubrics);
     }
 
-    public string ViewId => Id.ToString();
+    public string ViewId => Model.CodeNo;
 
     public virtual int Index
     {

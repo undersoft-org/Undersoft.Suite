@@ -6,9 +6,26 @@
 @inherits ViewItem
 
 <div style="width:@Width">
-    @if (_isFile)
+
+    @if (_isImage)
     {
-        <img src="@_dataUri" />
+        if (_isPersona)
+        {
+            if (_dataUri != null)
+            {
+                <FluentPersona Image="@_dataUri" ImageSize="@Rubric.ImageWidth" />
+            }
+            else
+            {
+                <FluentPersona Image="@(new Icons.Regular.Size20.Person().ToDataUri(size: "20px", color: "white"))" ImageSize="@Rubric.ImageWidth" />
+            }
+        }
+        else
+        {
+            <img src="@_dataUri
+            " style="width:@Rubric.ImageWidth; height:@Rubric.ImageHeight
+            "/>
+        }
     }
     else if (_isBit)
     {
@@ -20,5 +37,6 @@
             @TextValue
         </FluentLabel>
     }
+
 </div>
 

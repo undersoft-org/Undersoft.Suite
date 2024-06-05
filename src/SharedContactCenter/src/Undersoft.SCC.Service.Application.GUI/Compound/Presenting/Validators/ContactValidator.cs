@@ -1,4 +1,4 @@
-﻿using Undersoft.SCC.Service.Contracts;
+﻿using Undersoft.SCC.Service.Application.ViewModels;
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Application.GUI.View;

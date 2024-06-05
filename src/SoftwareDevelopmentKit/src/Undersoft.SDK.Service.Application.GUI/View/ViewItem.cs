@@ -34,12 +34,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
     public class ViewItem : ComponentBase, IOrigin, IViewItem
     {
-        protected long? typeId;
+        protected long typeId;
 
         protected IOrigin origin = new Origin();
 
+        protected Uscn code;
+
         protected override void OnInitialized()
         {
+            code.SetId(Unique.NewId);
+            IsNew = true;
             if (Parent != null)
                 Parent.Children.Put(this);
             base.OnInitialized();
@@ -55,17 +59,41 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public virtual long Id
         {
-            get => origin.Id;
-            set => origin.Id = value;
+            get => code.Id;
+            set
+            {
+                if (value != 0 && !code.Equals(value) && IsNew)
+                {
+                    code.SetId(value);
+                    IsNew = false;
+                }
+            }
         }
 
         public virtual long TypeId
         {
-            get => typeId ??= this.GetType().UniqueKey32();
-            set => typeId = value;
+            get
+            {
+                if (code.TypeId == 0)
+                {
+                    var t = this.GetType();
+                    TypeName = t.FullName!;
+                    code.TypeId = TypeName.UniqueKey32();
+                }
+                return code.TypeId;
+            }
+            set
+            {
+                if (value != 0 && value != code.TypeId)
+                {
+                    code.TypeId = value;
+                }
+            }
         }
 
-        public virtual string ViewId => Id.ToString();
+        public bool IsNew { get; set; }
+
+        public virtual string ViewId => CodeNo;
 
         [Parameter]
         public virtual object? Value
@@ -152,8 +180,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public string CodeNo
         {
-            get => origin.CodeNo;
-            set => origin.CodeNo = value;
+            get => code;
+            set
+            {
+                if (value != null)
+                    code.FromTetrahex(value.ToCharArray());
+            }
         }
 
         public DateTime Created
@@ -193,11 +225,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             set => origin.Index = value;
         }
 
-        public string TypeName
-        {
-            get => origin.TypeName;
-            set => origin.TypeName = value;
-        }
+        public string TypeName { get; set; } = default!;
+
 
         public DateTime Time
         {

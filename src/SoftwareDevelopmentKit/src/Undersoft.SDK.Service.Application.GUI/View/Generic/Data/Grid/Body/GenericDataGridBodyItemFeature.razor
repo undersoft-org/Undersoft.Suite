@@ -1,0 +1,17 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits ViewItem
+
+<FluentDataGridCell GridColumn=@Ordinal Class="@Class" Style="@Style" TGridItem="string" @key="@ViewId">
+
+    @ChildContent
+
+</FluentDataGridCell>
+
+
+
+

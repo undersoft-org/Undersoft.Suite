@@ -2,6 +2,8 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
@@ -12,6 +14,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         ISeries<string> Errors { get; set; }
 
         IViewItem ViewItem { get; set; }
+
+        ISeries<Filter> Filters { get; set; }
+
+        string ViewId { get; }
 
         Icon? Icon { get; set; }
 
@@ -24,6 +30,24 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         bool IsMenuItem { get; set; }
 
         bool IsMenuGroup { get; set; }
+
+        string? Width { get; set; }
+
+        string? Height { get; set; }
+
+        string? ImageWidth { get; set; }
+
+        string? ImageHeight { get; set; }
+
+        string? Z { get; set; }
+
+        bool IsImage { get; }
+
+        ViewImageMode ImageMode { get; set; }
+
+        ViewGrid? Grid { get; set; }
+
+        ViewStack? Stack { get; set; }
 
         string? Class { get; set; }
 

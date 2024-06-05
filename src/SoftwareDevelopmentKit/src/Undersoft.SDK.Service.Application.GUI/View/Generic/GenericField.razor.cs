@@ -74,6 +74,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             _required = Rubric.Required;
             _inputMode = GetInputMode();
             _textFieldType = GetTexType();
+            if (Rubric.Width != null)
+                Width = Rubric.Width;
+            if (Rubric.Height != null)
+                Height = Rubric.Height;
+
             Id = Model.Id.UniqueKey(Rubric.Id);
             TypeId = Model.TypeId;
 
@@ -85,6 +90,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         [Parameter]
         public string Width { get; set; } = "179px";
+
+        [Parameter]
+        public string Height { get; set; } = "28px";
 
         [CascadingParameter]
         public override IViewData Data { get; set; } = default!;

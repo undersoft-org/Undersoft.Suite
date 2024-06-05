@@ -54,9 +54,6 @@ public class OpenDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuild
         var ets = odataBuilder.AddEntitySet(entitySetName, etc);
         ets.EntityType.HasKey(entityType.GetProperty("Id"));
 
-        //if (invocationsAdded.Add(entityType.FullName))
-        //    AddInvocations(entityType);
-
         SubEntitySet(entityType);
 
         return ets;

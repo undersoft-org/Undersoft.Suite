@@ -11,6 +11,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         protected override async Task OnInitializedAsync()
         {
+            Root = this;
             RubricOrdinalSeed = CalculateOrdinalSeed();
             GridTemplateColumns = CalculateTemplateColumns();
             await base.OnInitializedAsync();

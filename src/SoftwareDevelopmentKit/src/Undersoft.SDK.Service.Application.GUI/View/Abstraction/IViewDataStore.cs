@@ -36,6 +36,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         Pagination Pagination { get; set; }
 
+        IQueryParameters MapQuery(Func<IViewData, IViewRubrics>? fromRubrics = null, Func<IViewRubric, bool>? predicate = null);
+
         IViewData Attach(object model, bool patch = false);
 
         IViewData Attach(IViewData viewData, bool patch = false);
@@ -55,5 +57,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         Task UnloadAsync(IEnumerable<object> models);
 
         Task SaveAsync(bool changesets = false);
+
+        Task StageAsync(bool changesets = false);
     }
 }

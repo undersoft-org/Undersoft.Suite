@@ -1,4 +1,5 @@
-﻿@using System.ComponentModel.DataAnnotations
+﻿@using Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
+@using System.ComponentModel.DataAnnotations
 @using Undersoft.SDK.Rubrics
 @using Undersoft.SDK.Invoking
 @using Undersoft.SDK.Proxies
@@ -11,28 +12,28 @@
 
         @if (FeatureFlags.Expandable)
         {
-            <GenericDataGridFeatureRubric Ordinal="1" Parent="this" Style="padding-inline:13px">
+            <GenericDataGridHeaderFeature Ordinal="1" Parent="this" Style="padding-inline:13px">
                 <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
-            </GenericDataGridFeatureRubric>
+            </GenericDataGridHeaderFeature>
         }
 
         @if (FeatureFlags.Multiselect)
         {
-            <GenericDataGridFeatureRubric Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
+            <GenericDataGridHeaderFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
                 <div id="@($"{Model.Id.ToString()}-{DataStore.Pagination.PageIndex}-multiselect")">
-                    <FluentCheckbox @bind-Value="@Checked" CheckStateChanged="@OnCheckStateChanged" />
+                    <FluentCheckbox @bind-Value="@Checked" CheckStateChanged="@OnCheckStateChanged" ThreeState="true" />
                 </div>
-            </GenericDataGridFeatureRubric>
+            </GenericDataGridHeaderFeature>
         }
 
         @foreach (var rubric in DataStore.Rubrics)
         {
-            <GenericDataGridRubric Rubric="rubric" Parent="this" Style="padding-inline:13px" />
+            <GenericDataGridHeaderRubric Rubric="rubric" Parent="this" Style="padding-inline:13px" />
         }
 
         @if (FeatureFlags.Editable && EditMode != EditMode.None)
         {
-            <GenericDataGridFeatureRubric Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="padding-inline:13px">
+            <GenericDataGridHeaderFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="padding-inline:13px">
                 <div id="@($"{Model.Id.ToString()}-operation")" role="button">
                     <FluentIcon Value="@(new Icons.Regular.Size20.GroupList())" Color="Color.Accent" />
                 </div>
@@ -42,7 +43,7 @@
                                  Data="@(GetOperationData())"
                                  Anchored="true" />
                 </div>
-            </GenericDataGridFeatureRubric>
+            </GenericDataGridHeaderFeature>
         }
 
     </CascadingValue>

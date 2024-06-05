@@ -1,64 +1,148 @@
+using Microsoft.OData.ModelBuilder;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Undersoft.SCC.Domain.Entities.Enums;
-using Undersoft.SCC.Service.Contracts.Contacts;
+using Undersoft.SCC.Service.Application.ViewModels.Contacts;
 using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SCC.Service.Application.ViewModels
 {
-    [DataContract]
+    [Validator("ContactValidator")]
+    [ViewSize(width: "400px", height: "650px")]
     public class Contact : DataObject, IViewModel
     {
         private string? _name;
+        private string? _address;
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         [VisibleRubric]
-        public virtual string? Name { get => _name ??= $"{Personal?.FirstName} {Personal?.LastName}"; set => _name = value; }
+        [RubricSize(3)]
+        [DisplayRubric("Image")]
+        [ViewImage(ViewImageMode.Persona, "20px", "20px")]
+        [FileRubric(FileRubricType.Property, "PersonaImageData")]
+        public string? PersonalImage
+        {
+            get => Personal?.PersonalImage;
+            set => (Personal ??= new ContactPersonal()).PersonalImage = value!;
+        }
 
+        [JsonIgnore]
         [VisibleRubric]
-        public virtual string? Email { get => Personal?.Email; set => Personal!.Email = value!; }
+        [RubricSize(64)]
+        [Filterable]
+        [Sortable]
+        [DisplayRubric("Name")]
+        public virtual string? Name
+        {
+            get => _name ??= $"{Personal?.FirstName} {Personal?.LastName}";
+            set => _name = value;
+        }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         [VisibleRubric]
+        [Filterable]
+        [Sortable]
+        [RubricSize(64)]
         [DisplayRubric("Phone number")]
-        public virtual string? PhoneNumber { get => Personal?.PhoneNumber; set => Personal!.PhoneNumber = value!; }
+        public virtual string? PhoneNumber
+        {
+            get => Personal?.PhoneNumber;
+            set => (Personal ??= new ContactPersonal()).PhoneNumber = value!;
+        }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [VisibleRubric]
+        [Filterable]
+        [Sortable]
+        [RubricSize(64)]
+        [DisplayRubric("Email address")]
+        public virtual string? Email
+        {
+            get => Personal?.Email;
+            set => (Personal ??= new ContactPersonal()).Email = value!;
+        }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [Filterable]
+        [Sortable]
+        [VisibleRubric]
+        [RubricSize(128)]
+        [DisplayRubric("Contact address")]
+        public virtual string? ContactAddress
+        {
+            get
+            {
+                if (_address != null)
+                    return _address;
+                if (Address != null)
+                    return _address = string.Join(
+                        '/',
+                        (
+                            string.Join(
+                                ' ',
+                                Address.Country,
+                                Address.Postcode,
+                                Address.City,
+                                Address.Street,
+                                Address.Building
+                            ),
+                            Address.Apartment
+                        )
+                    );
+                Address = new ContactAddress();
+                return null;
+            }
+            set => _address = value;
+        }
 
         [VisibleRubric]
-        public virtual string? Notes { get; set; }
-
-        [VisibleRubric]
+        [Filterable]
+        [Sortable]
+        [RubricSize(16)]
+        [DisplayRubric("Contact type")]
         public virtual ContactType Type { get; set; }
 
-        [VisibleRubric]
-        [DisplayRubric("Image")]
-        [FileRubric(FileRubricType.Path, "PersonaImageData")]
-        public string? PersonalImage { get => (Personal ??= new ContactPersonal()).PersonalImage; set => (Personal ??= new ContactPersonal()).PersonalImage = value!; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public byte[]? PersonaImageData
+        {
+            get => Personal?.PersonalImageData;
+            set => (Personal ??= new ContactPersonal()).PersonalImageData = value!;
+        }
 
-        public byte[]? PersonaImageData { get => (Personal ??= new ContactPersonal()).PersonalImageData; set => (Personal ??= new ContactPersonal()).PersonalImageData = value!; }
+        public virtual string? Notes { get; set; }
 
-        [DataMember(Order = 16)]
         public long? PersonalId { get; set; }
 
-        [DataMember(Order = 17)]
+        [Extended]
+        [AutoExpand]
         public virtual ContactPersonal? Personal { get; set; } = default!;
 
-        [DataMember(Order = 18)]
         public long? AddressId { get; set; }
 
-        [DataMember(Order = 19)]
+        [Extended]
+        [AutoExpand]
         public virtual ContactAddress? Address { get; set; } = default!;
 
-        [DataMember(Order = 20)]
         public long? ProfessionalId { get; set; }
 
-        [DataMember(Order = 21)]
+        [Extended]
+        [AutoExpand]
         public virtual ContactProfessional? Professional { get; set; } = default!;
 
-        [DataMember(Order = 22)]
         public long? OrganizationId { get; set; }
 
-        [DataMember(Order = 23)]
+        [Extended]
+        [AutoExpand]
         public virtual ContactOrganization? Organization { get; set; } = default!;
 
-        [DataMember(Order = 24)]
+        [AutoExpand]
         public virtual Listing<Group>? Groups { get; set; } = default!;
     }
-
 }

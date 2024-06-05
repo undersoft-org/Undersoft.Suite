@@ -19,7 +19,7 @@ namespace System.Text.Json
             _jsonOptions.IgnoreReadOnlyProperties = true;
             _jsonOptions.IgnoreReadOnlyProperties = true;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, true));
-            _jsonOptions.Converters.Add(new BinaryJsonConverter());
+            //_jsonOptions.Converters.Add(new BinaryJsonConverter());
 
 
 #if NET6_0

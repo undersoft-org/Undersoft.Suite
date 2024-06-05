@@ -63,7 +63,7 @@ public abstract class OpenCqrsController<TKey, TEntry, TReport, TEntity, TDto, T
        );
     }
 
-    public virtual async Task<IActionResult> Post([FromBody] TDto dto)
+    public override async Task<IActionResult> Post([FromBody] TDto dto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -74,24 +74,6 @@ public abstract class OpenCqrsController<TKey, TEntry, TReport, TEntity, TDto, T
             ? BadRequest(result.ErrorMessages)
             : Created(result.Contract);
     }
-
-    //[HttpPost]
-    //public virtual async Task<IActionResult> Post([FromBody] TDto[] dto)
-    //{
-    //    var request = Encoding.UTF8.GetString(await HttpContext.Request.Body.GetAllBytesAsync());
-
-    //    if (!ModelState.IsValid)
-    //        return BadRequest(ModelState);
-    //    var result = await _servicer.Send(
-    //        new CreateSet<TEntry, TEntity, TDto>(_publishMode, dto)
-    //    );
-
-    //    object[] response = result
-    //       .ForEach(c => c.IsValid ? c.Id as object : c.ErrorMessages)
-    //       .ToArray();
-
-    //    return result.Any(c => !c.IsValid) ? UnprocessableEntity(response) : Ok(response);
-    //}
 
     public override async Task<IActionResult> Patch([FromRoute] TKey key, [FromBody] TDto dto)
     {

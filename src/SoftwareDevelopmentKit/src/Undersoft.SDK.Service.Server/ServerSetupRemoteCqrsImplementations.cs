@@ -50,8 +50,8 @@ public partial class ServerSetup
         {
             var genericTypes = controllerType.BaseType.GenericTypeArguments;
             var store_t = genericTypes[1];
-            var model_t = genericTypes[2];
-            var dto_t = genericTypes[3];
+            var model_t = genericTypes[3];
+            var dto_t = genericTypes[2];
 
             service.AddTransient(
                 typeof(IRequest<>).MakeGenericType(

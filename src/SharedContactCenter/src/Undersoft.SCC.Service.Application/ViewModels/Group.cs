@@ -1,19 +1,27 @@
-﻿using System.Runtime.Serialization;
-using Undersoft.SDK.Rubrics.Attributes;
+﻿using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SCC.Service.Application.ViewModels
 {
-    [DataContract]
+    [Validator("GroupValidator")]
+    [ViewSize(width: "400px", height: "350px")]
     public partial class Group : DataObject, IViewModel
     {
         [VisibleRubric]
-        public string? Name { get; set; }
+        [RubricSize(3)]
+        [DisplayRubric("Image")]
+        [ViewImage(ViewImageMode.Regular, "30px", "20px")]
+        [FileRubric(FileRubricType.Property, "GroupImageData")]
+        public string? GroupImage { get; set; } = default!;
 
         [VisibleRubric]
-        [DisplayRubric("Group image")]
-        [FileRubric(FileRubricType.Path, "GroupImageData")]
-        public string GroupImage { get; set; } = default!;
+        [RubricSize(256)]
+        [Filterable]
+        [Sortable]
+        [DisplayRubric("Group name")]
+        public string? Name { get; set; }
 
-        public byte[] GroupImageData { get; set; } = default!;
+        public byte[]? GroupImageData { get; set; } = default!;
     }
 }

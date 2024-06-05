@@ -23,6 +23,10 @@ namespace Undersoft.SDK.Service.Data.Query
 
         public int Count { get; set; }
 
+        public Listing<Filter> Filters { get; set; }
+
+        public Listing<Sort> Sorters { get; set; }
+
         public Listing<FilterItem> FilterItems { get; set; }
 
         public Listing<SortItem> SortItems { get; set; }

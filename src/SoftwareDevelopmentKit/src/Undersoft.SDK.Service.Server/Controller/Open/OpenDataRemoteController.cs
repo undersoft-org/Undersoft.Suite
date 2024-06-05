@@ -84,22 +84,6 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
         return !result.IsValid ? BadRequest(result.ErrorMessages) : Created(result.Result);
     }
 
-    //public virtual async Task<IActionResult> Post([FromBody] TModel[] dto)
-    //{
-    //    if (!ModelState.IsValid)
-    //        return BadRequest(ModelState);
-
-    //    var result = await _servicer.Send(
-    //        new RemoteCreateSet<TStore, TDto, TModel>(_publishMode, dto)
-    //    );
-
-    //    object[] response = result
-    //       .ForEach(c => c.IsValid ? c.Id as object : c.ErrorMessages)
-    //       .ToArray();
-
-    //    return result.Any(c => !c.IsValid) ? UnprocessableEntity(response) : Ok(response);
-    //}
-
     public virtual async Task<IActionResult> Patch([FromRoute] TKey key, [FromBody] TModel dto)
     {
         if (!ModelState.IsValid)

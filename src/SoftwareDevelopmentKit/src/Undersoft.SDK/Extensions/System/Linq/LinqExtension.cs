@@ -317,6 +317,41 @@ namespace System.Linq
             return Expression.Lambda<Func<TItem1, bool>>(body, p);
         }
 
+        public class Filter
+        {
+            public string Property { get; set; }
+
+            public string Value { get; set; }
+        }
+
+        public static Expression GetFilterExpression(IEnumerable<Filter> filters, Type modelType)
+        {
+            var parameter = Expression.Parameter(modelType, "model");
+            Expression filterExpression = null;
+            foreach (var filter in filters)
+            {
+                var property = Expression.Property(parameter, filter.Property);
+                var constant = Expression.Constant(filter.Value);
+                Expression comparison;
+
+                if (property.Type == typeof(string))
+                {
+                    comparison = Expression.Call(property, "Contains", Type.EmptyTypes, constant);
+                }
+                else
+                {
+                    //Convert values based on property type
+                    constant = Expression.Constant(Convert.ToInt32(filter.Value));
+                    comparison = Expression.Equal(property, constant);
+                }
+
+                filterExpression = filterExpression == null
+                    ? comparison
+                    : Expression.And(filterExpression, comparison);
+            }
+            return filterExpression;
+        }
+
         public static string GetMemberName(this LambdaExpression memberSelector)
         {
             Func<Expression, string> nameSelector = null; //recursive func

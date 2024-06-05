@@ -13,7 +13,7 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Rest
             long,
             IDataStore,
             Contracts.Contact,
-            Contracts.Contact,
+            ViewModels.Contact,
             ServiceManager
         >
     {

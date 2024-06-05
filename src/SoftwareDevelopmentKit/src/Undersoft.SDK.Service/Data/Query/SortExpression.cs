@@ -30,6 +30,12 @@ public class SortExpression<TEntity>
     {
         sortItems.ForEach(fi => Add(fi));
     }
+
+    public SortExpression(IEnumerable<Sort> sortItems) : this()
+    {
+        sortItems.ForEach(fi => Add(new Sort<TEntity>(fi))).Commit();
+    }
+
     public SortExpression(IEnumerable<SortItem> sortItems) : this()
     {
         sortItems.ForEach(fi => Add(new Sort<TEntity>(fi))).ToList();
@@ -48,24 +54,24 @@ public class SortExpression<TEntity>
                 sortItems.ForEach(fi => Add(fi));
 
             bool first = true;
-            IOrderedEnumerable<TEntity> orderedQuery = null;
+            IOrderedQueryable<TEntity> orderedQuery = null;
             foreach (var sortItem in SortItems)
             {
                 if (sortItem.Direction.Equals(SortDirection.Ascending))
                 {
-                    orderedQuery = first ? query.OrderBy(sortItem.ExpressionItem.Compile()) : orderedQuery.ThenBy(sortItem.ExpressionItem.Compile());
+                    orderedQuery = first ? query.OrderBy(sortItem.ExpressionItem) : orderedQuery.ThenBy(sortItem.ExpressionItem);
                 }
                 else
                 {
                     orderedQuery = first
-                        ? query.OrderByDescending(sortItem.ExpressionItem.Compile())
-                        : orderedQuery.ThenByDescending(sortItem.ExpressionItem.Compile());
+                        ? query.OrderByDescending(sortItem.ExpressionItem)
+                        : orderedQuery.ThenByDescending(sortItem.ExpressionItem);
                 }
 
                 first = false;
             }
 
-            return orderedQuery.AsQueryable();
+            return orderedQuery;
         }
         else
         {

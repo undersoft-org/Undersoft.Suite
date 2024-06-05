@@ -1,5 +1,6 @@
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic
@@ -10,7 +11,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         private int _index;
         private int _size;
         private bool _isFile { get; set; }
+        private bool _isImage { get; set; }
         private bool _isBit { get; set; }
+        private bool _isPersona { get; set; }
 
         private bool _bitValue
         {
@@ -34,9 +37,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             _index = Rubric.RubricId;
             _size = Rubric.RubricSize;
             _isFile = Rubric.IsFile;
+            _isImage = Rubric.IsImage;
+            if (Rubric.ImageMode == ViewImageMode.Persona)
+                _isPersona = true;
             _isBit = Rubric.RubricType == typeof(bool);
             Id = Model.Id.UniqueKey(Rubric.Id);
             TypeId = Model.TypeId;
+            if (Rubric.Width != null)
+                Width = Rubric.Width;
+            if (Rubric.Height != null)
+                Height = Rubric.Height;
 
             base.OnInitialized();
         }
@@ -45,6 +55,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         [Parameter]
         public string Width { get; set; } = "179px";
+
+        [Parameter]
+        public string Height { get; set; } = "28px";
 
         [CascadingParameter]
         public override IViewData Data { get; set; } = default!;

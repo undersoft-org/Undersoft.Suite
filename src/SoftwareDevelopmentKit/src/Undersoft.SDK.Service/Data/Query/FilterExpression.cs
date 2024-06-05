@@ -35,6 +35,12 @@ public class FilterExpression<TEntity>
             filterItems.ForEach(fi => Add(fi)).ToArray();
     }
 
+    public FilterExpression(IEnumerable<Filter> filterItems) : this()
+    {
+        if (filterItems != null)
+            filterItems.ForEach(fi => Add(new Filter<TEntity>(fi))).ToArray();
+    }
+
     public FilterExpression(IEnumerable<FilterItem> filterItems) : this()
     {
         if (filterItems != null)

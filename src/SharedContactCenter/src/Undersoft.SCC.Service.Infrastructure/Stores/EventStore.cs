@@ -11,7 +11,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyMapping(new EventDbStoreMapping());
+            modelBuilder.ApplyMapping(new DbEventStoreMappings());
             base.OnModelCreating(modelBuilder);
         }
 

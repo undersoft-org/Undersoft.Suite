@@ -6,16 +6,21 @@
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy, IAuthorization
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
-<FluentHeader class="siteheader" Height="40">
+<FluentHeader class="siteheader" Height="40" Style="margin-left:-1.0rem">
     <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:40px">
-                        
+        @if (Logo != null)
+        {
+            <a href="" style="height:30px">
+                <FluentIcon Value="@Logo" Color="Color.FillInverse" Width="180px" />
+            </a>            
+        }
         <FluentSpacer />
-        
+
         <div class="top-bar-tools" style="height:30px">
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="15">
                 <div class="github" style="height:20px">
                     <FluentAnchor Appearance="Appearance.Hypertext" Href="https://github.com/undersoft-org/Undersoft.Suite" Target="_blank" Rel="noreferrer noopener" title="Undersoft source on GitHub" aria-label="SSC Repository">
-                        <div >
+                        <div>
                             <FluentIcon Value="@(new ViewGraphic.Logo.GitHub())" Width="18" Color="Color.FillInverse" />
                         </div>
                     </FluentAnchor>

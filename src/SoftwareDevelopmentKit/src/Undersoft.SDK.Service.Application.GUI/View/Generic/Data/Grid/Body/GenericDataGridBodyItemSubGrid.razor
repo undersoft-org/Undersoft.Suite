@@ -1,0 +1,36 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using FluentValidation
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK
+@using Undersoft.SDK.Invoking
+
+@inherits ViewStore
+
+<div id="@BindingId" class="datasubgrid">
+    <CascadingValue Value="@DataStore">
+        <CascadingValue Value="@EditMode">
+            <CascadingValue Value="@EntryMode">
+            <CascadingValue Value="@FeatureFlags">
+                <CascadingValue Value="@StateFlags">
+                        <CascadingValue Value="@RubricOrdinalSeed">
+                            <CascadingValue Value="@GridTemplateColumns">
+                                <FluentDataGrid GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid" @ref="Reference">
+
+                                    <GenericDataGridHeader Parent="this" Resizable="Resizable" />
+
+                                    <GenericDataGridBody Parent="this" />
+
+                                </FluentDataGrid>
+
+                                <GenericDataGridFooter Parent="this" />
+                            </CascadingValue>
+                        </CascadingValue>
+                    </CascadingValue>
+                </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
+        </CascadingValue>
+</div>
+
+

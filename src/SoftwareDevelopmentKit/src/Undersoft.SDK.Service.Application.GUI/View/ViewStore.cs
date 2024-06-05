@@ -47,6 +47,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         [Parameter]
         public virtual IDialogService DialogService { get; set; } = default!;
 
+
         public virtual IEnumerable<IViewData> Items => DataStore.Items;
 
         [Parameter]

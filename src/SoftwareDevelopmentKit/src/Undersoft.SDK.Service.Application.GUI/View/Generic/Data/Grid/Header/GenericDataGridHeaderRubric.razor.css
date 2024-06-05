@@ -1,0 +1,10 @@
+﻿.rubric-header-sorter:hover {
+    opacity: 0.8;
+    background: var(--neutral-fill-stealth-hover);
+    width:100%;
+}
+
+.rubric-header-filter:hover {
+    opacity: 0.8;
+    background: var(--neutral-fill-stealth-hover);    
+}

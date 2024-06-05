@@ -163,5 +163,10 @@ namespace Undersoft.SDK
 
             return code.SetTypeId(type.FullName.UniqueKey32());
         }
+
+        public virtual bool HaveTime()
+        {
+            return code.GetDateLong() != 0;
+        }
     }
 }

@@ -3,4 +3,4 @@ using Undersoft.SDK.Service.Server;
 
 namespace Undersoft.SCC.Service.Infrastructure.Stores.Factories;
 
-public class ReportStoreFactory : DbStoreContextFactory<ReportStore, ServerSourceProviderConfiguration> { }
+public class ReportStoreFactory : DbStoreFactory<ReportStore, ServerSourceProviderConfiguration> { }
