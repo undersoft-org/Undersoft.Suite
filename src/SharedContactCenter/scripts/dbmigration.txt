@@ -1,0 +1,4 @@
+dotnet ef migrations add InitialCreate --context EntryStore --output-dir /Stores/Migrations/Entries
+dotnet ef migrations add InitialCreate --context ReportStore --output-dir /Stores/Migrations/Reports
+dotnet ef migrations add InitialCreate --context EventStore --output-dir /Stores/Migrations/Events
+dotnet ef migrations add InitialCreate --context AccountStore --output-dir /Stores/Migrations/Accounts

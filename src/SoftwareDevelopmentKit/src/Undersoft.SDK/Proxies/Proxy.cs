@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel;
+using System.Linq.Expressions;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Uniques;
 
@@ -78,12 +79,6 @@ public class Proxy : InnerProxy, IProxy
         set => proxy.Rubrics = value;
     }
 
-    //public IRubrics Changes
-    //{
-    //    get => proxy.Changes;
-    //    set => proxy.Changes = value;
-    //}
-
     public virtual object Target { get => proxy.Target; set => proxy.Target = value; }
 
     public Uscn Code
@@ -91,6 +86,8 @@ public class Proxy : InnerProxy, IProxy
         get => ((IInnerProxy)this).Proxy.Code;
         set => ((IInnerProxy)this).Proxy.Code = value;
     }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     protected override void CreateProxy(Func<InnerProxy, IProxy> compilationAction)
     {

@@ -4,6 +4,7 @@ namespace Undersoft.SDK.Service;
 
 using Invoking;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 using Undersoft.SDK.Service.Data.Repository.Client;
 using Undersoft.SDK.Service.Data.Repository.Source;
 
@@ -68,24 +69,33 @@ public class Servicer : ServiceManager, IServicer, IMediator
 
     public Task<R> Run<T, R>(string methodname, params object[] parameters) where T : class where R : class
     {
-        Invoker deputy = new Invoker(
-            base.GetService<T>(),
-            methodname,
-            parameters.ForEach(p => p.GetType()).Commit()
-        );
-        return deputy.InvokeAsync<R>(parameters);
+        return Task.Run(() =>
+        {
+            Invoker deputy = new Invoker(
+                base.GetService<T>(),
+                methodname,
+                parameters.ForEach(p => p.GetType()).Commit()
+            );
+            return deputy.InvokeAsync<R>(parameters);
+        });
     }
 
     public Task<object> Run<T>(Arguments arguments) where T : class
     {
-        Invoker deputy = new Invoker<T>(base.GetService<T>(), arguments);
-        return deputy.InvokeAsync(arguments);
+        return Task.Run(() =>
+        {
+            Invoker deputy = new Invoker<T>(base.GetService<T>(), arguments);
+            return deputy.InvokeAsync(arguments);
+        });
     }
 
     public Task<R> Run<T, R>(Arguments arguments) where T : class where R : class
     {
-        Invoker deputy = new Invoker<T>(base.GetService<T>(), arguments);
-        return deputy.InvokeAsync<R>(arguments);
+        return Task.Run(() =>
+        {
+            Invoker deputy = new Invoker<T>(base.GetService<T>(), arguments);
+            return deputy.InvokeAsync<R>(arguments);
+        });
     }
 
     public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)

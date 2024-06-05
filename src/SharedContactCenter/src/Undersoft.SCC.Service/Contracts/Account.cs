@@ -19,7 +19,7 @@ public class Account : Authorization, IContract
 
     public Account() { }
 
-    public Account(string email) { Id = email.UniqueKey64(); }
+    public Account(string email) { if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException("email to account must be provided"); Id = email.UniqueKey64(); Email = email; }
 
     [JsonIgnore]
     [VisibleRubric]

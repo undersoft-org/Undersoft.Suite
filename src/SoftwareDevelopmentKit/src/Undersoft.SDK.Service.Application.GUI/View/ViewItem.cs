@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.FluentUI.AspNetCore.Components;
-using System.ComponentModel;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.Models;
@@ -227,17 +226,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public string TypeName { get; set; } = default!;
 
-
         public DateTime Time
         {
             get => origin.Time;
             set => origin.Time = value;
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged
-        {
-            add { origin.PropertyChanged += value; }
-            remove { origin.PropertyChanged -= value; }
         }
 
         public long AutoId()

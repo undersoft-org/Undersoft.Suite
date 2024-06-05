@@ -21,10 +21,6 @@ public interface IProxy : IInstant
     [IgnoreDataMember]
     IRubrics Rubrics { get; set; }
 
-    //[JsonIgnore]
-    //[IgnoreDataMember]
-    //IRubrics Changes { get; set; }
-
     [JsonIgnore]
     [IgnoreDataMember]
     object Target { get; set; }

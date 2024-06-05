@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Undersoft.SDK.Uniques;
+﻿using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK
 {
@@ -7,7 +6,7 @@ namespace Undersoft.SDK
     {
     }
 
-    public interface IOrigin : IIdentifiable, INotifyPropertyChanged
+    public interface IOrigin : IIdentifiable
     {
         string CodeNo { get; set; }
         DateTime Created { get; set; }
