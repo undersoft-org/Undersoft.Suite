@@ -55,7 +55,7 @@ public class FilterExpression<TEntity>
     public Expression<Func<TEntity, bool>> Create(IEnumerable<Filter<TEntity>> filterItems)
     {
         Expression<Func<TEntity, bool>> exps = null;
-        //filterItems.ForEach(fi => Add(fi));
+
         filterExpression = null;
         LogicOperand logic = LogicOperand.And;
         foreach (Filter<TEntity> ft in FilterItems)

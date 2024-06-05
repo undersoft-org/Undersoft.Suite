@@ -6,64 +6,63 @@
 
 @inherits ViewItem
 
-<div id="@(Rubric.Id.ToString()+"-rubric")" class="datagrid-rubric-header">
+
 
     <FluentDataGridCell TGridItem="string"
                         GridColumn=@_ordinal
                         CellType="DataGridCellType.ColumnHeader"
                         Class="@("rubric-header " + @RubricHeaderClass(Rubric) + (Resizable ? " resizable" : ""))"
-                        Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@Rubric" scope="col">
+                        Style="@Style" aria-sort="@AriaSortValue(Rubric)" @key="@ViewId" scope="col">
 
         @if (ChildContent == null)
         {
-            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="0">
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="5" VerticalGap="0">
 
                 @if (Rubric.Filterable)
                 {
-                    <div id="@($"{Rubric.Id.ToString()}-filter")" class="rubric-header-filter">
-
+                    <div id="@($"{Rubric.Id.ToString()}-filter")" class="rubric-header-filter" style="width:25px" role="button" @onclick="@OnClickSort">
                         @if (Rubric.Filtered)
                         {
-                            <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" OnClick="@OnFilterDismiss" />
+                            <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" Width="20px" OnClick="@OnFilterDismiss" />
                         }
                         else
                         {
-                            <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" OnClick="@OnFilterDefine" />
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Filter())" Width="20px" OnClick="@OnFilterDefine" />
                         }
-
                     </div>
                 }
 
                 @if (Rubric.Sortable)
                 {
-                    <div id="@($"{Rubric.Id.ToString()}-sorter")" class="rubric-header-sorter" role="button" @onclick="@OnClickSort">
+                    <div id="@($"{Rubric.Id.ToString()}-sorter")" class="rubric-header-sorter" style="width:calc(100% - 60px)" role="button" @onclick="@OnClickSort">
 
-                        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="0">
-
-                            <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
-                                @Rubric.DisplayName
-                            </FluentLabel>
-
-                            @if (Rubric.Sorted)
-                            {
-                                @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
-                                {
-                                    <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" />
-                                }
-                                else
-                                {
-                                    <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" />
-                                }
-                            }
-
-                        </FluentStack>
+                        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
+                            @Rubric.DisplayName
+                        </FluentLabel>
                     </div>
+                    <FluentSpacer />
+
+                    <div id="@($"{Rubric.Id.ToString()}-sorter-icon")" class="rubric-header=sprter-icon" style="width:25px">
+
+                        @if (Rubric.Sorted)
+                        {
+                            @if (Rubric.SortBy == System.Linq.SortDirection.Ascending)
+                            {
+                                <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortDown())" Width="20px" />
+                            }
+                            else
+                            {
+                                <FluentIcon Value="@(new Icons.Regular.Size20.ArrowSortUp())" Width="20px" />
+                            }
+                        }
+                    </div>
+
                 }
                 else
                 {
-                    <div id="@($"{Rubric.Id.ToString()}-label")" class="rubric-header-Label">
+                    <div id="@($"{Rubric.Id.ToString()}-label")" class="rubric-header-Label" style="width:100%">
 
-                        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse" Style="width:100%">
+                        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
                             @Rubric.DisplayName
                         </FluentLabel>
                     </div>
@@ -82,7 +81,6 @@
         }
 
     </FluentDataGridCell>
-</div>
 
 
 

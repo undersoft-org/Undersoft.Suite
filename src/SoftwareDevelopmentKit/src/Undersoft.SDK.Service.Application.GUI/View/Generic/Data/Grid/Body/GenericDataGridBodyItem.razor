@@ -8,7 +8,7 @@
 
 <CascadingValue Value="Data">
 
-    <div id="@($"{ViewId}-context-operations")" role="button"  @onclick="@OnItemClick">
+    <div id="@($"{ViewId}-context-operations")" class="datagrid-body-item" role="button" @onclick="@OnItemClick">
 
         <FluentDataGridRow @key="@ViewId" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="height:35px" TGridItem="string" @ref=Reference>
 
@@ -67,6 +67,8 @@
                     </div>
                 </GenericDataGridBodyItemFeature>
             }
+
+
         </FluentDataGridRow>
     </div>
 

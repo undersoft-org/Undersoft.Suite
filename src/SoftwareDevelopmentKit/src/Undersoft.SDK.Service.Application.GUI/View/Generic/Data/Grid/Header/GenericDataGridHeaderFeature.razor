@@ -10,9 +10,9 @@
                     GridColumn=@Ordinal
                     CellType="DataGridCellType.ColumnHeader"
                     Class="@("rubric-header rubric-header-feature")"
-                    Style="@Style" scope="col">
-                    
-        @ChildContent
+                    Style="@Style" @key="@ViewId" scope="col">
+
+    @ChildContent
         
 </FluentDataGridCell>
 

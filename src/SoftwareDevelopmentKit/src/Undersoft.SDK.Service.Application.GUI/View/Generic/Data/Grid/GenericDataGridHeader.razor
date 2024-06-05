@@ -28,7 +28,7 @@
 
         @foreach (var rubric in DataStore.Rubrics)
         {
-            <GenericDataGridHeaderRubric Rubric="rubric" Parent="this" Style="padding-inline:13px" />
+            <GenericDataGridHeaderRubric Rubric="rubric" Parent="this" Style="padding-inline:4px" />
         }
 
         @if (FeatureFlags.Editable && EditMode != EditMode.None)
