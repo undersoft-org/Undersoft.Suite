@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
 namespace Undersoft.SDK.Service.Data.Query
 {
@@ -8,11 +6,12 @@ namespace Undersoft.SDK.Service.Data.Query
     {
         public QueryParameters() { }
 
-        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sort> sorters)
-            : base(filters, sorters) { }
-
-        public QueryParameters(IEnumerable<FilterItem> filters, IEnumerable<SortItem> sorters)
-            : base(filters, sorters) { }
+        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters)
+            : base(filters, sorters)
+        {
+            Filter = GetFilter<T>();
+            Sort = GetSort<T>();
+        }
 
         public Expression<Func<T, object>>[] Expanders { get; set; }
 
@@ -33,16 +32,10 @@ namespace Undersoft.SDK.Service.Data.Query
     {
         public QueryParameters() { }
 
-        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sort> sorters)
+        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters)
         {
             if (filters != null)
-                Filters.Add(filters);
-            Sorters.Add(sorters);
-        }
-
-        public QueryParameters(IEnumerable<FilterItem> filters, IEnumerable<SortItem> sorters)
-        {
-            FilterItems.Add(filters);
+                FilterItems.Add(filters);
             SortItems.Add(sorters);
         }
 
@@ -52,53 +45,35 @@ namespace Undersoft.SDK.Service.Data.Query
 
         public virtual int Count { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public Listing<Filter> Filters { get; set; } = new();
+        public Listing<Filter> FilterItems { get; set; } = new();
 
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public Listing<Sort> Sorters { get; set; } = new();
-
-        public Listing<FilterItem> FilterItems { get; set; } = new();
-
-        public Listing<SortItem> SortItems { get; set; } = new();
+        public Listing<Sorter> SortItems { get; set; } = new();
 
         public Listing<string> ExpandItems { get; set; } = new();
 
-        public Listing<string> SelectItems { get; set; }
+        public Listing<string> SelectItems { get; set; } = new();
 
         public Expression<Func<T, bool>> GetFilter<T>()
         {
-            if (Filters.Any())
-                return new FilterExpression<T>(Filters).Create();
-            else if (FilterItems.Any())
-                return new FilterExpression<T>(FilterItems).Create();
-            return default;
+            return FilterItems.GetFilterExpression<T>();
         }
 
         public SortExpression<T> GetSort<T>()
         {
-            if (Sorters.Any())
-                return new SortExpression<T>(Sorters);
             return new SortExpression<T>(SortItems);
         }
 
         public Expression<Func<T, object>>[] GetExpanders<T>() where T : class, IInnerProxy
         {
             return ExpandItems
-                .ForEach(ei =>
-                {
-                    Expression<Func<T, object>> exp = a => a.Proxy[ei];
-                    return exp;
-                })
+                .ForEach(ei => ei.GetMemberExpression<T>())
                 .ToArray();
         }
 
         public Expression<Func<T, object>> GetSelector<T>() where T : class, IInnerProxy
         {
             Expression<Func<T, object>> exp = a =>
-                SelectItems.ForEach(item => a.Proxy[item]).ToArray();
+                SelectItems.ForEach(item => item.GetMemberExpression<T>()).ToArray();
             return exp;
         }
 

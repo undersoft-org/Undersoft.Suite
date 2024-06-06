@@ -1,5 +1,4 @@
 ﻿using Undersoft.SDK.Instant.Series;
-using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series.Base;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Data.Query;
@@ -22,10 +21,18 @@ public class ViewRubrics : ListingBase<ViewRubric>, IViewRubrics
         rubrics.ForEach(r =>
         {
             if (r.Sorted)
-                query.Sorters.Add(new Sort((MemberRubric)r, r.SortBy));
+            {
+                if (r.SortMembers == null)
+                    r.SortMembers = new[] { r.RubricName };
+                query.SortItems.Add(r.SortMembers.ForEach(m => new Sorter(m, r.SortBy)).Commit());
+            }
 
             if (r.Filtered)
-                query.Filters.Add(r.Filters);
+            {
+                if (r.FilterMembers == null)
+                    r.FilterMembers = new[] { r.RubricName };
+                query.FilterItems.Add(r.FilterMembers.SelectMany(m => r.Filters.ForEach(f => new Filter(m, f.Value, f.Operand, f.Link))));
+            }
         });
 
         return query;

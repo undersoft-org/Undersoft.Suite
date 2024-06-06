@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Query;
 using Undersoft.SDK.Service.Data.Repository.Pagination;
 
 namespace Undersoft.SDK.Service.Data.Repository
@@ -39,8 +38,8 @@ namespace Undersoft.SDK.Service.Data.Repository
         Task<IList<TResult>> Filter<TResult>(int skip, int take, Expression<Func<TEntity, TResult>> selector, params Expression<Func<TEntity, object>>[] expanders);
         Task<IQueryable<TDto>> FilterQueryAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         IQueryable<TDto> FilterQuery<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
-        IAsyncEnumerable<TDto> FilterAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders);
-        IAsyncEnumerable<TDto> FilterAsync<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders);
+        IAsyncEnumerable<TDto> FilterAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
+        IAsyncEnumerable<TDto> FilterAsync<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
 
         Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool reverse = false);
         Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate, bool reverse = false, params Expression<Func<TEntity, object>>[] expanders);

@@ -23,13 +23,9 @@ namespace Undersoft.SDK.Service.Data.Query
 
         public int Count { get; set; }
 
-        public Listing<Filter> Filters { get; set; }
+        public Listing<Filter> FilterItems { get; set; }
 
-        public Listing<Sort> Sorters { get; set; }
-
-        public Listing<FilterItem> FilterItems { get; set; }
-
-        public Listing<SortItem> SortItems { get; set; }
+        public Listing<Sorter> SortItems { get; set; }
 
         public Listing<string> ExpandItems { get; set; }
 
@@ -37,7 +33,10 @@ namespace Undersoft.SDK.Service.Data.Query
 
         public Expression<Func<T, bool>> GetFilter<T>();
 
-        public SortExpression<T> GetSort<T>();
+        public SortExpression<T> GetSort<T>()
+        {
+            return new SortExpression<T>(SortItems);
+        }
 
         public Expression<Func<T, object>>[] GetExpanders<T>() where T : class, IInnerProxy;
 

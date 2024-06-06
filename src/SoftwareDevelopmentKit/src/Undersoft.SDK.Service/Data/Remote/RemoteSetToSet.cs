@@ -36,7 +36,7 @@ public class RemoteSetToSet<TOrigin, TTarget> : RemoteRelation<TOrigin, TTarget>
         if (nodeRubric == null)
             return null;
 
-        return LinqExtension.GetWhereInExpression(
+        return LinqExtensions.GetWhereInExpression(
             TargetKey,
             ((IEnumerable<IRemoteLink<TOrigin, TTarget>>)proxy[nodeRubric.RubricId])?.Select(
                 _joinKey

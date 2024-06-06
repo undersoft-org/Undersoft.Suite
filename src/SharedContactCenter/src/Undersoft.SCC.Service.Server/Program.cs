@@ -18,7 +18,7 @@ public class Program
     static IServerHost? server;
 
     /// <summary>
-    /// TODO: Add Summary.
+    /// Application entry method
     /// </summary>
     /// <param name="args">The args.</param>
     public static void Main(string[] args)
@@ -27,7 +27,7 @@ public class Program
     }
 
     /// <summary>
-    /// TODO: Add Summary.
+    /// Launch serwer host
     /// </summary>
     public static void Launch()
     {

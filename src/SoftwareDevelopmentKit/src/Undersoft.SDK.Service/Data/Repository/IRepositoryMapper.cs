@@ -19,7 +19,7 @@
         IList<TDto> MapTo<TDto>(IEnumerable<TEntity> entity);
         TDto MapTo<TDto>(object entity);
         TDto MapTo<TDto>(TEntity entity) where TDto : class;
-        IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity);
+        IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity) where TDto : class;
 
         Task<IQueryable<TEntity>> QueryMapAsyncFrom<TDto>(IQueryable<TDto> model);
         Task<IQueryable<TDto>> QueryMapAsyncTo<TDto>(IQueryable<TEntity> entity) where TDto : class;

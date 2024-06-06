@@ -4,7 +4,6 @@ using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Data.Model.Attributes;
-using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Application.GUI.View;
 
@@ -44,7 +43,9 @@ public class ViewRubric : MemberRubric, IViewRubric
 
     public ViewStack? Stack { get; set; }
 
-    public bool Sorted => SortBy != System.Linq.SortDirection.None;
+    public string[]? SortMembers { get; set; }
+
+    public bool Sorted => SortBy != SDK.SortDirection.None;
 
     public bool Filtered => Filters.Any();
 
@@ -53,6 +54,10 @@ public class ViewRubric : MemberRubric, IViewRubric
     public bool IsMenuItem { get; set; }
 
     public bool IsMenuGroup { get; set; }
+
+    public Type? FilteredType { get; set; }
+
+    public string[]? FilterMembers { get; set; }
 
     public ISeries<Filter> Filters { get; set; } = new Listing<Filter>();
 

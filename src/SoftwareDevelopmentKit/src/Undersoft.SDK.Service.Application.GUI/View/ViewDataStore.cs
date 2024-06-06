@@ -76,7 +76,8 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
             rubrics = fromRubrics(this);
 
         var query = Rubrics.GetQuery(predicate);
-        Query = new QueryParameters<TModel>(query.Filters, query.Sorters);
+
+        Query = new QueryParameters<TModel>(query.FilterItems, query.SortItems);
 
         Query.Offset = Pagination.Offset;
         Query.Limit = Pagination.PageSize;
@@ -330,8 +331,8 @@ public class ViewDataStore<TStore, TModel> : ViewData<TModel>, IViewDataStore<TM
             _predicate != null
                 ? _repository[offset, pageSize, _repository[_predicate, _sort, _expanders]]
                 : _repository[offset, pageSize, _repository[_sort, _expanders]];
-        return (QueryOperationResponse<TModel>)(
 
+        return (QueryOperationResponse<TModel>)(
             await ((DataServiceQuery<TModel>)query).IncludeCount(includeCount).ExecuteAsync()
         );
     }

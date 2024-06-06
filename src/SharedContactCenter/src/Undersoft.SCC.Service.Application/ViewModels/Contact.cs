@@ -54,6 +54,7 @@ public class Contact : DataObject, IViewModel
     [RubricSize(64)]
     [Filterable]
     [Sortable]
+    [ViewQuery("Personal.FirstName", "Personal.LastName")]
     [DisplayRubric("Name")]
     public virtual string? Name
     {
@@ -71,6 +72,7 @@ public class Contact : DataObject, IViewModel
     [Filterable]
     [Sortable]
     [RubricSize(64)]
+    [ViewQuery("Personal.PhoneNumber")]
     [DisplayRubric("Phone number")]
     public virtual string? PhoneNumber
     {
@@ -88,6 +90,7 @@ public class Contact : DataObject, IViewModel
     [Filterable]
     [Sortable]
     [RubricSize(64)]
+    [ViewQuery("Personal.Email")]
     [DisplayRubric("Email address")]
     public virtual string? Email
     {
@@ -105,6 +108,14 @@ public class Contact : DataObject, IViewModel
     [Sortable]
     [VisibleRubric]
     [RubricSize(128)]
+    [ViewQuery(
+        "Address.Country",
+        "Address.Postcode",
+        "Address.City",
+        "Address.Street",
+        "Address.Country",
+        "Address.Country"
+    )]
     [DisplayRubric("Contact address")]
     public virtual string? ContactAddress
     {

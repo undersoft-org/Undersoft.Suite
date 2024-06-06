@@ -104,7 +104,7 @@ public abstract class InvocationValidatorBase<TInvocation> : AbstractValidator<T
     }
 
     protected void ValidateExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -125,7 +125,7 @@ public abstract class InvocationValidatorBase<TInvocation> : AbstractValidator<T
     }
 
     protected void ValidateNotExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -147,16 +147,16 @@ public abstract class InvocationValidatorBase<TInvocation> : AbstractValidator<T
 
     private Expression<Func<TEntity, bool>> buildPredicate<TEntity>(
         IInnerProxy dataInput,
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     ) where TEntity : IInnerProxy
     {
         Expression<Func<TEntity, bool>> predicate =
-            operand == LogicOperand.And ? predicate = e => true : predicate = e => false;
+            operand == LinkOperand.And ? predicate = e => true : predicate = e => false;
         foreach (var item in propertyNames)
         {
             predicate =
-                operand == LogicOperand.And
+                operand == LinkOperand.And
                     ? predicate.And(e => e.Proxy[item] == dataInput.Proxy[item])
                     : predicate.Or(e => e.Proxy[item] == dataInput.Proxy[item]);
         }

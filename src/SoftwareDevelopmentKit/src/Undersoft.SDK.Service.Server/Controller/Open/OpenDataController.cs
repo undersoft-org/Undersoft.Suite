@@ -51,7 +51,7 @@ public abstract class OpenDataController<TKey, TStore, TEntity, TDto, TService>
     [EnableQuery]
     public virtual IQueryable<TDto> Get()
     {
-        return _servicer.Send(new Get<TStore, TEntity, TDto>()).Result.Result;
+        return _servicer.Report(new Get<TStore, TEntity, TDto>()).Result.Result;
     }
 
     [EnableQuery]
@@ -59,7 +59,7 @@ public abstract class OpenDataController<TKey, TStore, TEntity, TDto, TService>
     {
         return new SingleResult<TDto>(
             _servicer
-                .Send(
+                .Report(
                     new Find<TStore, TEntity, TDto>(
                         new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                     )

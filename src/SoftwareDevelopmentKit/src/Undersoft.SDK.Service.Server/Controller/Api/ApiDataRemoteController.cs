@@ -59,7 +59,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
     {
         return Ok(
             (
-                await _servicer.Send(
+                await _servicer.Report(
                     new RemoteGet<TStore, TDto, TModel>((page - 1) * limit, limit)
                 )
             ).Result.Commit()
@@ -79,9 +79,9 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
             (
                 _keymatcher == null
                     ? await _servicer
-                        .Send(new RemoteFind<TStore, TDto, TModel>(key))
+                        .Report(new RemoteFind<TStore, TDto, TModel>(key))
                     : await _servicer
-                        .Send(
+                        .Report(
                             new RemoteFind<TStore, TDto, TModel>(
                                 new QueryParameters<TDto>() { Filter = _keymatcher(key) }
                             )
@@ -99,7 +99,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
             (fi) =>
                 fi.Value = JsonSerializer.Deserialize(
                     ((JsonElement)fi.Value).GetRawText(),
-                    entity.Rubrics[fi.Property].RubricType
+                    entity.Rubrics[fi.Member].RubricType
                 )
         );
 
@@ -112,7 +112,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
         return Ok(
             (
                 await _servicer
-                    .Send(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))
+                    .Report(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))
             ).Result.Commit()
         );
     }

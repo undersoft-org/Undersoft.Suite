@@ -83,7 +83,7 @@ public abstract class ApiEventRemoteController<TKey, TStore, TDto, TModel>
             (fi) =>
                 fi.Value = JsonSerializer.Deserialize(
                     ((JsonElement)fi.Value).GetRawText(),
-                    entity.Rubrics[fi.Property].RubricType)
+                    entity.Rubrics[fi.Member].RubricType)
         );
 
         var param = new QueryParameters<TDto>()

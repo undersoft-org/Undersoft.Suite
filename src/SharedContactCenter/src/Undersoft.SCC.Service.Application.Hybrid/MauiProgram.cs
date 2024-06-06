@@ -37,8 +37,7 @@ public static class MauiProgram
     /// <summary>
     /// There is not any async MAUI entry point type to run application. That's why client started
     /// in the same time with servers will throw exception ones or twice to logs 
-    /// http client cannot connect and get metadata. MAUI Hybrid performance on start and on runtime
-    /// is very high few times higher then react or angular ionic wrapped hybrids    
+    /// http client cannot connect and get metadata before servers starts and provide them
     /// Creates maui app.
     /// </summary>
     /// <returns>A <see cref="MauiApp"/></returns>

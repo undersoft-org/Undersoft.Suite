@@ -1,18 +1,10 @@
-﻿using System.Reflection;
-
-namespace System.Linq
+﻿namespace System.Linq
 {
     using Collections.Generic;
     using Expressions;
+    using Undersoft.SDK;
 
-    public enum SortDirection
-    {
-        None,
-        Ascending,
-        Descending
-    }
-
-    public static class LinqExtension
+    public static class LinqExtensions
     {
         public static Expression<Func<T, bool>> And<T>(
             this Expression<Func<T, bool>> _leftside,
@@ -315,101 +307,6 @@ namespace System.Linq
                 );
 
             return Expression.Lambda<Func<TItem1, bool>>(body, p);
-        }
-
-        public class Filter
-        {
-            public string Property { get; set; }
-
-            public string Value { get; set; }
-        }
-
-        public static Expression GetFilterExpression(IEnumerable<Filter> filters, Type modelType)
-        {
-            var parameter = Expression.Parameter(modelType, "model");
-            Expression filterExpression = null;
-            foreach (var filter in filters)
-            {
-                var property = Expression.Property(parameter, filter.Property);
-                var constant = Expression.Constant(filter.Value);
-                Expression comparison;
-
-                if (property.Type == typeof(string))
-                {
-                    comparison = Expression.Call(property, "Contains", Type.EmptyTypes, constant);
-                }
-                else
-                {
-                    //Convert values based on property type
-                    constant = Expression.Constant(Convert.ToInt32(filter.Value));
-                    comparison = Expression.Equal(property, constant);
-                }
-
-                filterExpression = filterExpression == null
-                    ? comparison
-                    : Expression.And(filterExpression, comparison);
-            }
-            return filterExpression;
-        }
-
-        public static string GetMemberName(this LambdaExpression memberSelector)
-        {
-            Func<Expression, string> nameSelector = null; //recursive func
-            nameSelector = e => //or move the entire thing to a separate recursive method
-            {
-                switch (e.NodeType)
-                {
-                    case ExpressionType.Parameter:
-                        return ((ParameterExpression)e).Name;
-                    case ExpressionType.MemberAccess:
-                        return ((MemberExpression)e).Member.Name;
-                    case ExpressionType.Call:
-                        return ((MethodCallExpression)e).Method.Name;
-                    case ExpressionType.Convert:
-                    case ExpressionType.ConvertChecked:
-                        return nameSelector(((UnaryExpression)e).Operand);
-                    case ExpressionType.Invoke:
-                        return nameSelector(((InvocationExpression)e).Expression);
-                    case ExpressionType.ArrayLength:
-                        return "Length";
-                    default:
-                        throw new Exception("not a proper member selector");
-                }
-            };
-
-            return nameSelector(memberSelector.Body);
-        }
-
-        /// <summary>
-        /// Get metadata of property referenced by expression.
-        /// </summary>
-        public static PropertyInfo GetPropertyInfo(this LambdaExpression propertyLambda)
-        {
-            MemberExpression member = propertyLambda.Body as MemberExpression;
-            if (member == null)
-                throw new ArgumentException(
-                    $"Expression '{propertyLambda.ToString()}' refers to a method, not a property."
-                );
-
-            PropertyInfo propInfo = member.Member as PropertyInfo;
-            if (propInfo == null)
-                throw new ArgumentException(
-                    $"Expression '{propertyLambda.ToString()}' refers to a field, not a property."
-                );
-
-            if (!propertyLambda.Parameters.Any())
-                throw new ArgumentException(
-                    $"Expression '{propertyLambda.ToString()}' does not have any parameters. A property expression needs to have at least 1 parameter."
-                );
-
-            var type = propertyLambda.Parameters[0].Type;
-
-            if (type != propInfo.ReflectedType && !type.IsSubclassOf(propInfo.ReflectedType))
-                throw new ArgumentException(
-                    $"Expression '{propertyLambda.ToString()}' refers to a property that is not from type {type}."
-                );
-
-            return propInfo;
         }
 
         public sealed class JoinComparerProvider<T, TKey>

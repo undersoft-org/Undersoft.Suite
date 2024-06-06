@@ -48,7 +48,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
     {
         return Ok(
             (
-                await _servicer.Send(new Get<TReport, TEntity, TDto>((page - 1) * limit, limit))
+                await _servicer.Report(new Get<TReport, TEntity, TDto>((page - 1) * limit, limit))
             ).Result.Commit()
         );
     }
@@ -65,8 +65,8 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
         return Ok(
             (
                 _keymatcher == null
-                    ? await _servicer.Send(new Find<TReport, TEntity, TDto>(key))
-                    : await _servicer.Send(
+                    ? await _servicer.Report(new Find<TReport, TEntity, TDto>(key))
+                    : await _servicer.Report(
                         new Find<TReport, TEntity, TDto>(
                             new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                         )
@@ -84,7 +84,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
             (fi) =>
                 fi.Value = JsonSerializer.Deserialize(
                     ((JsonElement)fi.Value).GetRawText(),
-                    entity.Rubrics[fi.Property].RubricType
+                    entity.Rubrics[fi.Member].RubricType
                 )
         );
 
@@ -97,7 +97,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
         return Ok(
             (
                 await _servicer
-                    .Send(new Filter<TReport, TEntity, TDto>(0, 0, param))
+                    .Report(new Filter<TReport, TEntity, TDto>(0, 0, param))
             ).Result.Commit()
         );
     }

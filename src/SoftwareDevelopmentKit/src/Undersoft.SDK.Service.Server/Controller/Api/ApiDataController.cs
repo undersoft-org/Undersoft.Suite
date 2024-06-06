@@ -58,7 +58,7 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
     public virtual async Task<IActionResult> Get([FromHeader] int page, [FromHeader] int limit)
     {
         return Ok((await _servicer
-                .Send(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
+                .Report(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
         );
     }
 
@@ -74,9 +74,9 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
         return Ok((
             _keymatcher == null
                 ? await _servicer
-                    .Send(new Find<TStore, TEntity, TDto>(key))
+                    .Report(new Find<TStore, TEntity, TDto>(key))
                 : await _servicer
-                    .Send(
+                    .Report(
                         new Find<TStore, TEntity, TDto>(
                                 new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                         ))).Result.FirstOrDefault()
@@ -92,19 +92,15 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
             (fi) =>
                 fi.Value = JsonSerializer.Deserialize(
                     ((JsonElement)fi.Value).GetRawText(),
-                    entity.Rubrics[fi.Property].RubricType
+                    entity.Rubrics[fi.Member].RubricType
                 )
         );
 
-        var param = new QueryParameters<TEntity>()
-        {
-            Filter = query.GetFilter<TEntity>(),
-            Sort = query.GetSort<TEntity>()
-        };
+        var param = new QueryParameters<TEntity>(query.FilterItems, query.SortItems);
 
         return Ok(
             (await _servicer
-                .Send(new Filter<TStore, TEntity, TDto>(0, 0, param))
+                .Report(new Filter<TStore, TEntity, TDto>(0, 0, param))
                 ).Result.Commit()
         );
     }

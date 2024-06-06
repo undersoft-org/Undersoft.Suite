@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Query;
 using Undersoft.SDK.Service.Data.Repository.Pagination;
 
 namespace Undersoft.SDK.Service.Data.Repository;
@@ -337,7 +336,7 @@ public partial class Repository<TEntity>
         int take,
         SortExpression<TEntity> sortTerms,
         params Expression<Func<TEntity, object>>[] expanders
-    )
+    ) where TDto : class
     {
         return MapToAsync<TDto>(this[skip, take, sortTerms, expanders]);
     }
@@ -447,7 +446,7 @@ public partial class Repository<TEntity>
         Expression<Func<TEntity, bool>> predicate,
         SortExpression<TEntity> sortTerms,
         params Expression<Func<TEntity, object>>[] expanders
-    )
+    ) where TDto : class
     {
         return MapToAsync<TDto>(this[skip, take, predicate, sortTerms, expanders]);
     }

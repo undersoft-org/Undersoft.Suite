@@ -4,7 +4,7 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
 {
-    public partial class GenericDataGridHeaderRubric : ViewItem
+    public partial class GenericDataGridHeaderRubricFilter : ViewItem
     {
         [CascadingParameter]
         public override IViewItem? Root
@@ -13,35 +13,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
             set => base.Root = value;
         }
 
-        [CascadingParameter]
-        public bool Resizable { get; set; }
-
-        [CascadingParameter]
-        public int RubricOrdinalSeed { get; set; } = 1;
-
-        private int _ordinal => Rubric.RubricOrdinal + RubricOrdinalSeed;
-
         public void OnFilterDefine(MouseEventArgs args) { }
 
         public void OnFilterDismiss(MouseEventArgs args) { }
-
-        public Task OnClickSort(MouseEventArgs args)
-        {
-            if (!Rubric.Sorted)
-            {
-                Rubric.SortBy = SDK.SortDirection.Ascending;
-            }
-            else
-            {
-                if (Rubric.SortBy == SDK.SortDirection.Descending)
-                    Rubric.SortBy = SDK.SortDirection.None;
-                else
-                    Rubric.SortBy = SDK.SortDirection.Descending;
-            }
-            StateHasChanged();
-            return ((IViewStore)Parent!).DataStore.LoadAsync();
-        }
-
 
         private string? RubricHeaderClass(IViewRubric rubric) =>
             rubric.Sorted

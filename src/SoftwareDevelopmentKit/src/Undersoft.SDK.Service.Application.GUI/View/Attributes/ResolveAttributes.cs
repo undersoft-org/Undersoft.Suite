@@ -90,6 +90,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                     m => m.ResolveSizeRubricAttributes
                 )
             );
+            Registry.Add(
+               typeof(ViewQueryAttribute), typeof(ViewRubric).UniqueKey(),
+               new Invoker<ViewAttributeResolvers>(
+                   ViewResolveAttributes,
+                   m => m.ResolveQueryRubricAttributes
+               )
+           );
         }
 
         public static IViewData Resolve(IViewData mr)
@@ -198,6 +205,21 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 mr.Width = fta.Width;
                 mr.Height = fta.Height;
                 mr.Z = fta.Z;
+            }
+        }
+
+        public void ResolveQueryRubricAttributes(ViewRubric mr)
+        {
+            var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
+
+            object? o = mi.GetCustomAttributes(typeof(ViewQueryAttribute), false).FirstOrDefault();
+            if ((o != null))
+            {
+                ViewQueryAttribute fta = (ViewQueryAttribute)o;
+
+                mr.FilterMembers = fta.FilterMembers;
+                mr.SortMembers = fta.SortMembers;
+                mr.FilteredType = fta.FilteredType;
             }
         }
 

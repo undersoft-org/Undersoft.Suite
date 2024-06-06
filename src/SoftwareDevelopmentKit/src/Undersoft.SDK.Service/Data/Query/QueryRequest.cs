@@ -2,7 +2,7 @@
 
 namespace Undersoft.SDK.Service.Data.Query
 {
-    public class QueryRequest<T> : QueryRequest, IQueryRequest<T> where T : class
+    public class QueryRequest<T> : QueryRequest, IQueryRequest<T> where T : class, IInnerProxy
     {
         public QueryRequest() { }
 

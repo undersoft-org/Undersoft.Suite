@@ -3,7 +3,6 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Data.Model.Attributes;
-using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
@@ -16,6 +15,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         IViewItem ViewItem { get; set; }
 
         ISeries<Filter> Filters { get; set; }
+
+        string[]? FilterMembers { get; set; }
+
+        Type FilteredType { get; set; }
+
+        string[]? SortMembers { get; set; }
 
         string ViewId { get; }
 

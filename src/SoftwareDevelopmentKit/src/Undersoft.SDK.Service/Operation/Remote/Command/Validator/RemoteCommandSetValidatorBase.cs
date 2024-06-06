@@ -140,7 +140,7 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
     }
 
     protected void ValidateExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -169,7 +169,7 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
     }
 
     protected void ValidateNotExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -199,16 +199,16 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
 
     private Expression<Func<TEntity, bool>> buildPredicate<TEntity>(
         IInnerProxy dataInput,
-        LogicOperand operand,
+        LinkOperand operand,
         params string[] propertyNames
     ) where TEntity : IInnerProxy
     {
         Expression<Func<TEntity, bool>> predicate =
-            operand == LogicOperand.And ? predicate = e => true : predicate = e => false;
+            operand == LinkOperand.And ? predicate = e => true : predicate = e => false;
         foreach (var item in propertyNames)
         {
             predicate =
-                operand == LogicOperand.And
+                operand == LinkOperand.And
                     ? predicate.And(e => e.Proxy[item] == dataInput.Proxy[item])
                     : predicate.Or(e => e.Proxy[item] == dataInput.Proxy[item]);
         }
@@ -325,7 +325,7 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
     }
 
     protected void ValidateExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params Expression<Func<TEntity, object>>[] properties
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -354,7 +354,7 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
     }
 
     protected void ValidateNotExist<TStore, TEntity>(
-        LogicOperand operand,
+        LinkOperand operand,
         params Expression<Func<TEntity, object>>[] properties
     )
         where TEntity : class, IOrigin, IInnerProxy
@@ -384,16 +384,16 @@ public abstract class RemoteCommandSetValidatorBase<TCommand> : AbstractValidato
 
     private Expression<Func<TEntity, bool>> buildPredicate<TEntity>(
         IInnerProxy dataInput,
-        LogicOperand operand,
+        LinkOperand operand,
         params Expression<Func<TEntity, object>>[] properties
     ) where TEntity : IInnerProxy
     {
         Expression<Func<TEntity, bool>> predicate =
-            operand == LogicOperand.And ? predicate = e => true : predicate = e => false;
+            operand == LinkOperand.And ? predicate = e => true : predicate = e => false;
         foreach (var item in properties)
         {
             predicate =
-                operand == LogicOperand.And
+                operand == LinkOperand.And
                    ? predicate.And(e => item.Compile()(e) == dataInput.Proxy[item.GetMemberName()])
                     : predicate.Or(e => item.Compile()(e) == dataInput.Proxy[item.GetMemberName()]);
         }

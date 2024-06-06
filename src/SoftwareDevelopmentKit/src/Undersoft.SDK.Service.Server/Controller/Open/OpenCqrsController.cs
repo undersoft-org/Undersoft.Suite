@@ -46,7 +46,7 @@ public abstract class OpenCqrsController<TKey, TEntry, TReport, TEntity, TDto, T
     [EnableQuery]
     public override IQueryable<TDto> Get()
     {
-        return _servicer.Send(new Get<TReport, TEntity, TDto>()).Result.Result;
+        return _servicer.Report(new Get<TReport, TEntity, TDto>()).Result.Result;
     }
 
     [EnableQuery]
@@ -54,7 +54,7 @@ public abstract class OpenCqrsController<TKey, TEntry, TReport, TEntity, TDto, T
     {
         return new SingleResult<TDto>(
            _servicer
-               .Send(
+               .Report(
                    new Find<TReport, TEntity, TDto>(
                        new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                    )

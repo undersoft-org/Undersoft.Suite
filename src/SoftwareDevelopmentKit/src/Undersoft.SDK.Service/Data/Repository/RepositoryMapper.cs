@@ -71,10 +71,10 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         return Mapper.Map<IList<TDto>>(entity.Commit());
     }
 
-    public virtual async IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity)
+    public virtual async IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity) where TDto : class
     {
         foreach (var item in entity)
-            yield return await Task.Run(() => Mapper.Map<TDto>(item));
+            yield return await Task.Run(() => item.PutTo<TDto>());
     }
 
     public virtual IList<TEntity> MapFrom<TDto>(IEnumerable<TDto> model)

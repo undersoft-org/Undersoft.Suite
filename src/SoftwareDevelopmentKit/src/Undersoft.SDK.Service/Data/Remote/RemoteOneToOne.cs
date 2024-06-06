@@ -27,6 +27,6 @@ public class RemoteOneToOne<TOrigin, TTarget> : RemoteRelation<TOrigin, TTarget>
 
     public override Expression<Func<TTarget, bool>> CreatePredicate(object entity)
     {
-        return LinqExtension.GetEqualityExpression(TargetKey, originKey, (TOrigin)entity);
+        return LinqExtensions.GetEqualityExpression(TargetKey, originKey, (TOrigin)entity);
     }
 }
