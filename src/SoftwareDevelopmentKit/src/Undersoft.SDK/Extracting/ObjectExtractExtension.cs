@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Extracting;
 
-using Undersoft.SDK.Extracting.Compiler;
 using System.Collections;
 using System.Runtime.InteropServices;
+using Undersoft.SDK.Extracting.Compiler;
 using Uniques;
 
 public static class ObjectExtractExtenstion
@@ -177,9 +177,9 @@ public static class ObjectExtractExtenstion
         Type t = objvalue.GetType();
 
         if (forKeys)
-            if (t.IsAssignableTo(typeof(IIdentifiable)))                  
-                return ((IIdentifiable)objvalue).Id.GetBytes();      
-        
+            if (t.IsAssignableTo(typeof(IIdentifiable)))
+                return ((IIdentifiable)objvalue).Id.GetBytes();
+
         if (t.IsValueType)
         {
             if (t.IsPrimitive)

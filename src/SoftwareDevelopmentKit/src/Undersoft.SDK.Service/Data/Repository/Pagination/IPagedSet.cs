@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Undersoft.SDK.Service.Data.Repository.Pagination
+﻿namespace Undersoft.SDK.Service.Data.Repository.Pagination
 {
     public interface IPagedSet<T>
     {

@@ -1,20 +1,36 @@
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   server: Undersoft.SCC.Service.Application.Server
+// ********************************************************
+
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Service.Application.Server.Hosting;
 
 namespace Undersoft.SCC.Service.Application.Server;
 
+/// <summary>
+/// The program.
+/// </summary>
 public class Program
 {
-    static string[] _args = new string[0];
+    /// <summary>
+    /// The server.
+    /// </summary>
     static IApplicationServerHost? server;
-
+    /// <summary>
+    /// Defines the entry point of the application.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
     public static void Main(string[] args)
     {
-        _args = args;
-
         Launch();
     }
-
+    /// <summary>
+    /// Launches this instance.
+    /// </summary>
     public static void Launch()
     {
         try
@@ -32,7 +48,9 @@ public class Program
             Log.Info<Runlog>(null, " Undersoft.SCC.Service.Application.Server shutted down ....");
         }
     }
-
+    /// <summary>
+    /// Restarts this instance.
+    /// </summary>
     public static void Restart()
     {
         Log.Info<Runlog>(null, "Restarting  Undersoft.SCC.Service.Application.Server ....");
@@ -40,14 +58,18 @@ public class Program
         Shutdown();
         Launch();
     }
-
+    /// <summary>
+    /// Shuts down this instance.
+    /// </summary>
     public static void Shutdown()
     {
         Log.Info<Runlog>(null, "Shutting down  Undersoft.SCC.Service.Application.Server ....");
 
         server?.Host.StopAsync(TimeSpan.FromSeconds(5)).Wait();
     }
-
+    /// <summary>
+    /// Starts the application server.
+    /// </summary>
     private static void StartApplicationServer()
     {
         server = new ApplicationServerHost();

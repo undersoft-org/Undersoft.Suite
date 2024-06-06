@@ -1,8 +1,8 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Shouldly;
+using System;
+using System.Threading.Tasks;
 using Undersoft.SCC.Service.Application.GUI.Compound.Access;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;

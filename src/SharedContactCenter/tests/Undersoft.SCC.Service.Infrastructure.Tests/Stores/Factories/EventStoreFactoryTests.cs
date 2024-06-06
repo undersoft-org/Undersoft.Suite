@@ -1,6 +1,4 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
 using Undersoft.SCC.Service.Infrastructure.Stores.Factories;
 
 namespace Undersoft.SCC.Service.Infrastructure.Tests.Stores.Factories;

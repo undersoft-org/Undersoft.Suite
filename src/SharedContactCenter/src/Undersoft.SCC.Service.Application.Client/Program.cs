@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SCC.Service.Application.GUI.Compound.Access;
-using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
-using Undersoft.SCC.Service.Clients;
-using Undersoft.SCC.Service.Contracts;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   application: Undersoft.SCC.Service.Application.Client
+// ********************************************************
+
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.Access;
@@ -15,70 +20,77 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SCC.Service.Application.Client
+namespace Undersoft.SCC.Service.Application.Client;
+
+using Undersoft.SCC.Service.Application.GUI.Compound.Access;
+using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
+using Undersoft.SCC.Service.Clients;
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The program.
+/// </summary>
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            builder.RootComponents.Add<App>("#app");
-            builder.RootComponents.Add<HeadOutlet>("head::after");
+        builder.RootComponents.Add<App>("#app");
+        builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            var manager = builder.Services
-                .AddServiceSetup(builder.Configuration)
-                .ConfigureServices(
-                    new[]
-                    {
-                        typeof(ApplicationClient),
-                        typeof(AccessClient),
-                        typeof(EventClient)
-                    }
-                )
-                .Manager;
-
-            await manager.UseServiceClients();
-
-            builder.ConfigureContainer(
-                manager.GetProviderFactory(),
-                (services) =>
+        var manager = builder.Services
+            .AddServiceSetup(builder.Configuration)
+            .ConfigureServices(
+                new[]
                 {
-                    var reg = manager.GetRegistry();
-                    reg.AddAuthorizationCore()
-                        .AddFluentUIComponents(
-                            (o) => o.UseTooltipServiceProvider = true)
-                        .AddScoped<
-                            IRemoteRepository<IAccountStore, Account>,
-                            RemoteRepository<IAccountStore, Account>
-                        >()
-                        .AddSingleton<AppearanceState>()
-                        .AddScoped<AccessProvider<Account>>()
-                        .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(
-                            sp => sp.GetRequiredService<AccessProvider<Account>>()
-                        )
-                        .AddScoped<IAccountAccess, AccessProvider<Account>>(
-                            sp => sp.GetRequiredService<AccessProvider<Account>>()
-                        )
-                        .AddScoped<IAccountService<Account>, AccessProvider<Account>>(
-                            sp => sp.GetRequiredService<AccessProvider<Account>>()
-                        )
-                        .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
-                        .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
-                         .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
-                        .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                        .AddScoped<IValidator<IViewData<Contracts.Country>>, CountryValidator>()
-                        .AddScoped<AccountValidator>()
-                        .AddScoped<AccessValidator>()
-                        .AddScoped<ContactValidator>()
-                        .AddScoped<GroupValidator>()
-                        .AddScoped<CountryValidator>();
-                    reg.MergeServices(services, true);
+                    typeof(ApplicationClient),
+                    typeof(AccessClient),
+                    typeof(EventClient)
                 }
-            );
+            )
+            .Manager;
 
-            var host = builder.Build();
-            await host.RunAsync();
-        }
+        await manager.UseServiceClients();
+
+        builder.ConfigureContainer(
+            manager.GetProviderFactory(),
+            (services) =>
+            {
+                var reg = manager.GetRegistry();
+                reg.AddAuthorizationCore()
+                    .AddFluentUIComponents(
+                        (o) => o.UseTooltipServiceProvider = true)
+                    .AddScoped<
+                        IRemoteRepository<IAccountStore, Account>,
+                        RemoteRepository<IAccountStore, Account>
+                    >()
+                    .AddSingleton<AppearanceState>()
+                    .AddScoped<AccessProvider<Account>>()
+                    .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(
+                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    )
+                    .AddScoped<IAccountAccess, AccessProvider<Account>>(
+                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    )
+                    .AddScoped<IAccountService<Account>, AccessProvider<Account>>(
+                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    )
+                    .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
+                    .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
+                    .AddScoped<IValidator<IViewData<Country>>, CountryValidator>()
+                    .AddScoped<AccountValidator>()
+                    .AddScoped<AccessValidator>()
+                    .AddScoped<ContactValidator>()
+                    .AddScoped<GroupValidator>()
+                    .AddScoped<CountryValidator>();
+                reg.MergeServices(services, true);
+            }
+        );
+
+        var host = builder.Build();
+        await host.RunAsync();
     }
 }

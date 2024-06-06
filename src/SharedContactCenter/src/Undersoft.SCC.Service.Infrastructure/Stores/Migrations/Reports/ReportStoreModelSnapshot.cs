@@ -36,7 +36,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -105,7 +104,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.ToTable("Contacts", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", b =>
+            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.Address", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -125,7 +124,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -194,7 +192,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("Index");
 
-                    b.ToTable("ContactAddresses", "domain");
+                    b.ToTable("Addresses", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", b =>
@@ -205,7 +203,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -286,7 +283,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasIndex("OrganizationId")
                         .IsUnique();
 
-                    b.ToTable("ContactOrganizations", "domain");
+                    b.ToTable("Organizations", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactPersonal", b =>
@@ -300,7 +297,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -379,7 +375,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasIndex("PersonalId")
                         .IsUnique();
 
-                    b.ToTable("ContactPersonals", "domain");
+                    b.ToTable("Personals", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactProfessional", b =>
@@ -390,7 +386,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -468,7 +463,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasIndex("ProfessionalId")
                         .IsUnique();
 
-                    b.ToTable("ContactProfessionals", "domain");
+                    b.ToTable("Professionals", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.CountryLanguage", b =>
@@ -479,7 +474,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -533,7 +527,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("Index");
 
-                    b.ToTable("CountryLanguages", "domain");
+                    b.ToTable("Languages", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.CountryState", b =>
@@ -544,7 +538,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -617,7 +610,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -682,7 +674,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -769,7 +760,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -837,7 +827,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);
@@ -896,11 +885,11 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.ToTable("ContactsToGroups", "relations");
                 });
 
-            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", b =>
+            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.Address", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("ContactAddress")
-                        .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", "AddressId");
+                        .WithOne("Address")
+                        .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.Address", "AddressId");
 
                     b.Navigation("Contact");
                 });
@@ -908,7 +897,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("ContactOrganization")
+                        .WithOne("Organization")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", "OrganizationId");
 
                     b.Navigation("Contact");
@@ -917,7 +906,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactPersonal", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("ContactPersonal")
+                        .WithOne("Personal")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactPersonal", "PersonalId");
 
                     b.Navigation("Contact");
@@ -926,7 +915,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactProfessional", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
-                        .WithOne("ContactProfessional")
+                        .WithOne("Professional")
                         .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactProfessional", "ProfessionalId");
 
                     b.Navigation("Contact");
@@ -975,13 +964,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contact", b =>
                 {
-                    b.Navigation("ContactAddress");
+                    b.Navigation("Address");
 
-                    b.Navigation("ContactOrganization");
+                    b.Navigation("Organization");
 
-                    b.Navigation("ContactPersonal");
+                    b.Navigation("Personal");
 
-                    b.Navigation("ContactProfessional");
+                    b.Navigation("Professional");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.CountryLanguage", b =>

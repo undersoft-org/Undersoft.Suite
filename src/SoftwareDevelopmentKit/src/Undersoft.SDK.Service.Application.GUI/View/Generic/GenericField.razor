@@ -8,7 +8,7 @@
 @if (_isUpload)
 {
     <div style="width:@Width;">
-        <GenericUpload Rubric="@Rubric" Data="@Data" DisplayName="@_label" @ref="Reference" />
+        <GenericUpload  Rubric="@Rubric" Data="@Data" DisplayName="@_label" @ref="Reference" />
     </div>
 }
 else if (_type.IsPrimitive)
@@ -76,13 +76,13 @@ else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
     @if (_size > 128)
     {
         <div style="width:@Width">
-            <FluentTextArea Maxlength="@_size" Form="generic_form" Id="@_name" Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextArea  Maxlength="@_size" Form="generic_form" Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else
     {
         <div style="width:@Width">
-            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextField  Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
 }

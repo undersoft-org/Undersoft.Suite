@@ -25,7 +25,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -48,37 +48,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryLanguages",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    LanguageCode = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CountryLanguages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Currencies",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -102,7 +78,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -121,13 +97,37 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactAddresses",
+                name: "Languages",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    LanguageCode = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -149,9 +149,9 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactAddresses", x => x.Id);
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContactAddresses_Contacts_AddressId",
+                        name: "FK_Addresses_Contacts_AddressId",
                         column: x => x.AddressId,
                         principalSchema: "domain",
                         principalTable: "Contacts",
@@ -159,13 +159,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactOrganizations",
+                name: "Organizations",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -187,9 +187,9 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactOrganizations", x => x.Id);
+                    table.PrimaryKey("PK_Organizations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContactOrganizations_Contacts_OrganizationId",
+                        name: "FK_Organizations_Contacts_OrganizationId",
                         column: x => x.OrganizationId,
                         principalSchema: "domain",
                         principalTable: "Contacts",
@@ -197,13 +197,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactPersonals",
+                name: "Personals",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -224,9 +224,9 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactPersonals", x => x.Id);
+                    table.PrimaryKey("PK_Personals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContactPersonals_Contacts_PersonalId",
+                        name: "FK_Personals_Contacts_PersonalId",
                         column: x => x.PersonalId,
                         principalSchema: "domain",
                         principalTable: "Contacts",
@@ -234,13 +234,13 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactProfessionals",
+                name: "Professionals",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -261,54 +261,12 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactProfessionals", x => x.Id);
+                    table.PrimaryKey("PK_Professionals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContactProfessionals_Contacts_ProfessionalId",
+                        name: "FK_Professionals_Contacts_ProfessionalId",
                         column: x => x.ProfessionalId,
                         principalSchema: "domain",
                         principalTable: "Contacts",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Countries",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    CountryCode = table.Column<string>(type: "text", nullable: true),
-                    Continent = table.Column<string>(type: "text", nullable: true),
-                    TimeZone = table.Column<string>(type: "text", nullable: true),
-                    CountryImage = table.Column<string>(type: "text", nullable: true),
-                    CountryImageData = table.Column<byte[]>(type: "bytea", nullable: true),
-                    CurrencyId = table.Column<long>(type: "bigint", nullable: true),
-                    LanguageId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Countries_CountryLanguages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalSchema: "domain",
-                        principalTable: "CountryLanguages",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Countries_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalSchema: "domain",
-                        principalTable: "Currencies",
                         principalColumn: "Id");
                 });
 
@@ -319,7 +277,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -351,13 +309,55 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateTable(
+                name: "Countries",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    CountryCode = table.Column<string>(type: "text", nullable: true),
+                    Continent = table.Column<string>(type: "text", nullable: true),
+                    TimeZone = table.Column<string>(type: "text", nullable: true),
+                    CountryImage = table.Column<string>(type: "text", nullable: true),
+                    CountryImageData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    CurrencyId = table.Column<long>(type: "bigint", nullable: true),
+                    LanguageId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Countries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Countries_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalSchema: "domain",
+                        principalTable: "Currencies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Countries_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalSchema: "domain",
+                        principalTable: "Languages",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CountryStates",
                 schema: "domain",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -383,56 +383,17 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContactAddresses_AddressId",
+                name: "IX_Addresses_AddressId",
                 schema: "domain",
-                table: "ContactAddresses",
+                table: "Addresses",
                 column: "AddressId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContactAddresses_Index",
+                name: "IX_Addresses_Index",
                 schema: "domain",
-                table: "ContactAddresses",
+                table: "Addresses",
                 column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactOrganizations_Index",
-                schema: "domain",
-                table: "ContactOrganizations",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactOrganizations_OrganizationId",
-                schema: "domain",
-                table: "ContactOrganizations",
-                column: "OrganizationId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactPersonals_Index",
-                schema: "domain",
-                table: "ContactPersonals",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactPersonals_PersonalId",
-                schema: "domain",
-                table: "ContactPersonals",
-                column: "PersonalId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactProfessionals_Index",
-                schema: "domain",
-                table: "ContactProfessionals",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactProfessionals_ProfessionalId",
-                schema: "domain",
-                table: "ContactProfessionals",
-                column: "ProfessionalId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contacts_Index",
@@ -471,12 +432,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryLanguages_Index",
-                schema: "domain",
-                table: "CountryLanguages",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CountryStates_CountryId",
                 schema: "domain",
                 table: "CountryStates",
@@ -499,25 +454,58 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 schema: "domain",
                 table: "Groups",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_Index",
+                schema: "domain",
+                table: "Languages",
+                column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_Index",
+                schema: "domain",
+                table: "Organizations",
+                column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Organizations_OrganizationId",
+                schema: "domain",
+                table: "Organizations",
+                column: "OrganizationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personals_Index",
+                schema: "domain",
+                table: "Personals",
+                column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personals_PersonalId",
+                schema: "domain",
+                table: "Personals",
+                column: "PersonalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Professionals_Index",
+                schema: "domain",
+                table: "Professionals",
+                column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Professionals_ProfessionalId",
+                schema: "domain",
+                table: "Professionals",
+                column: "ProfessionalId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ContactAddresses",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "ContactOrganizations",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "ContactPersonals",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "ContactProfessionals",
+                name: "Addresses",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -529,7 +517,15 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Contacts",
+                name: "Organizations",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Personals",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Professionals",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -541,11 +537,15 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "CountryLanguages",
+                name: "Contacts",
                 schema: "domain");
 
             migrationBuilder.DropTable(
                 name: "Currencies",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Languages",
                 schema: "domain");
         }
     }

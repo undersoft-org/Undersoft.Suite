@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Undersoft.SDK.Estimating
 {
-    using Series;
-
     //kazdy estymator ma swoje input - wtedy zmiana estymatora wymaga tez zmiany input - komplikacje to powoduje
 
     public class Estimate : Estimator

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Undersoft.SDK.Service.Application.Server.Hosting;
 
-using System.Net;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Text.Json;
 
 public static class ApplicationServerHostExtensions
@@ -13,7 +13,7 @@ public static class ApplicationServerHostExtensions
     {
         return new ApplicationServerHostSetup(app);
     }
-    
+
     public static IApplicationServerHostSetup UseApplicationServerSetup(this IApplicationBuilder app, IWebHostEnvironment env)
     {
         return new ApplicationServerHostSetup(app, env);

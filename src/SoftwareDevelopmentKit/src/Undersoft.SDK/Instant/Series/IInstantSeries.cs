@@ -1,12 +1,11 @@
 ﻿namespace Undersoft.SDK.Instant.Series
 {
-    using Proxies;
     using Math;
+    using Proxies;
     using Querying;
     using Rubrics;
     using SDK.Series;
     using System.Linq;
-    using Undersoft.SDK.Proxies;
 
     public interface IInstantSeries : ISeries<IInstant>, IInstant
     {
@@ -43,7 +42,7 @@
         InstantSeriesSort Sort { get; set; }
 
         Func<IInstant, bool> Predicate { get; set; }
-         
+
         InstantSeriesAggregate Aggregate { get; set; }
 
         ISeries<IInstantMath> Computations { get; set; }

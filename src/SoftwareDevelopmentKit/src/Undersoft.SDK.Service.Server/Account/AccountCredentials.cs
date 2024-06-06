@@ -17,4 +17,7 @@ public class AccountCredentials : Credentials
         AccessFailedCount = account.AccessFailedCount;
         NormalizedUserName = account.NormalizedUserName;
     }
+
+    public long? AccountId { get; set; }
+    public virtual Account Account { get; set; }
 }

@@ -1,12 +1,27 @@
-﻿using Undersoft.SDK;
+﻿// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
+using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.GUI.View;
 
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
 
+/// <summary>
+/// The access validator.
+/// </summary>
 public class AccessValidator : ViewValidator<Credentials>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AccessValidator"/> class.
+    /// </summary>
+    /// <param name="servicer">The servicer.</param>
     public AccessValidator(IServicer servicer) : base(servicer)
     {
         ValidationScope(

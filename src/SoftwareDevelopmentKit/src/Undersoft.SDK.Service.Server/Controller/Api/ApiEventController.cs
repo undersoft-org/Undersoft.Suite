@@ -45,7 +45,7 @@ public abstract class ApiEventController<TKey, TStore, TEntity, TDto> : Controll
     {
         return Ok(
             (await _servicer
-                .Report(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
+                .Send(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
         );
     }
 
@@ -55,9 +55,9 @@ public abstract class ApiEventController<TKey, TStore, TEntity, TDto> : Controll
         return Ok(
          (_keymatcher == null
                ? await _servicer
-                   .Report(new Find<TStore, TEntity, TDto>(key))
+                   .Send(new Find<TStore, TEntity, TDto>(key))
                : await _servicer
-                   .Report(
+                   .Send(
                        new Find<TStore, TEntity, TDto>(
                                new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                        )
@@ -91,7 +91,7 @@ public abstract class ApiEventController<TKey, TStore, TEntity, TDto> : Controll
 
         return Ok(
             (await _servicer
-                .Report(new Filter<TStore, TEntity, TDto>(0, 0, param))).Result.Commit()
+                .Send(new Filter<TStore, TEntity, TDto>(0, 0, param))).Result.Commit()
         );
     }
 

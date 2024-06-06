@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SCC.Service.Contracts.Accounts;
 using Undersoft.SDK.Series;

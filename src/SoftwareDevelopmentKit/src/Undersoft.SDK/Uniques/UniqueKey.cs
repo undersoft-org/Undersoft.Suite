@@ -30,7 +30,7 @@ public interface IUniqueKey
 
     public Int64 Key(IIdentifiable obj);
 
-    public Int64 Key(IIdentifiable obj, long seed);    
+    public Int64 Key(IIdentifiable obj, long seed);
 
     public Int64 Key(object obj, long seed = 0);
 

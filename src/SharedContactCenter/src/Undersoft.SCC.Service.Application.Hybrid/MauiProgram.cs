@@ -4,10 +4,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System.Reflection;
-using Undersoft.SCC.Service.Application.GUI.Compound.Access;
-using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
-using Undersoft.SCC.Service.Clients;
-using Undersoft.SCC.Service.Contracts;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   application: Undersoft.SCC.Service.Application.Hybrid
+// ********************************************************
+
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.Access;
@@ -19,8 +24,24 @@ using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SCC.Service.Application.Hybrid;
 
+using Undersoft.SCC.Service.Application.GUI.Compound.Access;
+using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
+using Undersoft.SCC.Service.Clients;
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The maui program.
+/// </summary>
 public static class MauiProgram
 {
+    /// <summary>
+    /// There is not any async MAUI entry point type to run application. That's why client started
+    /// in the same time with servers will throw exception ones or twice to logs 
+    /// http client cannot connect and get metadata. MAUI Hybrid performance on start and on runtime
+    /// is very high few times higher then react or angular ionic wrapped hybrids    
+    /// Creates maui app.
+    /// </summary>
+    /// <returns>A <see cref="MauiApp"/></returns>
     public static MauiApp CreateMauiApp()
     {
         var stream = Assembly
@@ -84,8 +105,8 @@ public static class MauiProgram
                         RemoteRepository<IDataStore, ViewModels.Group>
                     >()
                     .AddScoped<
-                        IRemoteRepository<IDataStore, Contracts.Country>,
-                        RemoteRepository<IDataStore, Contracts.Country>
+                        IRemoteRepository<IDataStore, Country>,
+                        RemoteRepository<IDataStore, Country>
                     >()
                       .AddScoped<
                         IRemoteRepository<IEventStore, Event>,
@@ -105,7 +126,7 @@ public static class MauiProgram
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                    .AddScoped<IValidator<IViewData<Contracts.Country>>, CountryValidator>()
+                    .AddScoped<IValidator<IViewData<Country>>, CountryValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()
                     .AddScoped<ContactValidator>()

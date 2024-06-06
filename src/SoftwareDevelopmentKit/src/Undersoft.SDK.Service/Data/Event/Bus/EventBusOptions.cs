@@ -1,5 +1,3 @@
-
-using System.Collections.Generic;
 using Undersoft.SDK.Service.Data.Event.Handler;
 
 namespace Undersoft.SDK.Service.Data.Event.Bus

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Undersoft.SDK.Extracting
+﻿namespace Undersoft.SDK.Extracting
 {
     public static partial class Extract
     {

@@ -1,8 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
-using Undersoft.SCC.Service.Application.Client;
+using System;
+using System.Threading.Tasks;
 
 namespace Undersoft.SCC.Service.Application.Client.Tests;
 

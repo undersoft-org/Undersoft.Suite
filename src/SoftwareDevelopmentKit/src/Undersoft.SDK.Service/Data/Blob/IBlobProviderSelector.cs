@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Undersoft.SDK.Service.Data.Blob
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace System
@@ -156,7 +154,7 @@ namespace System
             return null;
         }
 
-        public static IList<Type> GetImplementedGenericTypes(this Type seqType) 
+        public static IList<Type> GetImplementedGenericTypes(this Type seqType)
         {
             return Assemblies.FindTypes(seqType);
         }

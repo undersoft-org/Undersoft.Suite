@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace System.Net;
+﻿namespace System.Net;
 
 public static class InternalIPAddressExtensions
 {

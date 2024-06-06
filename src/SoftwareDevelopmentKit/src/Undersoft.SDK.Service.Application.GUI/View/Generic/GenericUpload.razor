@@ -22,10 +22,6 @@
                  OnCompleted="@OnCompleted">
     <ChildContent>
 
-        @if(Image != null)
-        {
-            <img src="@Image" style="width:auto; height:auto"/>
-        }
         <label for="@CodeNo" style="padding-top:1px;">
             <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
         </label>

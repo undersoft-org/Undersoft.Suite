@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
-using Microsoft.Win32.SafeHandles;
 using Undersoft.SDK.Stocks.MMF.Native;
 
 namespace Undersoft.SDK.Stocks.MMF.Handle

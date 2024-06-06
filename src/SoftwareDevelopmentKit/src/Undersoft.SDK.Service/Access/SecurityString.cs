@@ -1,8 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net;
-using System.Text;
-using Undersoft.SDK.Extracting;
-using Undersoft.SDK.Updating;
+﻿using System.Text;
 
 namespace Undersoft.SDK.Service.Access
 {

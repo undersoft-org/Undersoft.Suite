@@ -19,18 +19,25 @@ namespace Undersoft.SDK.Service.Server.Accounts
             builder.HasOne(c => c.User).WithOne().HasForeignKey<Account>(u => u.UserId);
 
             builder.HasOne(c => c.Personal).WithOne().HasForeignKey<Account>(u => u.PersonalId);
+            builder.Navigation(n => n.Personal).AutoInclude();
 
             builder.HasOne(c => c.Address).WithOne().HasForeignKey<Account>(u => u.AddressId);
+            builder.Navigation(n => n.Address).AutoInclude();
 
             builder.HasOne(c => c.Professional).WithOne().HasForeignKey<Account>(c => c.ProfessionalId);
+            builder.Navigation(n => n.Professional).AutoInclude();
 
             builder.HasOne(c => c.Organization).WithOne().HasForeignKey<Account>(c => c.OrganizationId);
+            builder.Navigation(n => n.Organization).AutoInclude();
 
             builder.HasOne(c => c.Consent).WithOne().HasForeignKey<Account>(c => c.ConsentId);
+            builder.Navigation(n => n.Consent).AutoInclude();
 
             builder.HasOne(c => c.Subscription).WithOne().HasForeignKey<Account>(c => c.SubscriptionId);
+            builder.Navigation(n => n.Subscription).AutoInclude();
 
             builder.HasOne(c => c.Payment).WithOne().HasForeignKey<Account>(c => c.PaymentId);
+            builder.Navigation(n => n.Payment).AutoInclude();
         }
     }
 

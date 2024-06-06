@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Undersoft.SDK.Service.Data.Event.Bus
+﻿namespace Undersoft.SDK.Service.Data.Event.Bus
 {
     public interface IEventNameProvider
     {

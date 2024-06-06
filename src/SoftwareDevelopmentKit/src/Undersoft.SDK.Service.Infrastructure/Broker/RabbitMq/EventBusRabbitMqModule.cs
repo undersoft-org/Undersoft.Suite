@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq;
+﻿namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq;
 
 using Configuration;
 

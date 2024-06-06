@@ -1,5 +1,4 @@
-﻿using Undersoft.SDK.Proxies;
-using Undersoft.SDK.Service.Operation;
+﻿using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SDK.Service.Access
 {

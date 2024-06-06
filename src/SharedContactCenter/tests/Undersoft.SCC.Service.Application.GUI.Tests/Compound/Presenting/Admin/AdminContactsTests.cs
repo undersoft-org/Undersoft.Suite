@@ -1,6 +1,4 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
 using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.User;
 
 namespace Undersoft.SCC.Service.Application.GUI.Tests.Compound.Presenting.User;

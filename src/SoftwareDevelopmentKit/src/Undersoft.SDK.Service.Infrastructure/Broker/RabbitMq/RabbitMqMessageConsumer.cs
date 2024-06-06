@@ -4,13 +4,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
-using Undersoft.SDK.Logging;
 using System.Timers;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using System.Linq;
 
 
 namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq

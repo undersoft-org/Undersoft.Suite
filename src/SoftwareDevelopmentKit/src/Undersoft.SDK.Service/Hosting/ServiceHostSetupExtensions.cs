@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Undersoft.SDK.Service.Hosting;
-using Undersoft.SDK.Service.Data.Repository;
 
 namespace Undersoft.SDK.Service.Hosting
 {
@@ -13,7 +11,7 @@ namespace Undersoft.SDK.Service.Hosting
 
         public static IHostBuilder UseInternalProvider(this IHostBuilder app, IServiceManager sm)
         {
-            new ServiceHostSetup(app,sm).UseInternalProvider();
+            new ServiceHostSetup(app, sm).UseInternalProvider();
             return app;
         }
 

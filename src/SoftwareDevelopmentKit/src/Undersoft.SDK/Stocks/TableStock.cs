@@ -1,10 +1,10 @@
 ﻿namespace Undersoft.SDK.Stocks
 {
+    using Extracting;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using Extracting;
     using System.Runtime.InteropServices;
-    using System;
 
     public class TableStock<T> : TableStock, ITableStock<T> where T : struct
     {

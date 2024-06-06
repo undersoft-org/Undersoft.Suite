@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Undersoft.SDK.Service.Data.Event.Handler
 {
     public interface IEventHandler<in TEvent> : IEventHandler

@@ -1,9 +1,9 @@
 ﻿namespace Undersoft.SDK.Series
 {
-    using System.Collections.Generic;
-    using Undersoft.SDK.Uniques;
     using Base;
+    using System.Collections.Generic;
     using Undersoft.SDK;
+    using Undersoft.SDK.Uniques;
 
     public class TypedCatalog<V> : TypedCatalogBase<V> where V : IOrigin
     {

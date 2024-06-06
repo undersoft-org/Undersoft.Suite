@@ -6,7 +6,6 @@ namespace Undersoft.SDK.Service.Data.Repository;
 using Data.Entity;
 using Rubrics;
 using Undersoft.SDK.Proxies;
-using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Service.Data.Client;
 using Undersoft.SDK.Service.Data.Remote;
 using Undersoft.SDK.Service.Data.Remote.Repository;

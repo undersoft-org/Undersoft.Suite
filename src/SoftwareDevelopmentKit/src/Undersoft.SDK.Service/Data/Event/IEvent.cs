@@ -1,9 +1,4 @@
 ﻿namespace Undersoft.SDK.Service.Data.Event;
-
-using Undersoft.SDK.Service.Data.Contract;
-using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SDK.Service.Data.Model;
-
 public interface IEvent
 {
     uint Version { get; set; }

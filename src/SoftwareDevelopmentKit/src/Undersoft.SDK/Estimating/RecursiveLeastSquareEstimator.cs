@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Undersoft.SDK.Estimating
+﻿namespace Undersoft.SDK.Estimating
 {
-    using Undersoft.SDK.Series;    
-
     public class RecursiveLeastSquareEstimator : Estimator
     {
 

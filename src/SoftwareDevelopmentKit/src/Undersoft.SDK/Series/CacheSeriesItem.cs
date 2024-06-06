@@ -1,7 +1,7 @@
-﻿using Undersoft.SDK.Extracting;
+﻿using System.Runtime.InteropServices;
+using Undersoft.SDK.Extracting;
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Uniques;
-using System.Runtime.InteropServices;
 
 namespace Undersoft.SDK.Series;
 

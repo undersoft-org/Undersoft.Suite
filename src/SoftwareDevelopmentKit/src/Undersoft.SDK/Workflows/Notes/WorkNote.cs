@@ -1,7 +1,6 @@
 ﻿namespace Undersoft.SDK.Workflows.Notes
 {
     using Undersoft.SDK.Workflows;
-    using Uniques;
 
     public class WorkNote : Origin
     {

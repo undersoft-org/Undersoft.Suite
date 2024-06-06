@@ -1,4 +1,6 @@
-﻿namespace Undersoft.SDK.Service.Access
+﻿using System.Security.Claims;
+
+namespace Undersoft.SDK.Service.Access
 {
     public interface IAccountAccess : IAccountAction, IAccountSetup
     {
@@ -7,5 +9,7 @@
         Task<IAuthorization> SignUp(IAuthorization account);
         Task<IAuthorization> SignedIn(IAuthorization account);
         Task<IAuthorization> SignedUp(IAuthorization account);
+
+        Task<ClaimsPrincipal?> CurrentState();
     }
 }

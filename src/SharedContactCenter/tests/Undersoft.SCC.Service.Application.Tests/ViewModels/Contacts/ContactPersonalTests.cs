@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Service.Application.ViewModels.Contacts;
 
 namespace Undersoft.SCC.Service.Application.Tests.ViewModels.Contacts;

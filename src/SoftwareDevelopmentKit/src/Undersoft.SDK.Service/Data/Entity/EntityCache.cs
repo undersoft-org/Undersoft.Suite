@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using Undersoft.SDK.Series;
-using System.Threading.Tasks;
-using Undersoft.SDK.Uniques;
 using Undersoft.SDK.Service.Data.Object;
-using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SDK.Service.Data.Entity
 {

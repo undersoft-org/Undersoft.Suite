@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RabbitMQ.Client;
 using System.Diagnostics.CodeAnalysis;
-using Undersoft.SDK.Series;
-using JetBrains.Annotations;
-using RabbitMQ.Client;
 
 namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq
 {

@@ -1,14 +1,4 @@
-﻿using System;
-using Undersoft.SDK.Extracting;
-using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Diagnostics;
-using System.Threading;
-using Undersoft.SDK.Uniques;
-using Undersoft.SDK.Proxies;
-
-namespace Undersoft.SDK.Stocks
+﻿namespace Undersoft.SDK.Stocks
 {
     public interface ITableStock<T> : ITableStock { }
 

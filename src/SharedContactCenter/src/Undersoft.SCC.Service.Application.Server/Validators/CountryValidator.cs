@@ -1,12 +1,28 @@
-﻿using Undersoft.SCC.Service.Contracts;
+﻿// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   server: Undersoft.SCC.Service.Application.Server
+// ********************************************************
+
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Operation.Command.Validator;
 
 namespace Undersoft.SCC.Service.Application.Server.Validators;
 
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The country validator.
+/// </summary>
 public class CountryValidator : CommandValidator<Country>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CountryValidator"/> class.
+    /// </summary>
+    /// <param name="servicer">The servicer.</param>
     public CountryValidator(IServicer servicer) : base(servicer)
     {
         ValidationScope(

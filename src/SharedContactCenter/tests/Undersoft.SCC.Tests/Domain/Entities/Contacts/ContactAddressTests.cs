@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Domain.Entities;
 using Undersoft.SCC.Domain.Entities.Contacts;
 using Undersoft.SCC.Domain.Entities.Enums;
@@ -9,20 +9,20 @@ using Undersoft.SDK.Service.Data.Entity;
 namespace Undersoft.SCC.Tests.Domain.Entities.Contacts;
 
 /// <summary>
-/// Unit tests for the type <see cref="ContactAddress"/>.
+/// Unit tests for the type <see cref="Address"/>.
 /// </summary>
 [TestClass]
 public class ContactAddressTests
 {
-    private ContactAddress _testClass;
+    private Address _testClass;
 
     /// <summary>
-    /// Sets up the dependencies required for the tests for <see cref="ContactAddress"/>.
+    /// Sets up the dependencies required for the tests for <see cref="Address"/>.
     /// </summary>
     [TestInitialize]
     public void SetUp()
     {
-        this._testClass = new ContactAddress();
+        this._testClass = new Address();
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class ContactAddressTests
                 Contact = default(Contact)
             },
             AddressId = 2140424099L,
-            Address = new ContactAddress
+            Address = new Address
             {
                 Country = "TestValue326068013",
                 State = "TestValue1587852630",

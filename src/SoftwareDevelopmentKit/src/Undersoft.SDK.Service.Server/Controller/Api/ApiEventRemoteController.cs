@@ -48,14 +48,14 @@ public abstract class ApiEventRemoteController<TKey, TStore, TDto, TModel>
     public virtual async Task<IActionResult> Get([FromHeader] int page, [FromHeader] int limit)
     {
         return Ok(
-            (await _servicer.Entry(new RemoteGet<TStore, TDto, TModel>((page - 1) * limit, limit))).Result.Commit()
+            (await _servicer.Send(new RemoteGet<TStore, TDto, TModel>((page - 1) * limit, limit))).Result.Commit()
         );
     }
 
     [HttpGet("count")]
     public virtual async Task<IActionResult> Count()
     {
-        return Ok(await Task.Run(() => _servicer.RemoteSet<TStore, TDto>().Count()));
+        return Ok(await Task.Run(() => _servicer.RemoteSet<TStore, TDto>().Query.Count()));
     }
 
     [HttpGet("{key}")]
@@ -64,9 +64,9 @@ public abstract class ApiEventRemoteController<TKey, TStore, TDto, TModel>
         return Ok(
            (_keymatcher == null
                ? await _servicer
-                   .Report(new RemoteFind<TStore, TDto, TModel>(key))
+                   .Send(new RemoteFind<TStore, TDto, TModel>(key))
                : await _servicer
-                   .Report(
+                   .Send(
                        new RemoteFind<TStore, TDto, TModel>(
                                new QueryParameters<TDto>() { Filter = _keymatcher(key) }
                        )
@@ -94,7 +94,7 @@ public abstract class ApiEventRemoteController<TKey, TStore, TDto, TModel>
 
         return Ok(
             (await _servicer
-                .Report(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))).Result.Commit()
+                .Send(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))).Result.Commit()
         );
     }
 

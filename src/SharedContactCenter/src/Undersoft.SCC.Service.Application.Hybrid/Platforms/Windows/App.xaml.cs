@@ -1,4 +1,12 @@
-﻿// To learn more about WinUI, the WinUI project structure,
+﻿// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   application: Undersoft.SCC.Service.Application.Hybrid
+// ********************************************************
+
+// To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Undersoft.SCC.Service.Application.Hybrid.WinUI

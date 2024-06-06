@@ -1,10 +1,10 @@
 ﻿namespace Undersoft.SDK.Workflows
 {
-    using Series;
-    using Uniques;
     using Notes;
+    using Series;
     using Undersoft.SDK;
     using Undersoft.SDK.Invoking;
+    using Uniques;
 
     public class Worker : Origin, IWorker
     {

@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace Undersoft.SDK.Series
+﻿namespace Undersoft.SDK.Series
 {
-    using Uniques;
-
     public interface ISeriesItem<V>
         : IComparable<long>,
             IComparable<ISeriesItem<V>>,

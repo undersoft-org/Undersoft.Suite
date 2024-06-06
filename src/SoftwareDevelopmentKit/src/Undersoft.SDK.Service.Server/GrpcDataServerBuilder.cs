@@ -1,18 +1,14 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using ProtoBuf.Grpc.Configuration;
 using ProtoBuf.Grpc.Server;
-using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Undersoft.SDK.Service.Server;
 
-using Controller;
-using Undersoft.SDK.Service.Server.Controller.Stream;
+using Undersoft.SDK.Service.Data.Client.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Store;
-using Undersoft.SDK.Service.Data.Client.Attributes;
+using Undersoft.SDK.Service.Server.Controller.Stream;
 
 public class GrpcDataServerBuilder<TServiceStore>
     : DataServerBuilder,
@@ -104,7 +100,7 @@ public class GrpcDataServerBuilder<TServiceStore>
                         .CompressionLevel
                         .Optimal;
                 });
-                //.AddJsonTranscoding();
+            //.AddJsonTranscoding();
 
             _registry.AddSingleton(
                 BinderConfiguration.Create(binder: new GrpcDataServerBinder(_registry))

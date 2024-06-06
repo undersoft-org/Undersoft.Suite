@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 
 namespace Undersoft.SDK.Service.Server.Documentation
 {

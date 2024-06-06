@@ -1,7 +1,6 @@
 ﻿namespace Undersoft.SDK.Series
 {
     using Undersoft.SDK;
-    using Uniques;
 
     public interface ITypedSeries<V> : ISeries<V> where V : IIdentifiable
     {

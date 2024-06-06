@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Instant.Math.Set
 {
-    using System.Runtime.InteropServices;
     using SDK.Series;
     using SDK.Uniques;
+    using System.Runtime.InteropServices;
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]

@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Series
 {
+    using Base;
     using System.Collections.Generic;
     using Undersoft.SDK.Uniques;
-    using Base;
 
     public class Registry64<V> : RegistryBase<V>
     {

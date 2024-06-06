@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Undersoft.SDK.Service.Data.Repository.Pagination
+﻿namespace Undersoft.SDK.Service.Data.Repository.Pagination
 {
     public static class PagedSetEnumerableExtensions
     {

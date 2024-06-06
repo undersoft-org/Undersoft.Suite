@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Undersoft.SDK.Stocks.MMF.Handle;
 using Undersoft.SDK.Stocks.MMF.Native;
 

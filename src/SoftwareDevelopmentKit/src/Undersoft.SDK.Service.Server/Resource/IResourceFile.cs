@@ -2,7 +2,7 @@
 
 namespace Undersoft.SDK.Service.Server.Resource
 {
-    public interface IResourceFile 
+    public interface IResourceFile
     {
         IHeaderDictionary Headers { get; }
     }

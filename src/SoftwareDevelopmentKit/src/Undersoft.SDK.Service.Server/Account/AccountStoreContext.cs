@@ -100,6 +100,10 @@ public partial class AccountStoreContext<TStore>
         {
             entity.ToTable("AccountPayments");
         });
+        builder.Entity<AccountCredentials>(entity =>
+        {
+            entity.ToTable("AccountCredentials");
+        });
     }
 
     public IQueryable<TEntity> EntitySet<TEntity>() where TEntity : class

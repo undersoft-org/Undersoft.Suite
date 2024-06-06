@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Undersoft.SDK.Estimating
 {
@@ -12,9 +9,9 @@ namespace Undersoft.SDK.Estimating
 
         }
 
-        public EstimatorSeries(IList<EstimatorItem> range) 
+        public EstimatorSeries(IList<EstimatorItem> range)
         {
-           
+
         }
 
         public void AddRange(IEnumerable<EstimatorItem> range)

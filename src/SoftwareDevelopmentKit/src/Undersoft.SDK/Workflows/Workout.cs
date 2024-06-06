@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Workflows
 {
-    using System.Linq;
     using Series;
+    using System.Linq;
     using Undersoft.SDK.Invoking;
 
     public class Workout

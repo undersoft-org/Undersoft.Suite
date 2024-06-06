@@ -2,8 +2,6 @@
 
 namespace Undersoft.SDK.Service.Operation.Remote.Command.Notification.Handler;
 using Logging;
-
-using Series;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Store;

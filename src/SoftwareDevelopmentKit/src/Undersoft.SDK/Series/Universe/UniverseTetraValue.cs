@@ -1,6 +1,4 @@
-﻿using Undersoft.SDK.Series.Universe.Base;
-
-namespace Undersoft.SDK.Series.Universe
+﻿namespace Undersoft.SDK.Series.Universe
 {
     public class UniverseTetraValue : Base.Universe, IDisposable
     {

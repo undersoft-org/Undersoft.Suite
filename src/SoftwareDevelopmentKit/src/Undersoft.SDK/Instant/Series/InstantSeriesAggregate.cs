@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Instant.Series
 {
-    using System.Linq;
     using Rubrics;
+    using System.Linq;
 
     public class InstantSeriesAggregate
     {

@@ -1,17 +1,11 @@
-﻿using Serilog;
-using Serilog.Core;
+﻿using Microsoft.Extensions.Configuration;
+using Serilog;
 using Serilog.Events;
-using Serilog.Extensions.Logging;
-using Serilog.Sinks;
-using Serilog.Settings;
+using Serilog.Expressions;
+using Serilog.Settings.Configuration;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Reflection;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Serilog.Settings.Configuration;
-using Serilog.Expressions;
 
 namespace Undersoft.SDK.Logging
 {

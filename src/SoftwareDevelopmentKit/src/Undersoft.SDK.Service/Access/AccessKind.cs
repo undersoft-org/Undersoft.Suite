@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Undersoft.SDK.Service.Access
+﻿namespace Undersoft.SDK.Service.Access
 {
     public enum AccessKind
     {

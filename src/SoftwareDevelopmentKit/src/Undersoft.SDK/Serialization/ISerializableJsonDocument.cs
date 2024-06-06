@@ -2,7 +2,7 @@
 
 namespace Undersoft.SDK.Serialization;
 
-public interface ISerializableJsonDocument 
+public interface ISerializableJsonDocument
 {
     JsonDocument Document { get; set; }
 

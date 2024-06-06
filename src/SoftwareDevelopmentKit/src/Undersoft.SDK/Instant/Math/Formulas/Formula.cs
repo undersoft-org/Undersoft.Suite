@@ -1,10 +1,10 @@
 ﻿namespace Undersoft.SDK.Instant.Math.Formulas
 {
-    using Set;
     using Operation;
-    using System.Reflection.Emit;
     using Operation.Binary.Operator;
     using Operation.Unsigned.Formulas;
+    using Set;
+    using System.Reflection.Emit;
     using Undersoft.SDK.Instant.Math;
 
     [Serializable]

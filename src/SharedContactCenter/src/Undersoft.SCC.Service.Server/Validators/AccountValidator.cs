@@ -1,12 +1,27 @@
-﻿using Undersoft.SDK;
+﻿// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   server: Undersoft.SCC.Service.Server
+// ********************************************************
+
+using Undersoft.SDK;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Operation.Command.Validator;
 using Undersoft.SDK.Service.Server.Accounts;
 
 namespace Undersoft.SCC.Service.Server.Validators;
 
+/// <summary>
+/// The account validator.
+/// </summary>
 public class AccountValidator : CommandValidator<Account>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AccountValidator"/> class.
+    /// </summary>
+    /// <param name="servicer">The servicer.</param>
     public AccountValidator(IServicer servicer) : base(servicer)
     {
         ValidationScope(

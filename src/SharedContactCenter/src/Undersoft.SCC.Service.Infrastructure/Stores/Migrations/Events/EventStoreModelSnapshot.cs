@@ -33,7 +33,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Events
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);

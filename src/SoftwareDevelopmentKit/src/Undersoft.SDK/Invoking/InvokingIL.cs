@@ -1,12 +1,10 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
-using Undersoft.SDK.Series;
-using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK.Invoking
 {
     public static class InvokingIL
-    {        
+    {
         public static Delegate Create(MethodInfo methodInfo)
         {
             DynamicMethod dynamicMethod = new DynamicMethod(
@@ -152,5 +150,5 @@ namespace Undersoft.SDK.Invoking
                 il.Emit(OpCodes.Ldc_I4, value);
             }
         }
-    }    
+    }
 }

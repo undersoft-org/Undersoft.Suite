@@ -1,6 +1,13 @@
 using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SCC.Service.Application.GUI.Compound.Access.Dialog;
-using Undersoft.SCC.Service.Contracts;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License.
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
@@ -9,70 +16,130 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Application.GUI.View.Generic.Form.Dialog;
 using Undersoft.SDK.Updating;
 
-namespace Undersoft.SCC.Service.Application.GUI.Compound.Access
+namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
+
+using Undersoft.SCC.Service.Application.GUI.Compound.Access.Dialog;
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The confirm password reset base.
+/// </summary>
+public partial class ConfirmPasswordResetBase : ComponentBase
 {
-    public partial class ConfirmPasswordResetBase : ComponentBase
+    /// <summary>
+    /// Gets or sets the access.
+    /// </summary>
+    /// <value>An <see cref="IAccountAccess"/></value>
+    [Inject]
+    private IAccountAccess _access { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the navigation.
+    /// </summary>
+    /// <value>A <see cref="NavigationManager"/></value>
+    [Inject]
+    private NavigationManager _navigation { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the servicer.
+    /// </summary>
+    /// <value>An <see cref="IServicer"/></value>
+    [Inject]
+    private IServicer _servicer { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the dialog service.
+    /// </summary>
+    /// <value>An <see cref="IDialogService"/></value>
+    [Inject]
+    public IDialogService DialogService { get; set; } = default!;
+
+    /// <summary>
+    /// The dialog.
+    /// </summary>
+    private IViewDialog<Credentials> _dialog = default!;
+
+    /// <summary>
+    /// Gets or sets the email.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    [Parameter]
+    public string? Email { get; set; }
+
+    /// <summary>
+    /// On initialized.
+    /// </summary>
+    protected override void OnInitialized()
     {
-        [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        _dialog = _servicer.Initialize<
+            AccessDialog<GenericFormDialog<Credentials, AccessValidator>, Credentials>
+        >(DialogService);
+    }
 
-        [Inject]
-        private NavigationManager _navigation { get; set; } = default!;
+    /// <summary>
+    /// On after render.
+    /// </summary>
+    /// <param name="firstRender">If true, first render.</param>
+    /// <returns>A <see cref="Task"/></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await ConfirmingPasswordReset(
+                "Password recovery confirmation",
+                "Please check your e-mail"
+            );
+    }
 
-        [Inject]
-        private IServicer _servicer { get; set; } = default!;
+    /// <summary>
+    /// Confirming password reset.
+    /// </summary>
+    /// <param name="title">The title.</param>
+    /// <param name="description">The description.</param>
+    /// <returns>A <see cref="Task"/></returns>
+    private async Task ConfirmingPasswordReset(string title, string description = "")
+    {
+        var data = new ViewData<Credentials>(
+            new Credentials() { Email = Email },
+            OperationType.Delete,
+            title
+        );
+        data.SetVisible("PasswordResetToken");
+        data.Description = description;
+        data.Width = "360px";
+        data.Height = "360px";
 
-        [Inject]
-        public IDialogService DialogService { get; set; } = default!;
-
-        private IViewDialog<Credentials> _dialog = default!;
-
-        [Parameter]
-        public string? Email { get; set; }
-
-        protected override void OnInitialized()
+        while (true)
         {
-            _dialog = _servicer.Initialize<AccessDialog<GenericFormDialog<Credentials, AccessValidator>, Credentials>>(DialogService);
+            await _dialog.Show(data);
+            var result = await HandleDialog(_dialog.Content);
+            if (result == null)
+                break;
+            data.ClearData();
+            result.Notes.PatchTo(data.Notes);
+        }
+    }
+
+    /// <summary>
+    /// Handle the dialog.
+    /// </summary>
+    /// <param name="content">The content.</param>
+    /// <returns>A <see cref="Task"/> of type <see cref="IAuthorization"/></returns>
+    private async Task<IAuthorization?> HandleDialog(IViewData<Credentials>? content)
+    {
+        if (content == null)
+        {
+            _navigation.NavigateTo("");
+            return null;
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        var result = await _access.ResetPassword(new Account() { Credentials = content!.Model });
+
+        if (result.Notes.Status == SigningStatus.ResetPasswordConfirmed)
         {
-            if (firstRender)
-                await ConfirmingPasswordReset("Password recovery confirmation", "Please check your e-mail");
+            _navigation.NavigateTo("");
+            return null;
         }
 
-        private async Task ConfirmingPasswordReset(string title, string description = "")
-        {
-            var data = new ViewData<Credentials>(new Credentials() { Email = Email }, OperationType.Delete, title);
-            data.SetVisible("PasswordResetToken");
-            data.Description = description;
-            data.Width = "360px";
-            data.Height = "360px";
-
-            while (true)
-            {
-                await _dialog.Show(data);
-
-                var content = _dialog.Content;
-
-                if (content != null)
-                {
-                    var result = await _access.ResetPassword(new Account() { Credentials = content.Model });
-
-                    if (result.Notes.Status == SigningStatus.ResetPasswordConfirmed)
-                    {
-                        _navigation.NavigateTo($"");
-                        return;
-                    }
-                    data.ClearData();
-                    result.Notes.PatchTo(data.Notes);
-                }
-                else
-                {
-                    _navigation.NavigateTo("");
-                    return;
-                }
-            }
-        }
+        return result;
     }
 }

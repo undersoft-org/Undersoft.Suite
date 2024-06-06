@@ -1,7 +1,7 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Service.Infrastructure.Stores;
 
 namespace Undersoft.SCC.Service.Infrastructure.Tests.Stores;

@@ -3,7 +3,6 @@
 using System.Runtime.Serialization;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SDK.Service.Data.Model;
 using Undersoft.SDK.Service.Data.Object;
 
 [DataContract]

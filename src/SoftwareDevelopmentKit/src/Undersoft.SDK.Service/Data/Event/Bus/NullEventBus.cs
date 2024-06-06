@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Undersoft.SDK.Service.Data.Event.Handler;
+﻿using Undersoft.SDK.Service.Data.Event.Handler;
 
 namespace Undersoft.SDK.Service.Data.Event.Bus
 {

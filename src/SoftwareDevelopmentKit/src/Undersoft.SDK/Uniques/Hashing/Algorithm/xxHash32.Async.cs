@@ -2,10 +2,10 @@
 {
     using System.Buffers;
     using System.Diagnostics;
-    using Undersoft.SDK.Extracting;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using Undersoft.SDK.Extracting;
 
     public static partial class xxHash32
     {

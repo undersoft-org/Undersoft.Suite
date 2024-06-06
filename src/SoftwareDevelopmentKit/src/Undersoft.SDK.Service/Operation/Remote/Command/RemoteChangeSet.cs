@@ -1,8 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text.Json.Serialization;
-using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Event;
-using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SDK.Service.Operation.Remote.Command;
 

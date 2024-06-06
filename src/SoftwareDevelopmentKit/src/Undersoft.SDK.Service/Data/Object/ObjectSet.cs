@@ -1,9 +1,5 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.Serialization;
-using Undersoft.SDK.Series;
-using Undersoft.SDK.Service.Data.Object;
-using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK.Service.Data.Object
 {
@@ -21,7 +17,7 @@ namespace Undersoft.SDK.Service.Data.Object
 
         [IgnoreDataMember]
         public TDto Single
-        { 
+        {
             get => this.FirstOrDefault();
         }
 

@@ -1,9 +1,9 @@
 ﻿namespace Undersoft.SDK.Instant.Series.Querying
 {
+    using Rubrics;
     using System;
     using System.ComponentModel;
     using System.Linq;
-    using Rubrics;
 
     [Serializable]
     public class InstantSeriesFilterTerm : ICloneable, IInstantSeriesFilterTerm

@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Instant.Math.Formulas
 {
+    using Set;
     using System;
     using System.Reflection.Emit;
-    using Set;
     using Undersoft.SDK.Instant.Math;
 
     [Serializable]

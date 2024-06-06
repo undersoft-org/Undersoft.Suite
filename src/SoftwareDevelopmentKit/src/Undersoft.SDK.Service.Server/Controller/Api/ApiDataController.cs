@@ -58,14 +58,14 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
     public virtual async Task<IActionResult> Get([FromHeader] int page, [FromHeader] int limit)
     {
         return Ok((await _servicer
-                .Report(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
+                .Send(new Get<TStore, TEntity, TDto>((page - 1) * limit, limit))).Result.Commit()
         );
     }
 
     [HttpGet("count")]
     public virtual async Task<IActionResult> Count()
     {
-        return Ok(await Task.Run(() => _servicer.StoreSet<TStore, TEntity>().Count()));
+        return Ok(await Task.Run(() => _servicer.StoreSet<TStore, TEntity>().Query.Count()));
     }
 
     [HttpGet("{key}")]
@@ -74,9 +74,9 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
         return Ok((
             _keymatcher == null
                 ? await _servicer
-                    .Report(new Find<TStore, TEntity, TDto>(key))
+                    .Send(new Find<TStore, TEntity, TDto>(key))
                 : await _servicer
-                    .Report(
+                    .Send(
                         new Find<TStore, TEntity, TDto>(
                                 new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                         ))).Result.FirstOrDefault()
@@ -104,7 +104,7 @@ public abstract class ApiDataController<TKey, TStore, TEntity, TDto, TService>
 
         return Ok(
             (await _servicer
-                .Report(new Filter<TStore, TEntity, TDto>(0, 0, param))
+                .Send(new Filter<TStore, TEntity, TDto>(0, 0, param))
                 ).Result.Commit()
         );
     }

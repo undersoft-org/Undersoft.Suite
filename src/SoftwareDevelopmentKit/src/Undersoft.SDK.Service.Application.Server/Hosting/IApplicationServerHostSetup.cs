@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Undersoft.SDK.Service.Server.Hosting;
+﻿using Undersoft.SDK.Service.Server.Hosting;
 
 namespace Undersoft.SDK.Service.Application.Server.Hosting
 {

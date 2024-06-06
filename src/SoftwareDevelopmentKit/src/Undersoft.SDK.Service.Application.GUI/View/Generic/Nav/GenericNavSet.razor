@@ -14,7 +14,7 @@
         
             @foreach (var rubric in Data.ExtendedRubrics)
             {
-                <FluentAccordionItem Id="@rubric.RubricName" Class="fluent-nav-group fluent-nav-item" Style="margin:0px; " ExpandedChanged="@((e) => OnExpandLink(rubric))">
+                <FluentAccordionItem Id="@rubric.RubricName" Class="generic-nav-root fluent-nav-group fluent-nav-item" Style="margin:0px; " ExpandedChanged="@((e) => OnExpandLink(rubric))">
                     
                     <HeadingTemplate>
                         <div class="generic-nav-category"  style="padding:0px; margin:0px; height:20px">

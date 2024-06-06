@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using JetBrains.Annotations;
 using Undersoft.SDK.Service.Data.Blob.Container;
 
 namespace Undersoft.SDK.Service.Data.Blob

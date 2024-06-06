@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Workflows.Notes
 {
+    using Series;
     using System.Collections.Generic;
     using System.Linq;
-    using Series;
     using Undersoft.SDK.Workflows;
 
     public class WorkNoteEvokers : Registry<WorkNoteEvoker>

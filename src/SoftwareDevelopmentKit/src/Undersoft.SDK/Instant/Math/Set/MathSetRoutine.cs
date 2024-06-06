@@ -1,10 +1,9 @@
 ﻿namespace Undersoft.SDK.Instant.Math.Set
 {
-    using System.Linq;
+    using Rubrics;
     using SDK.Series;
     using SDK.Series.Base;
-    using Set;
-    using Rubrics;
+    using System.Linq;
     using Undersoft.SDK.Instant.Series;
 
     public class MathSetRoutine : ListingBase<MathSetFormula>

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
+using System.Collections.Concurrent;
 
 namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq
 {

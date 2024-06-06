@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Series
 {
+    using Base;
     using System.Runtime.InteropServices;
     using Undersoft.SDK.Uniques;
-    using Base;
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]

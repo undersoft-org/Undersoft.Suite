@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Domain.Entities;
 using Undersoft.SCC.Domain.Entities.Contacts;
 using Undersoft.SCC.Domain.Entities.Enums;
@@ -195,7 +195,7 @@ public class ContactOrganizationTests
                 Contact = default(Contact)
             },
             AddressId = 2055362342L,
-            Address = new ContactAddress
+            Address = new Address
             {
                 Country = "TestValue1723329831",
                 State = "TestValue1024495039",

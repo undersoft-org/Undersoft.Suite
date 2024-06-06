@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Undersoft.SDK.Series;
-using JetBrains.Annotations;
-using Undersoft.SDK.Service.Data.Blob;
 
 namespace Undersoft.SDK.Service.Data.Blob.Container
 {

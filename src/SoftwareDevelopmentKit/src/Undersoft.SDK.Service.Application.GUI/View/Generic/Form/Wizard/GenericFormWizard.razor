@@ -26,11 +26,11 @@
             <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
                 <FluentWizard Id="generic-wizard" @bind-Value="@ActiveId" StepTitleHiddenWhen="@GridItemHidden.None" Width="100%" StepperPosition="Position">
                     <Steps>
-                        @foreach (var _rubric in _rubrics)
+                        @foreach (var _rubric in _extendedRubrics)
                         {
                             @if (ContainsStepData(_rubric))
                             {
-                                <GenericFormWizardStep Rubric="_rubric" Data="@(GetStepData(_rubric))"  />
+                                <GenericFormWizardStep Rubric="_rubric" Data="@(GetStepData(_rubric))" />
                             }
                         }
                     </Steps>
@@ -47,12 +47,12 @@
 
 @code
 {
-    private IViewRubrics _rubrics => Content.Rubrics;
+    private IViewRubrics _extendedRubrics => Content.ExtendedRubrics;
 
     public int ActiveId
     {
         get => Content.ActiveRubric.RubricOrdinal;
-        set => Content.ActiveRubric = Content.Rubrics[value];
+        set => Content.ActiveRubric = Content.ExtendedRubrics[value];
     }
 
     [CascadingParameter]
@@ -73,11 +73,12 @@
     protected override void OnInitialized()
     {
         Content.View = this;
-        if (!Content.Rubrics.Any())
-            Content.MapRubrics(t => t.Rubrics, p => p.Visible);
-        var firstRubric = Content.Rubrics.FirstOrDefault();
+        Content.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+        Content.InstantiateNulls(t => t.ExtendedRubrics);
+        var firstRubric = Content.ExtendedRubrics.FirstOrDefault();
         if (firstRubric != null)
             Content.ActiveRubric = firstRubric;
+
         base.OnInitialized();
     }
 

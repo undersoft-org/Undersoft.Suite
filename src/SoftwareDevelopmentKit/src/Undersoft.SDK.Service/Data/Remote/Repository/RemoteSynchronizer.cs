@@ -1,7 +1,4 @@
 ﻿using Microsoft.OData.Client;
-using Undersoft.SDK.Series;
-using System;
-using System.Threading;
 using Undersoft.SDK.Service.Data.Repository;
 
 namespace Undersoft.SDK.Service.Data.Remote.Repository;

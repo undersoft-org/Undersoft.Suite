@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Workflows.Notes
 {
-    using System.Linq;
     using Series;
+    using System.Linq;
     using Undersoft.SDK.Workflows;
 
     public enum EvokerType

@@ -1,7 +1,13 @@
 using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SCC.Service.Application.GUI.Compound.Access.Dialog;
-using Undersoft.SCC.Service.Contracts;
-using Undersoft.SCC.Service.Contracts.Accounts;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License.
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
@@ -9,93 +15,120 @@ using Undersoft.SDK.Service.Application.GUI.View;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Updating;
 
-namespace Undersoft.SCC.Service.Application.GUI.Compound.Access
+namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
+
+using Undersoft.SCC.Service.Application.GUI.Compound.Access.Dialog;
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The register base.
+/// </summary>
+public partial class RegisterBase : ComponentBase
 {
-    public partial class RegisterBase : ComponentBase
+    /// <summary>
+    /// Gets or sets the access.
+    /// </summary>
+    /// <value>An IAccountService</value>
+    [Inject]
+    private IAccountService<Account> _access { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the navigation.
+    /// </summary>
+    /// <value>A <see cref="NavigationManager"/></value>
+    [Inject]
+    private NavigationManager _navigation { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the servicer.
+    /// </summary>
+    /// <value>An <see cref="IServicer"/></value>
+    [Inject]
+    private IServicer _servicer { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the authorization.
+    /// </summary>
+    /// <value>An <see cref="IAuthorization"/></value>
+    [Inject]
+    private IAuthorization _authorization { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the dialog service.
+    /// </summary>
+    /// <value>An <see cref="IDialogService"/></value>
+    [Inject]
+    public IDialogService DialogService { get; set; } = default!;
+
+    /// <summary>
+    /// The dialog.
+    /// </summary>
+    private IViewDialog<Account> _dialog = default!;
+
+    /// <summary>
+    /// On initialized.
+    /// </summary>
+    protected override void OnInitialized()
     {
-        [Inject]
-        private IAccountService<Account> _access { get; set; } = default!;
+        _dialog = _servicer.Initialize<AccessDialog<RegisterDialog<Account, AccountValidator>, Account>>(DialogService);
+    }
 
-        [Inject]
-        private NavigationManager _navigation { get; set; } = default!;
+    /// <summary>
+    /// On after render.
+    /// </summary>
+    /// <param name="firstRender">If true, first render.</param>
+    /// <returns>A <see cref="Task"/></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await Registering("Registration");
+    }
 
-        [Inject]
-        private IServicer _servicer { get; set; } = default!;
+    private async Task Registering(string title, string description = "")
+    {
+        var account = new Account(_authorization.Credentials.Email);
 
-        [Inject]
-        private IAuthorization _authorization { get; set; } = default!;
+        account.Credentials = _authorization.Credentials;
+        _authorization.Credentials.PatchTo(account.Personal);
 
-        [Inject]
-        public IDialogService DialogService { get; set; } = default!;
+        var data = new ViewData<Account>(account, OperationType.Any, title);
 
-        private IViewDialog<Account> _dialog = default!;
+        data.Description = description;
+        data.Height = "700px";
+        data.Width = "400px";
 
-        protected override void OnInitialized()
+        while (true)
         {
-            _dialog = _servicer.Initialize<
-                AccessDialog<RegisterDialog<Account, AccountValidator>, Account>
-            >(DialogService);
+            await _dialog.Show(data);
+            var result = await HandleDialog(_dialog.Content);
+            if (result == null)
+                break;
+            result.Notes.PatchTo(data.Notes);
+        }
+    }
+
+    private async Task<IAuthorization?> HandleDialog(IViewData<Account>? content)
+    {
+        if (content == null)
+        {
+            _navigation.NavigateTo("", true);
+            return null;
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        if (content!.StateFlags.Canceled)
+            content.Model.Notes.Status = SigningStatus.RegistrationNotCompleted;
+
+        var result = await _access.Register(content.Model);
+
+        if (
+            result.Notes.Status != SigningStatus.InvalidEmail
+            && result.Notes.Status == SigningStatus.RegistrationCompleted
+        )
         {
-            if (firstRender)
-                await Registering("Registration");
+            _navigation.NavigateTo("access/sign_in");
+            return null;
         }
 
-        private async Task Registering(string title, string description = "")
-        {
-            var account = new Account(_authorization.Credentials.Email)
-            {
-                Personal = new AccountPersonal(),
-                Address = new AccountAddress(),
-                Professional = new AccountProfessional(),
-                Organization = new AccountOrganization()
-            };
-
-            account.Credentials = _authorization.Credentials;
-            _authorization.Credentials.PatchTo(account.Personal);
-
-            var data = new ViewData<Account>(account, OperationType.Any, title);
-            data.SetVisible(
-                nameof(Account.Personal),
-                nameof(Account.Address),
-                nameof(Account.Professional),
-                nameof(Account.Organization)
-            );
-            data.Description = description;
-            data.Height = "700px";
-            data.Width = "400px";
-
-            while (true)
-            {
-                await _dialog.Show(data);
-
-                var content = _dialog.Content;
-
-                if (content != null)
-                {
-                    if (content.StateFlags.Canceled)
-                        content.Model.Notes.Status = SigningStatus.RegistrationNotCompleted;
-
-                    var result = await _access.Register(content.Model);
-
-                    if (
-                        result.Notes.Status != SigningStatus.InvalidEmail
-                        && result.Notes.Status == SigningStatus.RegistrationCompleted
-                    )
-                    {
-                        _navigation.NavigateTo("access/sign_in");
-                        return;
-                    }
-                    result.Notes.PatchTo(data.Notes);
-                }
-                else
-                {
-                    _navigation.NavigateTo("", true);
-                    return;
-                }
-            }
-        }
+        return result;
     }
 }

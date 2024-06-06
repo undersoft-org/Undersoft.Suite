@@ -6,7 +6,7 @@
 
         public List<EstimatorCluster> Clusters { get; set; }
 
-        public EstimatorSeries HyperClusterItems { get; set; } 
+        public EstimatorSeries HyperClusterItems { get; set; }
 
         public double[] HyperClusterVectorSummary { get; set; }
 

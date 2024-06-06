@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Undersoft.SDK.Service.Data.Repository;
+﻿namespace Undersoft.SDK.Service.Data.Repository;
 
 using Invoking;
 

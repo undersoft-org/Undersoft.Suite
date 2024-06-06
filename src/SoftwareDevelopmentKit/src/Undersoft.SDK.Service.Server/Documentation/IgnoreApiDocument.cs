@@ -3,11 +3,6 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using System.Linq;
 
 namespace Undersoft.SDK.Service.Server.Documentation
 {
@@ -130,7 +125,7 @@ namespace Undersoft.SDK.Service.Server.Documentation
                 schema.Properties.Remove(propertyToExclude);
             }
         }
-    }   
+    }
 
 }
 

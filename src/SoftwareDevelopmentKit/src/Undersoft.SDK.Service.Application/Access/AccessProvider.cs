@@ -23,6 +23,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccountSer
     private readonly string EXPIRATIONTOKENKEY = "EXPIRATIONTOKENKEY";
     private readonly string EMAILKEY = "EMAILKEY";
     private TAccount? _account;
+    private AccessState _accessState;
 
     private AuthenticationState Anonymous =>
         new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
@@ -81,27 +82,34 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccountSer
         return await GetAccessStateAsync(token);
     }
 
+    public async Task<ClaimsPrincipal?> CurrentState()
+    {
+        if (_accessState != null)
+            return (await GetAuthenticationStateAsync()).User;
+        return null;
+    }
+
     public AccessState GetAccessState(string token)
     {
         _authorization.Credentials.SessionToken = token;
-        var accessState = new AccessState(
-            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt"))
+        _accessState = new AccessState(
+            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt", "name", "role"))
         );
-        if (accessState.User.Identity != null)
-            _authorization.Credentials.Authenticated = accessState.User.Identity.IsAuthenticated;
-        return accessState;
+        if (_accessState.User.Identity != null)
+            _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
+        return _accessState;
     }
 
     public async Task<AccessState> GetAccessStateAsync(string token)
     {
         _authorization.Credentials.SessionToken = token;
         await Registered(typeof(TAccount).New<TAccount>());
-        var accessState = new AccessState(
-            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt"))
+        _accessState = new AccessState(
+            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt", "name", "role"))
         );
-        if (accessState.User.Identity != null)
-            _authorization.Credentials.Authenticated = accessState.User.Identity.IsAuthenticated;
-        return accessState;
+        if (_accessState.User.Identity != null)
+            _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
+        return _accessState;
     }
 
     private ISeries<Claim> GetTokenClaims(string jwt)

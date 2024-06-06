@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics;
 using System.Diagnostics.Metrics;
-using System.Diagnostics;
 
 namespace Undersoft.SDK.Service
 {

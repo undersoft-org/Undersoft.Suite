@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Castle.Core.Internal;
-using JetBrains.Annotations;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Undersoft.SDK.Service.Data.Blob.Container
 {

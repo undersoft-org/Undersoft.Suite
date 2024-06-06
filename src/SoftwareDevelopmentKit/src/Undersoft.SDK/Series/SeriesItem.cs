@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Series
 {
+    using Base;
     using System.Runtime.InteropServices;
     using Undersoft.SDK.Uniques;
-    using Base;
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
@@ -62,7 +62,7 @@
         }
 
         public unsafe override byte[] GetIdBytes()
-        {            
+        {
             byte[] b = new byte[8];
             fixed (byte* s = b)
                 *(long*)s = _key;

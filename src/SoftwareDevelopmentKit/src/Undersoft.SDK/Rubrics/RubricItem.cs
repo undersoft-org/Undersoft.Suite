@@ -2,8 +2,8 @@
 {
     using System.Runtime.InteropServices;
     using Undersoft.SDK.Series;
-    using Undersoft.SDK.Uniques;
     using Undersoft.SDK.Series.Base;
+    using Undersoft.SDK.Uniques;
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]

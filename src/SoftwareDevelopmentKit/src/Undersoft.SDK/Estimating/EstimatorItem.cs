@@ -4,7 +4,7 @@ namespace Undersoft.SDK.Estimating
 {
     using Uniques;
 
-    public class EstimatorItem: Identifiable
+    public class EstimatorItem : Identifiable
     {
         public string Name;
         public double[] Vector;
@@ -30,9 +30,9 @@ namespace Undersoft.SDK.Estimating
             Id = item.Id;
         }
 
-        public EstimatorItem(object vector) : this() 
-        {            
-           SetVector(vector);
+        public EstimatorItem(object vector) : this()
+        {
+            SetVector(vector);
         }
 
         public void SetVector(object vector)

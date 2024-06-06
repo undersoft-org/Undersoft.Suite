@@ -1,11 +1,7 @@
 ﻿using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Undersoft.SDK.Invoking
 {
-    using Undersoft.SDK.Instant;
-    using Uniques;
-
     public interface IInvoker : IInvokable
     {
         object TargetObject { get; set; }

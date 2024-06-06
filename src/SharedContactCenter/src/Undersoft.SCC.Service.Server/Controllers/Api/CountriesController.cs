@@ -1,21 +1,34 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   server: Undersoft.SCC.Service.Server
+// ********************************************************
+
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Api;
 
-namespace Undersoft.SCC.Service.Server.Controllers.Api
+namespace Undersoft.SCC.Service.Server.Controllers.Api;
+
+/// <summary>
+/// The countries controller.
+/// </summary>
+[Route($"{StoreRoutes.ApiDataRoute}/Country")]
+public class CountriesController
+    : ApiDataRemoteController<
+        long,
+        IDataStore,
+        Contracts.Country,
+        Contracts.Country,
+        ServiceManager
+    >
 {
-    [AllowAnonymous]
-    [Route($"{StoreRoutes.ApiDataRoute}/Country")]
-    public class CountriesController
-        : ApiDataRemoteController<
-            long,
-            IDataStore,
-            Contracts.Country,
-            Contracts.Country,
-            ServiceManager
-        >
-    {
-        public CountriesController(IServicer servicer) : base(servicer) { }
-    }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CountriesController"/> class.
+    /// </summary>
+    /// <param name="servicer">The servicer.</param>
+    public CountriesController(IServicer servicer) : base(servicer) { }
 }

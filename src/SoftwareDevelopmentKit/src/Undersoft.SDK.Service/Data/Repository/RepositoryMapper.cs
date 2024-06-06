@@ -41,9 +41,9 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         return (ISeries<TDto>)(Mapper.Map(entity, model).ToListing());
     }
 
-    public virtual TDto MapTo<TDto>(TEntity entity)
+    public virtual TDto MapTo<TDto>(TEntity entity) where TDto : class
     {
-        return Mapper.Map<TEntity, TDto>(entity);
+        return entity.PutTo<TDto>();
     }
 
     public virtual TDto MapTo<TDto>(object entity)
@@ -121,24 +121,24 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         );
     }
 
-    public virtual Task<IQueryable<TDto>> QueryMapAsyncTo<TDto>(IQueryable<TEntity> entity)
+    public virtual async Task<IQueryable<TDto>> QueryMapAsyncTo<TDto>(IQueryable<TEntity> entity)
         where TDto : class
     {
-        return entity.ForEachAsync(e => Mapper.Map<TDto>(e));
+        return await Task.FromResult(entity.AsEnumerable().ForEach(e => e.PutTo<TDto>()).AsQueryable());
     }
 
     public virtual IQueryable<TDto> QueryMapTo<TDto>(IQueryable<TEntity> entity) where TDto : class
     {
-        return entity.ForEach(e => Mapper.Map<TDto>(e));
+        return entity.ForEach(e => e.PutTo<TDto>());
     }
 
     public virtual IQueryable<TEntity> QueryMapFrom<TDto>(IQueryable<TDto> model)
     {
-        return model.ForEach(m => Mapper.Map<TDto, TEntity>(m));
+        return model.ForEach(m => m.PutTo<TEntity>());
     }
 
-    public virtual Task<IQueryable<TEntity>> QueryMapAsyncFrom<TDto>(IQueryable<TDto> model)
+    public virtual async Task<IQueryable<TEntity>> QueryMapAsyncFrom<TDto>(IQueryable<TDto> model)
     {
-        return model.ForEachAsync(m => Mapper.Map<TDto, TEntity>(m));
+        return await model.ForEachAsync(m => m.PutTo<TEntity>());
     }
 }

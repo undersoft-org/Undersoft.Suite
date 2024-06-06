@@ -1,10 +1,10 @@
 ﻿namespace Undersoft.SDK.Workflows
 {
+    using Invoking;
+    using Notes;
     using System.Collections.Generic;
     using System.Linq;
-    using Invoking;
     using Uniques;
-    using Notes;
 
     public class WorkCase<TRule> : WorkCase where TRule : class
     {

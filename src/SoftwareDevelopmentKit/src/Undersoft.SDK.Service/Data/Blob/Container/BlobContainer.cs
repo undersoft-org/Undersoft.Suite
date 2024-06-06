@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Undersoft.SDK.Service.Data.Blob;
-
-namespace Undersoft.SDK.Service.Data.Blob.Container
+﻿namespace Undersoft.SDK.Service.Data.Blob.Container
 {
     public class BlobContainer<TContainer> : IBlobContainer<TContainer>
         where TContainer : class

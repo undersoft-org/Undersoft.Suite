@@ -1,10 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Infrastructure
+// ********************************************************
+
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SCC.Service.Infrastructure.Stores
+namespace Undersoft.SCC.Service.Infrastructure.Stores;
+
+/// <summary>
+/// The report store.
+/// </summary>
+public class ReportStore : StoreBase<IReportStore, ReportStore>
 {
-    public class ReportStore : StoreBase<IReportStore, ReportStore>
-    {
-        public ReportStore(DbContextOptions<ReportStore> options) : base(options) { }
-    }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReportStore"/> class.
+    /// </summary>
+    /// <param name="options">The options.</param>
+    public ReportStore(DbContextOptions<ReportStore> options) : base(options) { }
 }

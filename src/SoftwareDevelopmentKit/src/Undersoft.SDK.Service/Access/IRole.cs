@@ -1,6 +1,4 @@
-﻿using Undersoft.SDK.Series;
-
-namespace Undersoft.SDK.Service.Access
+﻿namespace Undersoft.SDK.Service.Access
 {
     public interface IRole
     {

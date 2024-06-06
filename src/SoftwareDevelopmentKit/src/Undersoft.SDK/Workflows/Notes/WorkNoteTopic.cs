@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Workflows.Notes
 {
-    using System.Collections.Generic;
     using Series;
+    using System.Collections.Generic;
 
     public class WorkNoteTopic : Registry<WorkNote>
     {

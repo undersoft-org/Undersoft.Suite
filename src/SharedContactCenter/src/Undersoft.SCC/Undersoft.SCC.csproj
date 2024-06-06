@@ -8,6 +8,8 @@
     <Authors>Dariusz Hanc</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <Title>Undersoft Shared Contact Center</Title>
+    <Copyright>Copyright (c) Undersoft. All Rights Reserved.</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

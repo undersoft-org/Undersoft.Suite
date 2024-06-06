@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Undersoft.SDK.Uniques;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace Undersoft.SDK.Service.Server.Accounts
 {

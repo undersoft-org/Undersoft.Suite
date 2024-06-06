@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Service.Clients;
 
 namespace Undersoft.SCC.Service.Tests.Clients;

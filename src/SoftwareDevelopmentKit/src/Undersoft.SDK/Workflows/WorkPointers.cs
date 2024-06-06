@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace Undersoft.SDK.Workflows
 {
-    using Uniques;
     using Series;
+    using Uniques;
 
     public class WorkPointer : Origin
     {
-        public IntPtr Pointer {  get; set; }
+        public IntPtr Pointer { get; set; }
     }
-     
+
     public static class WorkPointers
     {
         private static TypedRegistry<WorkPointer> pointers;

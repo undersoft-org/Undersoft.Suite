@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using System.Linq;
 
 namespace Undersoft.SDK.Instant.Sql
 {

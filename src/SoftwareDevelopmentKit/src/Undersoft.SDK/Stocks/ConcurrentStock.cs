@@ -1,8 +1,8 @@
 ﻿namespace Undersoft.SDK.Stocks
 {
+    using System;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System;
     using System.Threading;
 
     public unsafe class ConcurrentStock : StockBase

@@ -1,10 +1,4 @@
-﻿using System;
-using Undersoft.SDK.Instant;
-using Undersoft.SDK.Uniques;
-using FluentValidation.Results;
-using MediatR;
-
-namespace Undersoft.SDK.Service.Data.Query
+﻿namespace Undersoft.SDK.Service.Data.Query
 {
     [Serializable]
     public enum MathOperand

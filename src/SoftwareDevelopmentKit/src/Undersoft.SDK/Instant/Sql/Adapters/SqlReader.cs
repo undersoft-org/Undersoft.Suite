@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Undersoft.SDK.Rubrics;
     using Undersoft.SDK.Instant.Series;
+    using Undersoft.SDK.Rubrics;
     using Undersoft.SDK.Series;
     using Undersoft.SDK.Uniques;
 

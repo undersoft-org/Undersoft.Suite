@@ -1,9 +1,9 @@
 ﻿namespace Undersoft.SDK.Uniques;
 
-using System;
-using Undersoft.SDK.Extracting;
-using System.Runtime.InteropServices;
 using Hashing;
+using System;
+using System.Runtime.InteropServices;
+using Undersoft.SDK.Extracting;
 
 [Serializable]
 [ComVisible(true)]

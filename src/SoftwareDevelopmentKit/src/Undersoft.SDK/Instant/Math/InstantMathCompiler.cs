@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Instant.Math;
 
-using Set;
 using Formulas;
+using Set;
 using System;
 using System.Reflection;
 using System.Reflection.Emit;

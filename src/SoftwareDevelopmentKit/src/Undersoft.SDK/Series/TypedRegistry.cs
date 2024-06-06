@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Series
 {
-    using System.Collections.Generic;
     using Base;
+    using System.Collections.Generic;
     using Undersoft.SDK;
     using Uniques;
 

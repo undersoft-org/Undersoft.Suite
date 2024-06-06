@@ -1,9 +1,4 @@
-﻿using System.Reflection;
-using System.Reflection.Emit;
-using Undersoft.SDK.Series;
-using Undersoft.SDK.Uniques;
-
-namespace Undersoft.SDK.Invoking
+﻿namespace Undersoft.SDK.Invoking
 {
     public delegate object InvokerDelegate(object target, params object[] parameters);
 

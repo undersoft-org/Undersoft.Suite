@@ -9,7 +9,7 @@
 
         private static InstantCreator GetCreator<T>(InstantType mode = InstantType.Derived)
         {
-            return GetCreator(typeof(T), mode); 
+            return GetCreator(typeof(T), mode);
         }
 
         private static InstantCreator GetCreator(Type type, InstantType mode = InstantType.Derived)
@@ -24,7 +24,7 @@
                 Cache.Add(key, figure = new InstantCreator(type, mode));
             }
             return figure;
-        }      
+        }
 
         public static InstantCreator GetCompiledCreator<T>(InstantType mode = InstantType.Derived)
         {
@@ -52,7 +52,7 @@
             var figure = item.GetInstantCreator(mode);
             figure.Create();
             return figure;
-        }       
+        }
 
         public static IInstant Create(object item, InstantType mode = InstantType.Derived)
         {

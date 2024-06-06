@@ -1,14 +1,14 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Shouldly;
+using System;
+using System.Threading.Tasks;
 using Undersoft.SCC.Service.Application.GUI.Compound.Access.Dialog;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
-using TDialog = System.String;
-using TModel = Undersoft.SDK.Stocks.StockContext;
+using TDialog = Microsoft.FluentUI.AspNetCore.Components.IDialogContentComponent<Undersoft.SDK.Service.Application.GUI.View.Abstraction.IViewData<Undersoft.SCC.Service.Application.ViewModels.Contact>>;
+using TModel = Undersoft.SCC.Service.Application.ViewModels.Contact;
 
 namespace Undersoft.SCC.Service.Application.GUI.Tests.Compound.Access.Dialog;
 

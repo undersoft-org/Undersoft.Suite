@@ -2,12 +2,11 @@
 {
     using Microsoft.Data.SqlClient;
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Text;
-    using Undersoft.SDK.Rubrics;
     using Undersoft.SDK.Instant.Series;
+    using Undersoft.SDK.Rubrics;
     using Undersoft.SDK.Series;
 
     public class SqlDeleteException : Exception

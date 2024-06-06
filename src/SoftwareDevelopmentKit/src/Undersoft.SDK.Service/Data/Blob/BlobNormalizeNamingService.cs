@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Castle.Core.Internal;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Undersoft.SDK.Service.Data.Blob.Container;
 

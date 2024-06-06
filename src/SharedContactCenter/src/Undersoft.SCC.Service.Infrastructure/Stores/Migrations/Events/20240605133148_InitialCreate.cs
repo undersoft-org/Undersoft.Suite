@@ -22,7 +22,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Events
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),

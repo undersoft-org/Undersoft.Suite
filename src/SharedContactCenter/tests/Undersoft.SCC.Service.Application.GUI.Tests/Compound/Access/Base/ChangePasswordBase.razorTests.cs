@@ -1,4 +1,3 @@
-using System;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;

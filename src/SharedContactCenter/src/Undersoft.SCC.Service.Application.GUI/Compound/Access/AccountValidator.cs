@@ -1,12 +1,28 @@
-﻿using Undersoft.SCC.Service.Contracts;
+﻿// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Application.GUI.View;
 
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
 
+using Undersoft.SCC.Service.Contracts;
+
+/// <summary>
+/// The account validator.
+/// </summary>
 public class AccountValidator : ViewValidator<Account>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AccountValidator"/> class.
+    /// </summary>
+    /// <param name="servicer">The servicer.</param>
     public AccountValidator(IServicer servicer) : base(servicer)
     {
         ValidationScope(

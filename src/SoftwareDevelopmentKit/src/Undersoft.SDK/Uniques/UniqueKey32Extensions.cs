@@ -1,12 +1,12 @@
 ﻿namespace Undersoft.SDK.Uniques
 {
+    using Hashing;
     using System.Collections;
-    using Undersoft.SDK.Extracting;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
-    using Hashing;
     using Undersoft.SDK;
+    using Undersoft.SDK.Extracting;
 
     public unsafe static class UniqueKey32Extensions
     {

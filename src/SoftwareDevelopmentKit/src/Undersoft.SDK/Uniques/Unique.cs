@@ -1,8 +1,7 @@
 ﻿namespace Undersoft.SDK.Uniques
 {
-    using System.Collections.Concurrent;
-    using System.Threading;
     using Hashing;
+    using System.Collections.Concurrent;
 
     public static class Unique
     {
@@ -25,7 +24,7 @@
 
         public static UniqueKey32 Bit32 => bit32;
 
-        public static UniqueKey64 Bit64 => bit64;  
+        public static UniqueKey64 Bit64 => bit64;
 
         public static long NewId
         {

@@ -4,7 +4,7 @@
     using Undersoft.SDK;
     using Undersoft.SDK.Uniques;
 
-    public abstract class TypedChainBase<V> : TypedSeriesBase<V> where V : IIdentifiable  
+    public abstract class TypedChainBase<V> : TypedSeriesBase<V> where V : IIdentifiable
     {
         public TypedChainBase(
             IEnumerable<IUnique<V>> collection,

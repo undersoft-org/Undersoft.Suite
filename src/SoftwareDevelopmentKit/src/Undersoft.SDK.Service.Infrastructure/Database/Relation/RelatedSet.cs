@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 namespace Undersoft.SDK.Service.Infrastructure.Database.Relation;
 
 using Undersoft.SDK.Proxies;
-using Undersoft.SDK.Service.Data.Object;
 
 public class RelatedSet<TEntity> : KeyedCollection<long, TEntity>, IFindable where TEntity : class, IOrigin, IInnerProxy
 {

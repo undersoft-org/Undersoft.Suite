@@ -1,15 +1,13 @@
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Undersoft.SDK.Service.Server;
 
-using Controller;
-using Undersoft.SDK.Service.Server.Controller.Api;
+using Undersoft.SDK.Service.Data.Client.Attributes;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Store;
-using Undersoft.SDK.Service.Data.Client.Attributes;
+using Undersoft.SDK.Service.Server.Controller.Api;
 
-public class RestDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuilder<TStore>  where TStore :  IDataStore
+public class RestDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuilder<TStore> where TStore : IDataStore
 {
     IServiceRegistry _registry;
 

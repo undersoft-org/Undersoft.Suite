@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq
+﻿namespace Undersoft.SDK.Service.Data.Event.Provider.RabbitMq
 {
     public class ExchangeDeclareConfiguration
     {

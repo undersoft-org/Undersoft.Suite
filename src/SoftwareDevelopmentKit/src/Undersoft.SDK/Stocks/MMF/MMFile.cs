@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32.SafeHandles;
-using System.IO;
 using System.Security;
 using Undersoft.SDK.Stocks.MMF.Handle;
 using Undersoft.SDK.Stocks.MMF.Native;

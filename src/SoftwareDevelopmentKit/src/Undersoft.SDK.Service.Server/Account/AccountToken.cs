@@ -9,5 +9,5 @@ public class AccountToken : IdentityUserToken<long>, IIdentifiable
     public long TypeId { get; set; }
 
     public long AccountId { get; set; }
-    public virtual Account Account {  get; set; }
+    public virtual Account Account { get; set; }
 }

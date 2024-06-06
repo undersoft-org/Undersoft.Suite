@@ -1,6 +1,4 @@
-﻿using Undersoft.SDK.Service.Data.Blob;
-
-namespace Undersoft.SDK.Service.Data.Blob.Container
+﻿namespace Undersoft.SDK.Service.Data.Blob.Container
 {
     public static class BlobContainerFactoryExtensions
     {

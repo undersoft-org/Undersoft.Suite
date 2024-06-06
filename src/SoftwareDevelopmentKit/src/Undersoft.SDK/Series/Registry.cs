@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Undersoft.SDK.Series
+﻿namespace Undersoft.SDK.Series
 {
     using Base;
 

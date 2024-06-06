@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using Undersoft.SCC.Domain.Entities.Enums;
 using Undersoft.SCC.Service.Application.ViewModels;
 using Undersoft.SCC.Service.Application.ViewModels.Contacts;

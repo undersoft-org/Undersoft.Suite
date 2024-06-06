@@ -1,15 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Undersoft.SDK.Series;
-using Undersoft.SDK.Uniques;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
-using System.Linq;
 using Undersoft.SDK.Service.Data.Query;
-using Undersoft.SDK.Service.Data.Repository;
-using Undersoft.SDK.Proxies;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 

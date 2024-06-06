@@ -44,8 +44,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             else if (Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data"))
                 Model.Proxy[Rubric.RubricName + "Data"] = bytes;
 
-            Image = GetDataUri(fileInfo, bytes);
-
             await file.Stream!.DisposeAsync();
         }
 

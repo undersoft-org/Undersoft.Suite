@@ -1,7 +1,7 @@
 ﻿namespace Undersoft.SDK.Series
 {
-    using Undersoft.SDK.Uniques;
     using Base;
+    using Undersoft.SDK.Uniques;
 
     public class Catalog32<V> : CatalogBase<V>
     {

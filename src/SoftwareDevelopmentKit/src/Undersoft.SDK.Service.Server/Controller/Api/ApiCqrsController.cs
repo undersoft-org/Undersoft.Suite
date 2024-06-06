@@ -48,7 +48,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
     {
         return Ok(
             (
-                await _servicer.Report(new Get<TReport, TEntity, TDto>((page - 1) * limit, limit))
+                await _servicer.Send(new Get<TReport, TEntity, TDto>((page - 1) * limit, limit))
             ).Result.Commit()
         );
     }
@@ -56,7 +56,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
     [HttpGet("count")]
     public override async Task<IActionResult> Count()
     {
-        return Ok(await Task.Run(() => _servicer.StoreSet<TReport, TEntity>().Count()));
+        return Ok(await Task.Run(() => _servicer.StoreSet<TReport, TEntity>().Query.Count()));
     }
 
     [HttpGet("{key}")]
@@ -65,8 +65,8 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
         return Ok(
             (
                 _keymatcher == null
-                    ? await _servicer.Report(new Find<TReport, TEntity, TDto>(key))
-                    : await _servicer.Report(
+                    ? await _servicer.Send(new Find<TReport, TEntity, TDto>(key))
+                    : await _servicer.Send(
                         new Find<TReport, TEntity, TDto>(
                             new QueryParameters<TEntity>() { Filter = _keymatcher(key) }
                         )
@@ -97,7 +97,7 @@ public abstract class ApiCqrsController<TKey, TEntry, TReport, TEntity, TDto, TS
         return Ok(
             (
                 await _servicer
-                    .Report(new Filter<TReport, TEntity, TDto>(0, 0, param))
+                    .Send(new Filter<TReport, TEntity, TDto>(0, 0, param))
             ).Result.Commit()
         );
     }

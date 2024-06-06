@@ -1,6 +1,4 @@
-﻿using Undersoft.SDK.Estimating;
-
-namespace Undersoft.SDK.Estimating
+﻿namespace Undersoft.SDK.Estimating
 {
     public class EstimatorCluster
     {
@@ -19,14 +17,14 @@ namespace Undersoft.SDK.Estimating
             ClusterVectorSummary = new double[item.Vector.Length];
             Array.Copy(item.Vector, ClusterVectorSummary, item.Vector.Length);
             ClusterItems = new EstimatorSeries();
-            ClusterItems.Add(item);                                                                                                             
+            ClusterItems.Add(item);
         }
 
         public bool RemoveItemFromCluster(EstimatorItem item)
         {
             if (ClusterItems.Remove(item) == true)
             {
-                if (ClusterItems.Count > 0)  
+                if (ClusterItems.Count > 0)
                 {
                     AdaptiveResonainceTheoryEstimator.CalculateIntersection(ClusterItems, ClusterVector);
                     AdaptiveResonainceTheoryEstimator.CalculateSummary(ClusterItems, ClusterVectorSummary);

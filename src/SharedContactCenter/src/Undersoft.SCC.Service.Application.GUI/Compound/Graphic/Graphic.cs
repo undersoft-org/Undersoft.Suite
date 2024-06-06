@@ -1,9 +1,23 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Graphic;
 
+/// <summary>
+/// The logo SCC.
+/// </summary>
 public class LogoSCC : Icon
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LogoSCC"/> class.
+    /// </summary>
     public LogoSCC()
         : base(
             "Undersoft",

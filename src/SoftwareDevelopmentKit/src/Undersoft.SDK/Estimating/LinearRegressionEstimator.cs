@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-namespace Undersoft.SDK.Estimating
+﻿namespace Undersoft.SDK.Estimating
 {
-    using Undersoft.SDK.Series;
-
     public class LinearRegressionEstimator : Estimator
     {
         //parameters can be done as a matrix

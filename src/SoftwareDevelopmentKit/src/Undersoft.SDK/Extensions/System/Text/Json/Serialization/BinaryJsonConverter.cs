@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace System.Text.Json.Serialization
 {
     public sealed class BinaryJsonConverter : JsonConverter<byte[]>

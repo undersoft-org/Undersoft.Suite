@@ -60,10 +60,10 @@
     public int ActiveId
     {
         get => Content.ActiveRubric.RubricOrdinal;
-        set => Content.ActiveRubric = Content.Rubrics[value];
+        set => Content.ActiveRubric = Content.ExtendedRubrics[value];
     }
 
-    public bool IsLast => Content.ActiveRubric.RubricOrdinal == Content.Rubrics.Count - 1;
+    public bool IsLast => Content.ActiveRubric.RubricOrdinal == Content.ExtendedRubrics.Count - 1;
 
     public bool IsFirst => Content.ActiveRubric.RubricOrdinal == 0;
 
@@ -108,7 +108,7 @@
 
     private void GoToLast()
     {
-        ActiveId = Content.Rubrics.Count - 1;
+        ActiveId = Content.ExtendedRubrics.Count - 1;
         FormWizard.RenderView();
     }
 
@@ -117,8 +117,8 @@
         if (Content.Validator != null)
         {
             var result = await Content.Validator.ValidateAsync(
-                                    Content.Rubrics[ActiveId].ViewItem!.Data,
-                                    Content.Rubrics[ActiveId].RubricName);
+                                    Content.ExtendedRubrics[ActiveId].ViewItem!.Data,
+                                    Content.ExtendedRubrics[ActiveId].RubricName);
             if (result.IsValid)
             {
                 if (!IsLast)

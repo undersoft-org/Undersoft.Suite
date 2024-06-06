@@ -1,7 +1,7 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Shouldly;
+using System;
 using Undersoft.SCC.Service.Server.Validators;
 using Undersoft.SDK.Service;
 

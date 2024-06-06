@@ -6,17 +6,34 @@
 
 @inject IAuthorization _authorization
 
+@inject IAccountAccess _access
+
 @code
 {
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        bool adminSignedIn = false;
+
         if (_authorization.Credentials.Authenticated)
         {
-            _navigation.NavigateTo("/presenting/user/contacts");
+            if (_access != null)
+            {
+                var state = await _access.CurrentState();
+                if (state != null)
+                {
+                    if (state.IsInRole("Administrator"))
+                    {
+                        _navigation.NavigateTo("/presenting/admin/contacts");
+                        adminSignedIn = true;
+                    }
+                }
+            }
+            if(!adminSignedIn)
+                _navigation.NavigateTo("/presenting/user/contacts");            
         }
         else
             _navigation.NavigateTo("/presenting/contacts");
 
-        base.OnInitialized();
+       await base.OnInitializedAsync();
     }
 }

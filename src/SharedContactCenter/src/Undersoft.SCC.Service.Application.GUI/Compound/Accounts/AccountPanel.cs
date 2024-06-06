@@ -1,11 +1,21 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SCC.Service.Contracts;
+
+// ********************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC.Service.Application.GUI
+// ********************************************************
+
 using Undersoft.SDK;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Access;
+
+using Undersoft.SCC.Service.Contracts;
 
 public class AccountPanel
 {
@@ -37,5 +47,10 @@ public class AccountPanel
         HandlePanel(_panel.Content);
     }
 
+
+    /// <summary>    
+    /// </summary>
+    /// <param name="result"></param>
+    /// <TODO> Handle saving account panel</TODO>
     public void HandlePanel(IViewData<Account>? result) { }
 }

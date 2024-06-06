@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Undersoft.SDK.Service.Data.Event.Handler
+﻿namespace Undersoft.SDK.Service.Data.Event.Handler
 {
 
     public delegate Task EventHandlerMethodExecutorAsync(IEventHandler target, object parameter);

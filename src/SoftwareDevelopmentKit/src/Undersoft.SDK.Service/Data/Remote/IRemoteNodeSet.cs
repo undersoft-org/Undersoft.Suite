@@ -1,7 +1,4 @@
-﻿using Undersoft.SDK.Proxies;
-using Undersoft.SDK.Service.Data.Object;
-
-namespace Undersoft.SDK.Service.Data.Remote
+﻿namespace Undersoft.SDK.Service.Data.Remote
 {
     public interface IRemoteNodeSet<TLeft, TRight>
         where TLeft : class, IOrigin, IInnerProxy

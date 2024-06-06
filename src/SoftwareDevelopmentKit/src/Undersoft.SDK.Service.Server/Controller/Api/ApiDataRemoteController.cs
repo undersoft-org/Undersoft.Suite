@@ -59,7 +59,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
     {
         return Ok(
             (
-                await _servicer.Report(
+                await _servicer.Send(
                     new RemoteGet<TStore, TDto, TModel>((page - 1) * limit, limit)
                 )
             ).Result.Commit()
@@ -69,7 +69,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
     [HttpGet("count")]
     public virtual async Task<IActionResult> Count()
     {
-        return Ok(await Task.Run(() => _servicer.RemoteSet<TStore, TDto>().Count()));
+        return Ok(await Task.Run(() => _servicer.RemoteSet<TStore, TDto>().Query.Count()));
     }
 
     [HttpGet("{key}")]
@@ -79,9 +79,9 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
             (
                 _keymatcher == null
                     ? await _servicer
-                        .Report(new RemoteFind<TStore, TDto, TModel>(key))
+                        .Send(new RemoteFind<TStore, TDto, TModel>(key))
                     : await _servicer
-                        .Report(
+                        .Send(
                             new RemoteFind<TStore, TDto, TModel>(
                                 new QueryParameters<TDto>() { Filter = _keymatcher(key) }
                             )
@@ -112,7 +112,7 @@ public abstract class ApiDataRemoteController<TKey, TStore, TDto, TModel, TServi
         return Ok(
             (
                 await _servicer
-                    .Report(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))
+                    .Send(new RemoteFilter<TStore, TDto, TModel>(0, 0, param))
             ).Result.Commit()
         );
     }

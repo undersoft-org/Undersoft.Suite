@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Undersoft.SDK.Service.Data.Event.Handler
 {
     public class EventHandlerTransientFactory<THandler> : EventHandlerTransientFactory, IEventHandlerFactory where THandler : IEventHandler, new()

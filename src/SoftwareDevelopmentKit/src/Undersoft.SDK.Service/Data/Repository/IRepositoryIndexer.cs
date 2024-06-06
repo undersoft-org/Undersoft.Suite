@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Data.Repository

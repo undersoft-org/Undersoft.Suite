@@ -1,14 +1,44 @@
-namespace Undersoft.SCC.Domain.Entities.Countries
+// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SCC
+// *************************************************
+
+namespace Undersoft.SCC.Domain.Entities.Countries;
+
+/// <summary>
+/// The country state.
+/// </summary>
+public class CountryState : Entity
 {
-    public class CountryState : Entity
-    {
-        public string? Name { get; set; }
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public string? Name { get; set; }
 
-        public string? StateCode { get; set; }
+    /// <summary>
+    /// Gets or sets the state code.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public string? StateCode { get; set; }
 
-        public string? TimeZone { get; set; }
+    /// <summary>
+    /// Gets or sets the time zone.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public string? TimeZone { get; set; }
 
-        public long? CountryId { get; set; }
-        public virtual Country? Country { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the country id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? CountryId { get; set; }
+    /// <summary>
+    /// Gets or sets the country.
+    /// </summary>
+    /// <value>A <see cref="Country? "/></value>
+    public virtual Country? Country { get; set; }
 }

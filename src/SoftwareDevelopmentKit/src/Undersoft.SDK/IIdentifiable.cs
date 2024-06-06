@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using Undersoft.SDK.Uniques;
-
-namespace Undersoft.SDK
+﻿namespace Undersoft.SDK
 {
     public interface IIdentifiable
     {

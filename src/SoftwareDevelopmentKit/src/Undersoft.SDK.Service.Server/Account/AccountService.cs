@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Service.Server.Accounts.Email;
@@ -13,6 +14,8 @@ public class AccountService<TAccount> : IAccountService<TAccount>
     private IServicer _servicer;
     private IAccountManager _manager;
     private IEmailSender _email;
+    private string _signUpRole = "User";
+    private int _openingCount = -1;
 
     private static ISeries<string> TokenRegistry = new Registry<string>();
 
@@ -23,6 +26,7 @@ public class AccountService<TAccount> : IAccountService<TAccount>
         _servicer = servicer;
         _manager = accountManager;
         _email = email;
+        HandlePrimeAccount();
     }
 
     public async Task<IAuthorization> SignIn(IAuthorization identity)
@@ -47,7 +51,7 @@ public class AccountService<TAccount> : IAccountService<TAccount>
             var a = typeof(TAccount).New<TAccount>();
             account.Credentials.PatchTo(a.Credentials);
             dynamic registered = await Registered(a);
-            if (registered != null)
+            if (registered != null && registered.Personal != null)
                 ((object)registered.Personal).PatchTo(account.Credentials);
         }
         return account;
@@ -62,7 +66,7 @@ public class AccountService<TAccount> : IAccountService<TAccount>
                 _creds.UserName,
                 _creds.Email,
                 _creds.Password,
-                new string[] { "User" }
+                new string[] { _signUpRole }
             );
             if (!account.Notes.IsSuccess)
             {
@@ -224,6 +228,7 @@ public class AccountService<TAccount> : IAccountService<TAccount>
                     TokenRegistry.Remove(_code);
                     if (result.Succeeded)
                     {
+                        HandlePrimeAccount();
                         _creds.EmailConfirmed = true;
                         account.Credentials.Authenticated = true;
                         account.Notes = new OperationNotes()
@@ -613,6 +618,26 @@ public class AccountService<TAccount> : IAccountService<TAccount>
             }
         }
         return account;
+    }
+
+    public Task<ClaimsPrincipal?> CurrentState()
+    {
+        throw new Exception("Account service doesn't provide current state");
+    }
+
+    private int Count()
+    {
+        return _manager.Accounts.Query.Count();
+    }
+
+    private void HandlePrimeAccount()
+    {
+        if (_openingCount < 0)
+            _openingCount = Count();
+        if (_openingCount == 0)
+            _signUpRole = "Administrator";
+        else
+            _signUpRole = "User";
     }
 
     public static string GenerateRandomPassword(PasswordOptions opts = null)

@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-
 namespace Undersoft.SDK.Service.Data.Repository
 {
     public interface IRepositoryContextFactory : IRepositoryContext, IAsyncDisposable, IDisposable

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.Configuration;
 
 namespace Undersoft.SDK.Service.Data.Mapper

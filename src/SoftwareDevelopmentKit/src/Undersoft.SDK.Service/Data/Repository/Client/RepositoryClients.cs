@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Undersoft.SDK.Series;
-using Undersoft.SDK.Uniques;
-using System;
 using Undersoft.SDK.Service.Data.Client;
 
 namespace Undersoft.SDK.Service.Data.Repository.Client

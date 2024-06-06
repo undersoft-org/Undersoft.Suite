@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Undersoft.SDK.Service.Data.Repository.Pagination
+﻿namespace Undersoft.SDK.Service.Data.Repository.Pagination
 {
     using Microsoft.EntityFrameworkCore;
 

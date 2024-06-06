@@ -1,11 +1,10 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using Shouldly;
-using Undersoft.SCC.Service.Application.Server;
+using System;
 
 namespace Undersoft.SCC.Service.Application.Server.Tests;
 
