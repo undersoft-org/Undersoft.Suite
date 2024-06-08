@@ -16,9 +16,16 @@
             <CascadingValue Value="@Content">
                 <GenericValidator TValidator="TValidator" TModel="TModel" />
                 <FluentStack Orientation="@Orientation" Wrap="true" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment" VerticalGap="3">
-                    @foreach (var _rubric in _rubrics)
+                    @foreach (var _rubric in _rubrics.AsItems())
                     {
-                        <GenericField Rubric="@_rubric" />
+                        if (_rubric.Index == 0)
+                        {
+                            <GenericField AutoFocus="true" Rubric="@_rubric.Value" />
+                        }
+                        else
+                        {
+                            <GenericField Rubric="@_rubric.Value" />
+                        }
                     }
                 </FluentStack>
             </CascadingValue>

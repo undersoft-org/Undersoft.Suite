@@ -19,6 +19,6 @@ public interface IOpenDataController<TKey, TEntity, TDto>
     [EnableQuery]
     SingleResult<TDto> Get([FromODataUri] TKey key);
     Task<IActionResult> Patch([FromODataUri] TKey key, TDto dto);
-    // Task<IActionResult> Post(TDto dto);
+    Task<IActionResult> Post(TDto dto);
     Task<IActionResult> Put([FromODataUri] TKey key, TDto dto);
 }

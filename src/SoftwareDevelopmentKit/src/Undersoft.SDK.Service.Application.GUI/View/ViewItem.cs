@@ -117,6 +117,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             get => _data;
             set
             {
+                if (value == null)
+                    return;
                 _data = value;
                 if (_data.ViewItem == null)
                     _data.ViewItem = this;
@@ -141,7 +143,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public object? Reference { get; set; } = default!;
 
-        [Parameter]
+        [CascadingParameter]
         public virtual IViewItem? Root { get; set; }
 
         [Parameter]

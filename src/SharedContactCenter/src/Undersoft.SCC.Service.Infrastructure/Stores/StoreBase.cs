@@ -39,7 +39,7 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     /// <summary>
     /// Gets or sets the contact addresses.
     /// </summary>
-    public virtual DbSet<Address>? Addresses { get; set; }
+    public virtual DbSet<ContactAddress>? Addresses { get; set; }
     /// <summary>
     /// Gets or sets the contact organizations.
     /// </summary>

@@ -26,9 +26,23 @@ namespace System.Linq
             return expression;
         }
 
+        public static LambdaExpression GetMemberExpression(this string memberAccess, Type modelType, out Type propertyType)
+        {
+            var parameter = Expression.Parameter(modelType, "model");
+            MemberExpression body = GetNestedMemberExpression(memberAccess, parameter);
+            propertyType = ((PropertyInfo)body.Member).PropertyType;
+            var expression = Expression.Lambda(body, parameter);
+            return expression;
+        }
+
+        public static Expression<Func<TEntity, TMember>> GetMemberExpression<TEntity, TMember>(this string memberAccess, LambdaExpression lambda)
+        {
+            return Expression.Lambda<Func<TEntity, TMember>>(lambda.Body, lambda.Parameters);
+        }
+
         public static Expression<Func<TEntity, object>> GetMemberExpression<TEntity>(this string memberAccess)
         {
-            var lambda = GetMemberExpression(memberAccess, typeof(TEntity));
+            var lambda = memberAccess.GetMemberExpression(typeof(TEntity));
             return Expression.Lambda<Func<TEntity, object>>(lambda.Body, lambda.Parameters);
         }
 
@@ -41,13 +55,14 @@ namespace System.Linq
                 IOrderedQueryable<TEntity> orderedQuery = null;
                 foreach (var sorter in sorters)
                 {
+                    var expression = sorter.GetSortMemberExpression<TEntity>();
                     if (sorter.Direction.Equals(SortDirection.Ascending) || sorter.Direction.Equals(SortDirection.Asc))
                     {
-                        orderedQuery = orderedQuery == null ? _query.OrderBy(sorter.GetSortMemberExpression<TEntity>()) : orderedQuery.ThenBy(sorter.GetSortMemberExpression<TEntity>());
+                        orderedQuery = orderedQuery == null ? _query.OrderBy(expression) : orderedQuery.ThenBy(expression);
                     }
                     else
                     {
-                        orderedQuery = orderedQuery == null ? _query.OrderByDescending(sorter.GetSortMemberExpression<TEntity>()) : orderedQuery.ThenByDescending(sorter.GetSortMemberExpression<TEntity>());
+                        orderedQuery = orderedQuery == null ? _query.OrderByDescending(expression) : orderedQuery.ThenByDescending(expression);
                     }
                 }
                 return orderedQuery;

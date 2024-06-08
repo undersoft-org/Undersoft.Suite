@@ -14,6 +14,7 @@ using Undersoft.SDK.Service.Data.Store;
 namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings;
 
 using Undersoft.SCC.Domain.Entities;
+using Undersoft.SCC.Domain.Entities.Contacts;
 using Undersoft.SCC.Domain.Entities.Countries;
 
 /// <summary>
@@ -37,6 +38,12 @@ public class CountryMappings : EntityTypeMapping<Country>
                 c => c.States,
                 ExpandSite.OnRight,
                 true
+            ).
+            RelateOneToSet<Country, ContactAddress>(
+            c => c.Country,
+            c => c.Addresses,
+            ExpandSite.OnLeft,
+            true
             );
     }
 }

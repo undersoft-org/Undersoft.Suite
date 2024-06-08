@@ -93,7 +93,7 @@ public class Updater : IUpdater
         return item;
     }
 
-    public E Patch<E>(E item) where E : class
+    public E Patch<E>(E item)
     {
         ForUpdate = (o, t) => o.Patch(t);
 
@@ -106,7 +106,7 @@ public class Updater : IUpdater
         return item;
     }
 
-    public E Patch<E>() where E : class
+    public E Patch<E>()
     {
         return Patch(typeof(E).New<E>());
     }
@@ -126,7 +126,7 @@ public class Updater : IUpdater
         return item;
     }
 
-    public E Put<E>(E item) where E : class
+    public E Put<E>(E item)
     {
         ForUpdate = (o, t) => o.Put(t);
 
@@ -141,7 +141,7 @@ public class Updater : IUpdater
         return item;
     }
 
-    public E Put<E>() where E : class
+    public E Put<E>()
     {
         return Put(typeof(E).New<E>());
     }

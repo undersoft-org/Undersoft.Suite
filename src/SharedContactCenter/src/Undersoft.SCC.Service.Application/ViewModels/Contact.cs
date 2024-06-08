@@ -54,7 +54,7 @@ public class Contact : DataObject, IViewModel
     [RubricSize(64)]
     [Filterable]
     [Sortable]
-    [ViewQuery("Personal.FirstName", "Personal.LastName")]
+    [QueryMembers("Personal.FirstName", "Personal.LastName")]
     [DisplayRubric("Name")]
     public virtual string? Name
     {
@@ -72,8 +72,8 @@ public class Contact : DataObject, IViewModel
     [Filterable]
     [Sortable]
     [RubricSize(64)]
-    [ViewQuery("Personal.PhoneNumber")]
-    [DisplayRubric("Phone number")]
+    [QueryMembers("Personal.PhoneNumber")]
+    [DisplayRubric("Phone")]
     public virtual string? PhoneNumber
     {
         get => Personal?.PhoneNumber;
@@ -90,8 +90,8 @@ public class Contact : DataObject, IViewModel
     [Filterable]
     [Sortable]
     [RubricSize(64)]
-    [ViewQuery("Personal.Email")]
-    [DisplayRubric("Email address")]
+    [QueryMembers("Personal.Email")]
+    [DisplayRubric("Email")]
     public virtual string? Email
     {
         get => Personal?.Email;
@@ -108,15 +108,20 @@ public class Contact : DataObject, IViewModel
     [Sortable]
     [VisibleRubric]
     [RubricSize(128)]
-    [ViewQuery(
-        "Address.Country",
+    [QueryMembers(
+        new string[]
+        {
+            "Address.Country.Name",
+            "Address.City",
+        },
+        "Address.Country.Name",
         "Address.Postcode",
         "Address.City",
         "Address.Street",
-        "Address.Country",
-        "Address.Country"
+        "Address.Building",
+        "Address.Apartment"
     )]
-    [DisplayRubric("Contact address")]
+    [DisplayRubric("Address")]
     public virtual string? ContactAddress
     {
         get
@@ -126,7 +131,7 @@ public class Contact : DataObject, IViewModel
             if (Address != null)
                 return _address = string.Join(
                     " ",
-                    Address.Country,
+                    Address.CountryName,
                     Address.Postcode,
                     Address.City,
                     Address.Street,
@@ -145,9 +150,8 @@ public class Contact : DataObject, IViewModel
     /// <value>A <see cref="ContactType"/></value>
     [VisibleRubric]
     [Filterable]
-    [Sortable]
     [RubricSize(16)]
-    [DisplayRubric("Contact type")]
+    [DisplayRubric("Type")]
     public virtual ContactType Type { get; set; }
 
     /// <summary>

@@ -9,20 +9,20 @@ using Undersoft.SDK.Service.Data.Entity;
 namespace Undersoft.SCC.Tests.Domain.Entities.Contacts;
 
 /// <summary>
-/// Unit tests for the type <see cref="Address"/>.
+/// Unit tests for the type <see cref="ContactAddress"/>.
 /// </summary>
 [TestClass]
 public class ContactAddressTests
 {
-    private Address _testClass;
+    private ContactAddress _testClass;
 
     /// <summary>
-    /// Sets up the dependencies required for the tests for <see cref="Address"/>.
+    /// Sets up the dependencies required for the tests for <see cref="ContactAddress"/>.
     /// </summary>
     [TestInitialize]
     public void SetUp()
     {
-        this._testClass = new Address();
+        this._testClass = new ContactAddress();
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class ContactAddressTests
                 Contact = default(Contact)
             },
             AddressId = 2140424099L,
-            Address = new Address
+            Address = new ContactAddress
             {
                 Country = "TestValue326068013",
                 State = "TestValue1587852630",

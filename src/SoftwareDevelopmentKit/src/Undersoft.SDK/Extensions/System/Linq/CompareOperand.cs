@@ -10,6 +10,8 @@
         Greater,
         Less,
         Contains,
-        NotContains
+        NotContains,
+        StartsWith,
+        EndsWith
     }
 }

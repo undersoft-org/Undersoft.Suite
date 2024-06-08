@@ -114,7 +114,7 @@ public class ContactTests
                 PersonalId = 820489920L,
                 Personal = default(ContactPersonal),
                 AddressId = 72070569L,
-                Address = new Address
+                Address = new ContactAddress
                 {
                     Country = "TestValue1841052631",
                     State = "TestValue1842082161",
@@ -188,7 +188,7 @@ public class ContactTests
     public void CanSetAndGetAddress()
     {
         // Arrange
-        var testValue = new Address
+        var testValue = new ContactAddress
         {
             Country = "TestValue1616046837",
             State = "TestValue1248456296",
@@ -218,7 +218,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 AddressId = 1182735821L,
-                Address = default(Address),
+                Address = default(ContactAddress),
                 ProfessionalId = 797469476L,
                 Professional = new ContactProfessional
                 {
@@ -309,7 +309,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 AddressId = 1037330006L,
-                Address = new Address
+                Address = new ContactAddress
                 {
                     Country = "TestValue1751617393",
                     State = "TestValue1179287588",
@@ -402,7 +402,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 AddressId = 220008944L,
-                Address = new Address
+                Address = new ContactAddress
                 {
                     Country = "TestValue254100788",
                     State = "TestValue1970281817",

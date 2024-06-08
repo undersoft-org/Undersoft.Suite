@@ -7,7 +7,9 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Accounts
 {
-    public partial class GenericAccountMenu<TModel, TValidator> : ViewItem where TModel : class, IOrigin, IInnerProxy, IAuthorization where TValidator : class, IValidator<IViewData<TModel>>
+    public partial class GenericAccountMenu<TModel, TValidator> : ViewItem
+        where TModel : class, IOrigin, IInnerProxy, IAuthorization
+        where TValidator : class, IValidator<IViewData<TModel>>
     {
         [Inject]
         private AccessProvider<TModel> access { get; set; } = default!;
@@ -17,6 +19,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Accounts
 
         [Inject]
         private IDialogService DialogService { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,10 +41,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Accounts
                 else
                 {
                     var _panel = servicer.Initialize<
-                        ViewPanel<
-                            GenericAccountPanel<TModel, TValidator>,
-                            TModel
-                        >
+                        ViewPanel<GenericAccountPanel<TModel, TValidator>, TModel>
                     >(DialogService);
 
                     var _account = await access.Registered(typeof(TModel).New<TModel>());

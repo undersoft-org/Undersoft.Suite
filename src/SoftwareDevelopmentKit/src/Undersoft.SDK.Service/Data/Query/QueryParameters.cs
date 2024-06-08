@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.OData.UriParser;
+using System.Linq.Expressions;
 
 namespace Undersoft.SDK.Service.Data.Query
 {
@@ -44,6 +45,8 @@ namespace Undersoft.SDK.Service.Data.Query
         public virtual int Limit { get; set; }
 
         public virtual int Count { get; set; }
+
+        public virtual ODataQueryOptionParser OpenQueryParser { get; set; }
 
         public Listing<Filter> FilterItems { get; set; } = new();
 

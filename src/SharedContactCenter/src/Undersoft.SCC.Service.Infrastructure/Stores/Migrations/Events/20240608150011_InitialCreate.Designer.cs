@@ -20,7 +20,7 @@ using Undersoft.SCC.Service.Infrastructure.Stores;
 namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Events
 {
     [DbContext(typeof(EventStore))]
-    [Migration("20240605133148_InitialCreate")]
+    [Migration("20240608150011_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

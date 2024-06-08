@@ -94,8 +94,6 @@ public partial class RegisterBase : ComponentBase
         var data = new ViewData<Account>(account, OperationType.Any, title);
 
         data.Description = description;
-        data.Height = "700px";
-        data.Width = "400px";
 
         while (true)
         {

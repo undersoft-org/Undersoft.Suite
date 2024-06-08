@@ -42,8 +42,6 @@
         }
 
         public static E PutTo<T, E>(this T item, E target, IInvoker traceChanges = null)
-            where T : class
-            where E : class
         {
             return new Updater<T>(item, traceChanges).Put(target);
         }
@@ -61,7 +59,6 @@
         }
 
         public static E PutTo<E>(this object item, IInvoker traceChanges = null)
-           where E : class
         {
             return new Updater(item, traceChanges).Put<E>();
         }

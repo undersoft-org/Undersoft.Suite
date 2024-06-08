@@ -91,7 +91,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 )
             );
             Registry.Add(
-               typeof(ViewQueryAttribute), typeof(ViewRubric).UniqueKey(),
+               typeof(QueryMembersAttribute), typeof(ViewRubric).UniqueKey(),
                new Invoker<ViewAttributeResolvers>(
                    ViewResolveAttributes,
                    m => m.ResolveQueryRubricAttributes
@@ -212,14 +212,14 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
         {
             var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
 
-            object? o = mi.GetCustomAttributes(typeof(ViewQueryAttribute), false).FirstOrDefault();
+            object? o = mi.GetCustomAttributes(typeof(QueryMembersAttribute), false).FirstOrDefault();
             if ((o != null))
             {
-                ViewQueryAttribute fta = (ViewQueryAttribute)o;
+                QueryMembersAttribute fta = (QueryMembersAttribute)o;
 
                 mr.FilterMembers = fta.FilterMembers;
                 mr.SortMembers = fta.SortMembers;
-                mr.FilteredType = fta.FilteredType;
+                mr.FilteredType = fta.FilteredType ?? mr.RubricType;
             }
         }
 

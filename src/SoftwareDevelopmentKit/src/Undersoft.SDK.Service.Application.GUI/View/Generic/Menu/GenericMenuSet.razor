@@ -8,6 +8,7 @@
 @typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
 
 <div class="generic top-menu">
+
     <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Right" HorizontalGap="5">
         @foreach (var rubric in Data.ExtendedRubrics)
         {
@@ -34,10 +35,12 @@
                              AnchorId="@($"{Model.Id.ToString()}-{@rubric.Id.ToString()}")" 
                              Data="@(Data[rubric.RubricId])" 
                              Anchored="true" Style="@("margin-top:12px;")" 
-                             OnMenuItemChange="@OnMenuItemChange" />
+                             OnMenuItemChange="@OnMenuItemChange"
+                             NavigationManager="@NavigationManager"/>
             </div>
         }
     </FluentStack>
+
 </div>
 
 

@@ -56,7 +56,7 @@ namespace Undersoft.SCC.Domain.Entities
         /// Gets or sets the address.
         /// </summary>
         /// <value>A ContactAddress?</value>
-        public virtual Address? Address { get; set; } = default!;
+        public virtual ContactAddress? Address { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the professional id.

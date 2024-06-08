@@ -2,3 +2,8 @@
     opacity: 0.8;
     background: var(--neutral-fill-stealth-hover);
 }
+
+.generic-nav-category:hover {
+    opacity: 0.8;
+    background: var(--neutral-fill-stealth-hover);
+}

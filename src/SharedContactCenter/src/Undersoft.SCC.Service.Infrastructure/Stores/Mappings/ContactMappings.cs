@@ -39,7 +39,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
                     ExpandSite.OnRight,
                     true
                 )
-                .RelateOneToOne<Contact, Address>(
+                .RelateOneToOne<Contact, ContactAddress>(
                     r => r.Contact,
                     r => r.Address,
                     ExpandSite.OnRight,

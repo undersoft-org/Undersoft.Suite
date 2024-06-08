@@ -19,6 +19,16 @@ using Undersoft.SCC.Domain.Entities.Enums;
 public class ContactOrganization : DataObject, IViewModel
 {
     /// <summary>
+    /// Gets or sets the organization image.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    [VisibleRubric]
+    [DisplayRubric("Organization logo")]
+    [ViewImage(ViewImageMode.Regular, "20px", "00px")]
+    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
+    public string? OrganizationImage { get; set; }
+
+    /// <summary>
     /// Gets or sets the organization industry.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
@@ -64,16 +74,6 @@ public class ContactOrganization : DataObject, IViewModel
     /// <value>An <see cref="OrganizationSize"/></value>
     [DisplayRubric("Size")]
     public OrganizationSize OrganizationSize { get; set; }
-
-    /// <summary>
-    /// Gets or sets the organization image.
-    /// </summary>
-    /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
-    [DisplayRubric("ContactOrganization logo")]
-    [ViewImage(ViewImageMode.Regular, "30px", "30px")]
-    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
-    public string? OrganizationImage { get; set; }
 
     /// <summary>
     /// Gets or sets the organization image data.

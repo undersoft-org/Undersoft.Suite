@@ -1,4 +1,5 @@
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 {
@@ -10,10 +11,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         public string? Image { get; set; }
 
-        private string? _backgroudImage => Image != null ? $"background-image:{Image}" : null;
-
         [Parameter]
         public string DisplayName { get; set; } = default!;
+
+        [Parameter]
+        public bool Disabled { get; set; }
 
         List<string> Files = new();
 
@@ -21,7 +23,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         {
             var filename = Data.Model.Proxy[Rubric.RubricId];
             if (filename != null)
+            {
                 Files.Add(filename.ToString()!.Split(';')[2]);
+                var data = GetImageData();
+                if (data != null)
+                    Image = GetDataUri(filename.ToString()!, data);
+            }
 
             base.OnInitialized();
         }
@@ -39,10 +46,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
             var bytes = await file.Stream!.GetAllBytesAsync();
 
-            if (Rubric.DataMember != null)
-                Model.Proxy[Rubric.DataMember] = bytes;
-            else if (Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data"))
-                Model.Proxy[Rubric.RubricName + "Data"] = bytes;
+            SetImageData(bytes);
+            Image = GetDataUri(fileInfo, bytes);
+
+            StateHasChanged();
 
             await file.Stream!.DisposeAsync();
         }
@@ -51,6 +58,62 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         {
             progressPercent = FileByStream!.ProgressPercent;
             progressTitle = FileByStream!.ProgressTitle;
+        }
+
+        private string? ImageStyle => GetImageStyle();
+
+        private string? StyleValue => GetStyle();
+
+        public string? GetStyle()
+        {
+            var builder = new StyleBuilder(Style)
+                .AddStyle("width: 179px")
+                .AddStyle("height:140px")
+                .AddStyle("background-color: transparent");
+            return builder.Build();
+        }
+
+        public string? GetImageStyle()
+        {
+            var builder = new StyleBuilder()
+                .AddStyle("width: 100%")
+                .AddStyle("height:100%");
+            if (Image != null)
+            {
+                builder.AddStyle(GetBackgroundImage())
+                .AddStyle("background-size: cover");
+            }
+            return builder.Build();
+        }
+
+        public string GetBackgroundImage()
+        {
+            if (Image != null)
+                return $"background-image: url({Image})";
+            return "";
+        }
+
+        public byte[]? GetImageData()
+        {
+            if (Rubric.DataMember != null && Model.Proxy[Rubric.DataMember] != null)
+                return (byte[])Model.Proxy[Rubric.DataMember];
+            else if (
+                Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data")
+                && Model.Proxy[Rubric.RubricName + "Data"] != null
+            )
+                return (byte[])Model.Proxy[Rubric.RubricName + "Data"];
+            return null;
+        }
+
+        public void SetImageData(byte[] bytes)
+        {
+            if (Rubric.DataMember != null && Model.Proxy[Rubric.DataMember] != null)
+                Model.Proxy[Rubric.DataMember] = bytes;
+            else if (
+                Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data")
+                && Model.Proxy[Rubric.RubricName + "Data"] != null
+            )
+                Model.Proxy[Rubric.RubricName + "Data"] = bytes;
         }
 
         private string? GetDataUri(string fileInfo, byte[] imageData)

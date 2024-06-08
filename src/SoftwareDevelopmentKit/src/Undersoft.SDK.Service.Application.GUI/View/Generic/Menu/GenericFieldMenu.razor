@@ -1,0 +1,41 @@
+﻿@namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
+@inherits FluentComponentBase
+<CascadingValue Value="this" IsFixed="true">
+    @if (Open)
+    {
+        @if (Anchored)
+        {
+            <FluentOverlay @bind-Visible="@Open" OnClose="@CloseAsync" Transparent="true" FullScreen="true" />
+            <FluentAnchoredRegion Anchor="@Anchor"
+                                  HorizontalDefaultPosition="@HorizontalPosition"
+                                  VerticalDefaultPosition="@VerticalPosition"
+                                  HorizontalInset="true"
+                                  VerticalInset="false"
+                                  HorizontalViewportLock="true"
+                                  HorizontalThreshold="@HorizontalThreshold"
+                                  VerticalThreshold="@VerticalThreshold"
+                                  Shadow="@ElevationShadow.None"
+                                  Class="@ClassValue"
+                                  Style="@StyleValue"
+                                  @attributes="AdditionalAttributes">
+                <generic-field-menu @ref=Element id="@Id">
+                    @ChildContent
+                </generic-field-menu>
+            </FluentAnchoredRegion>
+        }
+        else
+        {
+            if (_contextMenu)
+            {
+                <FluentOverlay @bind-Visible="@Open" OnClose="@CloseAsync" Transparent="true" FullScreen="true" />
+            }
+            <generic-field-menu @ref=Element
+                         id="@Id"
+                         class="@ClassValue"
+                         style="@StyleValue"
+                         @attributes="AdditionalAttributes">
+                @ChildContent
+            </generic-field-menu>
+        }
+    }
+</CascadingValue>

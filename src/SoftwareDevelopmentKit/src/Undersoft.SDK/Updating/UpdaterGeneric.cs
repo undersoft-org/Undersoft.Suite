@@ -2,7 +2,7 @@
 {
     using Invoking;
 
-    public class Updater<T> : Updater, IUpdater<T> where T : class
+    public class Updater<T> : Updater, IUpdater<T>
     {
         public Updater() : base(typeof(T).New<T>()) { }
 

@@ -8,11 +8,7 @@
     {
         public Filter() { }
 
-        public Filter(LambdaExpression expression, object value, CompareOperand operand = CompareOperand.Equal, LinkOperand link = LinkOperand.And) : this(expression.GetMemberName(), value, operand, link)
-        {
-        }
-
-        public Filter(string member, object value, CompareOperand operand = CompareOperand.Equal, LinkOperand link = LinkOperand.And)
+        public Filter(string member, object value, CompareOperand operand = CompareOperand.None, LinkOperand link = LinkOperand.And)
         {
             Operand = operand;
             Member = member;

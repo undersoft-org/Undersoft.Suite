@@ -15,6 +15,16 @@ namespace Undersoft.SCC.Service.Application.ViewModels.Contacts;
 /// </summary>
 public class ContactPersonal : DataObject, IViewModel
 {
+
+    /// <summary>
+    /// Gets or sets the personal image.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    [VisibleRubric]
+    [DisplayRubric("Personal image")]
+    [FileRubric(FileRubricType.Path, "PersonalImageData")]
+    public string? PersonalImage { get; set; }
+
     /// <summary>
     /// Gets or sets the first name.
     /// </summary>
@@ -58,15 +68,6 @@ public class ContactPersonal : DataObject, IViewModel
     [RequiredRubric]
     [DisplayRubric("Day of birth")]
     public DateTime Birthdate { get; set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// Gets or sets the personal image.
-    /// </summary>
-    /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
-    [DisplayRubric("ContactPersonal image")]
-    [FileRubric(FileRubricType.Path, "PersonalImageData")]
-    public string? PersonalImage { get; set; }
 
     /// <summary>
     /// Gets or sets the personal image data.

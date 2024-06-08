@@ -190,7 +190,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public Icon? Logo { get; set; }
 
-    public string Height { get; set; } = "400px";
+    public string Height { get; set; } = "auto";
 
     public string Width { get; set; } = "360px";
 

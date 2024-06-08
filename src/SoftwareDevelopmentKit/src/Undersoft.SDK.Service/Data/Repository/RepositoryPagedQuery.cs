@@ -415,7 +415,10 @@ public partial class Repository<TEntity>
         params Expression<Func<TEntity, object>>[] expanders
     )
     {
-        return HashMapTo<TDto>(this[skip, take, predicate, sortTerms, expanders]);
+        if (typeof(TEntity) != typeof(TDto))
+            return HashMapTo<TDto>(this[skip, take, predicate, sortTerms, expanders]);
+        else
+            return Task.FromResult((ISeries<TDto>)((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]]).ToListing());
     }
 
     public virtual Task<IQueryable<TDto>> FilterQueryAsync<TDto>(
@@ -426,7 +429,10 @@ public partial class Repository<TEntity>
         params Expression<Func<TEntity, object>>[] expanders
     ) where TDto : class
     {
-        return QueryMapAsyncTo<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
+        if (typeof(TEntity) != typeof(TDto))
+            return QueryMapAsyncTo<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
+        else
+            return Task.FromResult((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]]);
     }
 
     public virtual IQueryable<TDto> FilterQuery<TDto>(
@@ -437,7 +443,11 @@ public partial class Repository<TEntity>
        params Expression<Func<TEntity, object>>[] expanders
    ) where TDto : class
     {
-        return QueryMapTo<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
+
+        if (typeof(TEntity) != typeof(TDto))
+            return QueryMapTo<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
+        else
+            return (IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]];
     }
 
     public virtual IAsyncEnumerable<TDto> FilterAsync<TDto>(
@@ -564,7 +574,7 @@ public partial class Repository<TEntity>
     public virtual IList<TDto> Get<TDto, TResult>(Expression<Func<TEntity, TResult>> selector)
         where TResult : class
     {
-        return MapTo<TDto>(Query.Select(selector));
+        return Query.Select(selector).ForEach(s => s.PutTo<TDto>()).ToArray();
     }
 
     public async Task<IPagedSet<TEntity>> PagedGet(

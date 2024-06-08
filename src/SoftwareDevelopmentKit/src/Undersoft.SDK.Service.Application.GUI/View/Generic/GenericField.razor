@@ -8,7 +8,7 @@
 @if (_isUpload)
 {
     <div style="width:@Width;">
-        <GenericUpload  Rubric="@Rubric" Data="@Data" DisplayName="@_label" @ref="Reference" />
+        <GenericUpload Rubric="@Rubric" Disabled="@Rubric.Disabled" Data="@Data" Label="@_label" DisplayName="@_label" @ref="Reference" />
     </div>
 }
 else if (_type.IsPrimitive)
@@ -16,43 +16,43 @@ else if (_type.IsPrimitive)
     @if (_type.IsAssignableTo(typeof(long)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" @bind-Value="@_longValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Style="width:100%"  @bind-Value="@_longValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(int)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" @bind-Value="@_intValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Style="width:100%" @bind-Value="@_intValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(double)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" @bind-Value="@_doubleValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Style="width:100%" @bind-Value="@_doubleValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(float)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" @bind-Value="@_floatValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Style="width:100%" @bind-Value="@_floatValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(decimal)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" @bind-Value="@_decimalValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Style="width:100%" @bind-Value="@_decimalValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(bool)))
     {
         <div style="width:@Width">
-            <FluentCheckbox Name="@_name" @bind-Value="@_bitValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentCheckbox Name="@_name" Style="width:100%" @bind-Value="@_bitValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else
     {
         <div style="width:@Width">
-            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextField Name="@_name" Style="width:100%" @bind-Value="@_textValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
 }
@@ -61,13 +61,19 @@ else if (_type.IsValueType)
     @if (_type.IsAssignableTo(typeof(DateTime)))
     {
         <div style="width:@Width">
-            <FluentDatePicker Name="@_name" @bind-Value="@_timeValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentDatePicker Name="@_name" Style="width:100%" @bind-Value="@_timeValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(Enum)))
+    {
+        <div style="width:@Width">
+            <FluentSelect Items="@_enumOptions" Width="@Width" @bind-Value="@_enumValue" Label="@_label" Disabled="@Rubric.Disabled" Required="@_required" OptionText="@(i => i.Text)" OptionValue="@(i => i.Value)" OptionSelected="@(i => i.Selected)" />
         </div>
     }
     else
     {
         <div style="width:@Width">
-            <FluentTextField Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextField Name="@_name" Style="width:100%" @bind-Value="@_textValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
 }
@@ -76,13 +82,13 @@ else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
     @if (_size > 128)
     {
         <div style="width:@Width">
-            <FluentTextArea  Maxlength="@_size" Form="generic_form" Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextArea Maxlength="@_size" Style="width:100%" Form="generic_form" Name="@_name" @bind-Value="@_textValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else
     {
         <div style="width:@Width">
-            <FluentTextField  Name="@_name" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentTextField Name="@_name" Style="width:100%" @bind-Value="@_textValue" Label="@_label" DisplayName="@_name" Autofocus="@AutoFocus" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
 }
@@ -92,10 +98,12 @@ else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
     {
         <div style="width:@Width">
             <FluentLabel Typo="Typography.Body" Color="Color.Error">
+                <small>
                 @error
+                </small>
             </FluentLabel>
         </div>
     }
-    </FluentStack>
+</FluentStack>
 
 

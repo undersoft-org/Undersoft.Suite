@@ -10,22 +10,22 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
 {
     public virtual TEntity Map<TDto>(TDto model, TEntity entity)
     {
-        return Mapper.Map(model, entity);
+        return model.PutTo<TDto, TEntity>(entity);
     }
 
     public virtual TDto Map<TDto>(TEntity entity, TDto model)
     {
-        return Mapper.Map(entity, model);
+        return entity.PutTo<TEntity, TDto>(model);
     }
 
     public virtual IList<TEntity> Map<TDto>(IEnumerable<TDto> model, IEnumerable<TEntity> entity)
     {
-        return (IList<TEntity>)Mapper.Map(model, entity).ToList();
+        return HashMap(model, entity);
     }
 
     public virtual IList<TDto> Map<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
     {
-        return (IList<TDto>)(Mapper.Map(entity, model).ToList());
+        return HashMap(entity, model);
     }
 
     public virtual ISeries<TEntity> HashMap<TDto>(
@@ -33,12 +33,16 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         IEnumerable<TEntity> entity
     )
     {
-        return (ISeries<TEntity>)Mapper.Map(model, entity).ToListing();
+        var _entity = entity.ToListing();
+        model.ForEach(e => { if (_entity.TryGet(e, out TEntity output)) output.PutTo(e); });
+        return _entity;
     }
 
     public virtual ISeries<TDto> HashMap<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
     {
-        return (ISeries<TDto>)(Mapper.Map(entity, model).ToListing());
+        var _model = model.ToListing();
+        entity.ForEach(e => { if (_model.TryGet(e, out TDto output)) output.PutTo(e); });
+        return _model;
     }
 
     public virtual TDto MapTo<TDto>(TEntity entity) where TDto : class
@@ -48,7 +52,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
 
     public virtual TDto MapTo<TDto>(object entity)
     {
-        return Mapper.Map<TDto>(entity);
+        return entity.PutTo<TDto>();
     }
 
     public virtual TEntity MapFrom<TDto>(TDto model)
@@ -91,20 +95,20 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     public virtual Task<ISeries<TDto>> HashMapTo<TDto>(IEnumerable<object> entity)
     {
         return Task.Run(
-            () => (ISeries<TDto>)(Mapper.Map<IEnumerable<TDto>>(entity.ToArray())).ToChain(),
+            () => (ISeries<TDto>)entity.ForEach(m => m.PutTo<TDto>()).ToListing(),
             Cancellation
         );
     }
 
     public virtual IEnumerable<TDto> YieldMapTo<TDto>(IEnumerable<TEntity> entities)
     {
-        return entities.ForEach(e => Mapper.Map<TDto>(e));
+        return entities.ForEach(e => e.PutTo<TDto>());
     }
 
     public virtual Task<ISeries<TDto>> HashMapTo<TDto>(IEnumerable<TEntity> entity)
     {
         return Task.Run(
-            () => (ISeries<TDto>)(Mapper.Map<IEnumerable<TDto>>(entity.ToArray())).ToChain(),
+            () => (ISeries<TDto>)(entity.ForEach(m => m.PutTo<TEntity>())).ToListing(),
             Cancellation
         );
     }
@@ -115,8 +119,8 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
             () =>
                 (ISeries<TEntity>)
                     (
-                        Mapper.Map<IEnumerable<TDto>, IEnumerable<TEntity>>(model.ToArray())
-                    ).ToChain(),
+                        model.ForEach(m => m.PutTo<TEntity>())
+                    ).ToListing(),
             Cancellation
         );
     }

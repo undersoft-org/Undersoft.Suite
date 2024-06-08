@@ -13,6 +13,7 @@ using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
 {
+    using Undersoft.SCC.Domain.Entities.Contacts;
     using Undersoft.SCC.Domain.Entities.Countries;
 
     public class CountryStateMappings : EntityTypeMapping<CountryState>
@@ -22,6 +23,12 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
         public override void Configure(EntityTypeBuilder<CountryState> builder)
         {
             builder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
+
+            ModelBuilder.RelateOneToSet<CountryState, ContactAddress>
+                (c => c.CountryState,
+                c => c.Addresses,
+                ExpandSite.OnLeft,
+                true);
 
         }
     }

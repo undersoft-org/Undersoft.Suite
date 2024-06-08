@@ -1,0 +1,21 @@
+@namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
+@inherits FluentComponentBase
+<generic-field-menu-item @ref=Element
+				  class="@Class"
+				  style="@Style"
+				  id="@Id"
+				  disabled="@Disabled" 
+				  expanded=@Expanded
+				  role="@GetRole()"
+				  checked="@Checked"
+				  @onclick="@OnClickHandlerAsync"
+				  @attributes="AdditionalAttributes">
+	@Label
+	@ChildContent
+	@if (MenuItems != null)
+	{
+		<generic-field-menu slot="submenu">
+			@MenuItems
+		</generic-field-menu>
+	}
+</generic-field-menu-item>

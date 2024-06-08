@@ -13,14 +13,16 @@
 
 <CascadingValue Value="@Data">
     <CascadingValue Value="@Root">
-        <FluentMenu @bind-Open="@IsOpen" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" HorizontalPosition="Position" Width="100px" @ref="@Reference">
-            <CascadingValue Value="@IsOpen">
-                @foreach (var rubric in Data.ExtendedRubrics)
-                {
-                    <GenericMenuItem Rubric="@rubric" Parent="@this" />
-                }
-            </CascadingValue>
-        </FluentMenu>
+        <CascadingValue Value="@NavigationManager">
+            <FluentMenu @bind-Open="@IsOpen" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" HorizontalPosition="Position" Width="100px" @ref="@Reference">
+                <CascadingValue Value="@IsOpen">
+                    @foreach (var rubric in Data.ExtendedRubrics)
+                    {
+                        <GenericMenuItem Rubric="@rubric" Parent="@this" />
+                    }
+                </CascadingValue>
+            </FluentMenu>
+        </CascadingValue>
     </CascadingValue>
 </CascadingValue>
 

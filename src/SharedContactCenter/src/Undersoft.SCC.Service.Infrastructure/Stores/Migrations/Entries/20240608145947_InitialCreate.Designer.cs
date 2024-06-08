@@ -17,10 +17,10 @@ using Undersoft.SCC.Service.Infrastructure.Stores;
 
 #nullable disable
 
-namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
+namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
 {
-    [DbContext(typeof(ReportStore))]
-    [Migration("20240605133209_InitialCreate")]
+    [DbContext(typeof(EntryStore))]
+    [Migration("20240608145947_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -115,7 +115,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.ToTable("Contacts", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.Address", b =>
+            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -142,8 +142,14 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Country")
+                    b.Property<long?>("CountryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CountryName")
                         .HasColumnType("text");
+
+                    b.Property<long?>("CountryStateId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -200,6 +206,10 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("AddressId")
                         .IsUnique();
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CountryStateId");
 
                     b.HasIndex("Index");
 
@@ -896,13 +906,25 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.ToTable("ContactsToGroups", "relations");
                 });
 
-            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.Address", b =>
+            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", b =>
                 {
                     b.HasOne("Undersoft.SCC.Domain.Entities.Contact", "Contact")
                         .WithOne("Address")
-                        .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.Address", "AddressId");
+                        .HasForeignKey("Undersoft.SCC.Domain.Entities.Contacts.ContactAddress", "AddressId");
+
+                    b.HasOne("Undersoft.SCC.Domain.Entities.Country", "Country")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Undersoft.SCC.Domain.Entities.Countries.CountryState", "CountryState")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CountryStateId");
 
                     b.Navigation("Contact");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("CountryState");
                 });
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Contacts.ContactOrganization", b =>
@@ -989,6 +1011,11 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Countries");
                 });
 
+            modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.CountryState", b =>
+                {
+                    b.Navigation("Addresses");
+                });
+
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Countries.Currency", b =>
                 {
                     b.Navigation("Countries");
@@ -996,6 +1023,8 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
 
             modelBuilder.Entity("Undersoft.SCC.Domain.Entities.Country", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("States");
                 });
 #pragma warning restore 612, 618

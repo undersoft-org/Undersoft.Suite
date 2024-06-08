@@ -108,8 +108,6 @@ public partial class ConfirmEmailBase : ComponentBase
         );
         data.SetVisible(nameof(Credentials.EmailConfirmationToken));
         data.Description = description;
-        data.Width = "360px";
-        data.Height = "360px";
 
         while (true)
         {

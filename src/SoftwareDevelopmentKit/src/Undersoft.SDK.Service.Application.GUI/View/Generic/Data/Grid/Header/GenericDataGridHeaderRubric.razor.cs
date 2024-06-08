@@ -21,9 +21,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
 
         private int _ordinal => Rubric.RubricOrdinal + RubricOrdinalSeed;
 
-        public void OnFilterDefine(MouseEventArgs args) { }
+        public void OnFilterDismiss(MouseEventArgs args)
+        {
+            ((IViewFilter)Rubric.ViewFilter).IsOpen = false;
+            Rubric.Filters.Clear();
 
-        public void OnFilterDismiss(MouseEventArgs args) { }
+            StateHasChanged();
+        }
 
         public Task OnClickSort(MouseEventArgs args)
         {

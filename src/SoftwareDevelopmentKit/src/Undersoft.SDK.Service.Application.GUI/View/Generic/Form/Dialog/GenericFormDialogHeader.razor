@@ -2,14 +2,14 @@
 
 <div>
     <!-- Header -->
-    <FluentDialogHeader>
+    <FluentDialogHeader Style="padding:0px">
         <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="20">
             <FluentMessageBarProvider Section="@ViewSection.DIALOG" MaxMessageCount="1" />
-            <FluentStack Orientation="Orientation.Horizontal" VerticalGap="0" Style="text-align: right;">
+            <FluentStack Orientation="Orientation.Horizontal" VerticalGap="10" Style="text-align: right;">
                 @if (Content.Logo != null)
                 {
                     <a href="">
-                        <FluentIcon Width="135px" Value="@Content.Logo" Color="Color.FillInverse" />
+                        <FluentIcon Width="auto" Value="@Content.Logo" Color="Color.FillInverse" />
                     </a>
                 }
                 <FluentSpacer />
@@ -17,16 +17,18 @@
                 {
                     <FluentIcon Value="@Content.Icon" />
                 }
-                <FluentLabel Typo="Typography.H6" Weight="FontWeight.Normal">
+                <FluentLabel Typo="Typography.Header" style="font-weight:200">
                     @Dialog.Instance.Parameters.Title
                 </FluentLabel>
             </FluentStack>
-            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="0">
-                <FluentLabel Typo="Typography.Body">
+            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="0" Style="padding-bottom:10px">
+                <FluentLabel Typo="Typography.Subject" Style="font-weight:200">
                     @Content.Description
                 </FluentLabel>
                 <FluentLabel Typo="Typography.Body" Color="Color.Error">
+                    <small>
                     @Content.Notes.Errors
+                    </small>
                 </FluentLabel>
                 <FluentLabel Typo="Typography.Body" Color="Color.Success">
                     @Content.Notes.Success

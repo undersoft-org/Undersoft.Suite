@@ -59,6 +59,8 @@ public class ViewRubric : MemberRubric, IViewRubric
 
     public string[]? FilterMembers { get; set; }
 
+    public IViewItem? ViewFilter { get; set; }
+
     public ISeries<Filter> Filters { get; set; } = new Listing<Filter>();
 
     public void RenderView()

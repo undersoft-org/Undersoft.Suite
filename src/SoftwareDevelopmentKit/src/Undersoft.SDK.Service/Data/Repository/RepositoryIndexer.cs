@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
@@ -63,16 +62,16 @@ public abstract partial class Repository<TEntity> : IRepositoryIndexer<TEntity>
     public virtual IQueryable<TEntity> this[int skip, int take, IQueryable<TEntity> query] => (take > 0) ? query.Skip(skip).Take(take) : query;
 
     public virtual ISeries<TEntity> this[int skip, int take, SortExpression<TEntity> sortTerms] =>
-        (take > 0) ? this[sortTerms].Skip(skip).Take(take).ToChain() : this[sortTerms].ToChain();
+        (take > 0) ? this[sortTerms].Skip(skip).Take(take).ToListing() : this[sortTerms].ToListing();
 
     public virtual ISeries<TEntity> this[int skip, int take, Expression<Func<TEntity, bool>> predicate] =>
-        (take > 0) ? this[predicate].Skip(skip).Take(take).ToChain() : this[predicate].ToChain();
+        (take > 0) ? this[predicate].Skip(skip).Take(take).ToListing() : this[predicate].ToListing();
 
     public virtual IList<object> this[int skip, int take, Expression<Func<TEntity, object>> selector] =>
         (take > 0) ? this[selector].Skip(skip).Take(take).ToArray() : this[selector].ToArray();
 
     public virtual ISeries<TEntity> this[int skip, int take, Expression<Func<TEntity, object>>[] expanders] =>
-        (take > 0) ? this[expanders].Skip(skip).Take(take).ToChain() : this[expanders].ToChain();
+        (take > 0) ? this[expanders].Skip(skip).Take(take).ToChain() : this[expanders].ToListing();
 
     public virtual IList<object> this[int skip, int take, Expression<Func<TEntity, object>> selector, Expression<Func<TEntity, object>>[] expanders] =>
         (take > 0)
@@ -92,22 +91,22 @@ public abstract partial class Repository<TEntity> : IRepositoryIndexer<TEntity>
     public virtual ISeries<TEntity> this[int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms] =>
         (take > 0)
             ? this[predicate, sortTerms].Skip(skip).Take(take).ToChain()
-            : this[predicate, sortTerms].ToChain();
+            : this[predicate, sortTerms].ToListing();
 
     public virtual ISeries<TEntity> this[int skip, int take, Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] expanders] =>
         (take > 0)
-            ? this[predicate, expanders].Skip(skip).Take(take).ToChain()
-            : this[predicate, expanders].ToChain();
+            ? this[predicate, expanders].Skip(skip).Take(take).ToListing()
+            : this[predicate, expanders].ToListing();
 
     public virtual ISeries<TEntity> this[int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders] =>
         (take > 0)
-            ? this[predicate, sortTerms, expanders].Skip(skip).Take(take).ToChain()
-            : this[predicate, sortTerms, expanders].ToChain();
+            ? this[predicate, sortTerms, expanders].Skip(skip).Take(take).ToListing()
+            : this[predicate, sortTerms, expanders].ToListing();
 
     public virtual ISeries<TEntity> this[int skip, int take, SortExpression<TEntity> sortTerms, Expression<Func<TEntity, object>>[] expanders] =>
         (take > 0)
-            ? this[sortTerms, expanders].Skip(skip).Take(take).ToChain()
-            : this[sortTerms, expanders].ToChain();
+            ? this[sortTerms, expanders].Skip(skip).Take(take).ToListing()
+            : this[sortTerms, expanders].ToListing();
 
     public virtual IQueryable<TEntity> this[IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] expanders]
     {
@@ -126,22 +125,22 @@ public abstract partial class Repository<TEntity> : IRepositoryIndexer<TEntity>
         }
     }
 
-    public virtual IQueryable<TEntity> this[IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate] => query.Where(predicate).AsQueryable();
+    public virtual IQueryable<TEntity> this[IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate] => query.Where(predicate);
 
-    public virtual IQueryable<object> this[IQueryable<TEntity> query, Expression<Func<TEntity, object>> selector] => query.Select(selector).AsQueryable();
+    public virtual IQueryable<object> this[IQueryable<TEntity> query, Expression<Func<TEntity, object>> selector] => query.Select(selector);
 
-    public virtual IQueryable<object> this[IQueryable<TEntity> query, Expression<Func<TEntity, int, object>> selector] => query.Select(selector).AsQueryable();
+    public virtual IQueryable<object> this[IQueryable<TEntity> query, Expression<Func<TEntity, int, object>> selector] => query.Select(selector);
 
     public virtual IQueryable<TEntity> this[IQueryable<TEntity> query, Expression<Func<TEntity, object>> selector, IEnumerable<object> values] => query.WhereIn(selector, values);
 
     public virtual IQueryable<TEntity> this[Expression<Func<TEntity, bool>> predicate] =>
-        Query.Where(predicate).AsQueryable();
+        Query.Where(predicate);
 
     public virtual IQueryable<TEntity> this[SortExpression<TEntity> sortTerms] =>
         Sort(Query, sortTerms);
 
     public virtual IQueryable<object> this[Expression<Func<TEntity, object>> selector] =>
-        Query.Select(selector).AsQueryable();
+        Query.Select(selector);
 
     public virtual IQueryable<TEntity> this[Expression<Func<TEntity, object>>[] expanders]
     {

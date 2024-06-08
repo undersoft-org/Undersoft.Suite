@@ -105,8 +105,6 @@ public partial class ConfirmPasswordResetBase : ComponentBase
         );
         data.SetVisible("PasswordResetToken");
         data.Description = description;
-        data.Width = "360px";
-        data.Height = "360px";
 
         while (true)
         {

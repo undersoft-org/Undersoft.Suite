@@ -4,6 +4,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
 {
     public partial class GenericMenu : ViewItem
     {
+        private bool _open = false;
+
         protected override void OnInitialized()
         {
             Data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
@@ -13,7 +15,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
             base.OnInitialized();
         }
 
-        public bool IsOpen { get; set; }
+        public virtual bool IsOpen { get; set; }        
+
+        [Parameter]
+        public NavigationManager? NavigationManager { get; set; }
 
         [Parameter]
         public bool ShowIcons { get; set; } = true;

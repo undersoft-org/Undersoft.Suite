@@ -24,6 +24,7 @@
 
     [Inject]
     public IAuthorization Authorization { get; set; } = default!;
+
     private Func<IAuthorization, string> ForFirstName => f => f.Credentials.FirstName;
     private Func<IAuthorization, string> ForLastName => f => f.Credentials.LastName;
     private Func<IAuthorization, string> ForImage => f => f.Credentials.Image;

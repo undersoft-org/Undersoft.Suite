@@ -179,7 +179,7 @@ public class ContactProfessionalTests
                 Contact = default(Contact)
             },
             AddressId = 1766220160L,
-            Address = new Address
+            Address = new ContactAddress
             {
                 Country = "TestValue454310088",
                 State = "TestValue1004228451",

@@ -6,6 +6,8 @@
 //   library: Undersoft.SCC.Service
 // *************************************************
 
+using Microsoft.OData.ModelBuilder;
+using Undersoft.SCC.Domain.Entities.Countries;
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 
@@ -17,17 +19,43 @@ namespace Undersoft.SCC.Service.Contracts.Contacts;
 public class ContactAddress : DataObject, IContract
 {
     /// <summary>
+    /// Gets or sets the country id.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? CountryId { get; set; }
+
+    /// <summary>
     /// Gets or sets the country.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
-    public string? Country { get; set; }
+    [Extended]
+    [AutoExpand]
+    public Country? Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the country name.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public string? CountryName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the state id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? CountryStateId { get; set; }
 
     /// <summary>
     /// Gets or sets the state.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
+    [Extended]
+    [AutoExpand]
+    public CountryState? CountryState { get; set; }
+
+    /// <summary>
+    /// Gets or sets the country name.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
     public string? State { get; set; }
 
     /// <summary>

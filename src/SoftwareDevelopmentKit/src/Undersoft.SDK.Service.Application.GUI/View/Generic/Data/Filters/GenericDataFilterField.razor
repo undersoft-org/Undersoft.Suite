@@ -2,13 +2,9 @@
 @using Undersoft.SDK.Proxies
 @using Undersoft.SDK.Rubrics
 @using Undersoft.SDK;
-@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
-@inherits ViewItem
+@inherits GenericField
 
-
-
-   
-
-
-
+@{    
+    base.BuildRenderTree(__builder);
+}

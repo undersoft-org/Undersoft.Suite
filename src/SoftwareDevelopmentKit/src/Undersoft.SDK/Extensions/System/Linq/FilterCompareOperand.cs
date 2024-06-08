@@ -61,6 +61,12 @@
                 case CompareOperand.NotContains:
                     operandString = "!*";
                     break;
+                case CompareOperand.StartsWith:
+                    operandString = "<*";
+                    break;
+                case CompareOperand.EndsWith:
+                    operandString = "*>";
+                    break;
                 default:
                     operandString = "=";
                     break;

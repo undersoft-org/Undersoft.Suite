@@ -95,7 +95,6 @@ public partial class ChangePasswordBase : ComponentBase
             nameof(Credentials.RetypedPassword)
         );
         data.Description = description;
-        data.Width = "360px";
 
         while (true)
         {

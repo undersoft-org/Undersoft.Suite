@@ -53,7 +53,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
     }
 
     [EnableQuery]
-    public virtual IQueryable<TModel> Get()
+    public virtual IQueryable<TModel> Get(ODataQueryOptions<TModel> options)
     {
         return _servicer.Report(new RemoteGet<TStore, TDto, TModel>()).Result.Result;
     }

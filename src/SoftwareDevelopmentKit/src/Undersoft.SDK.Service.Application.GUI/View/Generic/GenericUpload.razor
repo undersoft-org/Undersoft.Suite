@@ -10,39 +10,42 @@
 <FluentLabel Typo="Typography.Body" MarginBlock="5px">
     @DisplayName
 </FluentLabel>
-<FluentInputFile @ref="@FileByStream"
-                 Id="@CodeNo"
-                 DragDropZoneVisible="true"
-                 Mode="InputFileMode.Stream"
-                 Multiple="false"
-                 MaximumFileSize="@(5 * 1024 * 1024)"
-                 @bind-ProgressPercent="@progressPercent"
-                 Accept=".png, .jpg, .svg"
-                 OnFileUploaded="@OnFileUploadedAsync"
-                 OnCompleted="@OnCompleted">
-    <ChildContent>
-
-        <label for="@CodeNo" style="padding-top:1px;">
-            <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
-        </label>
-        <div>
-            <label for="@CodeNo">
-                <small>
-                    Drag or browse
-                </small>
-            </label>
-        </div>
-    </ChildContent>
-</FluentInputFile>
-
-@if (Files.Any())
-{
-    @foreach (var file in Files)
-    {
-        <div>
-            @file
-            - uploaded.
-        </div>
-    }
-}
+<div style="@ImageStyle">
+    <FluentInputFile @ref="@FileByStream"
+                     Id="@CodeNo"
+                     Disabled="@Disabled"
+                     DragDropZoneVisible="true"
+                     Mode="InputFileMode.Stream"
+                     Multiple="false"
+                     MaximumFileSize="@(5 * 1024 * 1024)"
+                     @bind-ProgressPercent="@progressPercent"
+                     Accept=".png, .jpg, .svg"
+                     OnFileUploaded="@OnFileUploadedAsync"
+                     OnCompleted="@OnCompleted"
+                     Style="@StyleValue">
+        <ChildContent>
+            @if (Image == null)
+            {
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center" VerticalGap="10">
+                    <label for="@CodeNo" style="padding-top:20px;">
+                        <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
+                    </label>
+                    <div>
+                        <label for="@CodeNo">
+                            <small>
+                                Drag or browse
+                            </small>
+                        </label>
+                    </div>
+                </FluentStack>
+            }
+            else
+            {
+                <label for="@CodeNo">
+                    <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
+                </label>
+            }
+        </ChildContent>
+    </FluentInputFile>
+</div>
 

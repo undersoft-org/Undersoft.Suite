@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
+namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Entries
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -118,44 +118,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Country = table.Column<string>(type: "text", nullable: true),
-                    State = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: true),
-                    Postcode = table.Column<string>(type: "text", nullable: true),
-                    Street = table.Column<string>(type: "text", nullable: true),
-                    Building = table.Column<string>(type: "text", nullable: true),
-                    Apartment = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    ContactId = table.Column<long>(type: "bigint", nullable: true),
-                    AddressId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Contacts_AddressId",
-                        column: x => x.AddressId,
-                        principalSchema: "domain",
-                        principalTable: "Contacts",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -382,12 +344,76 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    CountryId = table.Column<long>(type: "bigint", nullable: true),
+                    CountryName = table.Column<string>(type: "text", nullable: true),
+                    CountryStateId = table.Column<long>(type: "bigint", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Postcode = table.Column<string>(type: "text", nullable: true),
+                    Street = table.Column<string>(type: "text", nullable: true),
+                    Building = table.Column<string>(type: "text", nullable: true),
+                    Apartment = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    ContactId = table.Column<long>(type: "bigint", nullable: true),
+                    AddressId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Contacts_AddressId",
+                        column: x => x.AddressId,
+                        principalSchema: "domain",
+                        principalTable: "Contacts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Addresses_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalSchema: "domain",
+                        principalTable: "Countries",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Addresses_CountryStates_CountryStateId",
+                        column: x => x.CountryStateId,
+                        principalSchema: "domain",
+                        principalTable: "CountryStates",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_AddressId",
                 schema: "domain",
                 table: "Addresses",
                 column: "AddressId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CountryId",
+                schema: "domain",
+                table: "Addresses",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CountryStateId",
+                schema: "domain",
+                table: "Addresses",
+                column: "CountryStateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_Index",
@@ -513,10 +539,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "relations");
 
             migrationBuilder.DropTable(
-                name: "CountryStates",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
                 name: "Organizations",
                 schema: "domain");
 
@@ -529,15 +551,19 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain");
 
             migrationBuilder.DropTable(
+                name: "CountryStates",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
                 name: "Groups",
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Countries",
+                name: "Contacts",
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Contacts",
+                name: "Countries",
                 schema: "domain");
 
             migrationBuilder.DropTable(

@@ -6,6 +6,8 @@
 //   library: Undersoft.SCC
 // *************************************************
 
+using Undersoft.SCC.Domain.Entities.Contacts;
+
 namespace Undersoft.SCC.Domain.Entities.Countries;
 
 /// <summary>
@@ -41,4 +43,10 @@ public class CountryState : Entity
     /// </summary>
     /// <value>A <see cref="Country? "/></value>
     public virtual Country? Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the groups.
+    /// </summary>
+    /// <value>An EntitySet&lt;Group&gt;?</value>
+    public virtual EntitySet<ContactAddress>? Addresses { get; set; }
 }

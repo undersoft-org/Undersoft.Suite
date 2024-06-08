@@ -5,7 +5,7 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
 {
-    public partial class GenericNavMenu<TMenu> : ViewItem<TMenu> where TMenu : class, IOrigin, IInnerProxy
+    public partial class GenericNavMenu<TMenu> : ViewItem<TMenu>, IDisposable where TMenu : class, IOrigin, IInnerProxy
     {
         private DotNetObjectReference<GenericNavMenu<TMenu>>? _dotNetHelper = null;
         private IJSObjectReference _jsModule = default!;

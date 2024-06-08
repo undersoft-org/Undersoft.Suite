@@ -21,9 +21,17 @@ public class RemoteGetHandler<TStore, TDto, TModel>
         CancellationToken cancellationToken
     )
     {
-        request.Result = await _repository
-            .GetQueryAsync<TModel>(request.Offset, request.Limit, request.Parameters.Sort, request.Parameters.Expanders)
-            .ConfigureAwait(false);
+        if (typeof(TModel) != typeof(TDto))
+            request.Result = await _repository
+                .GetQueryAsync<TModel>(
+                    request.Offset,
+                    request.Limit,
+                    request.Parameters.Sort,
+                    request.Parameters.Expanders
+                )
+                .ConfigureAwait(false);
+        else
+            request.Result = (IQueryable<TModel>)_repository.Query;
 
         return request;
     }

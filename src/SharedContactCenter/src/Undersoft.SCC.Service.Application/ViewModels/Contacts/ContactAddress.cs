@@ -6,6 +6,8 @@
 //   library: Undersoft.SCC.Service.Application
 // *************************************************
 
+using Undersoft.SCC.Service.Contracts;
+using Undersoft.SCC.Service.Contracts.Countries;
 using Undersoft.SDK.Rubrics.Attributes;
 
 namespace Undersoft.SCC.Service.Application.ViewModels.Contacts;
@@ -16,14 +18,38 @@ namespace Undersoft.SCC.Service.Application.ViewModels.Contacts;
 public class ContactAddress : DataObject, IViewModel
 {
     /// <summary>
+    /// Gets or sets the country id.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? CountryId { get; set; }
+
+    /// <summary>
     /// Gets or sets the country.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
+    public Country? Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the country name.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
     [VisibleRubric]
-    public string? Country { get; set; }
+    public string? CountryName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the state id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? CountryStateId { get; set; }
 
     /// <summary>
     /// Gets or sets the state.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public CountryState? CountryState { get; set; }
+
+    /// <summary>
+    /// Gets or sets the state name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
     [VisibleRubric]

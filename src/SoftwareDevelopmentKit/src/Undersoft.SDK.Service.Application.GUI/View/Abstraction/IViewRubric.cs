@@ -18,7 +18,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         string[]? FilterMembers { get; set; }
 
-        Type FilteredType { get; set; }
+        Type? FilteredType { get; set; }
+
+        IViewItem ViewFilter { get; set; }
 
         string[]? SortMembers { get; set; }
 

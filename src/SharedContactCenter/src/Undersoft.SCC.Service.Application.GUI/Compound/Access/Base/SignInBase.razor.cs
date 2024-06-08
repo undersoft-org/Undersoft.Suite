@@ -91,8 +91,6 @@ public partial class SignInBase : ComponentBase
         data.SetRequired(nameof(Credentials.Email), nameof(Credentials.Password));
         data.SetVisible(nameof(Credentials.SaveAccountInCookies));
         data.Description = description;
-        data.Height = "400px";
-        data.Width = "360px";
 
         while (true)
         {

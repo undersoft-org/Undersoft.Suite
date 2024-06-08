@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 // *************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License. 
+//   Licensed under the MIT License.
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
 //   library: Undersoft.SCC.Service
@@ -92,7 +92,11 @@ public partial class Country : DataObject, IContract
     [Sortable]
     [RubricSize(32)]
     [DisplayRubric("Currency code")]
-    public string? CurrencyCode { get => Currency?.CurrencyCode; set => (Currency ??= new Currency()).CurrencyCode = value!; }
+    public string? CurrencyCode
+    {
+        get => Currency?.CurrencyCode;
+        set => (Currency ??= new Currency()).CurrencyCode = value!;
+    }
 
     /// <summary>
     /// Gets or sets the language name.
@@ -105,7 +109,24 @@ public partial class Country : DataObject, IContract
     [Sortable]
     [RubricSize(32)]
     [DisplayRubric("Language")]
-    public string? LanguageName { get => Language?.Name; set => (Language ??= new CountryLanguage()).Name = value!; }
+    public string? LanguageName
+    {
+        get => Language?.Name;
+        set => (Language ??= new CountryLanguage()).Name = value!;
+    }
+
+    /// <summary>
+    /// Gets or sets the language name.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    [IgnoreDataMember]
+    [JsonIgnore]
+    [VisibleRubric]
+    [Filterable]
+    [Sortable]
+    [RubricSize(32)]
+    [DisplayRubric("Phone prefix")]
+    public int? PhonePrefix { get; set; }
 
     /// <summary>
     /// Gets or sets the country image data.
@@ -148,5 +169,4 @@ public partial class Country : DataObject, IContract
     [Extended]
     [AutoExpand]
     public virtual Listing<CountryState>? States { get; set; }
-
 }

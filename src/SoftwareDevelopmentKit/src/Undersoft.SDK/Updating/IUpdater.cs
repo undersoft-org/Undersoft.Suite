@@ -13,9 +13,9 @@ public interface IUpdater : IInstant
 
     object Clone();
 
-    E Patch<E>() where E : class;
-    E Patch<E>(E item) where E : class;
+    E Patch<E>();
+    E Patch<E>(E item);
 
-    E Put<E>() where E : class;
-    E Put<E>(E item) where E : class;
+    E Put<E>();
+    E Put<E>(E item);
 }

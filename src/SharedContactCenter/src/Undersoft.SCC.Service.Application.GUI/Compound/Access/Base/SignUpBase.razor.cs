@@ -96,8 +96,6 @@ public partial class SignUpBase : ComponentBase
             nameof(Credentials.RetypedPassword)
         );
         data.Description = description;
-        data.Height = "600px";
-        data.Width = "360px";
 
         while (true)
         {

@@ -195,7 +195,7 @@ public class ContactOrganizationTests
                 Contact = default(Contact)
             },
             AddressId = 2055362342L,
-            Address = new Address
+            Address = new ContactAddress
             {
                 Country = "TestValue1723329831",
                 State = "TestValue1024495039",

@@ -6,8 +6,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
 {
     public partial class GenericMenuItem : ViewItem
     {
-        [Inject]
-        private NavigationManager _navigation { get; set; } = default!;
+        [CascadingParameter]
+        private NavigationManager? NavigationManager { get; set; }
 
         private Type _type = default!;
         private IProxy _proxy = default!;
@@ -73,15 +73,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
 
         public void OnClick()
         {
-            if (Rubric.IsLink)
+            if (Rubric.IsLink && NavigationManager != null)
             {
                 if (Rubric.LinkValue != null)
-                    _navigation.NavigateTo(Rubric.LinkValue);
+                    NavigationManager.NavigateTo(Rubric.LinkValue);
                 if (Rubric.RubricType == typeof(string))
                 {
                     var uri = Value?.ToString();
                     if (uri != null)
-                        _navigation.NavigateTo(uri);
+                        NavigationManager.NavigateTo(uri);
                 }
             }
             else if (Rubric.Invoker != null)
@@ -92,7 +92,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
             {
                 OnMenuItemChange(this, Data);
             }
-            else if (Rubric.Extended)
+            else if (Rubric.Extended && Rubric.IsMenuGroup)
             {
                 Data.ForOnly(d => d.StateFlags.Expanded, d => d.StateFlags.Expanded = false).Commit();
                 ExpandData.StateFlags.Expanded = true;

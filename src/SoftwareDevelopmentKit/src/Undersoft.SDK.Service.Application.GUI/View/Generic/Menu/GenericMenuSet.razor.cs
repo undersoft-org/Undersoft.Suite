@@ -9,6 +9,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
         public bool IsSingle => Data.Rubrics.Count < 2;
 
         [Parameter]
+        public NavigationManager? NavigationManager { get; set; }
+
+        [Parameter]
         public bool ShowLabels { get; set; } = false;
 
         [Parameter]

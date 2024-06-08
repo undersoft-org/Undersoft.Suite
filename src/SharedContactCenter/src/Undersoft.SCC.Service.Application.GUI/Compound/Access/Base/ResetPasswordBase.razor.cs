@@ -77,7 +77,7 @@ public partial class ResetPasswordBase : ComponentBase
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            await ResettingPassword("Password recovery", "Please provide account e-mail address");
+            await ResettingPassword("Reset password", "Please enter registered e-mail address");
     }
 
     /// <summary>
@@ -91,8 +91,6 @@ public partial class ResetPasswordBase : ComponentBase
         var data = new ViewData<Credentials>(new Credentials(), OperationType.Update, title);
         data.SetVisible(nameof(Credentials.Email));
         data.Description = description;
-        data.Height = "360px";
-        data.Width = "360px";
 
         while (true)
         {

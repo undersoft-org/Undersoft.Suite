@@ -8,6 +8,7 @@
 
 namespace Undersoft.SCC.Domain.Entities;
 
+using Undersoft.SCC.Domain.Entities.Contacts;
 using Undersoft.SCC.Domain.Entities.Countries;
 
 /// <summary>
@@ -78,4 +79,11 @@ public partial class Country : Entity
     /// </summary>
     /// <value>An TODO: Add missing XML "/&gt;</value>
     public virtual EntitySet<CountryState>? States { get; set; }
+
+    /// <summary>
+    /// Gets or sets the groups.
+    /// </summary>
+    /// <value>An EntitySet&lt;Group&gt;?</value>
+    public virtual EntitySet<ContactAddress>? Addresses { get; set; }
+
 }
