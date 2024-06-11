@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Repository.Pagination;
 
 namespace Undersoft.SDK.Service.Data.Repository
 {
@@ -84,15 +83,6 @@ namespace Undersoft.SDK.Service.Data.Repository
         Task<bool> NotExist(Type exceptionType, object instance, string message);
         Task<bool> NotExist<TException>(Expression<Func<TEntity, bool>> predicate, string message) where TException : Exception;
         Task<bool> NotExist<TException>(object instance, string message) where TException : Exception;
-
-        IPagedSet<TDto> PagedFilter<TDto, TResult>(Expression<Func<TEntity, TResult>> selector) where TResult : class;
-        IPagedSet<TDto> PagedFilter<TDto, TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> predicate) where TResult : class;
-        IPagedSet<TDto> PagedFilter<TDto, TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TResult : class;
-        IPagedSet<TDto> PagedFilter<TDto, TResult>(Expression<Func<TEntity, TResult>> selector, params Expression<Func<TEntity, object>>[] expanders) where TResult : class;
-        Task<IPagedSet<TResult>> PagedFilter<TResult>(Expression<Func<TEntity, TResult>> selector) where TResult : class;
-        Task<IPagedSet<TResult>> PagedFilter<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> predicate) where TResult : class;
-        Task<IPagedSet<TResult>> PagedFilter<TResult>(Expression<Func<TEntity, TResult>> selector, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TResult : class;
-        Task<IPagedSet<TResult>> PagedFilter<TResult>(Expression<Func<TEntity, TResult>> selector, params Expression<Func<TEntity, object>>[] expanders) where TResult : class;
 
         IQueryable<TEntity> Sort(IQueryable<TEntity> query, SortExpression<TEntity> sortTerms);
     }

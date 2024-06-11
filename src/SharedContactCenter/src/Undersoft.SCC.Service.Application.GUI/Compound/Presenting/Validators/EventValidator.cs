@@ -20,7 +20,7 @@ using Undersoft.SCC.Service.Application.ViewModels;
 public class EventValidator : ViewValidator<Event>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CountryValidator"/> class.
+    /// Initializes a new instance of the <see cref="DetailValidator"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public EventValidator(IServicer servicer) : base(servicer)

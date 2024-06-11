@@ -3,50 +3,25 @@
 //   Licensed under the MIT License. 
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
-//   library: Undersoft.SCC.Service
+//   library: Undersoft.SCC.Service.Application
 // *************************************************
 
-using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SDK.Service.Data.Contract;
-using Undersoft.SDK.Service.Data.Model.Attributes;
-using Undersoft.SDK.Service.Data.Object.Group;
-using Undersoft.SDK.Service.Operation;
+namespace Undersoft.SCC.Service.Contracts;
 
-namespace Undersoft.SCC.Service.Contracts
+/// <summary>
+/// The group.
+/// </summary>
+public partial class Group : GroupEdge
 {
     /// <summary>
-    /// The group.
+    /// Gets or sets the related from.
     /// </summary>
-    [Validator("GroupValidator")]
-    [ViewSize(width: "400px", height: "350px")]
-    public partial class Group : ObjectGroup<Group>, IContract
-    {
-        /// <summary>
-        /// Gets or sets the group image.
-        /// </summary>
-        /// <value>A <see cref="string? "/></value>
-        [VisibleRubric]
-        [RubricSize(3)]
-        [DisplayRubric("Group image")]
-        [ViewImage(ViewImageMode.Regular, "30px", "20px")]
-        [FileRubric(FileRubricType.Property, "GroupImageData")]
-        public string? GroupImage { get; set; } = default!;
+    /// <value>An TODO: Add missing XML "/&gt;</value>
+    public virtual EntitySet<GroupEdge>? RelatedFrom { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>A <see cref="string? "/></value>
-        [VisibleRubric]
-        [RubricSize(128)]
-        [Filterable]
-        [Sortable]
-        [DisplayRubric("Group name")]
-        public override string? Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the group image data.
-        /// </summary>
-        /// <value>A <see cref="byte[]? "/></value>
-        public byte[]? GroupImageData { get; set; } = default!;
-    }
+    /// <summary>
+    /// Gets or sets the related converts to.
+    /// </summary>
+    /// <value>An TODO: Add missing XML "/&gt;</value>
+    public virtual EntitySet<GroupEdge>? RelatedTo { get; set; }
 }

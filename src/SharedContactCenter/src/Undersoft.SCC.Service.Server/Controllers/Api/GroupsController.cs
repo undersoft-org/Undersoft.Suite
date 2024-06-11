@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Undersoft.SCC.Service.Contracts;
+
+
 
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
@@ -23,7 +26,7 @@ public class GroupsController
         IEntryStore,
         IReportStore,
         Domain.Entities.Group,
-        Contracts.Group,
+        Group,
         ServiceManager
     >
 {

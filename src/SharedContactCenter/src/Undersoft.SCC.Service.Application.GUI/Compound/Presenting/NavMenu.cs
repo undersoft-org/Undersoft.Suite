@@ -44,6 +44,6 @@ public class NavMenu : DataObject
     /// <summary>
     /// The dictionaries icon.
     /// </summary>
-    public Icon DictionariesIcon = new Icons.Regular.Size24.ArchiveSettings();
+    public Icon DictionariesIcon = new Icons.Regular.Size24.BookOpen();
 }
 

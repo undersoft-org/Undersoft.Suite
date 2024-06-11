@@ -96,16 +96,20 @@ public static class MauiProgram
                         RemoteRepository<IAccountStore, Account>
                     >()
                     .AddScoped<
-                        IRemoteRepository<IDataStore, Contact>,
-                        RemoteRepository<IDataStore, Contact>
+                        IRemoteRepository<IDataStore, Member>,
+                        RemoteRepository<IDataStore, Member>
                     >()
                     .AddScoped<
                         IRemoteRepository<IDataStore, Group>,
                         RemoteRepository<IDataStore, Group>
                     >()
                     .AddScoped<
-                        IRemoteRepository<IDataStore, Country>,
-                        RemoteRepository<IDataStore, Country>
+                        IRemoteRepository<IDataStore, Detail>,
+                        RemoteRepository<IDataStore, Detail>
+                    >()
+                      .AddScoped<
+                        IRemoteRepository<IDataStore, Setting>,
+                        RemoteRepository<IDataStore, Setting>
                     >()
                       .AddScoped<
                         IRemoteRepository<IEventStore, Event>,
@@ -123,14 +127,12 @@ public static class MauiProgram
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Member>>, MemberValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Country>>, CountryValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()
-                    .AddScoped<ContactValidator>()
-                    .AddScoped<GroupValidator>()
-                    .AddScoped<CountryValidator>();
+                    .AddScoped<MemberValidator>()
+                    .AddScoped<GroupValidator>();
                 reg.MergeServices(services, true);
             }
         );

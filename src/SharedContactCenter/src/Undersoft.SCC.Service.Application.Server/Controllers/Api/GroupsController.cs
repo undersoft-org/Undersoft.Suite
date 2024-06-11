@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Undersoft.SCC.Service.Contracts;
+
 
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
@@ -12,7 +14,7 @@ using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Api;
 
-namespace Undersoft.SCC.Service.Application.Server.Controllers.Rest;
+namespace Undersoft.SCC.Service.Application.Server.Controllers.Api;
 
 /// <summary>
 /// The groups controller.
@@ -22,8 +24,8 @@ public class GroupsController
     : ApiDataRemoteController<
         long,
         IDataStore,
-        Contracts.Group,
-        Contracts.Group,
+        Group,
+        Group,
         ServiceManager
     >
 {

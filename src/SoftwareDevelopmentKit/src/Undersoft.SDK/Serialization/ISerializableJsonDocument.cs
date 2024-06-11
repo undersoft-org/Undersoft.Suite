@@ -8,7 +8,7 @@ public interface ISerializableJsonDocument
 
     string TypeName { get; set; }
 
-    T GetObject<T>();
+    T GetDetail<T>();
 
-    void SetDocument<T>(T structure);
+    void SetGeneral<T>(T structure);
 }

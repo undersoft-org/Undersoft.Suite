@@ -8,22 +8,22 @@ public static class ProxyFactoryExtensions
     {
         var t = item.GetType();
         var key = t.UniqueKey32();
-        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator sleeve))
+        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator proxy))
         {
-            ProxyFactory.Cache.Add(key, sleeve = new ProxyCreator(t));
+            ProxyFactory.Cache.Add(key, proxy = new ProxyCreator(t));
         }
-        return sleeve;
+        return proxy;
     }
 
     public static ProxyCreator GetProxyCreator<T>(this T item)
     {
         var t = typeof(T);
         var key = t.UniqueKey32();
-        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator sleeve))
+        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator proxy))
         {
-            ProxyFactory.Cache.Add(key, sleeve = new ProxyCreator(t));
+            ProxyFactory.Cache.Add(key, proxy = new ProxyCreator(t));
         }
-        return sleeve;
+        return proxy;
     }
 
     public static IProxy ToProxy(this object item)

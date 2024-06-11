@@ -90,12 +90,12 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
         int group = GetDataTypeId(typeof(T));
         if (!cache.TryGet(group, out IIdentifiable catalog))
         {
-            ProxyCreator sleeve = ProxyFactory.GetCreator(GetDataType(typeof(T)), group);
-            sleeve.Create();
+            ProxyCreator proxy = ProxyFactory.GetCreator(GetDataType(typeof(T)), group);
+            proxy.Create();
 
-            IRubrics keyrubrics = sleeve.Rubrics.KeyRubrics;
+            IRubrics keyrubrics = proxy.Rubrics.KeyRubrics;
 
-            IProxy isleeve = item.ToProxy();
+            IProxy iproxy = item.ToProxy();
 
             catalog = new Registry<T>();
 
@@ -106,7 +106,7 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
                 subcatalog.Add(item);
 
                 ((ITypedSeries<IIdentifiable>)catalog).Put(
-                    isleeve[keyRubric.RubricId],
+                    iproxy[keyRubric.RubricId],
                     keyRubric.RubricName.UniqueKey32(),
                     subcatalog
                 );
@@ -123,13 +123,13 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
         {
             ITypedSeries<IIdentifiable> _catalog = (ITypedSeries<IIdentifiable>)catalog;
 
-            IProxy isleeve = item.ToProxy();
+            IProxy iproxy = item.ToProxy();
 
-            foreach (MemberRubric keyRubric in isleeve.Rubrics.KeyRubrics)
+            foreach (MemberRubric keyRubric in iproxy.Rubrics.KeyRubrics)
             {
                 if (
                     !_catalog.TryGet(
-                        isleeve[keyRubric.RubricId],
+                        iproxy[keyRubric.RubricId],
                         keyRubric.RubricName.UniqueKey32(),
                         out IIdentifiable outcatalog
                     )
@@ -140,7 +140,7 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
                     ((ISeries<IIdentifiable>)outcatalog).Put(item);
 
                     _catalog.Put(
-                        isleeve[keyRubric.RubricId],
+                        iproxy[keyRubric.RubricId],
                         keyRubric.RubricName.UniqueKey32(),
                         outcatalog
                     );
@@ -160,9 +160,9 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
     {
         Memorize(item);
 
-        IProxy sleeve = item.ToProxy();
+        IProxy proxy = item.ToProxy();
 
-        MemberRubric[] keyrubrics = sleeve.Rubrics
+        MemberRubric[] keyrubrics = proxy.Rubrics
             .Where(p => names.Contains(p.RubricName))
             .ToArray();
 
@@ -173,7 +173,7 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
         {
             if (
                 !_catalog.TryGet(
-                    sleeve[keyRubric.RubricId],
+                    proxy[keyRubric.RubricId],
                     keyRubric.RubricName.UniqueKey32(),
                     out IIdentifiable outcatalog
                 )
@@ -184,7 +184,7 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
                 ((ISeries<IIdentifiable>)outcatalog).Put(item);
 
                 _catalog.Put(
-                    sleeve[keyRubric.RubricId],
+                    proxy[keyRubric.RubricId],
                     keyRubric.RubricName.UniqueKey32(),
                     outcatalog
                 );

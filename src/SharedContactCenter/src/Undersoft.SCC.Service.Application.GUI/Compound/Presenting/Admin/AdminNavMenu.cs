@@ -46,7 +46,7 @@ public class AdminNavMenu : DataObject
     /// <summary>
     /// The dictionaries icon.
     /// </summary>
-    public Icon DictionariesIcon = new Icons.Regular.Size24.ArchiveSettings();
+    public Icon DictionariesIcon = new Icons.Regular.Size24.BookOpen();
 
     /// <summary>
     /// Gets or sets the administration.
@@ -59,6 +59,6 @@ public class AdminNavMenu : DataObject
     /// <summary>
     /// The administration icon.
     /// </summary>
-    public Icon AdministrationIcon = new Icons.Regular.Size24.PersonSupport();
+    public Icon AdministrationIcon = new Icons.Regular.Size24.PersonPasskey();
 }
 

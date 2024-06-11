@@ -40,11 +40,25 @@ public class Dictionaries : DataObject
     [Link]
     [MenuItem]
     [Extended]
-    [DisplayRubric("Countries")]
-    public string Countries { get; set; } = "/presenting/dictionaries/countries";
+    [DisplayRubric("Details")]
+    public string Details { get; set; } = "/presenting/dictionaries/details";
     /// <summary>
     /// The countries icon.
     /// </summary>
     public Icon CountriesIcon = new Icons.Regular.Size20.Flag();
+
+    /// <summary>
+    /// Gets or sets the countries.
+    /// </summary>
+    /// <value>A <see cref="string"/></value>
+    [Link]
+    [MenuItem]
+    [Extended]
+    [DisplayRubric("Settings")]
+    public string Settings { get; set; } = "/presenting/dictionaries/settings";
+    /// <summary>
+    /// The countries icon.
+    /// </summary>
+    public Icon SettingsIcon = new Icons.Regular.Size20.Flag();
 }
 

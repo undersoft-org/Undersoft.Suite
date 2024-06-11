@@ -4,6 +4,7 @@ using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Application.GUI.View.Generic.Validator;
 using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Data.Query;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Uniques;
 using Undersoft.SDK.Updating;
@@ -91,7 +92,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 )
             );
             Registry.Add(
-               typeof(QueryMembersAttribute), typeof(ViewRubric).UniqueKey(),
+               typeof(OpenQueryAttribute), typeof(ViewRubric).UniqueKey(),
                new Invoker<ViewAttributeResolvers>(
                    ViewResolveAttributes,
                    m => m.ResolveQueryRubricAttributes
@@ -212,10 +213,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
         {
             var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
 
-            object? o = mi.GetCustomAttributes(typeof(QueryMembersAttribute), false).FirstOrDefault();
+            object? o = mi.GetCustomAttributes(typeof(OpenQueryAttribute), false).FirstOrDefault();
             if ((o != null))
             {
-                QueryMembersAttribute fta = (QueryMembersAttribute)o;
+                OpenQueryAttribute fta = (OpenQueryAttribute)o;
 
                 mr.FilterMembers = fta.FilterMembers;
                 mr.SortMembers = fta.SortMembers;

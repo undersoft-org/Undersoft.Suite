@@ -83,14 +83,16 @@ public class Program
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Member>>, MemberValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Country>>, CountryValidator>()
+                        .AddScoped<IValidator<IViewData<ViewModels.Detail>>, DetailValidator>()
+                            .AddScoped<IValidator<IViewData<ViewModels.Setting>>, SettingValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()
-                    .AddScoped<ContactValidator>()
+                    .AddScoped<MemberValidator>()
                     .AddScoped<GroupValidator>()
-                    .AddScoped<CountryValidator>();
+                  .AddScoped<DetailValidator>()
+                  .AddScoped<SettingValidator>();
                 reg.MergeServices(services, true);
             }
         );

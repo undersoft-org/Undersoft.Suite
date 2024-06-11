@@ -10,7 +10,7 @@ public class ProxyCreator<T> : ProxyCreator
 {
     public ProxyCreator() : base(typeof(T)) { }
 
-    public ProxyCreator(string sleeveName) : base(typeof(T), sleeveName) { }
+    public ProxyCreator(string proxyName) : base(typeof(T), proxyName) { }
 }
 
 public class ProxyCreator : IInstantCreator
@@ -57,23 +57,23 @@ public class ProxyCreator : IInstantCreator
 
     public IProxy Create(object obj = null)
     {
-        var s = create();
+        var proxy = CreateProxy();
         if (obj == null)
             obj = BaseType.New();
-        s.Target = obj;
-        return s;
+        proxy.Target = obj;
+        return proxy;
     }
 
-    public IProxy create()
+    public IProxy CreateProxy()
     {
         if (Type == null)
         {
             try
             {
-                IProxy s = compile(new ProxyCompiler(this, rubricModels));
+                IProxy proxy = Compile(new ProxyCompiler(this, rubricModels));
                 Rubrics.Update();
-                s.Rubrics = Rubrics;
-                return s;
+                proxy.Rubrics = Rubrics;
+                return proxy;
             }
             catch (Exception ex)
             {
@@ -81,16 +81,16 @@ public class ProxyCreator : IInstantCreator
             }
         }
 
-        return activate();
+        return Activate();
     }
 
-    private IProxy compile(ProxyCompiler compiler)
+    private IProxy Compile(ProxyCompiler compiler)
     {
-        var fcdt = compiler;
+        var _compiler = compiler;
 
-        compiledType = fcdt.CompileProxyType(Name);
+        compiledType = _compiler.CompileProxyType(Name);
 
-        Rubrics.KeyRubrics.Add(fcdt.Identities.Values.Select(v => Rubrics[v.Name]).ToArray());
+        Rubrics.KeyRubrics.Add(_compiler.Identities.Values.Select(v => Rubrics[v.Name]).ToArray());
 
         var obj = compiledType.New();
 
@@ -106,7 +106,7 @@ public class ProxyCreator : IInstantCreator
         return (IProxy)obj;
     }
 
-    private IProxy activate()
+    private IProxy Activate()
     {
         var s = (IProxy)Type.New();
         s.Rubrics = Rubrics;

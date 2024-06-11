@@ -7,10 +7,10 @@ namespace Undersoft.SDK.Service.Data.Object.Detail
         JsonDocument Document { get; set; }
         string Name { get; set; }
 
-        T GetObject<T>();
-        object GetObject();
+        T GetDetail<T>();
+        object GetDetail();
 
-        void SetDocument<T>(T structure);
-        void SetDocument(object structure);
+        void SetGeneral<T>(T structure);
+        void SetGeneral(object structure);
     }
 }

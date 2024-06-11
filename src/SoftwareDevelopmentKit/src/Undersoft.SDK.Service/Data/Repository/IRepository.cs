@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Undersoft.SDK.Service.Data.Repository.Pagination;
 
 namespace Undersoft.SDK.Service.Data.Repository
 {
@@ -9,7 +8,6 @@ namespace Undersoft.SDK.Service.Data.Repository
             IRepositoryCommand<TEntity>,
             IRepositoryMappedCommand<TEntity>,
             IRepositoryIndexer<TEntity>,
-            IPage<TEntity>,
             IRepository,
             IOrderedQueryable<TEntity>,
             IEnumerable<TEntity> where TEntity : class, IOrigin, IInnerProxy

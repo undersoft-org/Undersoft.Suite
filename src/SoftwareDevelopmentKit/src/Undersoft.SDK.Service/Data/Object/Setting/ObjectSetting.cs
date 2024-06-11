@@ -45,23 +45,23 @@ public class ObjectSetting<TSetting, TKind> : DataObject, ISerializableJsonDocum
     [DataMember(Order = 16)]
     public TKind Kind { get; set; }
 
-    public virtual T GetObject<T>()
+    public virtual T GetDetail<T>()
     {
-        return _serializer.GetObject<T>();
+        return _serializer.GetDetail<T>();
     }
 
-    public virtual object GetObject()
+    public virtual object GetDetail()
     {
-        return _serializer.GetObject();
+        return _serializer.GetDetail();
     }
 
-    public virtual void SetDocument<T>(T structure)
+    public virtual void SetGeneral<T>(T structure)
     {
-        _serializer.SetDocument(structure);
+        _serializer.SetGeneral(structure);
     }
 
-    public virtual void SetDocument(object structure)
+    public virtual void SetGeneral(object structure)
     {
-        _serializer.SetDocument(structure);
+        _serializer.SetGeneral(structure);
     }
 }

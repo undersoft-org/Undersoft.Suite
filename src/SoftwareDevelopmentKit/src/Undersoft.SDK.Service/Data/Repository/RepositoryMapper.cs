@@ -20,15 +20,15 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
 
     public virtual IList<TEntity> Map<TDto>(IEnumerable<TDto> model, IEnumerable<TEntity> entity)
     {
-        return HashMap(model, entity);
+        return MapById(model, entity);
     }
 
     public virtual IList<TDto> Map<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
     {
-        return HashMap(entity, model);
+        return MapById(entity, model);
     }
 
-    public virtual ISeries<TEntity> HashMap<TDto>(
+    public virtual ISeries<TEntity> MapById<TDto>(
         IEnumerable<TDto> model,
         IEnumerable<TEntity> entity
     )
@@ -38,7 +38,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         return _entity;
     }
 
-    public virtual ISeries<TDto> HashMap<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
+    public virtual ISeries<TDto> MapById<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
     {
         var _model = model.ToListing();
         entity.ForEach(e => { if (_model.TryGet(e, out TDto output)) output.PutTo(e); });
@@ -57,22 +57,22 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
 
     public virtual TEntity MapFrom<TDto>(TDto model)
     {
-        return Mapper.Map<TDto, TEntity>(model);
+        return model.PutTo<TEntity>();
     }
 
     public virtual TDto MapFrom<TDto>(object model)
     {
-        return Mapper.Map<TDto>(model);
+        return model.PutTo<TDto>();
     }
 
     public virtual IList<TDto> MapTo<TDto>(IEnumerable<object> entity)
     {
-        return Mapper.Map<IList<TDto>>(entity.Commit());
+        return entity.ForEach(e => e.PutTo<TDto>()).Commit();
     }
 
-    public virtual IList<TDto> MapTo<TDto>(IEnumerable<TEntity> entity)
+    public virtual IList<TDto> MapToList<TDto>(IEnumerable<TEntity> entity)
     {
-        return Mapper.Map<IList<TDto>>(entity.Commit());
+        return entity.ForEach(e => e.PutTo<TDto>()).Commit();
     }
 
     public virtual async IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity) where TDto : class
@@ -81,18 +81,18 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
             yield return await Task.Run(() => item.PutTo<TDto>());
     }
 
-    public virtual IList<TEntity> MapFrom<TDto>(IEnumerable<TDto> model)
+    public virtual IList<TEntity> MapToList<TDto>(IEnumerable<TDto> model)
     {
-        return Mapper.Map<TDto[], IList<TEntity>>(model.Commit());
+        return model.ForEach(m => m.PutTo<TEntity>()).Commit();
     }
 
-    public virtual async IAsyncEnumerable<TEntity> MapFromAsync<TDto>(IEnumerable<TDto> model)
+    public virtual async IAsyncEnumerable<TEntity> MapToAsync<TDto>(IEnumerable<TDto> model)
     {
         foreach (var item in model)
-            yield return await Task.Run(() => Mapper.Map<TDto, TEntity>(item));
+            yield return await Task.Run(() => item.PutTo<TEntity>());
     }
 
-    public virtual Task<ISeries<TDto>> HashMapTo<TDto>(IEnumerable<object> entity)
+    public virtual Task<ISeries<TDto>> KeyedMapAsync<TDto>(IEnumerable<object> entity)
     {
         return Task.Run(
             () => (ISeries<TDto>)entity.ForEach(m => m.PutTo<TDto>()).ToListing(),
@@ -100,12 +100,12 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         );
     }
 
-    public virtual IEnumerable<TDto> YieldMapTo<TDto>(IEnumerable<TEntity> entities)
+    public virtual IEnumerable<TDto> MapTo<TDto>(IEnumerable<TEntity> entities)
     {
         return entities.ForEach(e => e.PutTo<TDto>());
     }
 
-    public virtual Task<ISeries<TDto>> HashMapTo<TDto>(IEnumerable<TEntity> entity)
+    public virtual Task<ISeries<TDto>> KeyedMapAsync<TDto>(IEnumerable<TEntity> entity)
     {
         return Task.Run(
             () => (ISeries<TDto>)(entity.ForEach(m => m.PutTo<TEntity>())).ToListing(),
@@ -113,7 +113,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         );
     }
 
-    public virtual Task<ISeries<TEntity>> HashMapFrom<TDto>(IEnumerable<TDto> model)
+    public virtual Task<ISeries<TEntity>> KeyedMapAsync<TDto>(IEnumerable<TDto> model)
     {
         return Task.Run(
             () =>
@@ -125,23 +125,34 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         );
     }
 
-    public virtual async Task<IQueryable<TDto>> QueryMapAsyncTo<TDto>(IQueryable<TEntity> entity)
+    public virtual async Task<IQueryable<TDto>> MapQueryAsync<TDto>(IQueryable<TEntity> entity)
         where TDto : class
     {
         return await Task.FromResult(entity.AsEnumerable().ForEach(e => e.PutTo<TDto>()).AsQueryable());
     }
 
-    public virtual IQueryable<TDto> QueryMapTo<TDto>(IQueryable<TEntity> entity) where TDto : class
+    public virtual async Task<IQueryable<TDto>> DetalizeQueryAsync<TDto>(IQueryable<TEntity> entity)
+      where TDto : , IInnerProxy
+    {
+        return await Task.FromResult(entity.AsEnumerable().ForEach(e =>
+        {
+            var contract = e.PutTo<TDto>();
+            Detalize(contract);
+            return contract;
+        }).AsQueryable());
+    }
+
+    public virtual IQueryable<TDto> MapQuery<TDto>(IQueryable<TEntity> entity) where TDto : class
     {
         return entity.ForEach(e => e.PutTo<TDto>());
     }
 
-    public virtual IQueryable<TEntity> QueryMapFrom<TDto>(IQueryable<TDto> model)
+    public virtual IQueryable<TEntity> MapQuery<TDto>(IQueryable<TDto> model)
     {
         return model.ForEach(m => m.PutTo<TEntity>());
     }
 
-    public virtual async Task<IQueryable<TEntity>> QueryMapAsyncFrom<TDto>(IQueryable<TDto> model)
+    public virtual async Task<IQueryable<TEntity>> MapQueryAsync<TDto>(IQueryable<TDto> model)
     {
         return await model.ForEachAsync(m => m.PutTo<TEntity>());
     }

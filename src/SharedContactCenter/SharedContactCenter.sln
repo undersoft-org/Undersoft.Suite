@@ -42,9 +42,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SCC.Tests", "tests\Undersoft.SCC.Tests\Undersoft.SCC.Tests.csproj", "{2DADD018-8B9E-4DDD-BE81-1B6B33FA7DA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{39C8DFE5-25EA-4FB5-8098-0E19C9844E03}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SCC.Service.Tests", "tests\Undersoft.SCC.Service.Tests\Undersoft.SCC.Service.Tests.csproj", "{B0CE6DF2-4E4F-4DB4-983A-483D61FA7DDC}"
 EndProject

@@ -23,7 +23,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
         /// <summary>
         /// The TABLE NAME.
         /// </summary>
-        const string TABLE_NAME = "DetailSet";
+        const string TABLE_NAME = "Details";
 
         public override void Configure(EntityTypeBuilder<Detail> builder)
         {

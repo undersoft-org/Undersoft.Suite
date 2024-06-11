@@ -1,11 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Query;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
 public abstract partial class Repository<TEntity> : IRepositoryQuery<TEntity> where TEntity : class, IOrigin, IInnerProxy
 {
+    public virtual IList<TDto> Filter<TDto>(IQueryable<TEntity> query)
+    {
+        return MapTo<TDto>(query);
+    }
+
+    public virtual IList<TEntity> Filter<TDto>(IQueryable<TDto> query)
+    {
+        return MapToList<TDto>(query);
+    }
+
     public virtual Task<IList<TResult>> Filter<TResult>(
         int skip,
         int take,

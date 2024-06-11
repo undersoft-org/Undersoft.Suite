@@ -1,11 +1,20 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Undersoft.SDK.Service.Data.Object.Setting;
 
-public class SettingAttribute : Attribute
+
+
+public class SettingAttribute : NotMappedAttribute
 {
 
 }
 
-public class SettingsAttribute : Attribute
+public class GeneralizedSettingsAttribute : Attribute
+{
+
+}
+
+public class SettingsAttribute : SettingAttribute
 {
 
 }

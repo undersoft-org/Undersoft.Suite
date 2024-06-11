@@ -8,10 +8,9 @@ namespace Undersoft.SDK.Service.Data.Repository;
 using Data.Object;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Repository.Client;
-using Undersoft.SDK.Service.Data.Repository.Pagination;
 using Undersoft.SDK.Service.Data.Repository.Source;
 
-public abstract partial class Repository<TEntity> : Repository, IPagedSet<TEntity>, IRepository<TEntity> where TEntity : class, IOrigin, IInnerProxy
+public abstract partial class Repository<TEntity> : Repository, IRepository<TEntity> where TEntity : class, IOrigin, IInnerProxy
 {
     protected IDataCache cache;
     protected IQueryable<TEntity> query;

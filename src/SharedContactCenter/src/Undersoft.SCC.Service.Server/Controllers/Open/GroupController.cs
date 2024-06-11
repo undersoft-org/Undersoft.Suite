@@ -6,6 +6,7 @@
 //   server: Undersoft.SCC.Service.Server
 // ********************************************************
 
+using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
@@ -20,7 +21,7 @@ public class GroupController
         IEntryStore,
         IReportStore,
         Domain.Entities.Group,
-        Contracts.Group,
+        Group,
         ServiceManager
     >
 {

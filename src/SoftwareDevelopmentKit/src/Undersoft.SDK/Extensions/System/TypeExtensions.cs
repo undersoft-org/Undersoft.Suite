@@ -27,7 +27,7 @@ namespace System
                         "{"
                             + MethodBase.GetCurrentMethod()
                             + "} Error:\n\nThe Activator.CreateInstance method could not "
-                            + "activate a default instance of the supplied value type <"
+                            + "Activate a default instance of the supplied value type <"
                             + type
                             + "> (Inner Exception message: \""
                             + e.Message
@@ -80,7 +80,7 @@ namespace System
                         "{"
                             + MethodBase.GetCurrentMethod()
                             + "} Error:\n\nThe Activator.CreateInstance method could not "
-                            + "activate a default instance of the supplied value type <"
+                            + "Activate a default instance of the supplied value type <"
                             + type
                             + "> (Inner Exception message: \""
                             + e.Message

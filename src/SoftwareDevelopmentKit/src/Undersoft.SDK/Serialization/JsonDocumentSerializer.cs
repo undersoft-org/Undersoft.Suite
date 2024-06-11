@@ -32,7 +32,7 @@ public class JsonDocumentSerializer : ISerializableJsonDocument, IJsonDocumentSe
                 {
                     if (_structure == null)
                     {
-                        GetObject();
+                        GetDetail();
                     }
                     else
                     {
@@ -160,14 +160,14 @@ public class JsonDocumentSerializer : ISerializableJsonDocument, IJsonDocumentSe
         return null;
     }
 
-    public virtual T GetObject<T>()
+    public virtual T GetDetail<T>()
     {
         if (Document != null)
             return (T)(_structure ??= FromDocument<T>(Document));
         return default(T);
     }
 
-    public virtual object GetObject()
+    public virtual object GetDetail()
     {
         if (Document != null)
             return _structure ??= FromDocument(Document);
@@ -188,13 +188,13 @@ public class JsonDocumentSerializer : ISerializableJsonDocument, IJsonDocumentSe
         return null;
     }
 
-    public virtual void SetDocument<T>(T structure)
+    public virtual void SetGeneral<T>(T structure)
     {
         _structure = structure;
         Document = ToDocument<T>(structure);
     }
 
-    public virtual void SetDocument(object structure)
+    public virtual void SetGeneral(object structure)
     {
         _structure = structure;
         Document = ToDocument(structure);

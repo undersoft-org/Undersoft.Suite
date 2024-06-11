@@ -21,9 +21,6 @@ public class DataObject : InnerProxy, IDataObject
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)this;
 
-        //if (type.IsAssignableTo(typeof(Event)))
-        //    return null;
-
         return ProxyFactory.GetCreator(type, TypeId).Create(this);
     }
 

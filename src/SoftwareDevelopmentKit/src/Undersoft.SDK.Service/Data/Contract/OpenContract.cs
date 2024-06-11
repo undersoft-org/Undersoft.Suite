@@ -5,7 +5,6 @@ namespace Undersoft.SDK.Service.Data.Contract;
 
 using Identifier;
 using Microsoft.OData.ModelBuilder;
-using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Object.Detail;
 using Undersoft.SDK.Service.Data.Object.Group;
@@ -21,24 +20,21 @@ public class OpenContract<TContract, TDetail, TSetting, TGroup> : DataObject, IC
 {
     public OpenContract() : base() { }
 
-    [Extended]
     [AutoExpand]
     [DataMember(Order = 12)]
     public virtual IdentifierSet<TContract> Identifiers { get; set; }
 
-    [Details]
-    [Extended]
     [AutoExpand]
+    [GeneralizedDetails]
     [DataMember(Order = 13)]
     public virtual Listing<TDetail> Details { get; set; }
 
-    [Settings]
-    [Extended]
+
     [AutoExpand]
+    [FormatedSettings]
     [DataMember(Order = 14)]
     public virtual Listing<TSetting> Settings { get; set; }
 
-    [Extended]
     [AutoExpand]
     [DataMember(Order = 15)]
     public virtual Listing<TGroup> Groups { get; set; }

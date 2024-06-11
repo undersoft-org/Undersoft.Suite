@@ -11,31 +11,33 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings;
-
-using Undersoft.SCC.Domain.Entities;
-
-/// <summary>
-/// The group mappings.
-/// </summary>
-public class GroupMappings : EntityTypeMapping<Group>
+namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
 {
-    const string TABLE_NAME = "Groups";
+    using Undersoft.SCC.Domain.Entities;
 
     /// <summary>
-    /// TODO: Add Summary.
+    /// The detail mappings.
     /// </summary>
-    /// <param name="builder">The builder.</param>
-    public override void Configure(EntityTypeBuilder<Group> builder)
+    public class GroupMappings : EntityTypeMapping<Group>
     {
-        builder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
+        /// <summary>
+        /// The TABLE NAME.
+        /// </summary>
+        const string TABLE_NAME = "Groups";
 
-        ModelBuilder.RelateSetToSet<Group, Group>(
-                  r => r.RelatedFrom,
-                  nameof(Group),
-                  r => r.RelatedTo,
-                  nameof(Group),
-                  ExpandSite.OnRight
-              );
+        public override void Configure(EntityTypeBuilder<Group> builder)
+        {
+            builder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
+
+            ModelBuilder
+                .RelateSetToSet<Group, Group>(
+                    r => r.RelatedFrom,
+                    nameof(Group),
+                    r => r.RelatedTo,
+                    nameof(Group),
+                    ExpandSite.OnRight
+                );
+            ;
+        }
     }
 }

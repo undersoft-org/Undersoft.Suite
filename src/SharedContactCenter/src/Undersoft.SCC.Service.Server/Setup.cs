@@ -44,8 +44,9 @@ public class Setup
                 DataServerTypes.Rest | DataServerTypes.OData,
                 builder =>
                     builder
-                        .AddInvocations<Contact>()
-                        .AddInvocations<Country>()
+                        .AddInvocations<Member>()
+                        .AddInvocations<Detail>()
+                        .AddInvocations<Setting>()
                         .AddInvocations<Group>()
             )
             .AddDataServer<IEventStore>(

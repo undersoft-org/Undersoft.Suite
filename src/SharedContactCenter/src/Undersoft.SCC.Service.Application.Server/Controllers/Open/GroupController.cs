@@ -6,6 +6,7 @@
 //   server: Undersoft.SCC.Service.Application.Server
 // ********************************************************
 
+using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
@@ -19,8 +20,8 @@ public class GroupController
     : OpenDataRemoteController<
         long,
         IDataStore,
-        Contracts.Group,
-        Contracts.Group,
+        Group,
+        Group,
         ServiceManager
     >
 {

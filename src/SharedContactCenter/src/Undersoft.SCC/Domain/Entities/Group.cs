@@ -46,5 +46,5 @@ public partial class Group : ObjectGroup<Group>, IGroup, IEntity
     /// Gets or sets the contacts.
     /// </summary>
     /// <value>An TODO: Add missing XML "/&gt;</value>
-    public virtual EntitySet<Contact>? Contacts { get; set; }
+    public virtual EntitySet<Member>? Members { get; set; }
 }

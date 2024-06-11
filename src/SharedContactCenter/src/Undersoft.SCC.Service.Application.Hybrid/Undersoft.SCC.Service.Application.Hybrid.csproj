@@ -119,10 +119,7 @@
     <Content Update="Pages\Presenting\Admin\Administration\Events.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Pages\Presenting\Admin\Contacts.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Pages\Presenting\Admin\Dictionaries\Countries.razor">
+    <Content Update="Pages\Presenting\Admin\Members.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\Presenting\Admin\Dictionaries\Groups.razor">
@@ -131,19 +128,13 @@
     <Content Update="Pages\Presenting\Admin\_Imports.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Pages\Presenting\Contacts.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Pages\Presenting\Dictionaries\Countries.razor">
+    <Content Update="Pages\Presenting\Members.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\Presenting\Dictionaries\Groups.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Pages\Presenting\User\Contacts.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="Pages\Presenting\User\Dictionaries\Countries.razor">
+    <Content Update="Pages\Presenting\User\Members.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Pages\Presenting\User\Dictionaries\Groups.razor">
@@ -237,24 +228,15 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\Administration\Accounts.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\Administration\Events.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\Contacts.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\Dictionaries\Countries.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\Dictionaries\Groups.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\Admin\_Imports.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Presenting\Dictionaries\Countries.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\Dictionaries\Groups.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Presenting\User\Contacts.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Presenting\User\Dictionaries\Countries.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\User\Dictionaries\Groups.razor" />
     <_ContentIncludedByDefault Remove="Pages\Presenting\User\_Imports.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\Presenting\Admin\Administration\Events.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Presenting\Admin\Dictionaries\Countries.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -266,19 +248,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Presenting\Admin\Contacts.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Presenting\Dictionaries\Countries.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Pages\Presenting\Dictionaries\Groups.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Presenting\User\Dictionaries\Countries.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -287,10 +257,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages\Presenting\User\_Imports.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Presenting\User\Contacts.razor" />
   </ItemGroup>
 
 </Project>

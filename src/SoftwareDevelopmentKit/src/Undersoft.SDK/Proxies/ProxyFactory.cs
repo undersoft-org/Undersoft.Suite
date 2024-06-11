@@ -19,39 +19,39 @@ public static class ProxyFactory
 
     public static ProxyCreator GetCreator(Type type, long key)
     {
-        if (!Cache.TryGet(key, out ProxyCreator sleeve))
+        if (!Cache.TryGet(key, out ProxyCreator proxy))
         {
-            Cache.Add(key, sleeve = new ProxyCreator(type));
+            Cache.Add(key, proxy = new ProxyCreator(type));
         }
-        return sleeve;
+        return proxy;
     }
 
     public static ProxyCreator GetCompiledCreator<T>()
     {
-        var sleeve = GetCreator<T>();
-        sleeve.Create();
-        return sleeve;
+        var proxy = GetCreator<T>();
+        proxy.Create();
+        return proxy;
     }
 
     public static ProxyCreator GetCompiledCreator(Type type)
     {
-        var sleeve = GetCreator(type);
-        sleeve.Create();
-        return sleeve;
+        var proxy = GetCreator(type);
+        proxy.Create();
+        return proxy;
     }
 
     public static ProxyCreator GetCompiledCreator(object item)
     {
-        var sleeve = item.GetProxyCreator();
-        sleeve.Create(item);
-        return sleeve;
+        var proxy = item.GetProxyCreator();
+        proxy.Create(item);
+        return proxy;
     }
 
     public static ProxyCreator GetCompiledCreator<T>(T item)
     {
-        var sleeve = item.GetProxyCreator();
-        sleeve.Create(item);
-        return sleeve;
+        var proxy = item.GetProxyCreator();
+        proxy.Create(item);
+        return proxy;
     }
 
     public static IProxy Create(object item)
@@ -60,10 +60,10 @@ public static class ProxyFactory
         if (!TryGetProxy(item, t, out var proxy))
         {
             var key = t.UniqueKey32();
-            if (!Cache.TryGet(key, out ProxyCreator sleeve))
-                Cache.Add(key, sleeve = new ProxyCreator(t));
+            if (!Cache.TryGet(key, out ProxyCreator _proxy))
+                Cache.Add(key, _proxy = new ProxyCreator(t));
 
-            return sleeve.Create(item);
+            return _proxy.Create(item);
         }
         return proxy;
     }
@@ -74,10 +74,10 @@ public static class ProxyFactory
         if (!TryGetProxy(item, t, out var proxy))
         {
             var key = t.UniqueKey32();
-            if (!Cache.TryGet(key, out ProxyCreator sleeve))
-                Cache.Add(key, sleeve = new ProxyCreator<T>());
+            if (!Cache.TryGet(key, out ProxyCreator _proxy))
+                Cache.Add(key, _proxy = new ProxyCreator<T>());
 
-            return sleeve.Create(item);
+            return _proxy.Create(item);
         }
         return proxy;
     }

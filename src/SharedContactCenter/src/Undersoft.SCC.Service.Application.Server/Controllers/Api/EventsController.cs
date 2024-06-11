@@ -13,7 +13,7 @@ using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Api;
 
-namespace Undersoft.SCC.Service.Application.Server.Controllers.Rest;
+namespace Undersoft.SCC.Service.Application.Server.Controllers.Api;
 
 /// <summary>
 /// The events controller.
