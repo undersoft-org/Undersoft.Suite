@@ -4,23 +4,33 @@ using System.Linq.Expressions;
 namespace Undersoft.SDK.Service.Data.Query
 {
     public class QueryParameters<T> : QueryParameters, IQueryParameters<T>
+        where T : class, IInnerProxy
     {
+        Expression<Func<T, object>>[] _expanders;
+
+        Expression<Func<T, bool>> _filter;
+
+        Expression<Func<T, object>> _selector;
+
+        public SortExpression<T> _sort;
+
         public QueryParameters() { }
 
         public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters)
-            : base(filters, sorters)
-        {
-            Filter = GetFilter<T>();
-            Sort = GetSort<T>();
-        }
+            : base(filters, sorters) { }
 
-        public Expression<Func<T, object>>[] Expanders { get; set; }
+        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters, IEnumerable<string> expanders)
+            : base(filters, sorters, expanders) { }
 
-        public Expression<Func<T, bool>> Filter { get; set; }
+        public QueryParameters(IQueryParameters parameters) : base(parameters) { }
 
-        public Expression<Func<T, object>> Selector { get; set; }
+        public Expression<Func<T, object>>[] Expanders { get => _expanders ??= GetExpanders<T>(); set => _expanders = value; }
 
-        public SortExpression<T> Sort { get; set; }
+        public Expression<Func<T, bool>> Filter { get => _filter ??= GetFilter<T>(); set => _filter = value; }
+
+        public Expression<Func<T, object>> Selector { get => _selector ??= GetSelector<T>(); set => _selector = value; }
+
+        public SortExpression<T> Sort { get => _sort ??= GetSort<T>(); set => _sort = value; }
 
         public new T Data
         {
@@ -32,12 +42,29 @@ namespace Undersoft.SDK.Service.Data.Query
     public class QueryParameters : IQueryParameters
     {
         public QueryParameters() { }
-
         public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters)
         {
             if (filters != null)
                 FilterItems.Add(filters);
             SortItems.Add(sorters);
+        }
+        public QueryParameters(IEnumerable<Filter> filters, IEnumerable<Sorter> sorters, IEnumerable<string> expanders) : this(filters, sorters)
+        {
+            ExpandItems.Add(expanders);
+        }
+
+        public QueryParameters(IQueryParameters parameters)
+        {
+            if (parameters != null)
+            {
+                if (parameters.FilterItems != null)
+                    FilterItems.Add(parameters.FilterItems);
+                if (parameters.SelectItems != null)
+                    SelectItems.Add(parameters.SelectItems);
+                if (parameters.ExpandItems != null)
+                    ExpandItems.Add(parameters.ExpandItems);
+                SortItems.Add(parameters.SortItems);
+            }
         }
 
         public virtual int Offset { get; set; }
@@ -68,9 +95,7 @@ namespace Undersoft.SDK.Service.Data.Query
 
         public Expression<Func<T, object>>[] GetExpanders<T>() where T : class, IInnerProxy
         {
-            return ExpandItems
-                .ForEach(ei => ei.GetMemberExpression<T>())
-                .ToArray();
+            return ExpandItems.ForEach(ei => ei.GetMemberExpression<T>()).ToArray();
         }
 
         public Expression<Func<T, object>> GetSelector<T>() where T : class, IInnerProxy

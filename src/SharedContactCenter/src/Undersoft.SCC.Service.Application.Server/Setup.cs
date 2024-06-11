@@ -48,13 +48,13 @@ public class Setup
                 DataServerTypes.All,
                 builder =>
                     builder
-                        .AddInvocations<ViewModels.Contact>()
+                        .AddInvocations<Contact>()
                         .AddInvocations<Country>()
-                        .AddInvocations<ViewModels.Group>()
-                        .AddInvocations<ViewModels.Contacts.ContactPersonal>()
-                        .AddInvocations<ViewModels.Contacts.ContactProfessional>()
-                        .AddInvocations<ViewModels.Contacts.ContactAddress>()
-                        .AddInvocations<ViewModels.Contacts.ContactOrganization>()
+                        .AddInvocations<Group>()
+                        .AddInvocations<Contracts.Contacts.ContactPersonal>()
+                        .AddInvocations<Contracts.Contacts.ContactProfessional>()
+                        .AddInvocations<Contracts.Contacts.ContactAddress>()
+                        .AddInvocations<Organization>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

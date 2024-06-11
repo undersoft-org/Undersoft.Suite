@@ -25,25 +25,50 @@ public class FilterHandler<TStore, TEntity, TDto>
     )
     {
         if (request.Parameters.Filter != null)
-            request.Result = await _repository
-                .FilterQueryAsync<TDto>(
-                    request.Offset,
-                    request.Limit,
-                    request.Parameters.Filter,
-                    request.Parameters.Sort,
-                    request.Parameters.Expanders
-                )
-                .ConfigureAwait(false);
+        {
+            if (typeof(TEntity) != typeof(TDto))
+                request.Result = await _repository
+                    .FilterQueryAsync<TDto>(
+                        request.Offset,
+                        request.Limit,
+                        request.Parameters.Filter,
+                        request.Parameters.Sort,
+                        request.Parameters.Expanders
+                    )
+                    .ConfigureAwait(false);
+            else
+                request.Result =
+                    (IQueryable<TDto>)
+                        _repository[
+                            request.Offset,
+                            request.Limit,
+                            _repository[
+                                request.Parameters.Filter,
+                                request.Parameters.Sort,
+                                request.Parameters.Expanders
+                            ]
+                        ];
+        }
         else
-            request.Result = await _repository
-                .GetQueryAsync<TDto>(
-                    request.Offset,
-                    request.Limit,
-                    request.Parameters.Sort,
-                    request.Parameters.Expanders
-                )
-                .ConfigureAwait(false);
-
+        {
+            if (typeof(TEntity) != typeof(TDto))
+                request.Result = await _repository
+                    .GetQueryAsync<TDto>(
+                        request.Offset,
+                        request.Limit,
+                        request.Parameters.Sort,
+                        request.Parameters.Expanders
+                    )
+                    .ConfigureAwait(false);
+            else
+                request.Result =
+                    (IQueryable<TDto>)
+                        _repository[
+                            request.Offset,
+                            request.Limit,
+                            _repository[request.Parameters.Sort, request.Parameters.Expanders]
+                        ];
+        }
         return request;
     }
 }

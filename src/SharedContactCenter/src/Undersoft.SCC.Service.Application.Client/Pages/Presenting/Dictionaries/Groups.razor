@@ -1,3 +1,11 @@
 ﻿@page "/presenting/dictionaries/groups"
 
-<GenericDataGrid TStore="IDataStore" TModel="ViewModels.Group" Expandable="false" Multiselect="false" Showable="true" Editable="false" EditMode="EditMode.Dialog" EntryMode="EntryMode.Form" Title="Groups" />
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Group"
+                 TModel="ViewModels.Group"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="false"
+                 Editable="false"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" Title="Groups" />

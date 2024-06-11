@@ -8,6 +8,7 @@ public partial class GenericDataFilterButtons : ViewItem
     private string? _name { get; set; } = "";
     private string? _label { get; set; }
     private bool _isAddable = false;
+    private IViewStore? _store;
 
     [CascadingParameter]
     private bool IsOpen { get; set; }
@@ -22,6 +23,7 @@ public partial class GenericDataFilterButtons : ViewItem
             || Rubric.FilteredType.IsAssignableTo(typeof(DateTime))
         )
             _isAddable = true;
+
         base.OnInitialized();
     }
 
@@ -52,28 +54,17 @@ public partial class GenericDataFilterButtons : ViewItem
 
     public void Dismiss()
     {
-        if (Root != null)
+        if (Parent != null)
         {
-
-            ((IViewFilter)Rubric.ViewFilter).IsOpen = false;
-            Rubric.Filters.Clear();
-
-            StateHasChanged();
+            ((IViewFilter)Parent).ClearFilters();
         }
     }
 
-    public void Apply()
+    public async Task Apply()
     {
-        if (Root != null)
+        if (Parent != null)
         {
-            var root = ((GenericDataFilter)Root);
-            root.EmptyFilters.ForEach(f =>
-            {
-                if (f.Value != root.FilteredType.Default())
-                {
-                    Rubric.Filters.Put(f);
-                }
-            });
+            await ((IViewFilter)Parent).ApplyFiltersAsync();
         }
     }
 }

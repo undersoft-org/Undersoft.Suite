@@ -16,6 +16,5 @@ public class AccountOrganization : DataObject
 
     public byte[] OrganizationImageData { get; set; }
 
-    public long? AccountId { get; set; }
-    public virtual Account Account { get; set; }
+    public virtual EntitySet<Account> Accounts { get; set; }
 }

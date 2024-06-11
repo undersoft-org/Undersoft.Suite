@@ -3,7 +3,11 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
-    public partial class GenericDataGrid<TStore, TModel> : GenericDataStore<TStore, TModel> where TStore : IDataServiceStore where TModel : class, IOrigin, IInnerProxy
+    public partial class GenericDataGrid<TStore, TDto, TModel>
+        : GenericDataStore<TStore, TDto, TModel>
+        where TStore : IDataServiceStore
+        where TDto : class, IOrigin, IInnerProxy
+        where TModel : class, IOrigin, IInnerProxy
     {
         private string GridTemplateColumns = string.Empty;
 
@@ -40,20 +44,22 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             var data = dataType.New<IViewData<TModel>>();
             data.MapRubrics(r => r.Rubrics, v => v.Visible);
 
-            var templateArray = data.Rubrics.ForEach(r =>
-            {
-                if (r.RubricSize < 4)
-                    return "0.25fr";
-                if (r.RubricSize < 5)
-                    return "0.5fr";
-                if (r.RubricSize < 65)
-                    return "1fr";
-                if (r.RubricSize < 129)
-                    return "1.25fr";
-                if (r.RubricSize < 513)
-                    return "1.5fr";
-                return "2fr";
-            }).Commit();
+            var templateArray = data.Rubrics
+                .ForEach(r =>
+                {
+                    if (r.RubricSize < 4)
+                        return "0.25fr";
+                    if (r.RubricSize < 5)
+                        return "0.5fr";
+                    if (r.RubricSize < 65)
+                        return "1fr";
+                    if (r.RubricSize < 129)
+                        return "1.25fr";
+                    if (r.RubricSize < 513)
+                        return "1.5fr";
+                    return "2fr";
+                })
+                .Commit();
 
             if (templateArray.Any())
             {
@@ -76,22 +82,46 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         public string Title { get; set; } = typeof(TModel).Name;
 
         [Parameter]
-        public bool Checked { get => Data.StateFlags.Checked; set => Data.StateFlags.Checked = value; }
+        public bool Checked
+        {
+            get => Data.StateFlags.Checked;
+            set => Data.StateFlags.Checked = value;
+        }
 
         [Parameter]
-        public bool Resizable { get => FeatureFlags.Resizable; set => FeatureFlags.Resizable = value; }
+        public bool Resizable
+        {
+            get => FeatureFlags.Resizable;
+            set => FeatureFlags.Resizable = value;
+        }
 
         [Parameter]
-        public bool Expandable { get => FeatureFlags.Expandable; set => FeatureFlags.Expandable = value; }
+        public bool Expandable
+        {
+            get => FeatureFlags.Expandable;
+            set => FeatureFlags.Expandable = value;
+        }
 
         [Parameter]
-        public bool Multiselect { get => FeatureFlags.Multiselect; set => FeatureFlags.Multiselect = value; }
+        public bool Multiselect
+        {
+            get => FeatureFlags.Multiselect;
+            set => FeatureFlags.Multiselect = value;
+        }
 
         [Parameter]
-        public bool Editable { get => FeatureFlags.Editable; set => FeatureFlags.Editable = value; }
+        public bool Editable
+        {
+            get => FeatureFlags.Editable;
+            set => FeatureFlags.Editable = value;
+        }
 
         [Parameter]
-        public bool Showable { get => FeatureFlags.Showable; set => FeatureFlags.Showable = value; }
+        public bool Showable
+        {
+            get => FeatureFlags.Showable;
+            set => FeatureFlags.Showable = value;
+        }
 
         [CascadingParameter]
         public override IViewDataStore DataStore

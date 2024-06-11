@@ -3,23 +3,37 @@
 //   Licensed under the MIT License. 
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
-//   library: Undersoft.SCC
+//   library: Undersoft.SCC.Service
 // *************************************************
 
-namespace Undersoft.SCC.Domain.Entities.Contacts;
+using Undersoft.SDK.Service.Data.Contract;
+
+namespace Undersoft.SCC.Service.Contracts;
 
 using Undersoft.SCC.Domain.Entities.Enums;
 
 /// <summary>
 /// The contact organization.
 /// </summary>
-public class ContactOrganization : Entity
+public class Organization : DataObject, IContract
 {
     /// <summary>
     /// Gets or sets the organization industry.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
     public string? OrganizationIndustry { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? IndustryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public Industry? Industry { get; set; }
 
     /// <summary>
     /// Gets or sets the organization name.
@@ -63,14 +77,4 @@ public class ContactOrganization : Entity
     /// <value>A <see cref="byte[]? "/></value>
     public byte[]? OrganizationImageData { get; set; }
 
-    /// <summary>
-    /// Gets or sets the contact id.
-    /// </summary>
-    /// <value>A <see cref="long? "/></value>
-    public long? ContactId { get; set; }
-    /// <summary>
-    /// Gets or sets the contact.
-    /// </summary>
-    /// <value>A <see cref="Contact? "/></value>
-    public virtual Contact? Contact { get; set; }
 }

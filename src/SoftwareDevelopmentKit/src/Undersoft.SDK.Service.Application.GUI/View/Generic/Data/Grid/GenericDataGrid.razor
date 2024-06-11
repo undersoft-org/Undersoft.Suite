@@ -6,9 +6,10 @@
 @using Undersoft.SDK.Invoking
 
 
-@inherits GenericDataStore<TStore, TModel>
+@inherits GenericDataStore<TStore, TDto, TModel>
 
 @typeparam TStore where TStore : IDataServiceStore
+@typeparam TDto where TDto : class, IOrigin, IInnerProxy
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 
 <div id="@BindingId" class="generic-datagrid">
@@ -16,40 +17,47 @@
         <CascadingValue Value="@Root">
             <CascadingValue Value="@EditMode">
                 <CascadingValue Value="@EntryMode">
-                <CascadingValue Value="@FeatureFlags">
-                    <CascadingValue Value="@Resizable">
-                        <CascadingValue Value="@RubricOrdinalSeed">
-                            <CascadingValue Value="@GridTemplateColumns">
+                    <CascadingValue Value="@FeatureFlags">
+                        <CascadingValue Value="@Resizable">
+                            <CascadingValue Value="@RubricOrdinalSeed">
+                                <CascadingValue Value="@GridTemplateColumns">
 
-                                <div class="datagrid" tabindex="-1">
+                                    <div class="datagrid" tabindex="-1">
 
-                                    @if (ShowTitle)
-                                    {
-                                        <FluentLabel Typo="Typography.H2" Color="Color.FillInverse" Style="font-weight:200; padding:0px 0px 5px 0px">
-                                            @Title
-                                        </FluentLabel>
-                                    }
+                                         <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
 
-                                    <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+                                        @if (ShowTitle)
+                                        {
+                                            <FluentLabel Typo="Typography.H2" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 5px 0px">
+                                                @Title
+                                            </FluentLabel>
+                                        }
+                                        <FluentSpacer/>
 
-                                        <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
+                                        <GenericDataGridPagination Parent="this"/>
+                                        </FluentStack>
+                                        <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
-                                        <GenericDataGridBody Parent="@this" />
+                                            <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 
-                                    </FluentDataGrid>
+                                            <GenericDataGridBody Parent="@this" />
 
-                                </div>
+                                        </FluentDataGrid>
 
-                                <GenericDataGridFooter Parent="@this" />
+                                    </div>
 
+                                    <GenericDataGridFooter Parent="@this" />
+
+                                </CascadingValue>
                             </CascadingValue>
                         </CascadingValue>
                     </CascadingValue>
-                   </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
         </CascadingValue>
     </CascadingValue>
+
+    <GenericProgressRing View="this" />
 </div>
 
 

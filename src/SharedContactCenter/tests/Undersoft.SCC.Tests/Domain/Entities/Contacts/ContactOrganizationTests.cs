@@ -9,20 +9,20 @@ using Undersoft.SDK.Service.Data.Entity;
 namespace Undersoft.SCC.Tests.Domain.Entities.Contacts;
 
 /// <summary>
-/// Unit tests for the type <see cref="ContactOrganization"/>.
+/// Unit tests for the type <see cref="Organization"/>.
 /// </summary>
 [TestClass]
 public class ContactOrganizationTests
 {
-    private ContactOrganization _testClass;
+    private Organization _testClass;
 
     /// <summary>
-    /// Sets up the dependencies required for the tests for <see cref="ContactOrganization"/>.
+    /// Sets up the dependencies required for the tests for <see cref="Organization"/>.
     /// </summary>
     [TestInitialize]
     public void SetUp()
     {
-        this._testClass = new ContactOrganization();
+        this._testClass = new Organization();
     }
 
     /// <summary>
@@ -197,7 +197,7 @@ public class ContactOrganizationTests
             AddressId = 2055362342L,
             Address = new ContactAddress
             {
-                Country = "TestValue1723329831",
+                CountryName = "TestValue1723329831",
                 State = "TestValue1024495039",
                 City = "TestValue1839996911",
                 Postcode = "TestValue351032230",
@@ -222,7 +222,7 @@ public class ContactOrganizationTests
                 Contact = default(Contact)
             },
             OrganizationId = 1569676812L,
-            Organization = new ContactOrganization
+            Organization = new Organization
             {
                 OrganizationIndustry = "TestValue2038591509",
                 OrganizationName = "TestValue263228236",

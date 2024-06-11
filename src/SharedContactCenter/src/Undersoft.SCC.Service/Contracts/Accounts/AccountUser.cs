@@ -15,6 +15,7 @@ namespace Undersoft.SCC.Service.Contracts.Accounts;
 [DataContract]
 public class AccountUser : InnerProxy, IAccountUser, IContract
 {
+
     [DataMember(Order = 6)]
     public virtual string? UserName { get; set; }
 

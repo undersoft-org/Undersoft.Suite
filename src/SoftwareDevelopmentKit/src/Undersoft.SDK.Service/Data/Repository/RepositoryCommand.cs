@@ -203,17 +203,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
     public virtual IEnumerable<TEntity> Set<TModel>(IEnumerable<TModel> models)
         where TModel : class, IOrigin
     {
-        var dtos = models.ToCatalog();
-        var deck = lookup<TModel>(models).ToCatalog();
-        if (deck.Count < dtos.Count)
-            deck.Add(
-                this[
-                    Query.WhereIn(
-                        p => p.Id,
-                        dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                    )
-                ]
-            );
+        var deck = lookup<TModel>(models);
 
         foreach (var model in models)
         {
@@ -264,17 +254,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
                 .ToCatalog();
         if (deck == null)
         {
-            var dtos = entities.ToCatalog();
             deck = lookup<TModel>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.WhereIn(
-                            p => p.Id,
-                            dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                        )
-                    ]
-                );
         }
         if (deck == null)
             yield return null;
@@ -308,17 +288,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
                 .ToCatalog();
         if (deck == null)
         {
-            var dtos = entities.ToCatalog();
-            deck = lookup<TModel>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.WhereIn(
-                            p => p.Id,
-                            dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                        )
-                    ]
-                );
+            deck = lookup<TModel>(entities);
         }
         if (deck == null)
             yield return null;
@@ -363,17 +333,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
     public virtual async IAsyncEnumerable<TEntity> SetAsync<TModel>(IEnumerable<TModel> models)
         where TModel : class, IOrigin
     {
-        var dtos = models.ToCatalog();
-        var deck = lookup<TModel>(models).ToCatalog();
-        if (deck.Count < dtos.Count)
-            deck.Add(
-                this[
-                    Query.WhereIn(
-                        p => p.Id,
-                        dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                    )
-                ]
-            );
+        var deck = lookup<TModel>(models);
 
         foreach (var model in models)
         {
@@ -400,12 +360,22 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         return null;
     }
 
-    public virtual IEnumerable<TEntity> lookup<TModel>(IEnumerable<TModel> entities)
+    public virtual ISeries<TEntity> lookup<TModel>(IEnumerable<TModel> entities)
         where TModel : class, IOrigin
     {
-        var items = entities.ForEach(e => cache.Lookup<TEntity>(e.Id)).Where(e => e != null);
+        var listing = entities.ToListing();
+        var items = listing.ForEach(e => cache.Lookup<TEntity>(e.Id)).Where(e => e != null).ToListing();
         if (items.Any())
-            ((IDataStoreContext)InnerContext).AttachRange(items);
+            ((IDataStoreContext)InnerContext).AttachRange(items.AsValues());
+        if (items.Count < listing.Count)
+            items.Add(
+                this[
+                    Query.WhereIn(
+                        p => p.Id,
+                        listing.Where(id => !items.ContainsKey(id)).Select(id => id.Id)
+                    )
+                ]
+            );
         return items;
     }
 
@@ -429,17 +399,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         }
         else
         {
-            var dtos = entities.ToListing();
-            deck = lookup<TModel>(entities).ToListing();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.WhereIn(
-                            p => p.Id,
-                            dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                        )
-                    ]
-                );
+            deck = lookup<TModel>(entities);
         }
         return entities.ForOnly(
             entity => deck.ContainsKey(entity.Id),
@@ -496,14 +456,14 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         ISeries<TEntity> deck = null;
         if (predicate != null)
             if (expanders.Any())
-                deck = entities.Select(e => this[false, predicate(e), expanders]).ToCatalog();
+                deck = entities.Select(e => this[false, predicate(e), expanders]).ToListing();
             else
-                deck = entities.Select(e => this[false, predicate(e)]).ToCatalog();
+                deck = entities.Select(e => this[false, predicate(e)]).ToListing();
         else if (expanders.Any())
             deck = this[
                 Query.WhereIn(q => q.Id, entities.Select(i => i.Id)),
                 expanders
-            ].ToCatalog();
+            ].ToListing();
 
         if (deck == null)
         {
@@ -531,17 +491,7 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
             ].ToCatalog();
         else
         {
-            var dtos = entities.ToCatalog();
-            deck = lookup<TModel>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.WhereIn(
-                            p => p.Id,
-                            dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                        )
-                    ]
-                );
+            deck = lookup<TModel>(entities);
         }
 
         foreach (var entity in entities)
@@ -564,14 +514,14 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         ISeries<TEntity> deck = null;
         if (predicate != null)
             if (expanders.Any())
-                deck = entities.Select(e => this[false, predicate(e), expanders]).ToCatalog();
+                deck = entities.Select(e => this[false, predicate(e), expanders]).ToListing();
             else
-                deck = entities.Select(e => this[false, predicate(e)]).ToCatalog();
+                deck = entities.Select(e => this[false, predicate(e)]).ToListing();
         else if (expanders.Any())
             deck = this[
                 Query.WhereIn(q => q.Id, entities.Select(i => i.Id)),
                 expanders
-            ].ToCatalog();
+            ].ToListing();
 
         if (deck == null)
         {
@@ -624,16 +574,11 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         if (predicate != null)
         {
             var query = Query;
-            deck = entities.SelectMany(e => query.Where(predicate(e))).AsQueryable().ToCatalog();
+            deck = entities.SelectMany(e => query.Where(predicate(e))).AsQueryable().ToListing();
         }
         if (deck == null)
         {
-            var dtos = entities.ToCatalog();
-            deck = lookup<TEntity>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[Query.WhereIn(p => p.Id, dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id))]
-                );
+            deck = lookup<TEntity>(entities);
         }
 
         foreach (var entity in entities)
@@ -661,21 +606,11 @@ public abstract partial class Repository<TEntity> : IRepositoryCommand<TEntity> 
         if (predicate != null)
         {
             var query = Query;
-            deck = entities.SelectMany(e => query.Where(predicate(e))).AsQueryable().ToCatalog();
+            deck = entities.SelectMany(e => query.Where(predicate(e))).AsQueryable().ToListing();
         }
         if (deck == null)
         {
-            var dtos = entities.ToCatalog();
-            deck = lookup<TEntity>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.WhereIn(
-                            p => p.Id,
-                            dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
-                        )
-                    ]
-                );
+            deck = lookup<TEntity>(entities);
         }
 
         foreach (var entity in entities)

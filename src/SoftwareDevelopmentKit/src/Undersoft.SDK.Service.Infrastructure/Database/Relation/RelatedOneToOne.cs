@@ -84,12 +84,12 @@ public class RelatedOneToOne<TParent, TChild>
         _firstBuilder
             .HasOne<TChild>(CHILD_NAME)
             .WithOne(PARENT_NAME)
-            .HasForeignKey<TChild>(PARENT_NAME + "Id");
+            .HasForeignKey<TParent>(CHILD_NAME + "Id");
 
         _secondBuilder
             .HasOne<TParent>(PARENT_NAME)
             .WithOne(CHILD_NAME)
-            .HasForeignKey<TChild>(CHILD_NAME + "Id");
+            .HasForeignKey<TChild>(PARENT_NAME + "Id");
 
         if (_expandSite != ExpandSite.None)
         {

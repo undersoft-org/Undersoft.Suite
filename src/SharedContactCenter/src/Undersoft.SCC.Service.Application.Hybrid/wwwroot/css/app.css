@@ -48,7 +48,6 @@ body {
 
 nav.sitenav {
     height: calc(100dvh - 120px);
-    overflow-y: auto;
 }
 
 nav h2 {
@@ -83,7 +82,7 @@ nav fluent-anchor {
 }
 
 article {
-    padding: 0.2rem 0.75rem;
+    padding: 0.2rem 0.5rem;
     border-right: 1px solid var(--neutral-stroke-divider-rest);
     margin: 0 0;
     overflow-x: clip;
@@ -236,7 +235,6 @@ code {
     }
 
     nav.sitenav {
-        width: auto;
         height: calc(100dvh - 120px);
     }
 
@@ -249,7 +247,7 @@ code {
         }
 
     .navmenu {
-        width: auto;
+        width:180px;
     }
 
     #navmenu-toggle {
@@ -291,7 +289,7 @@ code {
     }
 
     article {
-        padding: 0.0rem 0.5rem;
+        padding: 0.2rem 0.2rem;
         width: 100%;
     }
 
@@ -342,7 +340,7 @@ code {
     }
 
     article {
-        padding: 0.2rem 0.75rem;
+        padding: 0.2rem 0.5rem;
         width: 100%;
     }
 }
@@ -400,7 +398,7 @@ code {
 
     article {
         grid-area: 1 / 2 / 2 / 3;
-        padding: 0.2rem 0.75rem;
+        padding: 0.2rem 0.2rem;
         margin-inline-start: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)); /* hinge width */
         margin-inline-end: calc(100% - env(viewport-segment-left 1 0));
         width: auto;

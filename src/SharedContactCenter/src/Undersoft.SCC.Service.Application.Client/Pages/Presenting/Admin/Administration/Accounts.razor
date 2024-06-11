@@ -4,4 +4,13 @@
 
 @page "/presenting/admin/administration/accounts"
 
-<GenericDataGrid TStore="IAccountStore" TModel="Contracts.Account" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Tabs" Title="Accounts" />
+<GenericDataGrid TStore="IAccountStore"
+                 TDto="Contracts.Account"
+                 TModel="Contracts.Account"
+                 ShowHover="true"
+                 Expandable="true"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Accounts" />

@@ -58,9 +58,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
         public override string? Style { get; set; }
 
         [Parameter]
-        public string? Margin { get; set; }
-
-        [Parameter]
         public int? Width { get; set; }
 
         [Parameter]

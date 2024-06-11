@@ -55,6 +55,23 @@ public class Account : Authorization, IContract
     }
 
     /// <summary>
+    /// Gets or sets the image.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    [IgnoreDataMember]
+    [JsonIgnore]
+    [VisibleRubric]
+    [RubricSize(32)]
+    [DisplayRubric("Image")]
+    [ViewImage(ViewImageMode.Persona, "30px", "30px")]
+    [FileRubric(FileRubricType.Property, "ImageData")]
+    public string? Image
+    {
+        get => Personal?.Image;
+        set => (Personal ??= new AccountPersonal()).Image = value!;
+    }
+
+    /// <summary>
     /// Gets or sets the name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
@@ -121,23 +138,6 @@ public class Account : Authorization, IContract
     }
 
     /// <summary>
-    /// Gets or sets the image.
-    /// </summary>
-    /// <value>A <see cref="string? "/></value>
-    [IgnoreDataMember]
-    [JsonIgnore]
-    [VisibleRubric]
-    [RubricSize(32)]
-    [DisplayRubric("Image")]
-    [ViewImage(ViewImageMode.Persona, "30px", "30px")]
-    [FileRubric(FileRubricType.Property, "ImageData")]
-    public string? Image
-    {
-        get => Personal?.Image;
-        set => (Personal ??= new AccountPersonal()).Image = value!;
-    }
-
-    /// <summary>
     /// Gets or sets the image data.
     /// </summary>
     /// <value>A <see cref="byte[]? "/></value>
@@ -149,6 +149,7 @@ public class Account : Authorization, IContract
         set => (Personal ??= new AccountPersonal()).ImageData = value!;
     }
 
+    public long UserId { get; set; }
     /// <summary>
     /// Gets or sets the user.
     /// </summary>
@@ -181,7 +182,7 @@ public class Account : Authorization, IContract
     /// <value>An <see cref="AccountPersonal"/></value>
     [AutoExpand]
     [Extended]
-    public virtual AccountPersonal Personal { get; set; } = default!;
+    public virtual AccountPersonal? Personal { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the address id.
@@ -195,7 +196,7 @@ public class Account : Authorization, IContract
     /// <value>An <see cref="AccountAddress"/></value>
     [AutoExpand]
     [Extended]
-    public virtual AccountAddress Address { get; set; } = default!;
+    public virtual AccountAddress? Address { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the professional id.
@@ -209,7 +210,7 @@ public class Account : Authorization, IContract
     /// <value>An <see cref="AccountProfessional"/></value>
     [AutoExpand]
     [Extended]
-    public virtual AccountProfessional Professional { get; set; } = default!;
+    public virtual AccountProfessional? Professional { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the organization id.
@@ -223,5 +224,41 @@ public class Account : Authorization, IContract
     /// <value>An <see cref="AccountOrganization"/></value>
     [AutoExpand]
     [Extended]
-    public virtual AccountOrganization Organization { get; set; } = default!;
+    public virtual AccountOrganization? Organization { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the consent id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? ConsentId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the consent.
+    /// </summary>
+    /// <value>An <see cref="AccountConsent"/></value>
+    public virtual AccountConsent? Consent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the subscription id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? SubscriptionId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the subscription.
+    /// </summary>
+    /// <value>An <see cref="AccountSubscription"/></value>
+    public virtual AccountSubscription? Subscription { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the payment id.
+    /// </summary>
+    /// <value>A <see cref="long? "/></value>
+    public long? PaymentId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the payment.
+    /// </summary>
+    /// <value>An <see cref="AccountPayment"/></value>
+    public virtual AccountPayment? Payment { get; set; } = default!;
 }

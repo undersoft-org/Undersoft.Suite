@@ -181,7 +181,7 @@ public class ContactPersonalTests
             AddressId = 954453802L,
             Address = new ContactAddress
             {
-                Country = "TestValue883354784",
+                CountryName = "TestValue883354784",
                 State = "TestValue2009224720",
                 City = "TestValue172288339",
                 Postcode = "TestValue621537246",
@@ -206,7 +206,7 @@ public class ContactPersonalTests
                 Contact = default(Contact)
             },
             OrganizationId = 991283139L,
-            Organization = new ContactOrganization
+            Organization = new Organization
             {
                 OrganizationIndustry = "TestValue1880207382",
                 OrganizationName = "TestValue1294743637",

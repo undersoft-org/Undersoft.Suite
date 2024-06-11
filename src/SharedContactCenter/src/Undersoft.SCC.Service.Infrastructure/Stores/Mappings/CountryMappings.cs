@@ -38,12 +38,12 @@ public class CountryMappings : EntityTypeMapping<Country>
                 c => c.States,
                 ExpandSite.OnRight,
                 true
-            ).
-            RelateOneToSet<Country, ContactAddress>(
-            c => c.Country,
-            c => c.Addresses,
-            ExpandSite.OnLeft,
-            true
+            )
+            .RelateOneToSet<Country, ContactAddress>(
+                c => c.Country,
+                c => c.Addresses,
+                ExpandSite.OnLeft,
+                true
             );
     }
 }

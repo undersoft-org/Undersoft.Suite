@@ -48,7 +48,6 @@ body {
 
 nav.sitenav {
     height: calc(100dvh - 120px);
-    overflow-y: auto;
 }
 
 nav h2 {
@@ -236,7 +235,6 @@ code {
     }
 
     nav.sitenav {
-        width: auto;
         height: calc(100dvh - 120px);
     }
 
@@ -249,7 +247,7 @@ code {
         }
 
     .navmenu {
-        width: auto;
+        width:180px;
     }
 
     #navmenu-toggle {

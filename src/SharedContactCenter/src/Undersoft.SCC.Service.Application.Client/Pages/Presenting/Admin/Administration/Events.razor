@@ -4,4 +4,12 @@
 
 @page "/presenting/admin/administration/events"
 
-<GenericDataGrid TStore="IEventStore" TModel="Contracts.Account" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Form" Title="Accounts" />
+<GenericDataGrid TStore="IEventStore"
+                 TDto="SDK.Service.Data.Event.Event"
+                 TModel="ViewModels.Event"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" Title="Events" />

@@ -107,11 +107,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         public void SetImageData(byte[] bytes)
         {
-            if (Rubric.DataMember != null && Model.Proxy[Rubric.DataMember] != null)
+            if (Rubric.DataMember != null)
                 Model.Proxy[Rubric.DataMember] = bytes;
             else if (
                 Model.Proxy.Rubrics.ContainsKey(Rubric.RubricName + "Data")
-                && Model.Proxy[Rubric.RubricName + "Data"] != null
             )
                 Model.Proxy[Rubric.RubricName + "Data"] = bytes;
         }

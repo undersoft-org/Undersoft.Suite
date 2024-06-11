@@ -22,25 +22,50 @@ public class RemoteFilterHandler<TStore, TDto, TModel>
     )
     {
         if (request.Parameters.Filter != null)
-            request.Result = await _repository
-                .FilterQueryAsync<TModel>(
-                    request.Offset,
-                    request.Limit,
-                    request.Parameters.Filter,
-                    request.Parameters.Sort,
-                    request.Parameters.Expanders
-                )
-                .ConfigureAwait(false);
+        {
+            if (typeof(TModel) != typeof(TDto))
+                request.Result = await _repository
+                    .FilterQueryAsync<TModel>(
+                        request.Offset,
+                        request.Limit,
+                        request.Parameters.Filter,
+                        request.Parameters.Sort,
+                        request.Parameters.Expanders
+                    )
+                    .ConfigureAwait(false);
+            else
+                request.Result =
+                    (IQueryable<TModel>)
+                        _repository[
+                            request.Offset,
+                            request.Limit,
+                            _repository[
+                                request.Parameters.Filter,
+                                request.Parameters.Sort,
+                                request.Parameters.Expanders
+                            ]
+                        ];
+        }
         else
-            request.Result = await _repository
-                .GetQueryAsync<TModel>(
-                    request.Offset,
-                    request.Limit,
-                    request.Parameters.Sort,
-                    request.Parameters.Expanders
-                )
-                .ConfigureAwait(false);
-
+        {
+            if (typeof(TModel) != typeof(TDto))
+                request.Result = await _repository
+                    .GetQueryAsync<TModel>(
+                        request.Offset,
+                        request.Limit,
+                        request.Parameters.Sort,
+                        request.Parameters.Expanders
+                    )
+                    .ConfigureAwait(false);
+            else
+                request.Result =
+                    (IQueryable<TModel>)
+                        _repository[
+                            request.Offset,
+                            request.Limit,
+                            _repository[request.Parameters.Sort, request.Parameters.Expanders]
+                        ];
+        }
         return request;
     }
 }

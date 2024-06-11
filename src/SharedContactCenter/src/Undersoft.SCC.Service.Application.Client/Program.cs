@@ -26,6 +26,7 @@ using Undersoft.SCC.Service.Application.GUI.Compound.Access;
 using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
 using Undersoft.SCC.Service.Clients;
 using Undersoft.SCC.Service.Contracts;
+using Undersoft.SDK.Service.Data.Event;
 
 /// <summary>
 /// The program.
@@ -65,6 +66,10 @@ public class Program
                         IRemoteRepository<IAccountStore, Account>,
                         RemoteRepository<IAccountStore, Account>
                     >()
+                    .AddScoped<
+                        IRemoteRepository<IEventStore, Event>,
+                        RemoteRepository<IEventStore, Event>
+                    >()
                     .AddSingleton<AppearanceState>()
                     .AddScoped<AccessProvider<Account>>()
                     .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(
@@ -80,7 +85,7 @@ public class Program
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Contact>>, ContactValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                    .AddScoped<IValidator<IViewData<Country>>, CountryValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Country>>, CountryValidator>()
                     .AddScoped<AccountValidator>()
                     .AddScoped<AccessValidator>()
                     .AddScoped<ContactValidator>()

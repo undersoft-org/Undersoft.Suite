@@ -4,10 +4,12 @@ using System.Runtime.Serialization;
 namespace Undersoft.SDK.Service.Data.Model;
 
 using Identifier;
+using Microsoft.OData.ModelBuilder;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Object.Detail;
+using Undersoft.SDK.Service.Data.Object.Group;
 using Undersoft.SDK.Service.Data.Object.Setting;
 
 [DataContract]
@@ -16,37 +18,33 @@ public class OpenModel<TViewModel, TDetail, TSetting, TGroup> : DataObject, IVie
     where TViewModel : IDataObject
     where TDetail : class, IDetail, new()
     where TSetting : class, ISetting, new()
-    where TGroup : struct, Enum
+    where TGroup : class, IGroup
 {
     private static IRubrics detailRubrics;
     private static IRubrics settingRubrics;
 
     public OpenModel() : base()
     {
-        GetOpenRubrics();
     }
 
+    [AutoExpand]
     [DataMember(Order = 12)]
     public virtual IdentifierSet<TViewModel> Identifiers { get; set; }
 
     [Details]
+    [AutoExpand]
     [DataMember(Order = 13)]
-    public virtual DetailSet<TDetail> Details
-    {
-        get => new DetailSet<TDetail>(GetOpenProperties<TDetail>(detailRubrics));
-        set => SetOpenProperties(value);
-    }
+    public virtual Listing<TDetail> Details { get; set; }
 
     [Settings]
+    [AutoExpand]
     [DataMember(Order = 14)]
-    public virtual SettingSet<TSetting> Settings
-    {
-        get => new SettingSet<TSetting>(GetOpenProperties<TSetting>(settingRubrics));
-        set => SetOpenProperties(value);
-    }
+    public virtual Listing<TSetting> Settings { get; set; }
 
+    [AutoExpand]
     [DataMember(Order = 15)]
-    public virtual TGroup Group { get; set; }
+    public virtual Listing<TGroup> Groups { get; set; }
+
 
     private IEnumerable<T> GetOpenProperties<T>(IRubrics openRubrics)
         where T : class, IDetail, new()

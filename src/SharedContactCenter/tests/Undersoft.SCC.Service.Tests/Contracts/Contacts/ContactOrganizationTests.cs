@@ -1,25 +1,25 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using Undersoft.SCC.Domain.Entities.Enums;
-using Undersoft.SCC.Service.Contracts.Contacts;
+using Undersoft.SCC.Service.Contracts;
 
 namespace Undersoft.SCC.Service.Tests.Contracts.Contacts;
 
 /// <summary>
-/// Unit tests for the type <see cref="ContactOrganization"/>.
+/// Unit tests for the type <see cref="Organization"/>.
 /// </summary>
 [TestClass]
 public class ContactOrganizationTests
 {
-    private ContactOrganization _testClass;
+    private Organization _testClass;
 
     /// <summary>
-    /// Sets up the dependencies required for the tests for <see cref="ContactOrganization"/>.
+    /// Sets up the dependencies required for the tests for <see cref="Organization"/>.
     /// </summary>
     [TestInitialize]
     public void SetUp()
     {
-        this._testClass = new ContactOrganization();
+        this._testClass = new Organization();
     }
 
     /// <summary>

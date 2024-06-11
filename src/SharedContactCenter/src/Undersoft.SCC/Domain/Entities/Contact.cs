@@ -14,8 +14,18 @@ namespace Undersoft.SCC.Domain.Entities
     /// <summary>
     /// The contact.
     /// </summary>
-    public class Contact : Entity
+    public class Contact : OpenEntity<Contact, Detail, Setting, Group>, IEntity
     {
+        /// <summary>
+        /// Gets or sets the related from.
+        /// </summary>
+        public virtual EntitySet<Contact>? RelatedFrom { get; set; }
+
+        /// <summary>
+        /// Gets or sets the related converts to.
+        /// </summary>
+        public virtual EntitySet<Contact>? RelatedTo { get; set; }
+
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -44,7 +54,7 @@ namespace Undersoft.SCC.Domain.Entities
         /// Gets or sets the personal.
         /// </summary>
         /// <value>A ContactPersonal?</value>
-        public virtual ContactPersonal? Personal { get; set; } = default!;
+        public virtual ContactPersonal Personal { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the address id.
@@ -56,7 +66,7 @@ namespace Undersoft.SCC.Domain.Entities
         /// Gets or sets the address.
         /// </summary>
         /// <value>A ContactAddress?</value>
-        public virtual ContactAddress? Address { get; set; } = default!;
+        public virtual ContactAddress Address { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the professional id.
@@ -68,7 +78,7 @@ namespace Undersoft.SCC.Domain.Entities
         /// Gets or sets the professional.
         /// </summary>
         /// <value>A ContactProfessional?</value>
-        public virtual ContactProfessional? Professional { get; set; } = default!;
+        public virtual ContactProfessional Professional { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the organization id.
@@ -80,13 +90,7 @@ namespace Undersoft.SCC.Domain.Entities
         /// Gets or sets the organization.
         /// </summary>
         /// <value>A ContactOrganization?</value>
-        public virtual ContactOrganization? Organization { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the groups.
-        /// </summary>
-        /// <value>An EntitySet&lt;Group&gt;?</value>
-        public virtual EntitySet<Group>? Groups { get; set; }
+        public virtual Organization Organization { get; set; } = default!;
     }
 
 }

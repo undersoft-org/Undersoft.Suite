@@ -22,7 +22,7 @@ public class ContactAddressTests
     }
 
     /// <summary>
-    /// Checks that the Country property can be read from and written to.
+    /// Checks that the CountryName property can be read from and written to.
     /// </summary>
     [TestMethod]
     public void CanSetAndGetCountry()
@@ -31,10 +31,10 @@ public class ContactAddressTests
         var testValue = "TestValue598367398";
 
         // Act
-        this._testClass.Country = testValue;
+        this._testClass.CountryName = testValue;
 
         // Assert
-        this._testClass.Country.ShouldBe(testValue);
+        this._testClass.CountryName.ShouldBe(testValue);
     }
 
     /// <summary>

@@ -194,7 +194,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public string Width { get; set; } = "360px";
 
-    public string Z { get; set; }
+    public string? Z { get; set; }
 
     public string? Href { get; set; }
 

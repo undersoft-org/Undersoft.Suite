@@ -9,14 +9,14 @@
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Model.Attributes;
 
-namespace Undersoft.SCC.Service.Application.ViewModels.Contacts;
+namespace Undersoft.SCC.Service.Application.ViewModels;
 
 using Undersoft.SCC.Domain.Entities.Enums;
 
 /// <summary>
 /// The contact organization.
 /// </summary>
-public class ContactOrganization : DataObject, IViewModel
+public class Organization : DataObject, IViewModel
 {
     /// <summary>
     /// Gets or sets the organization image.
@@ -35,6 +35,18 @@ public class ContactOrganization : DataObject, IViewModel
     [VisibleRubric]
     [DisplayRubric("Industry")]
     public string? OrganizationIndustry { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? IndustryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public virtual Industry? Industry { get; set; }
 
     /// <summary>
     /// Gets or sets the organization name.

@@ -20,10 +20,34 @@ public class ContactProfessional : Entity
     public string? ProfessionIndustry { get; set; }
 
     /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? IndustryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public virtual Industry? Industry { get; set; }
+
+    /// <summary>
     /// Gets or sets the profession.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    public string? Profession { get; set; } = default!;
+    public string? ProfessionName { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? ProfessionId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public virtual Profession? Profession { get; set; }
 
     /// <summary>
     /// Gets or sets the professional email.
@@ -64,6 +88,6 @@ public class ContactProfessional : Entity
     /// Gets or sets the contact.
     /// </summary>
     /// <value>A <see cref="Contact? "/></value>
-    public virtual Contact? Contact { get; set; }
+    public virtual Contact Contact { get; set; } = default!;
 
 }

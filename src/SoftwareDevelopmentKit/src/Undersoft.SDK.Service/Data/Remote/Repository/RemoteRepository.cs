@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 namespace Undersoft.SDK.Service.Data.Remote.Repository;
 
 using Logging;
+using Microsoft.EntityFrameworkCore;
 using Proxies;
 using Series;
 using Undersoft.SDK.Service.Access;
@@ -178,9 +179,38 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         }
     }
 
-    public override IEnumerable<TEntity> lookup<TModel>(IEnumerable<TModel> entities)
+    public override IQueryable<TEntity> this[Expression<Func<TEntity, object>>[] expanders]
     {
-        return entities.ForEach(e => lookup(e.Id)).Commit();
+        get
+        {
+            DataServiceQuery<TEntity> query = Query;
+            if (expanders != null)
+            {
+                foreach (var expander in expanders)
+                {
+                    query = query.Expand(expander);
+                }
+            }
+
+            return query;
+        }
+    }
+
+    public override ISeries<TEntity> lookup<TModel>(IEnumerable<TModel> entities)
+    {
+        var dtos = entities.ToListing();
+        var deck = dtos.ForEach(e => cache.Lookup<TEntity>(e)).Where(i => i != null).ToListing();
+        if (deck.Count < dtos.Count)
+            deck.Add(
+                this[
+                    Query.WhereIn(
+                        p => p.Id,
+                        dtos.Where(id => !deck.ContainsKey(id)).Select(id => id.Id)
+                    )
+                ]
+            );
+
+        return deck;
     }
 
     public override TEntity lookup<TModel>(TModel entity)
@@ -225,6 +255,26 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
     public override TEntity InnerSet<TModel>(TModel source, TEntity target) where TModel : class
     {
         return InnerPut(source, target);
+    }
+
+    public override TEntity AddBy<TModel>(TModel model)
+    {
+        return Add(model.PutTo<TEntity>());
+    }
+
+    public override async Task<TEntity> PatchBy<TModel>(TModel model)
+    {
+        return await Task.FromResult(Patch(model.PutTo<TEntity>()));
+    }
+
+    public override async Task<TEntity> SetBy<TModel>(TModel model)
+    {
+        return await Task.FromResult(Update(model.PutTo<TEntity>()));
+    }
+
+    public override async Task<TEntity> DeleteBy<TModel>(TModel model)
+    {
+        return await Task.FromResult(Delete(model.PutTo<TEntity>()));
     }
 
     public override TEntity Delete(TEntity entity)
@@ -281,24 +331,11 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         ISeries<TEntity> deck = null;
         if (predicate != null)
         {
-            var query = Query;
-            deck = entities.SelectMany(e => Query.Where(predicate(e))).ToCatalog();
+            deck = entities.SelectMany(e => Query.Where(predicate(e))).ToListing();
         }
         else
         {
-            var dtos = entities.ToCatalog();
-            deck = lookup<TEntity>(entities).ToCatalog();
-            if (deck.Count < dtos.Count)
-                deck.Add(
-                    this[
-                        Query.Where(
-                            p =>
-                                dtos.Where(id => !deck.ContainsKey(id))
-                                    .Select(id => id.Id)
-                                    .Contains(p.Id)
-                        )
-                    ]
-                );
+            deck = lookup<TEntity>(entities);
         }
 
         foreach (var entity in entities)
@@ -309,8 +346,7 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
 
             if (deck.TryGet(entity.Id, out TEntity settin))
             {
-                RemoteContext.UpdateObject(settin);
-                yield return Stamp(entity.PatchTo(settin, PatchingInvoker));
+                yield return InnerPut(entity, settin);
             }
             else
                 yield return Add(entity);

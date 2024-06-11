@@ -5,10 +5,12 @@
 @using Undersoft.SDK
 @using Undersoft.SDK.Invoking
 
-@inherits ViewStore<TStore, TModel>
+@inherits ViewStore<TStore, TDto, TModel>
 
 @typeparam TStore where TStore : IDataServiceStore
+@typeparam TDto where TDto : class, IOrigin, IInnerProxy
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@implements IViewProgress
 
 <div class="dataset">
         @ChildContent

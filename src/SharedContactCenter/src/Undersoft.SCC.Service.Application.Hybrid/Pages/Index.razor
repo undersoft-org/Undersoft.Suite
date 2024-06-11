@@ -28,12 +28,12 @@
                     }
                 }
             }
-            if (!adminSignedIn)
-                _navigation.NavigateTo("/presenting/user/contacts");
+            if(!adminSignedIn)
+                _navigation.NavigateTo("/presenting/user/contacts");            
         }
         else
             _navigation.NavigateTo("/presenting/contacts");
 
-        await base.OnInitializedAsync();
+       await base.OnInitializedAsync();
     }
 }

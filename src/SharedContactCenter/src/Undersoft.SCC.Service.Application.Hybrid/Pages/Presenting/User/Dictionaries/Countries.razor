@@ -4,4 +4,13 @@
 
 @page "/presenting/user/dictionaries/countries"
 
-<GenericDataGrid TStore="IDataStore" ShowHover="true" TModel="Contracts.Country" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Form" Title="Countries" />
+<GenericDataGrid TStore="IDataStore" 
+                 TDto="Contracts.Country"
+                 TModel="ViewModels.Country"
+                 ShowHover="true" 
+                 Expandable="false" 
+                 Multiselect="true" 
+                 Editable="true" 
+                 EditMode="EditMode.Dialog" 
+                 EntryMode="EntryMode.Form" 
+                 Title="Countries" />

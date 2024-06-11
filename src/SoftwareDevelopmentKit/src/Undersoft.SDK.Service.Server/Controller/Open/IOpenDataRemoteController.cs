@@ -11,7 +11,7 @@ public interface IOpenDataRemoteController<TKey, TDto, TModel> where TModel : cl
 {
     Task<IActionResult> Delete([FromODataUri] TKey key);
     IQueryable<TModel> Get(ODataQueryOptions<TModel> options);
-    SingleResult<TModel> Get([FromODataUri] TKey key);
+    SingleResult<TModel> Get([FromODataUri] TKey key, ODataQueryOptions<TModel> options);
     Task<IActionResult> Patch([FromODataUri] TKey key, [FromODataBody] TModel model);
     Task<IActionResult> Post([FromODataBody] TModel model);
     Task<IActionResult> Put([FromODataUri] TKey key, [FromODataBody] TModel model);

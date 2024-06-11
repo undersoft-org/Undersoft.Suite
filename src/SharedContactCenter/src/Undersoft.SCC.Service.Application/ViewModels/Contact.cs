@@ -1,4 +1,3 @@
-using Microsoft.OData.ModelBuilder;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
@@ -23,7 +22,7 @@ using Undersoft.SCC.Service.Application.ViewModels.Contacts;
 /// </summary>
 [Validator("ContactValidator")]
 [ViewSize(width: "400px", height: "650px")]
-public class Contact : DataObject, IViewModel
+public class Contact : OpenModel<Contact, Detail, Setting, Group>, IViewModel
 {
     private string? _name;
     private string? _address;
@@ -54,7 +53,7 @@ public class Contact : DataObject, IViewModel
     [RubricSize(64)]
     [Filterable]
     [Sortable]
-    [QueryMembers("Personal.FirstName", "Personal.LastName")]
+    [QueryMembers("Personal.LastName", "Personal.FirstName")]
     [DisplayRubric("Name")]
     public virtual string? Name
     {
@@ -183,8 +182,7 @@ public class Contact : DataObject, IViewModel
     /// </summary>
     /// <value>A <see cref="ContactPersonal? "/></value>
     [Extended]
-    [AutoExpand]
-    public virtual ContactPersonal? Personal { get; set; } = default!;
+    public virtual ContactPersonal? Personal { get; set; }
 
     /// <summary>
     /// Gets or sets the address id.
@@ -197,8 +195,7 @@ public class Contact : DataObject, IViewModel
     /// </summary>
     /// <value>A <see cref="ContactAddress? "/></value>
     [Extended]
-    [AutoExpand]
-    public virtual ContactAddress? Address { get; set; } = default!;
+    public virtual ContactAddress? Address { get; set; }
 
     /// <summary>
     /// Gets or sets the professional id.
@@ -211,8 +208,7 @@ public class Contact : DataObject, IViewModel
     /// </summary>
     /// <value>A <see cref="ContactProfessional? "/></value>
     [Extended]
-    [AutoExpand]
-    public virtual ContactProfessional? Professional { get; set; } = default!;
+    public virtual ContactProfessional? Professional { get; set; }
 
     /// <summary>
     /// Gets or sets the organization id.
@@ -223,15 +219,7 @@ public class Contact : DataObject, IViewModel
     /// <summary>
     /// Gets or sets the organization.
     /// </summary>
-    /// <value>A <see cref="ContactOrganization? "/></value>
+    /// <value>A <see cref="ViewModels.Organization? "/></value>
     [Extended]
-    [AutoExpand]
-    public virtual ContactOrganization? Organization { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the groups.
-    /// </summary>
-    /// <value>A TODO: Add missing XML "/&gt;</value>
-    [AutoExpand]
-    public virtual Listing<Group>? Groups { get; set; } = default!;
+    public virtual Organization? Organization { get; set; }
 }

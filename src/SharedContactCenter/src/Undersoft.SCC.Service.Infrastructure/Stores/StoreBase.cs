@@ -43,7 +43,7 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     /// <summary>
     /// Gets or sets the contact organizations.
     /// </summary>
-    public virtual DbSet<ContactOrganization>? Organizations { get; set; }
+    public virtual DbSet<Organization>? Organizations { get; set; }
     /// <summary>
     /// Gets or sets the contact personals.
     /// </summary>
@@ -72,6 +72,24 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     /// Gets or sets the country languages.
     /// </summary>
     public virtual DbSet<CountryLanguage>? Languages { get; set; }
+    /// <summary>
+    /// Gets or sets the country languages.
+    /// </summary>
+    public virtual DbSet<Industry>? Industries { get; set; }
+    /// <summary>
+    /// Gets or sets the country languages.
+    /// </summary>
+    public virtual DbSet<Profession>? Professions { get; set; }
+    /// <summary>
+    /// Gets or sets the details.
+    /// </summary>
+    /// <value>A TODO: Add missing XML "/&gt;</value>
+    public virtual DbSet<Detail>? Details { get; set; }
+    /// <summary>
+    /// Gets or sets the settings.
+    /// </summary>
+    /// <value>A TODO: Add missing XML "/&gt;</value>
+    public virtual DbSet<Setting>? Settings { get; set; }
 
     /// <summary>
     /// Called when [model creating].
@@ -81,13 +99,17 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     {
         modelBuilder.ApplyMapping(new ContactAddressMappings());
         modelBuilder.ApplyMapping(new CountryStateMappings());
-        modelBuilder.ApplyMapping(new ContactOrganizationMappings());
+        modelBuilder.ApplyMapping(new OrganizationMappings());
         modelBuilder.ApplyMapping(new ContactMappings());
         modelBuilder.ApplyMapping(new ContactPersonalMappings());
         modelBuilder.ApplyMapping(new GroupMappings());
+        modelBuilder.ApplyMapping(new DetailMappings());
+        modelBuilder.ApplyMapping(new SettingMappings());
         modelBuilder.ApplyMapping(new CountryLanguageMappings());
         modelBuilder.ApplyMapping(new CountryMappings());
         modelBuilder.ApplyMapping(new CurrencyMappings());
+        modelBuilder.ApplyMapping(new IndustryMappings());
+        modelBuilder.ApplyMapping(new ProfessionMappings());
         modelBuilder.ApplyMapping(new ContactProfessionalMappings());
 
         base.OnModelCreating(modelBuilder);

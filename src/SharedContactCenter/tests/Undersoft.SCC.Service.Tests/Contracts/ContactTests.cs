@@ -124,7 +124,7 @@ public class ContactTests
         // Arrange
         var testValue = new ContactAddress
         {
-            Country = "TestValue768946341",
+            CountryName = "TestValue768946341",
             State = "TestValue870392399",
             City = "TestValue937394175",
             Postcode = "TestValue611515208",
@@ -207,7 +207,7 @@ public class ContactTests
     public void CanSetAndGetOrganization()
     {
         // Arrange
-        var testValue = new ContactOrganization
+        var testValue = new Organization
         {
             OrganizationIndustry = "TestValue966015966",
             OrganizationName = "TestValue1300230043",

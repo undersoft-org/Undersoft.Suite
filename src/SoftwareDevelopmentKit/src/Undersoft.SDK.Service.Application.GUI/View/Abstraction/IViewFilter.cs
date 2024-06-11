@@ -1,8 +1,14 @@
 ﻿namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
 
-    public interface IViewFilter : IViewItem
+    public interface IViewFilter : IViewItem, IViewLoadable
     {
-        public bool IsOpen { get; set; }
+        bool IsOpen { get; set; }
+
+        void UpdateFilters();
+
+        void ClearFilters();
+
+        Task ApplyFiltersAsync();
     }
 }

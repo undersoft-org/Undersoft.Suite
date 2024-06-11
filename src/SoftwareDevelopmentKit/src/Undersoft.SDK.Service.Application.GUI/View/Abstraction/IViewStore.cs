@@ -3,18 +3,26 @@ using Undersoft.SDK.Proxies;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
-    public interface IViewStore<TStore, TModel> : IViewStore
+    public interface IViewStore<TStore, TDto, TModel> : IViewStore
         where TStore : IDataServiceStore
+        where TDto : class, IOrigin, IInnerProxy
         where TModel : class, IOrigin, IInnerProxy
     {
         IViewDataStore<TModel> Contents { get; set; }
 
         IList<TModel> Models { get; }
 
-        Action<ViewDataStore<TStore, TModel>> Setup { get; set; }
+        Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; }
     }
 
-    public interface IViewStore : IViewItem
+    public interface IViewStore<TStore, TModel> : IViewStore<TStore, TModel, TModel>
+       where TStore : IDataServiceStore
+       where TModel : class, IOrigin, IInnerProxy
+    {
+    }
+
+
+    public interface IViewStore : IViewItem, IViewProgress, IViewLoadable
     {
         IServicer Servicer { get; set; }
 
@@ -24,6 +32,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         IViewDataStore DataStore { get; set; }
 
-        Task UpdateDataViewAsync();
+        Task LoadViewAsync();
+
+        Task SaveViewAsync(bool changesets = false);
+
+        Task StageViewAsync(bool changesets = false);
     }
 }

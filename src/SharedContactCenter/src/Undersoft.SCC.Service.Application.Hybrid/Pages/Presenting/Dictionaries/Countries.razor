@@ -1,3 +1,12 @@
 ﻿@page "/presenting/dictionaries/countries"
 
-<GenericDataGrid TStore="IDataStore" TModel="Contracts.Country" Expandable="false" Multiselect="false" Showable="true" Editable="false" EditMode="EditMode.Dialog" EntryMode="EntryMode.Form" Title="Countries" />
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Country"
+                 TModel="ViewModels.Country"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="false"
+                 Editable="false"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form"
+                 Title="Countries" />

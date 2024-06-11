@@ -10,10 +10,12 @@
 <div class="generic datagrid-footer">
 
     <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Wrap="true">
-        <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
-            Total: @DataStore.Pagination.TotalCount results
-        </FluentLabel>
-
+        @if (DataStore.Pagination.TotalCount > -1)
+        {
+            <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
+                Total: @DataStore.Pagination.TotalCount results
+            </FluentLabel>
+        }
         <FluentSpacer />
 
         @if (DataStore.Pagination.TotalCount > DataStore.Pagination.PageSize)
@@ -34,7 +36,7 @@
             for (var pageIndex = _pagination.GetLowestPageIndex(); pageIndex <= _pagination.GetHighestPageIndex(); pageIndex++)
             {
                 var index = pageIndex;
-                <FluentButton @onclick="@(() => GoToPageAsync(index))"             
+                <FluentButton @onclick="@(() => GoToPageAsync(index))"
                               Appearance="@PageButtonAppearance(index)"
                               aria-current="@AriaCurrentValue(index)"
                               aria-label="@AriaLabel(index)">

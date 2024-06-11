@@ -45,8 +45,8 @@ public class CountryState : Entity
     public virtual Country? Country { get; set; }
 
     /// <summary>
-    /// Gets or sets the groups.
+    /// Gets or sets the states.
     /// </summary>
-    /// <value>An EntitySet&lt;Group&gt;?</value>
+    /// <value>An TODO: Add missing XML "/&gt;</value>
     public virtual EntitySet<ContactAddress>? Addresses { get; set; }
 }

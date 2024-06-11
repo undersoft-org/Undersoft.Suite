@@ -5,7 +5,6 @@ namespace Undersoft.SDK.Service.Operation.Command.Notification;
 
 using Command;
 using Logging;
-using Undersoft.SDK.Service.Data.Entity;
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Object;
 using Uniques;
@@ -26,7 +25,7 @@ public abstract class Notification<TCommand> : Event, INotification where TComma
         EntityId = command.Id;
         EntityTypeName = aggregateTypeFullName;
         TypeName = eventTypeFullName;
-        var entity = (Entity)command.Result;
+        var entity = (DataObject)command.Result;
         Modifier = entity.Modifier;
         Modified = entity.Modified;
         Creator = entity.Creator;

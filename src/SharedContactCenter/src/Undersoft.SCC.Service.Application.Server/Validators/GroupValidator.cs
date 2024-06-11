@@ -12,7 +12,7 @@ using Undersoft.SDK.Service.Operation.Remote.Command.Validator;
 
 namespace Undersoft.SCC.Service.Application.Server.Validators;
 
-using Undersoft.SCC.Service.Application.ViewModels;
+using Undersoft.SCC.Service.Contracts;
 
 /// <summary>
 /// The group validator.

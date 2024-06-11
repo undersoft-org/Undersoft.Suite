@@ -6,18 +6,17 @@
 //   library: Undersoft.SCC
 // *************************************************
 
+using Undersoft.SDK.Service.Data.Object.Group;
+
 namespace Undersoft.SCC.Domain.Entities;
 
 /// <summary>
 /// The group.
 /// </summary>
-public partial class Group : Entity
+public partial class Group : ObjectGroup<Group>, IGroup, IEntity
 {
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
-    /// <value>A <see cref="string? "/></value>
-    public string? Name { get; set; }
+
+    public virtual string? Description { get; set; }
 
     /// <summary>
     /// Gets or sets the group image.
@@ -30,6 +29,18 @@ public partial class Group : Entity
     /// </summary>
     /// <value>A <see cref="byte[]? "/></value>
     public byte[]? GroupImageData { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the related from.
+    /// </summary>
+    /// <value>An TODO: Add missing XML "/&gt;</value>
+    public virtual EntitySet<Group>? RelatedFrom { get; set; }
+
+    /// <summary>
+    /// Gets or sets the related converts to.
+    /// </summary>
+    /// <value>An TODO: Add missing XML "/&gt;</value>
+    public virtual EntitySet<Group>? RelatedTo { get; set; }
 
     /// <summary>
     /// Gets or sets the contacts.

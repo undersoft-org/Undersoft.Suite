@@ -83,15 +83,9 @@ public abstract class ApiEventController<TKey, TStore, TEntity, TDto> : Controll
                     entity.Rubrics[fi.Member].RubricType)
         );
 
-        var param = new QueryParameters<TEntity>()
-        {
-            Filter = query.GetFilter<TEntity>(),
-            Sort = query.GetSort<TEntity>()
-        };
-
         return Ok(
             (await _servicer
-                .Send(new Filter<TStore, TEntity, TDto>(0, 0, param))).Result.Commit()
+                .Send(new Filter<TStore, TEntity, TDto>(0, 0, new QueryParameters<TEntity>(query)))).Result.Commit()
         );
     }
 

@@ -6,6 +6,7 @@ namespace Undersoft.SDK.Service.Data.Entity;
 using Identifier;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Object.Detail;
+using Undersoft.SDK.Service.Data.Object.Group;
 using Undersoft.SDK.Service.Data.Object.Setting;
 
 [DataContract]
@@ -14,7 +15,7 @@ public class OpenEntity<TEntity, TDetail, TSetting, TGroup> : Entity
     where TEntity : IDataObject
     where TDetail : class, IDetail
     where TSetting : class, ISetting
-    where TGroup : struct, Enum
+    where TGroup : class, IGroup
 {
     public OpenEntity() : base() { }
 
@@ -30,5 +31,5 @@ public class OpenEntity<TEntity, TDetail, TSetting, TGroup> : Entity
     public virtual EntitySet<TSetting> Settings { get; set; }
 
     [DataMember(Order = 15)]
-    public virtual TGroup Group { get; set; }
+    public virtual EntitySet<TGroup> Groups { get; set; }
 }

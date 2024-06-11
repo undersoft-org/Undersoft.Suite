@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using Undersoft.SCC.Service.Contracts;
 using Undersoft.SCC.Service.Contracts.Contacts;
 
 namespace Undersoft.SCC.Service.Tests.Contracts.Contacts;
@@ -28,7 +29,7 @@ public class ContactAddressTests
     public void CanSetAndGetCountry()
     {
         // Arrange
-        var testValue = "TestValue1027573325";
+        var testValue = new Country();
 
         // Act
         this._testClass.Country = testValue;

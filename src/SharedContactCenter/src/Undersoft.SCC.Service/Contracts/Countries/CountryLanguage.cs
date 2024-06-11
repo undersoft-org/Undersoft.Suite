@@ -6,7 +6,6 @@
 //   library: Undersoft.SCC.Service
 // *************************************************
 
-using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SCC.Service.Contracts.Countries;
@@ -20,14 +19,11 @@ public class CountryLanguage : DataObject, IContract
     /// Gets or sets the name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
     public string? Name { get; set; }
 
     /// <summary>
     /// Gets or sets the language code.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
-    [DisplayRubric("Code")]
     public string? LanguageCode { get; set; }
 }

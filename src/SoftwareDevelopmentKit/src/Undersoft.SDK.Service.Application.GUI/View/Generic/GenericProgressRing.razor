@@ -1,0 +1,12 @@
+﻿@inherits ViewItem
+
+<div>
+    <FluentOverlay @bind-Visible="@View.ProgressVisible"
+                   Opacity="0.4"
+                   Alignment="@Alignment"
+                   Justification="@Justification"
+                   FullScreen="@Fullscreen"
+                   OnClose="HandleOnClose">
+        <FluentProgressRing />
+    </FluentOverlay>
+</div>

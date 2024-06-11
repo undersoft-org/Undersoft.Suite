@@ -1,0 +1,28 @@
+﻿
+/* Style the custom page links*/
+.generic-datagrid-pagination {
+    margin-top: 10px;
+    align-items: center;
+}
+
+    .generic-datagrid-pagination button {
+        background: #d6d7d8;
+        color: black;
+        padding: 0.22rem 0.5rem;
+        border-radius: 0.4rem;        
+        transition: transform 0.3s ease-out;
+        margin: 0.2rem;
+    }
+
+        .generic-datagrid-pagination button:active {                                    
+            transform: scale(0.95) translateY(-0.15rem);
+            transition-duration: 0.05s;
+        }
+
+        .generic-datagrid-pagination button:hover:not(.current) {
+            background: #c0c9dc;
+        }
+
+        .generic-datagrid-pagination button.current {
+            background: #3771f4;         
+        }

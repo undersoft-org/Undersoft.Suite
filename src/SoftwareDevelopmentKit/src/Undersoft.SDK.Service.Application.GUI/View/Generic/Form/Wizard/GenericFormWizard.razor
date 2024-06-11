@@ -24,7 +24,7 @@
         <GenericFormWizardHeader TModel="TModel" />
         <FluentDialogBody>
             <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
-                <FluentWizard Id="generic-wizard" @bind-Value="@ActiveId" StepTitleHiddenWhen="@GridItemHidden.None" Width="100%" StepperPosition="Position">
+                <FluentWizard Id="generic-wizard" @bind-Value="@ActiveId" StepTitleHiddenWhen="@GridItemHidden.None" Height="@Height" Width="@Width" StepperPosition="Position">
                     <Steps>
                         @foreach (var _rubric in _extendedRubrics)
                         {
@@ -35,7 +35,7 @@
                         }
                     </Steps>
                     <ButtonTemplate>
-                        <FluentDialogFooter>
+                        <FluentDialogFooter Style="padding:0px">
                             <GenericFormWizardButtons TModel="TModel" GoToFirstEnabled="@GoToFirstEnabled" GoToLastEnabled="@GoToLastEnabled" />
                         </FluentDialogFooter>
                     </ButtonTemplate>
@@ -66,6 +66,12 @@
 
     [Parameter]
     public bool GoToLastEnabled { get; set; }
+
+    [Parameter]
+    public string? Height { get; set; } = "auto";
+
+    [Parameter]
+    public string? Width { get; set; } = "auto";
 
     [Parameter]
     public StepperPosition Position { get; set; }

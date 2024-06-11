@@ -7,7 +7,7 @@
 // *************************************************
 
 using Microsoft.OData.ModelBuilder;
-using Undersoft.SCC.Domain.Entities.Countries;
+using Undersoft.SCC.Service.Contracts.Countries;
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 
@@ -25,18 +25,18 @@ public class ContactAddress : DataObject, IContract
     public long? CountryId { get; set; }
 
     /// <summary>
-    /// Gets or sets the country.
+    /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [Extended]
-    [AutoExpand]
-    public Country? Country { get; set; }
+    public string? CountryName { get; set; }
 
     /// <summary>
     /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    public string? CountryName { get; set; }
+    [Extended]
+    [AutoExpand]
+    public Country? Country { get; set; }
 
     /// <summary>
     /// Gets or sets the state id.
@@ -45,7 +45,7 @@ public class ContactAddress : DataObject, IContract
     public long? CountryStateId { get; set; }
 
     /// <summary>
-    /// Gets or sets the state.
+    /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
     [Extended]

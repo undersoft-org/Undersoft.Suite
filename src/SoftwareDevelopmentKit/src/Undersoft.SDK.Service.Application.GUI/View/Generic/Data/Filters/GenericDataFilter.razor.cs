@@ -54,6 +54,35 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             StateHasChanged();
         }
 
+        public void ClearFilters()
+        {
+
+        }
+
+        public void UpdateFilters()
+        {
+            EmptyFilters.ForEach(f =>
+            {
+                if (f.Value != FilteredType.Default())
+                {
+                    Rubric.Filters.Put(f);
+                }
+            });
+        }
+
+        public async Task ApplyFiltersAsync()
+        {
+            UpdateFilters();
+            await LoadViewAsync();
+        }
+
+        public async Task LoadViewAsync()
+        {
+            await ((IViewLoadable)Parent!).LoadViewAsync();
+        }
+
+
+
         public Type FilteredType { get; set; } = default!;
 
         public virtual bool IsOpen { get; set; }

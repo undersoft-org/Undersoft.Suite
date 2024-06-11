@@ -160,7 +160,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsIdentity && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
             .ForEach(
                 (rubric) =>
                 {
@@ -185,7 +185,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsIdentity && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
             .ForEach(
                 (originRubric) =>
                 {
@@ -223,7 +223,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-            .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.RubricName.Equals("proxy"))
             .ForEach(
                 (rubric) =>
                 {
@@ -248,7 +248,7 @@ public class Updater : IUpdater
         var _target = target;
 
         Rubrics
-           .Where(r => !r.IsKey && !r.RubricName.Equals("proxy"))
+            .Where(r => !r.RubricName.Equals("proxy"))
             .ForEach(
                 (originRubric) =>
                 {
@@ -302,7 +302,12 @@ public class Updater : IUpdater
             target[targetRubric.RubricId] = targetValue = targetType.New();
 
             if (traceable)
-                targetValue = TraceEvent.Invoke(target.Target, targetRubric.RubricName, null, targetType);
+                targetValue = TraceEvent.Invoke(
+                    target.Target,
+                    targetRubric.RubricName,
+                    null,
+                    targetType
+                );
         }
 
         if (originValue == null)
@@ -323,9 +328,11 @@ public class Updater : IUpdater
                     if (targetItemType == null || !targetItemType.IsValueType)
                     {
                         if (
-                            targetType.IsAssignableTo(typeof(IFindable))
-                            && originItemType.IsAssignableTo(typeof(IIdentifiable))
+                            !targetType.IsAssignableTo(typeof(IFindable))
+                            || !originItemType.IsAssignableTo(typeof(IIdentifiable))
                         )
+                            GreedyLookup(originItems, targetItems, target, originItemType, targetItemType);
+                        else
                         {
                             IFindable targetFindable = (IFindable)targetValue;
 
@@ -335,7 +342,12 @@ public class Updater : IUpdater
                                 if (targetItem != null)
                                 {
                                     if (traceable)
-                                        targetItem = TraceEvent.Invoke(target, targetRubric.RubricName, targetItem, null);
+                                        targetItem = TraceEvent.Invoke(
+                                            target.Target,
+                                            targetRubric.RubricName,
+                                            targetItem,
+                                            null
+                                        );
 
                                     ForUpdate(new Updater(originItem, TraceEvent), targetItem);
                                 }
@@ -348,14 +360,24 @@ public class Updater : IUpdater
                                     originItem.PatchTo(targetItem, TraceEvent);
 
                                     if (traceable)
-                                        targetItem = TraceEvent.Invoke(target, targetRubric.RubricName, targetItem, null);
+                                        targetItem = TraceEvent.Invoke(
+                                             target.Target,
+                                            targetRubric.RubricName,
+                                            targetItem,
+                                            null
+                                        );
 
                                     ((IList)targetItems).Add(targetItem);
                                 }
                                 else
                                 {
                                     if (traceable)
-                                        targetItem = TraceEvent.Invoke(target, targetRubric.RubricName, originItem, null);
+                                        targetItem = TraceEvent.Invoke(
+                                            target.Target,
+                                            targetRubric.RubricName,
+                                            originItem,
+                                            null
+                                        );
 
                                     ((IList)targetItems).Add(originItem);
                                 }
@@ -363,15 +385,18 @@ public class Updater : IUpdater
 
                             return true;
                         }
-
-                        GreedyLookup(originItems, targetItems, originItemType, targetItemType);
                     }
                 }
             }
         }
 
         if (traceable)
-            targetValue = TraceEvent.Invoke(target.Target, targetRubric.RubricName, targetValue, targetType);
+            targetValue = TraceEvent.Invoke(
+                target.Target,
+                targetRubric.RubricName,
+                targetValue,
+                targetType
+            );
 
         ForUpdate(new Updater(originValue, TraceEvent), targetValue);
 
@@ -381,6 +406,7 @@ public class Updater : IUpdater
     private bool GreedyLookup(
         IEnumerable originItems,
         IEnumerable targetItems,
+        object target,
         Type originItemType,
         Type targetItemType
     )
@@ -399,8 +425,9 @@ public class Updater : IUpdater
                 if (((IIdentifiable)originItem).Id == ((IIdentifiable)targetItem).Id)
                 {
                     var _targetItem = targetItem;
+
                     if (traceable)
-                        _targetItem = TraceEvent.Invoke(_targetItem, null, null);
+                        _targetItem = TraceEvent.Invoke(target, "Id", _targetItem, null, null);
 
                     ForUpdate(new Updater(originItem, TraceEvent), _targetItem);
 
@@ -417,13 +444,13 @@ public class Updater : IUpdater
                     targetItem = targetItemType.New();
                     ((IIdentifiable)targetItem).Id = ((IIdentifiable)originItem).Id;
                     if (traceable)
-                        targetItem = TraceEvent.Invoke(targetItem, null, null);
+                        targetItem = TraceEvent.Invoke(target, "Id", targetItem, null);
                     ((IList)targetItems).Add(originItem.PatchTo(targetItem, TraceEvent));
                 }
                 else
                 {
                     if (traceable)
-                        targetItem = TraceEvent.Invoke(originItem, null, null);
+                        targetItem = TraceEvent.Invoke(target, "Id", originItem, null);
                     ((IList)targetItems).Add(originItem);
                 }
             }
@@ -504,9 +531,7 @@ public class Updater : IUpdater
                     var originValue = Source[targetndex];
                     var targetValue = _target[targetndex];
 
-                    if (
-                        !originValue.NullOrEquals(targetValue)
-                    )
+                    if (!originValue.NullOrEquals(targetValue))
                     {
                         _target[targetndex] = originValue;
                     }
@@ -531,9 +556,7 @@ public class Updater : IUpdater
                         var targetIndex = targetRubric.RubricId;
                         var targetValue = _target[targetIndex];
 
-                        if (
-                            !originValue.NullOrEquals(targetValue)
-                        )
+                        if (!originValue.NullOrEquals(targetValue))
                         {
                             if (targetRubric.RubricType.IsAssignableTo(originRubric.RubricType))
                             {
@@ -559,9 +582,7 @@ public class Updater : IUpdater
                     var originValue = Source[targetndex];
                     var targetValue = _target[targetndex];
 
-                    if (
-                        originValue != null
-                    )
+                    if (originValue != null)
                     {
                         _target[targetndex] = originValue;
                     }
@@ -589,9 +610,7 @@ public class Updater : IUpdater
                         var targetIndex = targetRubric.RubricId;
                         var targetValue = _target[targetIndex];
 
-                        if (
-                            originValue != null
-                        )
+                        if (originValue != null)
                         {
                             if (targetRubric.RubricType.IsAssignableTo(originRubric.RubricType))
                             {

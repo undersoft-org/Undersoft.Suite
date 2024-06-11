@@ -27,13 +27,13 @@ namespace Undersoft.SDK.Service.Server.Accounts
             builder.HasOne(c => c.Professional).WithOne().HasForeignKey<Account>(c => c.ProfessionalId);
             builder.Navigation(n => n.Professional).AutoInclude();
 
-            builder.HasOne(c => c.Organization).WithOne().HasForeignKey<Account>(c => c.OrganizationId);
+            builder.HasOne(c => c.Organization).WithMany(o => o.Accounts).HasForeignKey(c => c.OrganizationId);
             builder.Navigation(n => n.Organization).AutoInclude();
 
             builder.HasOne(c => c.Consent).WithOne().HasForeignKey<Account>(c => c.ConsentId);
             builder.Navigation(n => n.Consent).AutoInclude();
 
-            builder.HasOne(c => c.Subscription).WithOne().HasForeignKey<Account>(c => c.SubscriptionId);
+            builder.HasOne(c => c.Subscription).WithMany(s => s.Accounts).HasForeignKey(c => c.SubscriptionId);
             builder.Navigation(n => n.Subscription).AutoInclude();
 
             builder.HasOne(c => c.Payment).WithOne().HasForeignKey<Account>(c => c.PaymentId);
@@ -85,7 +85,7 @@ namespace Undersoft.SDK.Service.Server.Accounts
     {
         public override void Configure(EntityTypeBuilder<AccountOrganization> builder)
         {
-            builder.HasOne(c => c.Account).WithOne().HasForeignKey<AccountOrganization>(k => k.AccountId);
+            builder.HasMany(c => c.Accounts).WithOne(c => c.Organization).HasForeignKey(k => k.OrganizationId);
         }
     }
 
@@ -93,7 +93,16 @@ namespace Undersoft.SDK.Service.Server.Accounts
     {
         public override void Configure(EntityTypeBuilder<AccountSubscription> builder)
         {
-            builder.HasOne(c => c.Account).WithOne().HasForeignKey<AccountSubscription>(k => k.AccountId);
+            builder.HasMany(c => c.Accounts).WithOne(c => c.Subscription).HasForeignKey(k => k.SubscriptionId);
+            builder.HasOne(c => c.Subscription).WithMany(c => c.AccountSubscriptions).HasForeignKey(k => k.SubscriptionId);
+        }
+    }
+
+    public class SubscriptionsMappings : EntityTypeMapping<Subscription>
+    {
+        public override void Configure(EntityTypeBuilder<Subscription> builder)
+        {
+            builder.HasMany(c => c.AccountSubscriptions).WithOne(c => c.Subscription).HasForeignKey(k => k.SubscriptionId);
         }
     }
 
@@ -102,6 +111,14 @@ namespace Undersoft.SDK.Service.Server.Accounts
         public override void Configure(EntityTypeBuilder<AccountConsent> builder)
         {
             builder.HasOne(c => c.Account).WithOne().HasForeignKey<AccountConsent>(k => k.AccountId);
+        }
+    }
+
+    public class ConsentMappings : EntityTypeMapping<Consent>
+    {
+        public override void Configure(EntityTypeBuilder<Consent> builder)
+        {
+            builder.HasMany(c => c.AccountConsents).WithOne(c => c.Consent).HasForeignKey(k => k.ConsentId);
         }
     }
 

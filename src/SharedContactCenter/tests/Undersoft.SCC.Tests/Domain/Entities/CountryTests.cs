@@ -7,7 +7,7 @@ using Undersoft.SDK.Service.Data.Entity;
 namespace Undersoft.SCC.Tests.Domain.Entities;
 
 /// <summary>
-/// Unit tests for the type <see cref="Country"/>.
+/// Unit tests for the type <see cref="CountryName"/>.
 /// </summary>
 [TestClass]
 public partial class CountryTests
@@ -15,7 +15,7 @@ public partial class CountryTests
     private Country _testClass;
 
     /// <summary>
-    /// Sets up the dependencies required for the tests for <see cref="Country"/>.
+    /// Sets up the dependencies required for the tests for <see cref="CountryName"/>.
     /// </summary>
     [TestInitialize]
     public void SetUp()

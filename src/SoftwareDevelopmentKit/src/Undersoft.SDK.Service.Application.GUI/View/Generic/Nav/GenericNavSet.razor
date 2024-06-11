@@ -7,45 +7,44 @@
 
 @typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
 
-<div class="generic nav-menu">
+<div class="generic-nav-set nav-menu">
     <CascadingValue Value="@Root">
-        
+
         <FluentAccordion ActiveId="@ActiveId" ExpandMode="AccordionExpandMode.Single" Style="gap:0">
-        
+
             @foreach (var rubric in Data.ExtendedRubrics)
             {
-                <FluentAccordionItem Id="@rubric.RubricName" Class="generic-nav-root fluent-nav-group fluent-nav-item" Style="margin:0px; " ExpandedChanged="@((e) => OnExpandLink(rubric))">
-                    
-                    <HeadingTemplate>
-                        <div class="generic-nav-category"  style="padding:0px; margin:0px; height:20px">
-                            
-                            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
-                                
-                                <FluentIcon Value="@(rubric.Icon)" Color="Color.Accent" Width="20px" Title="@rubric.DisplayName" Slot="start" />
-                                
-                                @if (Expanded)
-                                {
-                                    <FluentLabel Typo="Typography.Subject" Weight="FontWeight.Bold" Color="Color.FillInverse">
-                                        @rubric.DisplayName
-                                    </FluentLabel>
-                                }
+                    <FluentAccordionItem Id="@rubric.RubricName" Class="generic-nav-set-rubric fluent-nav-group fluent-nav-item" Style="margin:0px; " ExpandedChanged="@((e) => OnExpandLink(rubric))">
 
-                            </FluentStack>
+                        <HeadingTemplate>
+                            <div class="generic-nav-set-rubric-heading" style="padding:0px; margin:0px; height:20px">
 
-                        </div>
-                    </HeadingTemplate>
-                    
-                    <ChildContent>
-                        <div style="background:var(--neutral-fill-alt-rest); padding:0px; margin:0px;">
+                                <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
 
-                            <GenericNav Rubric="@rubric" Data="@(Data[rubric.RubricId])" Parent="this" />
+                                    <FluentIcon Value="@(rubric.Icon)" Color="Color.Accent" Width="20px" Title="@rubric.DisplayName" Slot="start" />
 
-                        </div>
-                    </ChildContent>
+                                    @if (Expanded)
+                                    {
+                                        <FluentLabel Typo="Typography.Subject" Weight="FontWeight.Bold" Color="Color.Accent">
+                                            @rubric.DisplayName
+                                        </FluentLabel>
+                                    }
 
-                </FluentAccordionItem>
+                                </FluentStack>
+
+                            </div>
+                        </HeadingTemplate>
+
+                        <ChildContent>
+                            <div style="background:var(--neutral-fill-alt-rest); padding:0px; margin:0px;">
+
+                                <GenericNav Rubric="@rubric" Data="@(Data[rubric.RubricId])" Parent="this" />
+
+                            </div>
+                        </ChildContent>
+                    </FluentAccordionItem>               
             }
-            
+
         </FluentAccordion>
 
     </CascadingValue>

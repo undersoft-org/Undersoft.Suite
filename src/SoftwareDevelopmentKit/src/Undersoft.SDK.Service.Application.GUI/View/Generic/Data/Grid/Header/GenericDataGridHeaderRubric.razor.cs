@@ -4,7 +4,7 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
 {
-    public partial class GenericDataGridHeaderRubric : ViewItem
+    public partial class GenericDataGridHeaderRubric : ViewItem, IViewLoadable
     {
         [CascadingParameter]
         public override IViewItem? Root
@@ -25,11 +25,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
         {
             ((IViewFilter)Rubric.ViewFilter).IsOpen = false;
             Rubric.Filters.Clear();
-
             StateHasChanged();
         }
 
-        public Task OnClickSort(MouseEventArgs args)
+        public async Task OnClickSort(MouseEventArgs args)
         {
             if (!Rubric.Sorted)
             {
@@ -43,7 +42,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
                     Rubric.SortBy = SDK.SortDirection.Descending;
             }
             StateHasChanged();
-            return ((IViewStore)Parent!).DataStore.LoadAsync();
+            await LoadViewAsync();
+        }
+
+        public async Task LoadViewAsync()
+        {
+            await ((IViewStore)Parent!).LoadViewAsync();
         }
 
 

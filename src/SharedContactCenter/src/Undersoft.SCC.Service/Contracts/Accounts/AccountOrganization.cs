@@ -35,12 +35,10 @@ public class AccountOrganization : DataObject, IContract
     public string? OrganizationWebsites { get; set; }
 
     [VisibleRubric]
-    [DisplayRubric("ContactOrganization logo")]
+    [DisplayRubric("Organization logo")]
     [ViewImage(ViewImageMode.Regular, "30px", "30px")]
     [FileRubric(FileRubricType.Property, "OrganizationImageData")]
     public string? OrganizationImage { get; set; }
 
     public byte[]? OrganizationImageData { get; set; }
-
-    public long? AccountId { get; set; }
 }

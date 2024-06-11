@@ -24,12 +24,12 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Mappings
         {
             builder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
-            ModelBuilder.RelateOneToSet<CountryState, ContactAddress>
-                (c => c.CountryState,
+            ModelBuilder.RelateOneToSet<CountryState, ContactAddress>(
+                c => c.CountryState,
                 c => c.Addresses,
                 ExpandSite.OnLeft,
-                true);
-
+                true
+            );
         }
     }
 }

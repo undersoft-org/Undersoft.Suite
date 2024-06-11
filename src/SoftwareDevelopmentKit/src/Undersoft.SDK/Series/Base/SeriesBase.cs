@@ -945,7 +945,10 @@ namespace Undersoft.SDK.Series.Base
 
         public virtual IEnumerable<V> AsValues()
         {
-            return this;
+            foreach (ISeriesItem<V> item in this)
+            {
+                yield return item.Value;
+            }
         }
         public virtual IEnumerable<ISeriesItem<V>> AsItems()
         {

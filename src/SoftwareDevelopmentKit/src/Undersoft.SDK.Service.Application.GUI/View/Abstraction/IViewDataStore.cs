@@ -9,8 +9,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
     {
         ISeries<TModel> Models { get; set; }
 
-        IQueryParameters<TModel> Query { get; set; }
-
         IViewData Attach(TModel model, bool patch = false);
 
         IViewData Detach(TModel model);
@@ -19,24 +17,24 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         Task LoadAsync(IList<TModel> models, bool patch = false);
 
-        Task LoadSingleAsync(TModel model);
-
-        event EventHandler<IEnumerable<TModel>> LoadCompleted;
+        event EventHandler<IEnumerable<IViewData>> LoadCompleted;
 
         Task UnloadAsync(IList<TModel> models);
 
-        event EventHandler<IEnumerable<TModel>> UnloadCompleted;
+        event EventHandler<IEnumerable<IViewData>> UnloadCompleted;
     }
 
     public interface IViewDataStore : IViewData
     {
-        IViewStore ViewStore { get; set; }
+        IViewStore? ViewStore { get; }
 
         ISeries<IViewData> Items { get; set; }
 
         Pagination Pagination { get; set; }
 
-        IQueryParameters MapQuery(Func<IViewData, IViewRubrics>? fromRubrics = null, Func<IViewRubric, bool>? predicate = null);
+        IQueryParameters Query { get; set; }
+
+        IQueryParameters MapQuery(Func<IViewRubric, bool>? predicate = null);
 
         IViewData Attach(object model, bool patch = false);
 

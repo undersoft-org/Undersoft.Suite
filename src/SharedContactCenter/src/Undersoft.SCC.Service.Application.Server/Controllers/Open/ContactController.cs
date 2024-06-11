@@ -20,7 +20,7 @@ public class ContactController
         long,
         IDataStore,
         Contracts.Contact,
-        ViewModels.Contact,
+        Contracts.Contact,
         ServiceManager
     >
 {

@@ -19,7 +19,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         string? Class { get; set; }
         bool IsSingle { get; }
         string Height { get; set; }
-        string Z { get; set; }
+        string? Z { get; set; }
         Icon? Icon { get; set; }
         Icon? Logo { get; set; }
         string? Href { get; set; }

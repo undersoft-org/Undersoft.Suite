@@ -22,10 +22,34 @@ public class ContactProfessional : DataObject, IContract
     public string? ProfessionIndustry { get; set; }
 
     /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? IndustryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public Industry? Industry { get; set; }
+
+    /// <summary>
     /// Gets or sets the profession.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    public string? Profession { get; set; } = default!;
+    public string? ProfessionName { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public long? ProfessionId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the profession industry.
+    /// </summary>
+    /// <value>A <see cref="string? "/></value>
+    public Profession? Profession { get; set; }
 
     /// <summary>
     /// Gets or sets the professional email.

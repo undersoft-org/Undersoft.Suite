@@ -104,38 +104,6 @@ public partial class CountryTests
     }
 
     /// <summary>
-    /// Checks that the CurrencyCode property can be read from and written to.
-    /// </summary>
-    [TestMethod]
-    public void CanSetAndGetCurrencyCode()
-    {
-        // Arrange
-        var testValue = "TestValue768492797";
-
-        // Act
-        this._testClass.CurrencyCode = testValue;
-
-        // Assert
-        this._testClass.CurrencyCode.ShouldBe(testValue);
-    }
-
-    /// <summary>
-    /// Checks that the LanguageName property can be read from and written to.
-    /// </summary>
-    [TestMethod]
-    public void CanSetAndGetLanguageName()
-    {
-        // Arrange
-        var testValue = "TestValue502297455";
-
-        // Act
-        this._testClass.LanguageName = testValue;
-
-        // Assert
-        this._testClass.LanguageName.ShouldBe(testValue);
-    }
-
-    /// <summary>
     /// Checks that the CountryImageData property can be read from and written to.
     /// </summary>
     [TestMethod]

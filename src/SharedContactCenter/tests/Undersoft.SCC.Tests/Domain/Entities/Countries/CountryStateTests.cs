@@ -88,7 +88,7 @@ public class CountryStateTests
     }
 
     /// <summary>
-    /// Checks that the Country property can be read from and written to.
+    /// Checks that the CountryName property can be read from and written to.
     /// </summary>
     [TestMethod]
     public void CanSetAndGetCountry()

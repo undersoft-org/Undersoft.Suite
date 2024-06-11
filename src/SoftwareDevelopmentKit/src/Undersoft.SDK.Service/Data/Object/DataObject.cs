@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Undersoft.SDK.Service.Data.Object;
 
-using Event;
 using Proxies;
 
 [DataContract]
@@ -22,8 +21,8 @@ public class DataObject : InnerProxy, IDataObject
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)this;
 
-        if (type.IsAssignableTo(typeof(Event)))
-            return null;
+        //if (type.IsAssignableTo(typeof(Event)))
+        //    return null;
 
         return ProxyFactory.GetCreator(type, TypeId).Create(this);
     }

@@ -8,6 +8,7 @@
 
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Data.Object.Group;
 using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SCC.Service.Application.ViewModels;
@@ -17,7 +18,7 @@ namespace Undersoft.SCC.Service.Application.ViewModels;
 /// </summary>
 [Validator("GroupValidator")]
 [ViewSize(width: "400px", height: "350px")]
-public partial class Group : DataObject, IViewModel
+public partial class Group : DataObject, IViewModel, IGroup
 {
     /// <summary>
     /// Gets or sets the name.

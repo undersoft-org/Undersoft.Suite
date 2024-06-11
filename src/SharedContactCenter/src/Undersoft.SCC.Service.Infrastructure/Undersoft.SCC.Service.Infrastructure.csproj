@@ -58,4 +58,8 @@
     <Using Include="Undersoft.SDK.Uniques" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Stores\Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -9,6 +9,7 @@
 using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Data.Object.Group;
 using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SCC.Service.Contracts
@@ -18,7 +19,7 @@ namespace Undersoft.SCC.Service.Contracts
     /// </summary>
     [Validator("GroupValidator")]
     [ViewSize(width: "400px", height: "350px")]
-    public partial class Group : DataObject, IContract
+    public partial class Group : ObjectGroup<Group>, IContract
     {
         /// <summary>
         /// Gets or sets the group image.
@@ -40,7 +41,7 @@ namespace Undersoft.SCC.Service.Contracts
         [Filterable]
         [Sortable]
         [DisplayRubric("Group name")]
-        public string? Name { get; set; }
+        public override string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the group image data.

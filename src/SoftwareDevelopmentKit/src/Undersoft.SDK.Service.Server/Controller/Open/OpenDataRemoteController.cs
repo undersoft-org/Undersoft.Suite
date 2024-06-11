@@ -25,6 +25,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
     protected Func<TKey, Expression<Func<TDto, bool>>> _keymatcher = k => e => k.Equals(e.Id);
     protected Func<TModel, Expression<Func<TDto, bool>>> _predicate;
     protected readonly EventPublishMode _publishMode = EventPublishMode.PropagateCommand;
+    protected ODataQuerySettings _settings;
 
     protected OpenDataRemoteController() { }
 
@@ -50,26 +51,34 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
         _keymatcher = keymatcher;
         _keysetter = keysetter;
         _publishMode = publishMode;
+        _settings = new ODataQuerySettings()
+        {
+            HandleNullPropagation = HandleNullPropagationOption.False,
+            HandleReferenceNavigationPropertyExpandFilter = true,
+            IgnoredQueryOptions = AllowedQueryOptions.Expand
+        };
     }
 
-    [EnableQuery]
     public virtual IQueryable<TModel> Get(ODataQueryOptions<TModel> options)
     {
-        return _servicer.Report(new RemoteGet<TStore, TDto, TModel>()).Result.Result;
+        var query = _servicer.Report(new RemoteGet<TStore, TDto, TModel>()).Result.Result;
+        var result = options.ApplyTo(query, _settings);
+        return (IQueryable<TModel>)result;
     }
 
-    [EnableQuery]
-    public virtual SingleResult<TModel> Get([FromRoute] TKey key)
+    public virtual SingleResult<TModel> Get([FromRoute] TKey key, ODataQueryOptions<TModel> options)
     {
-        return new SingleResult<TModel>(
-            (
-                _servicer.Report(
-                    new RemoteFind<TStore, TDto, TModel>(
-                        new QueryParameters<TDto>() { Filter = _keymatcher(key) }
-                    )
+        var query = (
+            _servicer.Report(
+                new RemoteFind<TStore, TDto, TModel>(
+                    new QueryParameters<TDto>() { Filter = _keymatcher(key) }
                 )
-            ).Result.Result
-        );
+            )
+        )
+            .Result
+            .Result;
+        var result = options.ApplyTo(query, _settings);
+        return new SingleResult<TModel>((IQueryable<TModel>)result);
     }
 
     public virtual async Task<IActionResult> Post([FromBody] TModel dto)
@@ -95,9 +104,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
             new RemoteChange<TStore, TDto, TModel>(_publishMode, dto, _predicate)
         );
 
-        return !result.IsValid
-            ? BadRequest(result.ErrorMessages)
-            : Updated(result.Id as object);
+        return !result.IsValid ? BadRequest(result.ErrorMessages) : Updated(result.Id as object);
     }
 
     public virtual async Task<IActionResult> Put([FromRoute] TKey key, [FromBody] TModel dto)
@@ -111,9 +118,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
             new RemoteUpdate<TStore, TDto, TModel>(_publishMode, dto, _predicate)
         );
 
-        return !result.IsValid
-            ? BadRequest(result.ErrorMessages)
-            : Updated(result.Id as object);
+        return !result.IsValid ? BadRequest(result.ErrorMessages) : Updated(result.Id as object);
     }
 
     public virtual async Task<IActionResult> Delete([FromRoute] TKey key)
@@ -125,8 +130,6 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
             new RemoteDelete<TStore, TDto, TModel>(_publishMode, key)
         );
 
-        return !result.IsValid
-            ? BadRequest(result.ErrorMessages)
-            : Updated(result.Id as object);
+        return !result.IsValid ? BadRequest(result.ErrorMessages) : Updated(result.Id as object);
     }
 }

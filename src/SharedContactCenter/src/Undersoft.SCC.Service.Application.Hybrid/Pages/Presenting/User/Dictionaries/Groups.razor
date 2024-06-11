@@ -4,4 +4,12 @@
 
 @page "/presenting/user/dictionaries/groups"
 
-<GenericDataGrid TStore="IDataStore" ShowHover="true" TModel="ViewModels.Group" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Form" Title="Groups" />
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Group"
+                 TModel="ViewModels.Group"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" Title="Groups" />

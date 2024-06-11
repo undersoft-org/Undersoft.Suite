@@ -64,7 +64,7 @@ public class ContactPersonal : Entity
     /// Gets or sets the contact.
     /// </summary>
     /// <value>A <see cref="Contact? "/></value>
-    public virtual Contact? Contact { get; set; }
+    public virtual Contact Contact { get; set; } = default!;
 
 
 }

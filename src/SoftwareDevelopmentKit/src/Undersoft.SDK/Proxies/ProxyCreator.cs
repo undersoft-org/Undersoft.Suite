@@ -110,7 +110,6 @@ public class ProxyCreator : IInstantCreator
     {
         var s = (IProxy)Type.New();
         s.Rubrics = Rubrics;
-        //s.Changes = new MemberRubrics();
         return s;
     }
 

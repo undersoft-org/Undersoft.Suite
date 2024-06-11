@@ -6,8 +6,8 @@
 //   library: Undersoft.SCC.Service.Application
 // *************************************************
 
-using Undersoft.SCC.Service.Contracts;
-using Undersoft.SCC.Service.Contracts.Countries;
+using Microsoft.OData.ModelBuilder;
+using Undersoft.SCC.Service.Application.ViewModels.Countries;
 using Undersoft.SDK.Rubrics.Attributes;
 
 namespace Undersoft.SCC.Service.Application.ViewModels.Contacts;
@@ -24,17 +24,20 @@ public class ContactAddress : DataObject, IViewModel
     public long? CountryId { get; set; }
 
     /// <summary>
-    /// Gets or sets the country.
+    /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    public Country? Country { get; set; }
+    [VisibleRubric]
+    [DisplayRubric("Country")]
+    public string? CountryName { get; set; }
 
     /// <summary>
     /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
-    [VisibleRubric]
-    public string? CountryName { get; set; }
+    [Extended]
+    [AutoExpand]
+    public Country? Country { get; set; }
 
     /// <summary>
     /// Gets or sets the state id.
@@ -43,9 +46,11 @@ public class ContactAddress : DataObject, IViewModel
     public long? CountryStateId { get; set; }
 
     /// <summary>
-    /// Gets or sets the state.
+    /// Gets or sets the country name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
+    [Extended]
+    [AutoExpand]
     public CountryState? CountryState { get; set; }
 
     /// <summary>

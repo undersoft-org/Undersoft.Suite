@@ -20,8 +20,11 @@ public class AccountSubscription : DataObject
 
     public string SubscriptionToken { get; set; }
 
-    public long? AccountId { get; set; }
-    public virtual Account Account { get; set; }
+    public long? SubscriptionId { get; set; }
+
+    public virtual Subscription Subscription { get; set; }
+
+    public virtual EntitySet<Account> Accounts { get; set; }
 }
 
 

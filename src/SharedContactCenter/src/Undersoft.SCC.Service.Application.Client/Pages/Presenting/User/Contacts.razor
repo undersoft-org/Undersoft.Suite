@@ -4,4 +4,13 @@
 
 @page "/presenting/user/contacts"
 
-<GenericDataGrid TStore="IDataStore" ShowHover="true" TModel="ViewModels.Contact" Expandable="false" Multiselect="true" Editable="true" EditMode="EditMode.Dialog" EntryMode="EntryMode.Tabs" Title="Contacts" />
+<GenericDataGrid TStore="IDataStore" 
+                 TDto="Contracts.Contact"
+                 TModel="ViewModels.Contact"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs"
+                 Title="Contacts" />

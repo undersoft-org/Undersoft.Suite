@@ -23,7 +23,7 @@ public class GroupsController
         long,
         IDataStore,
         Contracts.Group,
-        ViewModels.Group,
+        Contracts.Group,
         ServiceManager
     >
 {

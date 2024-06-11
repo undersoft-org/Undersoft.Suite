@@ -28,6 +28,9 @@ public partial class AccountStoreContext<TStore>
     public AccountStoreContext(DbContextOptions options) : base(options) { }
 
     public virtual DbSet<Account> Accounts { get; set; }
+    public virtual DbSet<Consent> Consents { get; set; }
+    public virtual DbSet<Subscription> Subscriptions { get; set; }
+    public virtual DbSet<AccountOrganization> Organizations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -42,7 +45,10 @@ public partial class AccountStoreContext<TStore>
             .ApplyMapping<AccountOrganization>(new AccountOrganizationsMappings())
             .ApplyMapping<AccountSubscription>(new AccountSubscriptionsMappings())
             .ApplyMapping<AccountConsent>(new AccountConsentsMappings())
-            .ApplyMapping<AccountPayment>(new AccountPaymentsMappings());
+            .ApplyMapping<AccountPayment>(new AccountPaymentsMappings())
+            .ApplyMapping<Consent>(new ConsentMappings())
+            .ApplyMapping<Subscription>(new SubscriptionsMappings());
+
 
         builder.Entity<Account>(entity =>
         {
@@ -103,6 +109,14 @@ public partial class AccountStoreContext<TStore>
         builder.Entity<AccountCredentials>(entity =>
         {
             entity.ToTable("AccountCredentials");
+        });
+        builder.Entity<Subscription>(entity =>
+        {
+            entity.ToTable("Subscriptions");
+        });
+        builder.Entity<Consent>(entity =>
+        {
+            entity.ToTable("Consents");
         });
     }
 

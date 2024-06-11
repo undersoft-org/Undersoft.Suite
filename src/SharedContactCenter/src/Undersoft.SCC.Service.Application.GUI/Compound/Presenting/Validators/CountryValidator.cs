@@ -12,7 +12,7 @@ using Undersoft.SDK.Service.Application.GUI.View;
 
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Validatore;
 
-using Undersoft.SCC.Service.Contracts;
+using Undersoft.SCC.Service.Application.ViewModels;
 
 /// <summary>
 /// The country validator.

@@ -116,7 +116,7 @@ public class ContactTests
                 AddressId = 72070569L,
                 Address = new ContactAddress
                 {
-                    Country = "TestValue1841052631",
+                    CountryName = "TestValue1841052631",
                     State = "TestValue1842082161",
                     City = "TestValue765059608",
                     Postcode = "TestValue1861297380",
@@ -141,7 +141,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 OrganizationId = 764805804L,
-                Organization = new ContactOrganization
+                Organization = new Organization
                 {
                     OrganizationIndustry = "TestValue2037425187",
                     OrganizationName = "TestValue566299189",
@@ -190,7 +190,7 @@ public class ContactTests
         // Arrange
         var testValue = new ContactAddress
         {
-            Country = "TestValue1616046837",
+            CountryName = "TestValue1616046837",
             State = "TestValue1248456296",
             City = "TestValue1243548307",
             Postcode = "TestValue11280945",
@@ -233,7 +233,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 OrganizationId = 1970439693L,
-                Organization = new ContactOrganization
+                Organization = new Organization
                 {
                     OrganizationIndustry = "TestValue174437051",
                     OrganizationName = "TestValue1318137932",
@@ -311,7 +311,7 @@ public class ContactTests
                 AddressId = 1037330006L,
                 Address = new ContactAddress
                 {
-                    Country = "TestValue1751617393",
+                    CountryName = "TestValue1751617393",
                     State = "TestValue1179287588",
                     City = "TestValue2057511032",
                     Postcode = "TestValue982852057",
@@ -325,7 +325,7 @@ public class ContactTests
                 ProfessionalId = 546226413L,
                 Professional = default(ContactProfessional),
                 OrganizationId = 184535099L,
-                Organization = new ContactOrganization
+                Organization = new Organization
                 {
                     OrganizationIndustry = "TestValue479142894",
                     OrganizationName = "TestValue1919283192",
@@ -372,7 +372,7 @@ public class ContactTests
     public void CanSetAndGetOrganization()
     {
         // Arrange
-        var testValue = new ContactOrganization
+        var testValue = new Organization
         {
             OrganizationIndustry = "TestValue1988201119",
             OrganizationName = "TestValue332571071",
@@ -404,7 +404,7 @@ public class ContactTests
                 AddressId = 220008944L,
                 Address = new ContactAddress
                 {
-                    Country = "TestValue254100788",
+                    CountryName = "TestValue254100788",
                     State = "TestValue1970281817",
                     City = "TestValue1169160778",
                     Postcode = "TestValue1461876990",
@@ -429,7 +429,7 @@ public class ContactTests
                     Contact = default(Contact)
                 },
                 OrganizationId = 1265525775L,
-                Organization = default(ContactOrganization),
+                Organization = default(Organization),
                 Groups = new EntitySet<Group>()
             }
         };

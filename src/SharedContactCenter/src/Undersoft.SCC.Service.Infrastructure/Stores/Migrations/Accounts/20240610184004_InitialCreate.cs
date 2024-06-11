@@ -16,6 +16,61 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "Accounts");
 
             migrationBuilder.CreateTable(
+                name: "AccountOrganizations",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    OrganizationIndustry = table.Column<string>(type: "text", nullable: true),
+                    OrganizationName = table.Column<string>(type: "text", nullable: true),
+                    OrganizationFullName = table.Column<string>(type: "text", nullable: true),
+                    OrganizationWebsites = table.Column<string>(type: "text", nullable: true),
+                    PositionInOrganization = table.Column<string>(type: "text", nullable: true),
+                    OrganizationImage = table.Column<string>(type: "text", nullable: true),
+                    OrganizationImageData = table.Column<byte[]>(type: "bytea", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountOrganizations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Consents",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    TermsText = table.Column<string>(type: "text", nullable: true),
+                    PersonalDataText = table.Column<string>(type: "text", nullable: true),
+                    MarketingText = table.Column<string>(type: "text", nullable: true),
+                    ThirdPartyText = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Credentials",
                 schema: "Accounts",
                 columns: table => new
@@ -104,6 +159,37 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    SubscriptionName = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionDescription = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionExpireDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    SubscriptionQuantity = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionValue = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionPeriod = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionCurrency = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionStatus = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionToken = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 schema: "Accounts",
                 columns: table => new
@@ -133,6 +219,44 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountSubscriptions",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    SubscriptionName = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionDescription = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionExpireDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    SubscriptionQuantity = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionValue = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionPeriod = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionCurrency = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionStatus = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionToken = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountSubscriptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountSubscriptions_Subscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
+                        principalSchema: "Accounts",
+                        principalTable: "Subscriptions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -206,11 +330,18 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                     MarketingConsent = table.Column<bool>(type: "boolean", nullable: false),
                     ThirdPartyText = table.Column<string>(type: "text", nullable: true),
                     ThirdPartyConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    ConsentId = table.Column<long>(type: "bigint", nullable: true),
                     AccountId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountConsents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountConsents_Consents_ConsentId",
+                        column: x => x.ConsentId,
+                        principalSchema: "Accounts",
+                        principalTable: "Consents",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -248,36 +379,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountLogins", x => new { x.LoginProvider, x.ProviderKey });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountOrganizations",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    OrganizationIndustry = table.Column<string>(type: "text", nullable: true),
-                    OrganizationName = table.Column<string>(type: "text", nullable: true),
-                    OrganizationFullName = table.Column<string>(type: "text", nullable: true),
-                    OrganizationWebsites = table.Column<string>(type: "text", nullable: true),
-                    PositionInOrganization = table.Column<string>(type: "text", nullable: true),
-                    OrganizationImage = table.Column<string>(type: "text", nullable: true),
-                    OrganizationImageData = table.Column<byte[]>(type: "bytea", nullable: true),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountOrganizations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -494,6 +595,12 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         principalTable: "AccountProffesionals",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_Accounts_AccountSubscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
+                        principalSchema: "Accounts",
+                        principalTable: "AccountSubscriptions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Accounts_Credentials_CredentialsId",
                         column: x => x.CredentialsId,
                         principalSchema: "Accounts",
@@ -504,44 +611,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                         column: x => x.NotesId,
                         principalSchema: "Accounts",
                         principalTable: "OperationNotes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountSubscriptions",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    SubscriptionName = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionDescription = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionExpireDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    SubscriptionQuantity = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionValue = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionPeriod = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionCurrency = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionStatus = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionToken = table.Column<string>(type: "text", nullable: true),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountSubscriptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AccountSubscriptions_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalSchema: "Accounts",
-                        principalTable: "Accounts",
                         principalColumn: "Id");
                 });
 
@@ -634,6 +703,12 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountConsents_ConsentId",
+                schema: "Accounts",
+                table: "AccountConsents",
+                column: "ConsentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AccountCredentials_AccountId",
                 schema: "Accounts",
                 table: "AccountCredentials",
@@ -644,13 +719,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 schema: "Accounts",
                 table: "AccountLogins",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AccountOrganizations_AccountId",
-                schema: "Accounts",
-                table: "AccountOrganizations",
-                column: "AccountId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountPayments_AccountId",
@@ -715,8 +783,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "IX_Accounts_OrganizationId",
                 schema: "Accounts",
                 table: "Accounts",
-                column: "OrganizationId",
-                unique: true);
+                column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_PaymentId",
@@ -743,8 +810,7 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "IX_Accounts_SubscriptionId",
                 schema: "Accounts",
                 table: "Accounts",
-                column: "SubscriptionId",
-                unique: true);
+                column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",
@@ -754,11 +820,10 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountSubscriptions_AccountId",
+                name: "IX_AccountSubscriptions_SubscriptionId",
                 schema: "Accounts",
                 table: "AccountSubscriptions",
-                column: "AccountId",
-                unique: true);
+                column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountTokens_AccountId",
@@ -852,15 +917,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AccountOrganizations_Accounts_AccountId",
-                schema: "Accounts",
-                table: "AccountOrganizations",
-                column: "AccountId",
-                principalSchema: "Accounts",
-                principalTable: "Accounts",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_AccountPayments_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountPayments",
@@ -908,15 +964,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Accounts_AccountSubscriptions_SubscriptionId",
-                schema: "Accounts",
-                table: "Accounts",
-                column: "SubscriptionId",
-                principalSchema: "Accounts",
-                principalTable: "AccountSubscriptions",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Accounts_AccountUsers_UserId",
                 schema: "Accounts",
                 table: "Accounts",
@@ -941,11 +988,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 table: "AccountConsents");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AccountOrganizations_Accounts_AccountId",
-                schema: "Accounts",
-                table: "AccountOrganizations");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_AccountPayments_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountPayments");
@@ -959,11 +1001,6 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "FK_AccountProffesionals_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountProffesionals");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AccountSubscriptions_Accounts_AccountId",
-                schema: "Accounts",
-                table: "AccountSubscriptions");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_AccountUsers_Accounts_AccountId",
@@ -1044,6 +1081,14 @@ namespace Undersoft.SCC.Service.Infrastructure.Stores.Migrations.Accounts
 
             migrationBuilder.DropTable(
                 name: "OperationNotes",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Consents",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions",
                 schema: "Accounts");
         }
     }
