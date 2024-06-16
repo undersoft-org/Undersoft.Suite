@@ -356,7 +356,6 @@ public class StoreRepository<TStore, TEntity>
         IRemoteSynchronizer synchronizer
     ) : base(pool.ContextPool)
     {
-        mapper = cache.Mapper;
         this.cache = cache;
         synchronizer.AddRepository(this);
         RemoteProperties = remoteProps.DoEach(

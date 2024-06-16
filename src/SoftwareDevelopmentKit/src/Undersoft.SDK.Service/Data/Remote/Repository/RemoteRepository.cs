@@ -10,7 +10,6 @@ using Series;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Data.Client;
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SDK.Service.Data.Mapper;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Repository;
 using Undersoft.SDK.Service.Data.Repository.Client;
@@ -26,7 +25,6 @@ public class RemoteRepository<TStore, TEntity>
     public RemoteRepository(IRepositoryContextPool<OpenDataClient<TStore>> pool)
         : base(pool.ContextPool)
     {
-        mapper = DataMapper.GetMapper();
     }
 
     public RemoteRepository(
@@ -34,7 +32,6 @@ public class RemoteRepository<TStore, TEntity>
         IEntityCache<TStore, TEntity> cache
     ) : base(pool.ContextPool)
     {
-        mapper = cache.Mapper;
         this.cache = cache;
     }
 
@@ -45,7 +42,6 @@ public class RemoteRepository<TStore, TEntity>
     ) : base(pool.ContextPool)
     {
         RemoteContext.SetAuthorization(authorization.Credentials.SessionToken);
-        mapper = cache.Mapper;
         this.cache = cache;
     }
 

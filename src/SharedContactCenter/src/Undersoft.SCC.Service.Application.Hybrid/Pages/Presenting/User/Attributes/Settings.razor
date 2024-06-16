@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/attributes/settings"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Setting"
+                 TModel="ViewModels.Setting"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form"
+                 Title="Settings" />

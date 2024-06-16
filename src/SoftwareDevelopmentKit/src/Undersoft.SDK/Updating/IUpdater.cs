@@ -1,4 +1,13 @@
-﻿using Undersoft.SDK.Instant;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SDK
+// *************************************************
+
+
+using Undersoft.SDK.Instant;
 
 namespace Undersoft.SDK.Updating;
 

@@ -1,4 +1,6 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
+using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.User;
+
 
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
@@ -13,9 +15,6 @@ using Undersoft.SDK.Service.Application.GUI.View.Attributes;
 using Undersoft.SDK.Service.Data.Object;
 
 namespace Undersoft.SCC.Service.Application.GUI.Compound.Presenting.Admin;
-
-using Undersoft.SCC.Service.Application.GUI.Compound.Presenting.User;
-
 /// <summary>
 /// The admin nav menu.
 /// </summary>
@@ -24,29 +23,29 @@ public class AdminNavMenu : DataObject
     /// <summary>
     /// Gets or sets the contacts.
     /// </summary>
-    /// <value>An <see cref="AdminContacts"/></value>
+    /// <value>A <see cref="Presenting.Members"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("ContactsIcon")]
-    [Link("/presenting/admin/contacts")]
-    public AdminContacts Contacts { get; set; } = new AdminContacts();
+    [IconRubric("MembersIcon")]
+    [Link("/presenting/admin/members")]
+    public AdminMembers Members { get; set; } = new AdminMembers();
     /// <summary>
     /// The contacts icon.
     /// </summary>
-    public Icon ContactsIcon = new Icons.Regular.Size24.BookContacts();
+    public Icon MembersIcon = new Icons.Regular.Size24.Apps();
 
     /// <summary>
     /// Gets or sets the dictionaries.
     /// </summary>
-    /// <value>An <see cref="AdminDictionaries"/></value>
+    /// <value>A <see cref="Attributes"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("DictionariesIcon")]
-    public AdminDictionaries Dictionaries { get; set; } = new AdminDictionaries();
+    [IconRubric("AttributesIcon")]
+    public AdminAttributes Attributes { get; set; } = new AdminAttributes();
     /// <summary>
     /// The dictionaries icon.
     /// </summary>
-    public Icon DictionariesIcon = new Icons.Regular.Size24.BookOpen();
+    public Icon AttributesIcon = new Icons.Regular.Size24.AppsListDetail();
 
     /// <summary>
     /// Gets or sets the administration.
@@ -59,6 +58,6 @@ public class AdminNavMenu : DataObject
     /// <summary>
     /// The administration icon.
     /// </summary>
-    public Icon AdministrationIcon = new Icons.Regular.Size24.PersonPasskey();
+    public Icon AdministrationIcon = new Icons.Regular.Size24.WindowDevTools();
 }
 

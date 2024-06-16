@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/admin/attributes/details"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Detail"
+                 TModel="ViewModels.Detail"
+                 ShowHover="true"
+                 Expandable="true"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" Title="Details" />

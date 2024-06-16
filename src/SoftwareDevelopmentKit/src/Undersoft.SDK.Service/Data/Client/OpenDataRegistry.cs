@@ -40,6 +40,9 @@ public static class OpenDataRegistry
         var metadataUri = context.GetMetadataUri();
         // Create a HTTP request to the metadata's Uri
         // in order to get a representation for the data model
+        XmlReaderSettings settings = new XmlReaderSettings();
+        settings.DtdProcessing = DtdProcessing.Ignore;
+
         HttpClientHandler clientHandler = new HttpClientHandler();
         using (
             HttpClient client = new HttpClient(clientHandler)
@@ -78,7 +81,7 @@ public static class OpenDataRegistry
                             // Translate the response into an in-memory stream
                             using (var stream = await response.Content.ReadAsStreamAsync())
                             { // Convert the stream into an XML representation
-                                using (var reader = XmlReader.Create(stream))
+                                using (var reader = XmlReader.Create(stream, settings))
                                 { // Parse the XML representation of the data model
                                     // into an EDM that can be utilized by OData client libraries
                                     return CsdlReader.Parse(reader);

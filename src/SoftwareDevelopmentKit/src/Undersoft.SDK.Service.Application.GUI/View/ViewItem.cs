@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
@@ -46,11 +45,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             if (Parent != null)
                 Parent.Children.Put(this);
             base.OnInitialized();
-        }
-
-        protected override void BuildRenderTree(RenderTreeBuilder __builder)
-        {
-            __builder.AddContent(0, ChildContent);
         }
 
         [Parameter]

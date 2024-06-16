@@ -24,17 +24,18 @@
 
                                     <div class="datagrid" tabindex="-1">
 
-                                         <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
+                                        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
 
-                                        @if (ShowTitle)
-                                        {
-                                            <FluentLabel Typo="Typography.H2" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 5px 0px">
-                                                @Title
-                                            </FluentLabel>
-                                        }
-                                        <FluentSpacer/>
+                                            @if (ShowTitle)
+                                            {
+                                                <FluentLabel Typo="Typography.H2" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 5px 0px">
+                                                    @Title
+                                                </FluentLabel>
+                                            }
+                                            <FluentSpacer />
 
-                                        <GenericDataGridPagination Parent="this"/>
+                                            <GenericDataGridPagination Parent="this" />
+
                                         </FluentStack>
                                         <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
@@ -45,8 +46,6 @@
                                         </FluentDataGrid>
 
                                     </div>
-
-                                    <GenericDataGridFooter Parent="@this" />
 
                                 </CascadingValue>
                             </CascadingValue>

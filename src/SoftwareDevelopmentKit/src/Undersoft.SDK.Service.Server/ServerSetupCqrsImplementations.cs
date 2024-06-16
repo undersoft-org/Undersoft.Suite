@@ -42,8 +42,6 @@ public partial class ServerSetup
             .Select(t => t.UnderlyingSystemType)
             .ToArray();
 
-        IDataMapper mapper = registry.GetObject<IDataMapper>();
-
         Catalog<Type> duplicateCheck = new Catalog<Type>();
         Type[] storeTypes = DataStoreRegistry.Stores
             .Where(s => s.IsAssignableTo(typeof(IDataServiceStore)))

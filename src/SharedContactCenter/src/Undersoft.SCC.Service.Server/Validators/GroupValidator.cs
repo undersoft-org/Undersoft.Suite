@@ -16,7 +16,7 @@ using Undersoft.SCC.Service.Contracts;
 /// <summary>
 /// The group validator.
 /// </summary>
-public class GroupValidator : RemoteCommandValidator<Group>
+public class GroupValidator : RemoteCommandValidator<GroupNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GroupValidator"/> class.

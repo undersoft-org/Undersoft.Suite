@@ -6,22 +6,28 @@
 //   library: Undersoft.SCC.Service
 // *************************************************
 
-namespace Undersoft.SCC.Service.Contracts;
+using System.Runtime.Serialization;
+using Undersoft.SCC.Domain.Entities.Enums;
+using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Object.Setting;
 
-/// <summary>
-/// The setting.
-/// </summary>
-public class Setting : SettingEdge
+namespace Undersoft.SCC.Service.Contracts
 {
     /// <summary>
-    /// Gets or sets the related from.
+    /// The setting.
     /// </summary>
-    /// <value>An TODO: Add missing XML "/&gt;</value>
-    public virtual EntitySet<SettingEdge>? RelatedFrom { get; set; }
+    [DataContract]
+    public class Setting : ObjectSetting<Setting, SettingKind>, ISetting, IContract
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingNode"/> class.
+        /// </summary>
+        public Setting() : base() { }
 
-    /// <summary>
-    /// Gets or sets the related converts to.
-    /// </summary>
-    /// <value>An TODO: Add missing XML "/&gt;</value>
-    public virtual EntitySet<SettingEdge>? RelatedTo { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingNode"/> class.
+        /// </summary>
+        /// <param name="kind">The kind.</param>
+        public Setting(SettingKind kind) : base(kind) { }
+    }
 }

@@ -16,22 +16,22 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     where TModel : class, IOrigin, IInnerProxy
     where TStore : IDataServiceStore
 {
-    protected IRemoteRepository<TStore, TDto> _repository = default!;
+    protected IRemoteRepository<TStore, TDto>? _repository;
 
     protected IServicer? _servicer => ViewStore?.Servicer;
 
-    protected IServiceScope _session = default!;
+    protected IServiceScope? _session;
 
-    protected IViewStore? _store = default!;
+    protected IViewStore? _store;
 
     public ViewDataStore() : base()
     {
-        MapRubrics(t => t.Rubrics, p => p.Visible);
+        Pagination = new Pagination();
     }
 
     public ViewDataStore(TModel model) : base(model)
     {
-        MapRubrics(t => t.Rubrics, p => p.Visible);
+        Pagination = new Pagination();
     }
 
     public ViewDataStore(IList<TModel> models) : this()
@@ -45,6 +45,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         {
             Root = this;
             ViewItem = store;
+            MapRubrics();
             OpenSession();
         }
     }
@@ -56,6 +57,12 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
             setup(this);
     }
 
+    public virtual void MapRubrics()
+    {
+        base.MapRubrics(t => t.Rubrics, p => p.Visible);
+        base.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+    }
+
     public override IViewRubrics MapRubrics(
         Func<IViewData, IViewRubrics> forRubrics,
         Func<IRubric, bool> predicate
@@ -63,8 +70,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     {
         base.MapRubrics(forRubrics, predicate);
         base.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-        ExtendedRubrics.ForEach(r => Query.ExpandItems.Add(r.RubricName));
-        return Rubrics;
+        return forRubrics(this);
     }
 
     public virtual IQueryParameters MapQuery(Func<IViewRubric, bool>? predicate = null)
@@ -72,10 +78,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         var query = Rubrics.GetQuery(predicate);
 
         Query = new QueryParameters<TDto>(query.FilterItems, query.SortItems);
-
-        Query.Offset = Pagination.Offset;
+        Query.Offset = Pagination!.Offset;
         Query.Limit = Pagination.PageSize;
-
         return Query;
     }
 
@@ -152,7 +156,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         }
     }
 
-    public IQueryParameters Query { get; set; } = new QueryParameters<TDto>();
+    public IQueryParameters? Query { get; set; }
 
     public virtual async Task LoadSingleAsync(TModel single)
     {
@@ -179,7 +183,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         MapQuery();
 
         _repository = RemoteStore();
-        var predicate = Query.GetFilter<TDto>();
+
+        var predicate = Query!.GetFilter<TDto>();
         var sort = Query.GetSort<TDto>();
         var expands = Query.GetExpanders<TDto>();
 
@@ -199,7 +204,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         if (_repository != null)
         {
             bool includeCount = false;
-            if (Pagination.TotalCount < 0 || Pagination.CountChanged)
+            if (Pagination!.TotalCount < 0 || Pagination.CountChanged)
                 includeCount = true;
 
             var response = await LoadRemoteAsync(
@@ -257,7 +262,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         else
             return;
 
-        Pagination.DecreaseTotalCount(models.Count);
+        Pagination!.DecreaseTotalCount(models.Count);
 
         if (
             _repository != null
@@ -390,11 +395,11 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                 ? (IViewStore?)ViewItem!
                 : null;
 
-    public ISeries<TModel> Models { get; set; } = default!;
+    public ISeries<TModel>? Models { get; set; }
 
-    public ISeries<IViewData> Items { get; set; } = default!;
+    public ISeries<IViewData>? Items { get; set; }
 
-    public Pagination Pagination { get; set; } = new Pagination();
+    public Pagination? Pagination { get; set; }
 
     public virtual IViewData Attach(object model, bool patch = false)
     {
@@ -407,8 +412,11 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         {
             data = new ViewData<TModel>(model) { Root = this.Root, Parent = this };
 
-            data.MapRubrics(t => t.Rubrics, p => p.Visible);
-            data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            //data.MapRubrics(t => t.Rubrics, p => p.Visible);
+            //data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+
+            data.Rubrics.Add(Rubrics);
+            data.ExtendedRubrics.Add(ExtendedRubrics);
 
             var extends = ExtendedRubrics
                 .ForEach(r =>
@@ -423,11 +431,18 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                     }
 
                     if (type.IsAssignableTo(typeof(IEnumerable)))
+                    {
                         type = type.GetEnumerableElementType();
-
-                    return typeof(ViewDataStore<,>)
-                        .MakeGenericType(typeof(TStore), type)
-                        .New<IViewData>(value);
+                        return typeof(ViewDataStore<,>)
+                            .MakeGenericType(typeof(TStore), type)
+                            .New<IViewData>(value);
+                    }
+                    else
+                    {
+                        return typeof(ViewData<>)
+                          .MakeGenericType(type)
+                          .New<IViewData>(value);
+                    }
                 })
                 .Commit();
 
@@ -514,17 +529,17 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     protected ISeries<IViewData> LoadLocal(bool patch = false)
     {
         MapQuery();
-        var predicate = Query.GetFilter<TModel>();
-        var sort = Query.GetSort<TModel>();
-        var expands = Query.GetExpanders<TModel>();
+        var predicate = Query?.GetFilter<TModel>();
+        var sort = Query?.GetSort<TModel>();
+        var expands = Query?.GetExpanders<TModel>();
 
         IQueryable<TModel>? query = null;
         if (predicate != null)
-            query = sort.Sort(Models.AsQueryable().Where(predicate));
+            query = sort?.Sort(Models?.AsQueryable().Where(predicate));
         else
-            query = sort.Sort(Models.AsQueryable());
+            query = sort?.Sort(Models?.AsQueryable());
 
-        query = query.Skip(Pagination.Offset).Take(Pagination.PageSize);
+        query = query?.Skip(Pagination!.Offset).Take(Pagination.PageSize);
 
         return Items = query.ForEach(d => Attach(d, patch)).ToListing();
     }
@@ -576,7 +591,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
             Items = this;
 
-            Pagination.SetTotalCount(-1);
+            Pagination?.SetTotalCount(-1);
         });
     }
 

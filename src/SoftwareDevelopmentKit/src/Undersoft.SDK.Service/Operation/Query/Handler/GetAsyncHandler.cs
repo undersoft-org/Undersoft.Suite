@@ -25,7 +25,7 @@ public class GetAsyncHandler<TStore, TEntity, TDto>
         CancellationToken cancellationToken
     )
     {
-        return _repository.GetAsync<TDto>(
+        return _repository.GetStreamAsync<TDto>(
             request.Offset,
             request.Limit,
             request.Parameters.Sort,

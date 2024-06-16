@@ -22,28 +22,28 @@ public class UserNavMenu : DataObject
     /// <summary>
     /// Gets or sets the contacts.
     /// </summary>
-    /// <value>An <see cref="UserContacts"/></value>
+    /// <value>A <see cref="Presenting.Members"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("ContactsIcon")]
-    [Link("/presenting/user/contacts")]
-    public UserContacts Contacts { get; set; } = new UserContacts();
+    [IconRubric("MembersIcon")]
+    [Link("/presenting/user/members")]
+    public UserMembers Members { get; set; } = new UserMembers();
     /// <summary>
     /// The contacts icon.
     /// </summary>
-    public Icon ContactsIcon = new Icons.Regular.Size24.BookContacts();
+    public Icon MembersIcon = new Icons.Regular.Size24.Apps();
 
     /// <summary>
     /// Gets or sets the dictionaries.
     /// </summary>
-    /// <value>An <see cref="UserDictionaries"/></value>
+    /// <value>A <see cref="Attributes"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("DictionariesIcon")]
-    public UserDictionaries Dictionaries { get; set; } = new UserDictionaries();
+    [IconRubric("AttributesIcon")]
+    public UserAttributes Attributes { get; set; } = new UserAttributes();
     /// <summary>
     /// The dictionaries icon.
     /// </summary>
-    public Icon DictionariesIcon = new Icons.Regular.Size24.BookOpen();
+    public Icon AttributesIcon = new Icons.Regular.Size24.AppsListDetail();
 }
 

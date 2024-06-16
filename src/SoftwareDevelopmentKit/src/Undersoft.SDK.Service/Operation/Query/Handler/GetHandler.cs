@@ -25,17 +25,14 @@ public class GetHandler<TStore, TEntity, TDto>
         CancellationToken cancellationToken
     )
     {
-        if (typeof(TEntity) != typeof(TDto))
-            request.Result = await _repository
-                .GetQueryAsync<TDto>(
-                    request.Offset,
-                    request.Limit,
-                    request.Parameters.Sort,
-                    request.Parameters.Expanders
-                )
-                .ConfigureAwait(false);
-        else
-            request.Result = (IQueryable<TDto>)_repository[request.Offset, request.Limit, _repository[request.Parameters.Sort, request.Parameters.Expanders]];
+        request.Result = await _repository
+            .GetQueryAsync<TDto>(
+                request.Offset,
+                request.Limit,
+                request.Parameters.Sort,
+                request.Parameters.Expanders
+            )
+            .ConfigureAwait(false);
 
         return request;
     }

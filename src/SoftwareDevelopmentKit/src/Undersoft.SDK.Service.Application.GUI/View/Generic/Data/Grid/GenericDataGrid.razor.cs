@@ -42,7 +42,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
             var dataType = typeof(ViewData<>).MakeGenericType(typeof(TModel));
             var data = dataType.New<IViewData<TModel>>();
-            data.MapRubrics(r => r.Rubrics, v => v.Visible);
+            data.BasicMapRubrics(r => r.Rubrics, v => v.Visible);
 
             var templateArray = data.Rubrics
                 .ForEach(r =>

@@ -129,10 +129,8 @@ public static class MauiProgram
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Member>>, MemberValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                    .AddScoped<AccountValidator>()
-                    .AddScoped<AccessValidator>()
-                    .AddScoped<MemberValidator>()
-                    .AddScoped<GroupValidator>();
+                    .AddScoped<IValidator<IViewData<ViewModels.Detail>>, DetailValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Setting>>, SettingValidator>();
                 reg.MergeServices(services, true);
             }
         );

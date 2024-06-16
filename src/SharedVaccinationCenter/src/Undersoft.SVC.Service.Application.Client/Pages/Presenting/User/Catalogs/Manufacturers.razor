@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/catalogs/manufacturers"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Manufacturer"
+                 TModel="ViewModels.Manufacturer"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Manufacturers" />

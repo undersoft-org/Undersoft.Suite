@@ -19,7 +19,7 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Api;
 /// <summary>
 /// The contacts controller.
 /// </summary>
-[Route($"{StoreRoutes.ApiDataRoute}/Contact")]
+[Route($"{StoreRoutes.ApiDataRoute}/Member")]
 public class MembersController
     : ApiDataRemoteController<
         long,

@@ -17,7 +17,7 @@ using Undersoft.SCC.Service.Contracts;
 /// <summary>
 /// The contacts validator.
 /// </summary>
-public class MembersValidator : RemoteCommandSetValidator<Member>
+public class MembersValidator : RemoteCommandSetValidator<MemberNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MembersValidator"/> class.

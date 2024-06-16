@@ -13,7 +13,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View;
 public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
     where TModel : class, IOrigin, IInnerProxy
 {
-    protected IProxy _proxy = default!;
     protected IView _view = default!;
     protected IViewItem _viewItem = default!;
     protected long? typeId;
@@ -27,7 +26,6 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
     public ViewData(TModel data, OperationType mode, string title = "") : base(true)
     {
         Model = data;
-        _proxy = data.Proxy;
         Title = title;
         Operation = mode;
     }
@@ -45,15 +43,9 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
         var rubrics = forRubrics(this);
         if (!rubrics.Any())
         {
-            if (Parent != null && Parent.TypeId == TypeId)
+            if (Parent != null && Parent.Model.TypeId == Model.TypeId)
             {
-                rubrics.Add(forRubrics(Parent).ForEach(r =>
-                    {
-                        var rubric = (ViewRubric)(object)r.ShallowCopy(new ViewRubric());
-                        rubric.ViewItem = default!;
-                        return rubric;
-                    }
-                ));
+                rubrics.Add(forRubrics(Parent));
                 Validator = Parent.Validator;
                 ValidatorType = Parent.ValidatorType;
                 ValidatorTypeName = Parent.ValidatorTypeName;
@@ -68,23 +60,41 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
                     Validator = typeof(GenericValidator<,>).MakeGenericType(ValidatorType, typeof(TModel)).New<IViewValidator>();
                 }
 
-                rubrics.Add(
-                    _proxy.Rubrics.ForOnly(r =>
-                        predicate(r),
-                        r => (ViewRubric)(object)r.ShallowCopy(new ViewRubric())
-                    )
-                );
-                rubrics.ForEach(r => ViewAttributes.Resolve(r)).Commit();
-                rubrics
-                    .ForOnly(r => r.IconMember != null, r => r.Icon = (Icon)_proxy[r.IconMember])
-                    .Commit();
-                rubrics
-                    .ForOnly(
-                        r => r.Icon == null && _proxy.Rubrics.ContainsKey(r.RubricName + "Icon"),
-                        r => r.Icon = (Icon)_proxy[r.RubricName + "Icon"]
-                    )
-                    .Commit();
-                rubrics.ForEach((r, x) => r.RubricOrdinal = x).Commit();
+                var _proxy = Model.Proxy;
+                int ordinal = 0;
+                foreach (var mr in _proxy.Rubrics.Where(_mr => predicate(_mr)))
+                {
+                    ViewRubric vr = (ViewRubric)mr.ShallowCopy(new ViewRubric());
+                    ViewAttributes.Resolve(vr);
+                    if (vr.IconMember != null)
+                        vr.Icon = (Icon)_proxy[vr.IconMember];
+                    vr.RubricOrdinal = ordinal++;
+                    rubrics.Put(vr);
+                }
+            }
+        }
+        return rubrics;
+    }
+
+    public virtual IViewRubrics BasicMapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate)
+    {
+        var rubrics = forRubrics(this);
+        if (!rubrics.Any())
+        {
+            if (Parent != null && Parent.Model.TypeId == Model.TypeId)
+            {
+                rubrics.Add(forRubrics(Parent));
+            }
+            else
+            {
+                var _proxy = Model.Proxy;
+                int ordinal = 0;
+                foreach (var mr in _proxy.Rubrics.Where(_mr => predicate(_mr)))
+                {
+                    ViewRubric vr = (ViewRubric)mr.ShallowCopy(new ViewRubric());
+                    vr.RubricOrdinal = ordinal++;
+                    rubrics.Put(vr);
+                }
             }
         }
         return rubrics;
@@ -104,12 +114,14 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual void InstantiateNulls(Func<IViewData, IViewRubrics> forRubrics)
     {
+        var _proxy = Model.Proxy;
         var rubrics = forRubrics(this);
         rubrics.ForOnly(r => _proxy[r.RubricId] == null, r => _proxy[r.RubricId] = r.RubricType.New()).Commit();
     }
 
     public virtual void SetRequired(params string[] requiredList)
     {
+        var _proxy = Model.Proxy;
         var rubrics = requiredList
             .ForEach(r => (ViewRubric)(object)_proxy.Rubrics[r].ShallowCopy(new ViewRubric()))
             .Commit();
@@ -128,6 +140,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual void SetVisible(params string[] visibleList)
     {
+        var _proxy = Model.Proxy;
         var rubrics = visibleList
             .ForEach(r => (ViewRubric)(object)_proxy.Rubrics[r].ShallowCopy(new ViewRubric()))
             .Commit();
@@ -143,6 +156,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual void SetExpandable(params string[] expandableList)
     {
+        var _proxy = Model.Proxy;
         var rubrics = expandableList
             .ForEach(r => (ViewRubric)(object)_proxy.Rubrics[r].ShallowCopy(new ViewRubric()))
             .Commit();
@@ -158,6 +172,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual void SetEditable(params string[] editableList)
     {
+        var _proxy = Model.Proxy;
         var rubrics = editableList
             .ForEach(r => (ViewRubric)(object)_proxy.Rubrics[r].ShallowCopy(new ViewRubric()))
             .Commit();
@@ -182,9 +197,9 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public bool IsSingle => Count == 0;
 
-    public string? Title { get; set; } = null;
+    public string? Title { get; set; }
 
-    public string? Description { get; set; } = null;
+    public string? Description { get; set; }
 
     public Icon? Icon { get; set; }
 
@@ -225,7 +240,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public OperationType Operation { get; set; }
 
-    public IViewRubric ActiveRubric { get; set; } = default!;
+    public IViewRubric? ActiveRubric { get; set; }
 
     public IViewRubrics Rubrics { get; set; } = new ViewRubrics();
 
@@ -235,11 +250,11 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public bool ExtendedRubricsEnabled { get; set; } = true;
 
-    public IViewValidator Validator { get; set; } = default!;
+    public IViewValidator? Validator { get; set; }
 
-    public Type? ValidatorType { get; set; } = default!;
+    public Type? ValidatorType { get; set; }
 
-    public string? ValidatorTypeName { get; set; } = default!;
+    public string? ValidatorTypeName { get; set; }
 
     public IView? View
     {
@@ -261,9 +276,9 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
         set => Model = (TModel)value;
     }
 
-    public IViewData? Root { get; set; } = default!;
+    public IViewData? Root { get; set; }
 
-    public IViewData? Parent { get; set; } = default!;
+    public IViewData? Parent { get; set; }
 
     public void RenderView()
     {

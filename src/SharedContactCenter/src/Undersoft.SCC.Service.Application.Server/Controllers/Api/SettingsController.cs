@@ -6,6 +6,7 @@
 //   server: Undersoft.SCC.Service.Server
 // ********************************************************
 
+using Microsoft.AspNetCore.Mvc;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Store;
@@ -16,6 +17,7 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Api;
 /// <summary>
 /// The contact controller.
 /// </summary>
+[Route($"{StoreRoutes.ApiDataRoute}/Setting")]
 public class SettingsController
     : ApiDataRemoteController<
         long,

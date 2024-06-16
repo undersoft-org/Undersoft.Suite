@@ -11,11 +11,13 @@ using Undersoft.SDK.Service.Server.Controller.Api;
 
 namespace Undersoft.SCC.Service.Server.Controllers.Api;
 
+using Microsoft.AspNetCore.Mvc;
 using Undersoft.SCC.Domain.Entities;
 
 /// <summary>
 /// The contact address controller.
 /// </summary>
+[Route($"{StoreRoutes.ApiDataRoute}/DetailIdentifier")]
 public class DetailIdentifiersController
     : ApiCqrsController<
         long,

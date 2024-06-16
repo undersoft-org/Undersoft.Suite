@@ -31,7 +31,7 @@ public class OpenContract<TContract, TDetail, TSetting, TGroup> : DataObject, IC
 
 
     [AutoExpand]
-    [FormatedSettings]
+    [GeneralizedSettings]
     [DataMember(Order = 14)]
     public virtual Listing<TSetting> Settings { get; set; }
 

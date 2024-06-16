@@ -1,0 +1,10 @@
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SDK
+// *************************************************
+

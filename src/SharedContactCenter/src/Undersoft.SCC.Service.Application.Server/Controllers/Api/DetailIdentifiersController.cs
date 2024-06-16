@@ -6,6 +6,7 @@
 //   server: Undersoft.SCC.Service.Server
 // ********************************************************
 
+using Microsoft.AspNetCore.Mvc;
 using Undersoft.SCC.Service.Contracts;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Identifier;
@@ -17,6 +18,7 @@ namespace Undersoft.SCC.Service.Application.Server.Controllers.Api;
 /// <summary>
 /// The contact address controller.
 /// </summary>
+[Route($"{StoreRoutes.ApiDataRoute}/DetailIdentifier")]
 public class DetailIdentifiersController
     : ApiDataRemoteController<
         long,

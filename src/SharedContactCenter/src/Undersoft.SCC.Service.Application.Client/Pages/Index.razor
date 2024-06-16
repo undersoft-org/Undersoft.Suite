@@ -23,16 +23,16 @@
                 {
                     if (state.IsInRole("Administrator"))
                     {
-                        _navigation.NavigateTo("/presenting/admin/contacts");
+                        _navigation.NavigateTo("/presenting/admin/members");
                         adminSignedIn = true;
                     }
                 }
             }
             if(!adminSignedIn)
-                _navigation.NavigateTo("/presenting/user/contacts");            
+                _navigation.NavigateTo("/presenting/user/members");
         }
         else
-            _navigation.NavigateTo("/presenting/contacts");
+            _navigation.NavigateTo("/presenting/members");
 
        await base.OnInitializedAsync();
     }

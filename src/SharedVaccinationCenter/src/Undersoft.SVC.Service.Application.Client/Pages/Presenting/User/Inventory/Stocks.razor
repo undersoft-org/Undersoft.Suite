@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/inventory/stocks"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Stock"
+                 TModel="ViewModels.Stock"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Stocks" />

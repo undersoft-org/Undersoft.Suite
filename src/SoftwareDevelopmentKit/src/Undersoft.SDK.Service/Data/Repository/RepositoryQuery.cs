@@ -7,7 +7,7 @@ public abstract partial class Repository<TEntity> : IRepositoryQuery<TEntity> wh
 {
     public virtual IList<TDto> Filter<TDto>(IQueryable<TEntity> query)
     {
-        return MapTo<TDto>(query);
+        return MapToList<TDto>(query);
     }
 
     public virtual IList<TEntity> Filter<TDto>(IQueryable<TDto> query)

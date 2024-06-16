@@ -16,7 +16,7 @@ namespace Undersoft.SCC.Service.Server.Controllers.Api;
 /// <summary>
 /// The contacts controller.
 /// </summary>
-[Route($"{StoreRoutes.ApiDataRoute}/Contact")]
+[Route($"{StoreRoutes.ApiDataRoute}/Member")]
 public class MembersController
     : ApiCqrsController<
         long,
@@ -28,7 +28,7 @@ public class MembersController
     >
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MembersController"/> class.
+    /// Initializes a new instance of the <see cref="MemberNodesController"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public MembersController(IServicer servicer) : base(servicer) { }

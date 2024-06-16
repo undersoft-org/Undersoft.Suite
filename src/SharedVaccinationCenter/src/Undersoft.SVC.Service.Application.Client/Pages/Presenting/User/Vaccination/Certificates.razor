@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/vaccination/certificates"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Certificate"
+                 TModel="ViewModels.Certificate"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Certificates" />

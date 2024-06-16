@@ -7,7 +7,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
     public interface IViewDataStore<TModel> : IViewDataStore, IViewData<TModel> where TModel : class, IOrigin, IInnerProxy
     {
-        ISeries<TModel> Models { get; set; }
+        ISeries<TModel>? Models { get; set; }
 
         IViewData Attach(TModel model, bool patch = false);
 
@@ -28,11 +28,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
     {
         IViewStore? ViewStore { get; }
 
-        ISeries<IViewData> Items { get; set; }
+        ISeries<IViewData>? Items { get; set; }
 
-        Pagination Pagination { get; set; }
+        Pagination? Pagination { get; set; }
 
-        IQueryParameters Query { get; set; }
+        IQueryParameters? Query { get; set; }
 
         IQueryParameters MapQuery(Func<IViewRubric, bool>? predicate = null);
 

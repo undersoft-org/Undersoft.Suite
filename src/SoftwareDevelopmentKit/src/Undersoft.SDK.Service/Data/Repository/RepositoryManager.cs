@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Undersoft.SDK.Service.Data.Mapper;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
@@ -14,7 +13,6 @@ using Undersoft.SDK.Service.Data.Store.Repository;
 public class RepositoryManager : Registry<IDataStoreContext>, IDisposable, IAsyncDisposable, IRepositoryManager
 {
     private new bool disposedValue;
-    protected IDataMapper mapper;
 
     private IRepositorySources _sources;
     protected IRepositorySources Sources => _sources ??= Manager.Registry.GetObject<IRepositorySources>();
@@ -23,11 +21,6 @@ public class RepositoryManager : Registry<IDataStoreContext>, IDisposable, IAsyn
     protected IRepositoryClients Clients => _clients ??= Manager.Registry.GetObject<IRepositoryClients>();
 
     protected IServiceManager Manager { get; init; }
-
-    public IDataMapper Mapper
-    {
-        get => mapper ??= GetMapper();
-    }
 
     static RepositoryManager()
     {
@@ -204,22 +197,6 @@ public class RepositoryManager : Registry<IDataStoreContext>, IDisposable, IAsyn
     public IEnumerable<IRepositoryClient> GetClients()
     {
         return Clients;
-    }
-
-    public IDataMapper CreateMapper(params MapperProfile[] profiles)
-    {
-        DataMapper.AddProfiles(profiles);
-        return Manager.Registry.GetObject<IDataMapper>();
-    }
-    public IDataMapper CreateMapper<TProfile>() where TProfile : MapperProfile
-    {
-        DataMapper.AddProfiles(typeof(TProfile).New<TProfile>());
-        return Manager.Registry.GetObject<IDataMapper>();
-    }
-
-    public IDataMapper GetMapper()
-    {
-        return Manager.Registry.GetObject<IDataMapper>();
     }
 
     protected override void Dispose(bool disposing)

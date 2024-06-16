@@ -16,21 +16,23 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
 {
     public bool IsDetalizable<TAttrib>(IInnerProxy contract)
     {
-        return contract.Proxy.Rubrics.Where(r => r.CustomAttributes.Select(c => c.AttributeType).Contains(typeof(TAttrib))).Any();
+        return IsGeneralizable(contract, typeof(TAttrib));
     }
 
     public bool IsGeneralizable<TAttrib>(IInnerProxy contract)
     {
-        return contract.Proxy.Rubrics
-             .Where(r => r.CustomAttributes.Select(c => c.AttributeType).Contains(typeof(TAttrib)))
-             .Any();
+        return IsDetalizable<TAttrib>(contract);
     }
 
     public bool IsGeneralizable(IInnerProxy contract, Type sourceAttribType)
     {
-        return contract.Proxy.Rubrics
-             .Where(r => r.CustomAttributes.Select(c => c.AttributeType).Contains(sourceAttribType))
-             .Any();
+        var proxy = contract.Proxy;
+        return proxy.Rubrics
+            .Where(
+                rubric =>
+                    ((IMemberRubric)rubric.RubricInfo).MemberInfo
+                        .GetCustomAttributes(sourceAttribType, false)
+                        .FirstOrDefault() != null).Any();
     }
 
     public IEnumerable<IDetail> Generalize(IInnerProxy contract)
@@ -43,13 +45,9 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
             return result = generalSettings;
         else
             return result.Concat(generalSettings);
-
     }
 
-    public IEnumerable<IDetail> Generalize
-        <TSourceAttrib, TTargetAttrib>(
-        IInnerProxy contract
-    )
+    public IEnumerable<IDetail> Generalize<TSourceAttrib, TTargetAttrib>(IInnerProxy contract)
     {
         var detailStore = GetGeneralized<TTargetAttrib>(contract);
         var detailType = detailStore.GetType().GetEnumerableElementType();
@@ -69,7 +67,6 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
 
             yield return detailStore.Put((IDetail)objectDetail).Value;
         }
-        ;
     }
 
     public IEnumerable<IDetail> Generalize(
@@ -96,7 +93,6 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
 
             yield return detailStore.Put((IDetail)objectDetail).Value;
         }
-        ;
     }
 
     public IEnumerable<object> Detalize(IInnerProxy contract)
@@ -118,10 +114,7 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
         return details.ForEach((o) => contract[o.Name] = o.GetDetail());
     }
 
-    public IEnumerable<object> Detalize(
-        IInnerProxy contract,
-        Type targetAttribType
-    )
+    public IEnumerable<object> Detalize(IInnerProxy contract, Type targetAttribType)
     {
         var details = GetGeneralized(contract, targetAttribType);
         if (details == null || !details.Any())
@@ -129,24 +122,26 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
         return details.ForEach((o) => contract[o.Name] = o.GetDetail());
     }
 
-    private IEnumerable<Tuple<string, IInnerProxy>> GetDetalized<TAttrib>(
-        IInnerProxy contract
-    )
+    private IEnumerable<Tuple<string, IInnerProxy>> GetDetalized<TAttrib>(IInnerProxy contract)
     {
         return GetDetalized(contract, typeof(TAttrib));
     }
 
     private IEnumerable<Tuple<string, IInnerProxy>> GetDetalized(
         IInnerProxy contract,
-        Type sourceAttribType
+        Type targetAttributeType
     )
     {
         var proxy = contract.Proxy;
         return proxy.Rubrics
-            .Where(r => r.CustomAttributes.Select(c => c.AttributeType).Contains(sourceAttribType))
-            .ForEach(
+            .ForOnly(
+                rubric =>
+                    ((IMemberRubric)rubric.RubricInfo).MemberInfo
+                        .GetCustomAttributes(targetAttributeType, false)
+                        .FirstOrDefault() != null,
                 r => new Tuple<string, IInnerProxy>(r.RubricName, (IInnerProxy)proxy[r.RubricId])
-            );
+            )
+            .Commit();
     }
 
     public ISeries<IDetail> GetGeneralized<TAttrib>(IInnerProxy contract)
@@ -154,18 +149,25 @@ public partial class Repository<TEntity> : IRepositoryDetalizer<TEntity>
         return GetGeneralized(contract, typeof(TAttrib));
     }
 
-    public ISeries<IDetail> GetGeneralized(
-        IInnerProxy contract,
-        Type sourceAttribType
-    )
+    public ISeries<IDetail> GetGeneralized(IInnerProxy contract, Type sourceAttribType)
     {
+        IMemberRubric resultRubric = null;
         var proxy = contract.Proxy;
-        var rubric = proxy.Rubrics
-            .Where(r => r.CustomAttributes.Select(c => c.AttributeType).Contains(sourceAttribType))
-            .FirstOrDefault();
+        foreach (var rubric in proxy.Rubrics)
+        {
+            if (
+                ((IMemberRubric)rubric.RubricInfo).MemberInfo
+                    .GetCustomAttributes(sourceAttribType, false)
+                    .FirstOrDefault() != null
+            )
+            {
+                resultRubric = rubric;
+                break;
+            }
+        }
 
-        if (rubric == null || proxy[rubric.RubricId] == null)
+        if (resultRubric == null || proxy[resultRubric.RubricId] == null)
             return null;
-        return (ISeries<IDetail>)proxy[rubric.RubricId];
+        return (ISeries<IDetail>)proxy[resultRubric.RubricId];
     }
 }

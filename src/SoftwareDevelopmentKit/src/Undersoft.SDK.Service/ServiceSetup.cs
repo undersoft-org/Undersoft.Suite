@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -11,7 +10,6 @@ namespace Undersoft.SDK.Service;
 
 using Configuration;
 using Data.Cache;
-using Data.Mapper;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using Undersoft.SDK.Service.Access;
@@ -169,29 +167,6 @@ public partial class ServiceSetup : IServiceSetup
         return this;
     }
 
-    public IServiceSetup AddMapper<TProfile>() where TProfile : MapperProfile
-    {
-        AddMapper(new DataMapper(typeof(TProfile).New<TProfile>()));
-
-        return this;
-    }
-
-    public IServiceSetup AddMapper(params MapperProfile[] profiles)
-    {
-        AddMapper(new DataMapper(profiles));
-
-        return this;
-    }
-
-    public IServiceSetup AddMapper(IDataMapper mapper)
-    {
-        registry.AddObject(mapper);
-        registry.AddObject<IDataMapper>(mapper);
-        registry.AddScoped<IMapper, DataMapper>();
-
-        return this;
-    }
-
     public IServiceSetup AddRepositoryClients()
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -284,8 +259,6 @@ public partial class ServiceSetup : IServiceSetup
     )
     {
         AddLogging();
-
-        AddMapper(new DataMapper());
 
         AddJsonSerializerDefaults();
 

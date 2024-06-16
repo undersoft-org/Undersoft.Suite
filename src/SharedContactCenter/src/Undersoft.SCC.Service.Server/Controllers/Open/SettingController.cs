@@ -26,7 +26,7 @@ public class SettingController
     >
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberController"/> class.
+    /// Initializes a new instance of the <see cref="MemberNodeController"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public SettingController(IServicer servicer) : base(servicer) { }

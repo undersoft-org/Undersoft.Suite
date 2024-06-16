@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/admin/administration/accounts"
+
+<GenericDataGrid TStore="IAccountStore"
+                 TDto="Contracts.Account"
+                 TModel="Contracts.Account"
+                 ShowHover="true"
+                 Expandable="true"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Accounts" />

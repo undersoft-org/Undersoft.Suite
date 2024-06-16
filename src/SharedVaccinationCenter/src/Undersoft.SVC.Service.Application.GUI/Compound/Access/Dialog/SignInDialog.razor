@@ -1,0 +1,77 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+@inject NavigationManager _navigation
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+<CascadingValue Value="@Content">
+    
+    <!-- Header -->
+    <GenericFormDialogHeader TModel="TModel" />
+
+    <!-- Body -->
+    <GenericFormDialogBody TValidator="TValidator" TModel="TModel" />
+
+</CascadingValue>
+
+<!-- Footer -->
+<FluentDialogFooter>
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+        <FluentButton Id="ResetPassword" OnClick="@OnResetPassword" Appearance="Appearance.Lightweight">
+            Password recovery
+        </FluentButton>
+        <FluentSpacer />
+        <FluentButton Id="SignUp" OnClick="@OnSignUp" Appearance="Appearance.Lightweight">
+            Sign up
+        </FluentButton>
+        <FluentButton Id="SignIn" Appearance="Appearance.Accent"                     
+                      OnClick="@SaveAsync">
+            Sign in
+        </FluentButton>
+    </FluentStack>
+</FluentDialogFooter>
+
+@code
+{
+    [Parameter]
+    public IViewData<TModel> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+    }
+
+    private async Task OnSignUp(MouseEventArgs e)
+    {
+        Content.NextHref = "access/sign_up";
+
+        await Dialog.CloseAsync(Content);
+    }
+
+    private async Task OnResetPassword(MouseEventArgs e)
+    {
+        Content.NextHref = "access/reset_password";
+
+        await Dialog.CloseAsync(Content);
+    }
+
+    private async Task SaveAsync()
+    {
+        if ((await Content.Validator.ValidateAsync()).IsValid)
+        {
+            await Dialog.CloseAsync(Content);
+        }
+    }
+    public void RenderView()
+    {
+        this.StateHasChanged();
+    }
+
+}

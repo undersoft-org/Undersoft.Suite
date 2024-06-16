@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/vaccination/appointments"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Appointment"
+                 TModel="ViewModels.Appointment"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Appointments" />

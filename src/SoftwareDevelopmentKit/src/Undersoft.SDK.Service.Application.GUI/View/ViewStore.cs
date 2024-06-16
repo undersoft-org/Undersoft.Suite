@@ -20,7 +20,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         public virtual Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; } = default!;
 
 
-        public virtual IList<TModel> Models => Contents.Models;
+        public virtual IList<TModel>? Models => Contents.Models;
 
         [Parameter]
         public virtual IViewDataStore<TModel> Contents
@@ -31,10 +31,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public virtual async Task CreateStore(Type contractType)
         {
+            ProgressVisible = true;
             DataStore = typeof(ViewDataStore<,,>)
                 .MakeGenericType(typeof(TStore), contractType, typeof(TModel))
                 .New<IViewDataStore>(this, Setup);
-            ProgressVisible = true;
             await DataStore.LoadAsync();
             ProgressVisible = false;
         }
@@ -43,8 +43,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             if (Data == null)
             {
-                DataStore = new ViewDataStore<TStore, T, TModel>(this);
                 ProgressVisible = true;
+                DataStore = new ViewDataStore<TStore, T, TModel>(this);
                 await DataStore.LoadAsync();
                 ProgressVisible = true;
             }
@@ -54,8 +54,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             if (Data == null)
             {
-                DataStore = new ViewDataStore<TStore, TDto, TModel>(this, Setup);
                 ProgressVisible = true;
+                DataStore = new ViewDataStore<TStore, TDto, TModel>(this, Setup);
                 await DataStore.LoadAsync();
                 ProgressVisible = false;
             }
@@ -70,15 +70,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
     public class ViewStore : ViewItem, IViewStore
     {
-        public virtual IServiceScope ServiceScope { get; set; } = default!;
+        public virtual IServiceScope? ServiceScope { get; set; }
 
         [Parameter]
-        public virtual IServicer Servicer { get; set; } = default!;
+        public virtual IServicer? Servicer { get; set; }
 
         [Parameter]
-        public virtual IDialogService DialogService { get; set; } = default!;
+        public virtual IDialogService? DialogService { get; set; }
 
-        public virtual IEnumerable<IViewData> Items => DataStore.Items;
+        public virtual IEnumerable<IViewData>? Items => DataStore.Items;
 
         [Parameter]
         public virtual IViewDataStore DataStore
@@ -91,7 +91,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public virtual async Task NextPageAsync()
         {
-            if (DataStore.Pagination.HasNextPage)
+            if (DataStore.Pagination!.HasNextPage)
             {
                 DataStore.Pagination.SetPageIndex(DataStore.Pagination.PageIndex + 1);
                 await LoadViewAsync();
@@ -100,7 +100,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public virtual async Task PreviousPageAsync()
         {
-            if (DataStore.Pagination.HasPreviousPage)
+            if (DataStore.Pagination!.HasPreviousPage)
             {
                 DataStore.Pagination.SetPageIndex(DataStore.Pagination.PageIndex - 1);
                 await LoadViewAsync();
@@ -109,7 +109,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public virtual async Task GoToPageAsync(int page)
         {
-            if (page >= DataStore.Pagination.IndexFrom && DataStore.Pagination.TotalPages >= page)
+            if (page >= DataStore.Pagination!.IndexFrom && DataStore.Pagination.TotalPages >= page)
             {
                 DataStore.Pagination.SetPageIndex(page);
                 await LoadViewAsync();
@@ -120,24 +120,24 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             ProgressVisible = true;
             await DataStore.LoadAsync();
-            DataStore.ViewItem?.RenderView();
             ProgressVisible = false;
+            DataStore.ViewItem?.RenderView();
         }
 
         public async Task StageViewAsync(bool changesets = false)
         {
             ProgressVisible = true;
             await DataStore.StageAsync(changesets);
-            DataStore.ViewItem?.RenderView();
             ProgressVisible = false;
+            DataStore.ViewItem?.RenderView();
         }
 
         public async Task SaveViewAsync(bool changesets = false)
         {
             ProgressVisible = true;
             await DataStore.SaveAsync(changesets);
-            DataStore.ViewItem?.RenderView();
             ProgressVisible = false;
+            DataStore.ViewItem?.RenderView();
         }
     }
 }

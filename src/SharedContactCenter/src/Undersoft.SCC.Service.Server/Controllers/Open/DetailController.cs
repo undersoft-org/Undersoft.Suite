@@ -27,7 +27,7 @@ public class DetailController
     >
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberController"/> class.
+    /// Initializes a new instance of the <see cref="MemberNodeController"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public DetailController(IServicer servicer) : base(servicer) { }

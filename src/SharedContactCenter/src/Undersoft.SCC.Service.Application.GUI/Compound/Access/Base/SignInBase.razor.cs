@@ -136,13 +136,13 @@ public partial class SignInBase : ComponentBase
                         {
                             if (state.IsInRole("Administrator"))
                             {
-                                _navigation.NavigateTo("/presenting/admin/contacts", true);
+                                _navigation.NavigateTo("/presenting/admin/members", true);
                                 adminSignedIn = true;
                             }
                         }
                     }
                     if (!adminSignedIn)
-                        _navigation.NavigateTo("/presenting/user/contacts", true);
+                        _navigation.NavigateTo("/presenting/user/members", true);
                 }
                 else
                     _navigation.NavigateTo("/access/register");

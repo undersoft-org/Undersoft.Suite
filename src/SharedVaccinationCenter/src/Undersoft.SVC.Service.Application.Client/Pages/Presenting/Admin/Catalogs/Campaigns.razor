@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/admin/catalogs/campaigns"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Campaign"
+                 TModel="ViewModels.Campaign"
+                 ShowHover="true"
+                 Expandable="true"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Campaigns" />

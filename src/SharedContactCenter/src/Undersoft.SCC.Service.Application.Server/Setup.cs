@@ -48,6 +48,10 @@ public class Setup
                 DataServerTypes.All,
                 builder =>
                     builder
+                        .AddInvocations<MemberNode>()
+                        .AddInvocations<DetailNode>()
+                        .AddInvocations<SettingNode>()
+                        .AddInvocations<GroupNode>()
                         .AddInvocations<Member>()
                         .AddInvocations<Detail>()
                         .AddInvocations<Setting>()

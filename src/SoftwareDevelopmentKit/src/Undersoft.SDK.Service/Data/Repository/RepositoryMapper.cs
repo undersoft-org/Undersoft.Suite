@@ -34,20 +34,34 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     )
     {
         var _entity = entity.ToListing();
-        model.ForEach(e => { if (_entity.TryGet(e, out TEntity output)) output.PutTo(e); });
+        model.ForEach(e =>
+        {
+            if (_entity.TryGet(e, out TEntity output))
+                output.PutTo(e);
+        });
         return _entity;
     }
 
     public virtual ISeries<TDto> MapById<TDto>(IEnumerable<TEntity> entity, IEnumerable<TDto> model)
     {
         var _model = model.ToListing();
-        entity.ForEach(e => { if (_model.TryGet(e, out TDto output)) output.PutTo(e); });
+        entity.ForEach(e =>
+        {
+            if (_model.TryGet(e, out TDto output))
+                output.PutTo(e);
+        });
         return _model;
     }
 
     public virtual TDto MapTo<TDto>(TEntity entity) where TDto : class
     {
         return entity.PutTo<TDto>();
+    }
+
+    public virtual TDto Generalize<TDto>(TDto model)
+    {
+        Generalize((IInnerProxy)model);
+        return model;
     }
 
     public virtual TDto MapTo<TDto>(object entity)
@@ -75,7 +89,8 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
         return entity.ForEach(e => e.PutTo<TDto>()).Commit();
     }
 
-    public virtual async IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity) where TDto : class
+    public virtual async IAsyncEnumerable<TDto> MapToAsync<TDto>(IEnumerable<TEntity> entity)
+        where TDto : class
     {
         foreach (var item in entity)
             yield return await Task.Run(() => item.PutTo<TDto>());
@@ -84,6 +99,24 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     public virtual IList<TEntity> MapToList<TDto>(IEnumerable<TDto> model)
     {
         return model.ForEach(m => m.PutTo<TEntity>()).Commit();
+    }
+
+    public virtual IList<TEntity> GeneralizeToList<TDto>(IEnumerable<TDto> model)
+    {
+        return model.ForEach(e =>
+        {
+            Generalize((IInnerProxy)e);
+            return e.PutTo<TEntity>();
+        }).Commit();
+    }
+
+    public virtual IEnumerable<TDto> Generalize<TDto>(IEnumerable<TDto> model)
+    {
+        foreach (var item in model)
+        {
+            Generalize((IInnerProxy)item);
+            yield return item;
+        }
     }
 
     public virtual async IAsyncEnumerable<TEntity> MapToAsync<TDto>(IEnumerable<TDto> model)
@@ -116,11 +149,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     public virtual Task<ISeries<TEntity>> KeyedMapAsync<TDto>(IEnumerable<TDto> model)
     {
         return Task.Run(
-            () =>
-                (ISeries<TEntity>)
-                    (
-                        model.ForEach(m => m.PutTo<TEntity>())
-                    ).ToListing(),
+            () => (ISeries<TEntity>)(model.ForEach(m => m.PutTo<TEntity>())).ToListing(),
             Cancellation
         );
     }
@@ -128,18 +157,25 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     public virtual async Task<IQueryable<TDto>> MapQueryAsync<TDto>(IQueryable<TEntity> entity)
         where TDto : class
     {
-        return await Task.FromResult(entity.AsEnumerable().ForEach(e => e.PutTo<TDto>()).AsQueryable());
+        return await Task.FromResult(
+            entity.AsEnumerable().ForEach(e => e.PutTo<TDto>()).AsQueryable()
+        );
     }
 
     public virtual async Task<IQueryable<TDto>> DetalizeQueryAsync<TDto>(IQueryable<TEntity> entity)
-      where TDto : , IInnerProxy
+        where TDto : class
     {
-        return await Task.FromResult(entity.AsEnumerable().ForEach(e =>
-        {
-            var contract = e.PutTo<TDto>();
-            Detalize(contract);
-            return contract;
-        }).AsQueryable());
+        return await Task.FromResult(
+            entity
+                .AsEnumerable()
+                .ForEach(e =>
+                {
+                    var contract = e.PutTo<TDto>();
+                    Detalize((IInnerProxy)contract);
+                    return contract;
+                })
+                .AsQueryable()
+        );
     }
 
     public virtual IQueryable<TDto> MapQuery<TDto>(IQueryable<TEntity> entity) where TDto : class

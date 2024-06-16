@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.SDK
+// *************************************************
+
+
+using System.Collections;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Uniques;
 
@@ -30,6 +39,22 @@ public class Updater : IUpdater
 
     public Updater() { }
 
+    public Updater(object item, Type type, IInvoker traceChanges)
+    {
+        if (traceChanges != null)
+        {
+            TraceEvent = traceChanges;
+            traceable = true;
+        }
+
+        if (type.IsAssignableTo(typeof(IProxy)))
+            Combine(item as IProxy);
+        else if (type.IsAssignableTo(typeof(IInnerProxy)))
+            Combine(item as IInnerProxy);
+        else
+            Combine(item);
+    }
+
     public Updater(object item, IInvoker traceChanges)
     {
         if (traceChanges != null)
@@ -49,6 +74,28 @@ public class Updater : IUpdater
     }
 
     public Updater(object item) : this(item, null) { }
+
+    public Updater(IInnerProxy proxy, IInvoker traceChanges)
+    {
+        if (traceChanges != null)
+        {
+            TraceEvent = traceChanges;
+            traceable = true;
+        }
+
+        Combine(proxy);
+    }
+
+    public Updater(IProxy proxy, IInvoker traceChanges)
+    {
+        if (traceChanges != null)
+        {
+            TraceEvent = traceChanges;
+            traceable = true;
+        }
+
+        Combine(proxy);
+    }
 
     public Updater(IProxy proxy)
     {
@@ -349,7 +396,7 @@ public class Updater : IUpdater
                                             null
                                         );
 
-                                    ForUpdate(new Updater(originItem, TraceEvent), targetItem);
+                                    ForUpdate(new Updater(originItem, originType, TraceEvent), targetItem);
                                 }
                                 else if (originItemType != targetItemType)
                                 {
@@ -398,7 +445,7 @@ public class Updater : IUpdater
                 targetType
             );
 
-        ForUpdate(new Updater(originValue, TraceEvent), targetValue);
+        ForUpdate(new Updater(originValue, originType, TraceEvent), targetValue);
 
         return false;
     }
@@ -580,7 +627,6 @@ public class Updater : IUpdater
                 {
                     var targetndex = rubric.RubricId;
                     var originValue = Source[targetndex];
-                    var targetValue = _target[targetndex];
 
                     if (originValue != null)
                     {
@@ -608,7 +654,6 @@ public class Updater : IUpdater
                             return;
 
                         var targetIndex = targetRubric.RubricId;
-                        var targetValue = _target[targetIndex];
 
                         if (originValue != null)
                         {

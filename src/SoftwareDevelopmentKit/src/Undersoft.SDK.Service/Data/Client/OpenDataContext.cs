@@ -25,7 +25,7 @@ namespace Undersoft.SDK.Service.Data.Client
 
             AutoNullPropagation = true;
             HttpRequestTransportMode = HttpRequestTransportMode.HttpClient;
-            DisableInstanceAnnotationMaterialization = true;
+            DisableInstanceAnnotationMaterialization = false;
             EnableWritingODataAnnotationWithoutPrefix = true;
             AddAndUpdateResponsePreference = DataServiceResponsePreference.None;
             SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;

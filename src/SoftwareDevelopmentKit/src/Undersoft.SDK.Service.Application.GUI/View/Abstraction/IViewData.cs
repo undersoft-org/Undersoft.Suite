@@ -31,7 +31,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         IInnerProxy Model { get; set; }
 
-        IViewRubric ActiveRubric { get; set; }
+        IViewRubric? ActiveRubric { get; set; }
         IViewRubrics Rubrics { get; set; }
 
         bool RubricsEnabled { get; set; }
@@ -46,7 +46,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         StateFlags StateFlags { get; set; }
 
-        IViewValidator Validator { get; set; }
+        IViewValidator? Validator { get; set; }
 
         Type? ValidatorType { get; set; }
 
@@ -71,6 +71,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         void ClearErrors();
 
         IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
+
+        IViewRubrics BasicMapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
 
         void ClearData();
 

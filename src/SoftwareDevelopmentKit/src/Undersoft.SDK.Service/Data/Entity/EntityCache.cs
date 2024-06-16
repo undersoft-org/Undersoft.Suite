@@ -10,7 +10,6 @@ namespace Undersoft.SDK.Service.Data.Entity
         {
             if (base.cache == null || cache == null)
             {
-                Mapper = datacache.Mapper;
                 base.cache = datacache;
                 int seed = typeof(TEntity).GetDataTypeId();
                 if (!base.Catalog.TryGet(seed, out IIdentifiable deck))

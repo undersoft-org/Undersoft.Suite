@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+@page "/presenting/user/catalogs/vaccines"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Vaccine"
+                 TModel="ViewModels.Vaccine"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Vaccines" />

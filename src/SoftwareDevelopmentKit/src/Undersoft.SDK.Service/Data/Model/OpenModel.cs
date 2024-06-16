@@ -5,7 +5,6 @@ namespace Undersoft.SDK.Service.Data.Model;
 
 using Identifier;
 using Microsoft.OData.ModelBuilder;
-using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Object.Detail;
@@ -44,66 +43,4 @@ public class OpenModel<TViewModel, TDetail, TSetting, TGroup> : DataObject, IVie
     [AutoExpand]
     [DataMember(Order = 15)]
     public virtual Listing<TGroup> Groups { get; set; }
-
-
-    private IEnumerable<TDetail> GetDetailProperties(IRubrics openRubrics)
-    {
-        foreach (var r in openRubrics)
-        {
-            var detailMember = ((IInnerProxy)this)[r.RubricId];
-            if (detailMember != null)
-            {
-                IInnerProxy detail = (IInnerProxy)detailMember;
-
-                var objectDetail = new TDetail() { Name = r.RubricName };
-                objectDetail.SetGeneral(detailMember);
-                yield return objectDetail;
-            }
-        }
-        ;
-    }
-
-    private void SetDetailProperties(IEnumerable<TDetail> openObjects)
-    {
-        openObjects.ForEach((o) => ((IInnerProxy)this)[o.Name] = o.GetDetail());
-    }
-
-    private void GetDetailRubrics() => detailRubrics ??= new MemberRubrics(
-                ((IInnerProxy)this).Proxy.Rubrics.Where(
-                    r =>
-                        r.CustomAttributes
-                            .Select(c => c.AttributeType)
-                            .Contains(typeof(DetailAttribute))
-                )
-            );
-    private IEnumerable<TDetail> GetSettingProperties(IRubrics openRubrics)
-    {
-        foreach (var r in openRubrics)
-        {
-            var detailMember = ((IInnerProxy)this)[r.RubricId];
-            if (detailMember != null)
-            {
-                IInnerProxy detail = (IInnerProxy)detailMember;
-
-                var objectDetail = new TDetail() { Name = r.RubricName };
-                objectDetail.SetGeneral(detailMember);
-                yield return objectDetail;
-            }
-        }
-        ;
-    }
-
-    private void SetSettingProperties(IEnumerable<TDetail> openObjects)
-    {
-        openObjects.ForEach((o) => ((IInnerProxy)this)[o.Name] = o.GetDetail());
-    }
-
-    private void GetSettingRubrics() => settingRubrics ??= new MemberRubrics(
-                ((IInnerProxy)this).Proxy.Rubrics.Where(
-                    r =>
-                        r.CustomAttributes
-                            .Select(c => c.AttributeType)
-                            .Contains(typeof(SettingAttribute))
-                )
-            );
 }

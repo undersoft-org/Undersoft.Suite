@@ -1,5 +1,4 @@
 ﻿using Undersoft.SDK.Service.Data.Cache;
-using Undersoft.SDK.Service.Data.Mapper;
 
 namespace Undersoft.SDK.Service.Data.Store;
 
@@ -12,7 +11,6 @@ public class StoreCache<TStore> : DataCache, IStoreCache<TStore>
     {
         if (base.cache == null || this.cache == null)
         {
-            Mapper = DataMapper.GetMapper();
             base.cache = cache;
             int seed = typeof(TStore).UniqueKey32();
             TypeId = seed;
@@ -46,6 +44,4 @@ public class StoreCache<TStore> : DataCache, IStoreCache<TStore>
     protected override ITypedSeries<IIdentifiable> cache { get; set; }
 
     public override ITypedSeries<IIdentifiable> Catalog => cache;
-
-    public IDataMapper Mapper { get; set; }
 }

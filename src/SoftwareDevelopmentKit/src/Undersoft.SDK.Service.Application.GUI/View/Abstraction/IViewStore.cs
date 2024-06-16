@@ -10,7 +10,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
     {
         IViewDataStore<TModel> Contents { get; set; }
 
-        IList<TModel> Models { get; }
+        IList<TModel>? Models { get; }
 
         Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; }
     }
@@ -24,11 +24,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
     public interface IViewStore : IViewItem, IViewProgress, IViewLoadable
     {
-        IServicer Servicer { get; set; }
+        IServicer? Servicer { get; set; }
 
-        IDialogService DialogService { get; set; }
+        IDialogService? DialogService { get; set; }
 
-        IEnumerable<IViewData> Items { get; }
+        IEnumerable<IViewData>? Items { get; }
 
         IViewDataStore DataStore { get; set; }
 

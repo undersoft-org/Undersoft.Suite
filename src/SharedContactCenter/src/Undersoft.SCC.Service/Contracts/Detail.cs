@@ -6,22 +6,28 @@
 //   library: Undersoft.SCC.Service
 // *************************************************
 
-namespace Undersoft.SCC.Service.Contracts;
+using System.Runtime.Serialization;
+using Undersoft.SCC.Domain.Entities.Enums;
+using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Object.Detail;
 
-/// <summary>
-/// The detail.
-/// </summary>    ]
-public class Detail : DetailEdge
+namespace Undersoft.SCC.Service.Contracts
 {
     /// <summary>
-    /// Gets or sets the related from.
+    /// The detail.
     /// </summary>
-    /// <value>An TODO: Add missing XML "/&gt;</value>
-    public virtual EntitySet<DetailEdge>? RelatedFrom { get; set; }
+    [DataContract]
+    public class Detail : ObjectDetail<Detail, DetailKind>, IDetail, IContract
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DetailNode"/> class.
+        /// </summary>
+        public Detail() : base() { }
 
-    /// <summary>
-    /// Gets or sets the related converts to.
-    /// </summary>
-    /// <value>An TODO: Add missing XML "/&gt;</value>
-    public virtual EntitySet<DetailEdge>? RelatedTo { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DetailNode"/> class.
+        /// </summary>
+        /// <param name="kind">The kind.</param>
+        public Detail(DetailKind kind) : base(kind) { }
+    }
 }

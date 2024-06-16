@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Mapper;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 
 
@@ -13,8 +12,6 @@ namespace Undersoft.SDK.Service.Data.Repository
         Expression Expression { get; }
 
         IQueryProvider Provider { get; }
-
-        IDataMapper Mapper { get; }
 
         CancellationToken Cancellation { get; set; }
 

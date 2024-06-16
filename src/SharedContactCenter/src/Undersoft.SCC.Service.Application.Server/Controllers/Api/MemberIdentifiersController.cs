@@ -8,7 +8,7 @@ using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Identifier;
 using Undersoft.SDK.Service.Server.Controller.Api;
 
-[Route($"{StoreRoutes.ApiDataRoute}/ContactIdentifier")]
+[Route($"{StoreRoutes.ApiDataRoute}/MemberIdentifier")]
 public class MemberIdentifiersController
     : ApiDataRemoteController<
         long,

@@ -22,28 +22,28 @@ public class NavMenu : DataObject
     /// <summary>
     /// Gets or sets the contacts.
     /// </summary>
-    /// <value>A <see cref="Contacts"/></value>
+    /// <value>A <see cref="Presenting.Members"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("ContactsIcon")]
-    [Link("/presenting/contacts")]
-    public Contacts Contacts { get; set; } = new Contacts();
+    [IconRubric("MembersIcon")]
+    [Link("/presenting/members")]
+    public Members Members { get; set; } = new Members();
     /// <summary>
     /// The contacts icon.
     /// </summary>
-    public Icon ContactsIcon = new Icons.Regular.Size24.BookContacts();
+    public Icon MembersIcon = new Icons.Regular.Size24.Apps();
 
     /// <summary>
     /// Gets or sets the dictionaries.
     /// </summary>
-    /// <value>A <see cref="Dictionaries"/></value>
+    /// <value>A <see cref="Attributes"/></value>
     [MenuGroup]
     [Extended]
-    [IconRubric("DictionariesIcon")]
-    public Dictionaries Dictionaries { get; set; } = new Dictionaries();
+    [IconRubric("AttributesIcon")]
+    public Attributes Attributes { get; set; } = new Attributes();
     /// <summary>
     /// The dictionaries icon.
     /// </summary>
-    public Icon DictionariesIcon = new Icons.Regular.Size24.BookOpen();
+    public Icon AttributesIcon = new Icons.Regular.Size24.AppsListDetail();
 }
 

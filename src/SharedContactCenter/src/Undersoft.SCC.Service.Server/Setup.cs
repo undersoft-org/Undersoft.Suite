@@ -44,6 +44,10 @@ public class Setup
                 DataServerTypes.Rest | DataServerTypes.OData,
                 builder =>
                     builder
+                        .AddInvocations<MemberNode>()
+                        .AddInvocations<DetailNode>()
+                        .AddInvocations<SettingNode>()
+                        .AddInvocations<GroupNode>()
                         .AddInvocations<Member>()
                         .AddInvocations<Detail>()
                         .AddInvocations<Setting>()

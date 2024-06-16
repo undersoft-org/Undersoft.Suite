@@ -31,7 +31,6 @@ public partial class Repository<TEntity> : IRepositoryMappedCommand<TEntity> whe
     {
         return Add(MapToList(models), predicate).Commit();
     }
-
     public virtual IAsyncEnumerable<TEntity> AddByAsync<TDto>(IEnumerable<TDto> model)
     {
         return AddAsync(MapToAsync(model));

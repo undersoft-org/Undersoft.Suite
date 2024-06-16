@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+  xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
+  xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+  IgnorableNamespaces="uap rescap iot uap3 uap4 uap6 uap2">
+
+  <Identity Name="Undersoft.SVC.Service.Application.Hybrid" Publisher="CN=User Name" Version="0.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="0BC3AD34-9CD5-45BF-8340-7D5F78B2A66B" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>$placeholder$</DisplayName>
+    <PublisherDisplayName>undersoft</PublisherDisplayName>
+    <Logo>$placeholder$.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="$placeholder$"
+        Description="$placeholder$"
+        Square150x150Logo="$placeholder$.png"
+        Square44x44Logo="$placeholder$.png"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Square71x71Logo="$placeholder$.png" Wide310x150Logo="$placeholder$.png" Square310x310Logo="$placeholder$.png" />
+        <uap:SplashScreen Image="$placeholder$.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
+      </uap:VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks"  StartPage="index.html">
+          <BackgroundTasks>
+            <Task Type="location"/>
+            <Task Type="timer"/>
+            <Task Type="pushNotification"/>
+            <Task Type="systemEvent"/>
+            <uap:Task Type="mediaProcessing"/>
+            <Task Type="general"/>
+            <Task Type="deviceUse"/>
+            <Task Type="deviceServicing"/>
+            <Task Type="deviceConnectionChange"/>
+            <Task Type="controlChannel"/>
+            <uap:Task Type="chatMessageNotification"/>
+            <Task Type="bluetooth"/>
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
+      <uap:ApplicationContentUriRules>
+        <uap:Rule Type="include" Match="https://*" WindowsRuntimeAccess="all"/>
+      </uap:ApplicationContentUriRules>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <Capability Name="codeGeneration"/>
+    <uap:Capability Name="userAccountInformation"/>
+    <iot:Capability Name="systemManagement"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <Capability Name="internetClientServer"/>
+    <uap3:Capability Name="userNotificationListener"/>
+    <uap4:Capability Name="userDataTasks"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap3:Capability Name="remoteSystem"/>
+    <uap:Capability Name="contacts"/>
+    <uap6:Capability Name="graphicsCapture"/>
+    <uap:Capability Name="chat"/>
+    <uap4:Capability Name="offlineMapsManagement"/>
+    <uap2:Capability Name="phoneCallHistoryPublic"/>
+    <uap:Capability Name="sharedUserCertificates"/>
+    <iot:Capability Name="lowLevelDevices"/>
+    <uap:Capability Name="phoneCall"/>
+    <uap:Capability Name="videosLibrary"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <uap:Capability Name="musicLibrary"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <uap:Capability Name="appointments"/>
+    <DeviceCapability Name="proximity"/>
+    <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="webcam"/>
+    <DeviceCapability Name="bluetooth"/>
+    <DeviceCapability Name="location"/>
+    <DeviceCapability Name="lowLevel"/>
+  </Capabilities>
+
+</Package>

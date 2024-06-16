@@ -22,77 +22,77 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
             ViewResolveAttributes = new ViewAttributeResolvers();
 
             Registry.Add(
-                typeof(ViewClassAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(ViewClassAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveClassAttributes
                 )
             );
             Registry.Add(
-                typeof(ViewStyleAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(ViewStyleAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveStyleAttributes
                 )
             );
             Registry.Add(
-                typeof(GridAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(GridAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveGridAttributes
                 )
             );
             Registry.Add(
-                typeof(StackAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(StackAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveStackAttributes
                 )
             );
             Registry.Add(
-                typeof(MenuItemAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(MenuItemAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveMenuItemAttributes
                 )
             );
             Registry.Add(
-                typeof(MenuGroupAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(MenuGroupAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveMenuGroupAttributes
                 )
             );
             Registry.Add(
-                typeof(ValidatorAttribute), typeof(ViewItem).UniqueKey(),
+                typeof(ValidatorAttribute), nameof(IViewData).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveValidatorAttributes
                 )
             );
             Registry.Add(
-            typeof(ViewSizeAttribute), typeof(ViewItem).UniqueKey(),
+            typeof(ViewSizeAttribute), nameof(IViewData).UniqueKey32(),
             new Invoker<ViewAttributeResolvers>(
                 ViewResolveAttributes,
                 m => m.ResolveSizeClassAttributes
             )
         );
             Registry.Add(
-                typeof(ViewImageAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(ViewImageAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveImageAttributes
                 )
             );
             Registry.Add(
-                typeof(ViewSizeAttribute), typeof(ViewRubric).UniqueKey(),
+                typeof(ViewSizeAttribute), nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveSizeRubricAttributes
                 )
             );
             Registry.Add(
-               typeof(OpenQueryAttribute), typeof(ViewRubric).UniqueKey(),
+               typeof(OpenQueryAttribute), nameof(ViewRubric).UniqueKey32(),
                new Invoker<ViewAttributeResolvers>(
                    ViewResolveAttributes,
                    m => m.ResolveQueryRubricAttributes
@@ -106,14 +106,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
             if (customAttributes.Any())
             {
-                var duplicateCheck = new HashSet<string>();
-
                 customAttributes.ForEach(a =>
                 {
                     var type = a.GetType();
                     if (
-                        ViewAttributes.Registry.TryGet(type, typeof(ViewItem).UniqueKey(), out IInvoker invoker)
-                        && duplicateCheck.Add(invoker.MethodName)
+                        ViewAttributes.Registry.TryGet(type, nameof(IViewData).UniqueKey32(), out IInvoker invoker)
                     )
                     {
                         invoker.Invoke(mr);
@@ -131,14 +128,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
             if (customAttributes.Any())
             {
-                var duplicateCheck = new HashSet<string>();
-
                 customAttributes.ForEach(a =>
                 {
                     var type = a.GetType();
                     if (
-                        ViewAttributes.Registry.TryGet(type, typeof(ViewRubric).UniqueKey(), out IInvoker invoker)
-                        && duplicateCheck.Add(invoker.MethodName)
+                        ViewAttributes.Registry.TryGet(type, nameof(ViewRubric).UniqueKey32(), out IInvoker invoker)
                     )
                     {
                         invoker.Invoke(mr);
@@ -179,6 +173,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
         public void ResolveSizeClassAttributes(IViewData data)
         {
+            if (data.Z != null)
+                return;
+
             var modelType = data.ModelType;
 
             object? o = modelType
@@ -190,12 +187,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
                 data.Width = fta.Width;
                 data.Height = fta.Height;
-                data.Z = fta.Z;
+                data.Z = fta.Z == null ? "" : fta.Z;
             }
         }
 
         public void ResolveSizeRubricAttributes(ViewRubric mr)
         {
+            if (mr.Z != null)
+                return;
+
             var mi = ((IMemberRubric)mr.RubricInfo).MemberInfo;
 
             object? o = mi.GetCustomAttributes(typeof(ViewSizeAttribute), false).FirstOrDefault();
@@ -205,7 +205,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
                 mr.Width = fta.Width;
                 mr.Height = fta.Height;
-                mr.Z = fta.Z;
+                mr.Z = fta.Z == null ? "" : fta.Z;
             }
         }
 
@@ -291,6 +291,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 
         public void ResolveValidatorAttributes(IViewData data)
         {
+            if (data.Validator != null)
+                return;
+
             var modelType = data.ModelType;
 
             object? o = modelType
@@ -301,12 +304,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 ValidatorAttribute fta = (ValidatorAttribute)o;
                 data.ValidatorType = fta.ValidatorType;
                 data.ValidatorTypeName = fta.ValidatorTypeName;
-                if (data.ValidatorType != null && data.Validator == null)
-                {
-                    data.Validator = typeof(GenericValidator<,>)
-                        .MakeGenericType(data.ValidatorType, modelType)
-                        .New<IViewValidator>();
-                }
+
+                if (data.ValidatorType == null)
+                    return;
+
+                data.Validator = typeof(GenericValidator<,>)
+                    .MakeGenericType(data.ValidatorType, modelType)
+                    .New<IViewValidator>();
             }
         }
     }

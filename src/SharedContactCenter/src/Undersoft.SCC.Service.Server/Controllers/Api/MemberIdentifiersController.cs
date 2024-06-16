@@ -6,7 +6,7 @@ namespace Undersoft.SCC.Service.Server.Controllers.Api;
 
 using Undersoft.SCC.Domain.Entities;
 
-[Route($"{StoreRoutes.ApiDataRoute}/ContactIdentifier")]
+[Route($"{StoreRoutes.ApiDataRoute}/MemberIdentifier")]
 public class MemberIdentifiersController
     : ApiCqrsController<
         long,

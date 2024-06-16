@@ -6,7 +6,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License. 
+//   Licensed under the MIT License.
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
 //   application: Undersoft.SCC.Service.Application.Client
@@ -43,12 +43,7 @@ public class Program
         var manager = builder.Services
             .AddServiceSetup(builder.Configuration)
             .ConfigureServices(
-                new[]
-                {
-                    typeof(ApplicationClient),
-                    typeof(AccessClient),
-                    typeof(EventClient)
-                }
+                new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) }
             )
             .Manager;
 
@@ -60,8 +55,7 @@ public class Program
             {
                 var reg = manager.GetRegistry();
                 reg.AddAuthorizationCore()
-                    .AddFluentUIComponents(
-                        (o) => o.UseTooltipServiceProvider = true)
+                    .AddFluentUIComponents((o) => o.UseTooltipServiceProvider = true)
                     .AddScoped<
                         IRemoteRepository<IAccountStore, Account>,
                         RemoteRepository<IAccountStore, Account>
@@ -85,14 +79,8 @@ public class Program
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Member>>, MemberValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Group>>, GroupValidator>()
-                        .AddScoped<IValidator<IViewData<ViewModels.Detail>>, DetailValidator>()
-                            .AddScoped<IValidator<IViewData<ViewModels.Setting>>, SettingValidator>()
-                    .AddScoped<AccountValidator>()
-                    .AddScoped<AccessValidator>()
-                    .AddScoped<MemberValidator>()
-                    .AddScoped<GroupValidator>()
-                  .AddScoped<DetailValidator>()
-                  .AddScoped<SettingValidator>();
+                    .AddScoped<IValidator<IViewData<ViewModels.Detail>>, DetailValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Setting>>, SettingValidator>();
                 reg.MergeServices(services, true);
             }
         );

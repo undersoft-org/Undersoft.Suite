@@ -16,7 +16,7 @@ using Undersoft.SCC.Service.Contracts;
 /// <summary>
 /// The contact validator.
 /// </summary>
-public class MemberValidator : CommandValidator<Member>
+public class MemberValidator : CommandValidator<MemberNode>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MemberValidator"/> class.

@@ -379,11 +379,8 @@ namespace Undersoft.SDK.Service
             Registry.AddOpenDataRemoteImplementations();
         }
 
-        public async Task<ServiceManager> UseServiceClients(bool buildProvider = false, int delayInSeconds = 0)
+        public async Task<ServiceManager> UseServiceClients(bool buildProvider = false)
         {
-            if (delayInSeconds > 0)
-                await Task.Delay(delayInSeconds * 1000);
-
             await LoadDataServiceModels();
 
             if (buildProvider)

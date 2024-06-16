@@ -51,7 +51,7 @@ namespace Undersoft.SDK.Service
         T EnsureGetService<T>();
         object EnsureGetService<T>(Type type);
         Task LoadDataServiceModels();
-        Task<ServiceManager> UseServiceClients(bool buildProvider = false, int delayInSeconds = 0);
+        Task<ServiceManager> UseServiceClients(bool buildProvider = false);
 
     }
 }

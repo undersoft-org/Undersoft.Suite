@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections;
 using System.Linq.Expressions;
-using Undersoft.SDK.Service.Data.Mapper;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
@@ -18,7 +17,6 @@ public abstract class Repository : IRepository
 {
     protected RelatedType relatedtype = RelatedType.None;
     protected Uscn serialcode;
-    protected IDataMapper mapper;
     protected bool loaded;
     protected bool audited;
 
@@ -57,8 +55,6 @@ public abstract class Repository : IRepository
     public Expression Expression { get; set; }
 
     public IQueryProvider Provider { get; set; }
-
-    public IDataMapper Mapper => mapper ??= DataMapper.GetMapper();
 
     public Uscn Empty => Uscn.Empty;
 
