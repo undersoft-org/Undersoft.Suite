@@ -1,4 +1,5 @@
 using Microsoft.FluentUI.AspNetCore.Components;
+using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
@@ -7,7 +8,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
     {
         protected override void OnInitialized()
         {
-            _type = FilteredType;
+            _type = FilteredType.GetNotNullableType();
             _size = Rubric.RubricSize;
             _label = Filter.Member.Split('.').Last();
             if (_label == Rubric.RubricName)

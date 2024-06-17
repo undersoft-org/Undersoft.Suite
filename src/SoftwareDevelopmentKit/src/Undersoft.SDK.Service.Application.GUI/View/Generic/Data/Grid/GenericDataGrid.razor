@@ -22,21 +22,22 @@
                             <CascadingValue Value="@RubricOrdinalSeed">
                                 <CascadingValue Value="@GridTemplateColumns">
 
+                                    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
+
+                                        @if (ShowTitle)
+                                        {
+                                            <FluentLabel Typo="Typography.H2" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 8px 8px">
+                                                @Title
+                                            </FluentLabel>
+                                        }
+                                        <FluentSpacer />
+
+                                        <GenericDataGridPagination Parent="this" />
+
+                                    </FluentStack>
+
                                     <div class="datagrid" tabindex="-1">
 
-                                        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
-
-                                            @if (ShowTitle)
-                                            {
-                                                <FluentLabel Typo="Typography.H2" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 5px 0px">
-                                                    @Title
-                                                </FluentLabel>
-                                            }
-                                            <FluentSpacer />
-
-                                            <GenericDataGridPagination Parent="this" />
-
-                                        </FluentStack>
                                         <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
                                             <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
@@ -44,7 +45,7 @@
                                             <GenericDataGridBody Parent="@this" />
 
                                         </FluentDataGrid>
-
+                                    
                                     </div>
 
                                 </CascadingValue>

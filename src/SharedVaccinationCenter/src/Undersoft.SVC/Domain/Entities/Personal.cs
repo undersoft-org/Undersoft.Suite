@@ -12,7 +12,7 @@ namespace Undersoft.SVC.Domain.Entities;
 
 public class Personal : Entity
 {
-    public IdentifierType? IdentifierType { get; set; }
+    public IdentifierType IdentifierType { get; set; }
 
     public string? Identifier { get; set; } = default!;
 

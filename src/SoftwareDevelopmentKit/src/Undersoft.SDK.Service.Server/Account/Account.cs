@@ -38,12 +38,12 @@ public class Account : Authorization, IEntity, IAccount
     public long UserId { get; set; }
     public virtual AccountUser User { get; set; }
 
-    public virtual Listing<Role> Roles { get; set; }
+    public virtual IList<Role> Roles { get; set; }
 
     [NotMapped]
-    public Listing<AccountClaim> Claims { get; set; }
+    public IList<AccountClaim> Claims { get; set; }
 
-    public virtual Listing<AccountToken> Tokens { get; set; }
+    public virtual IList<AccountToken> Tokens { get; set; }
 
     public long? PersonalId { get; set; }
     public virtual AccountPersonal Personal { get; set; }

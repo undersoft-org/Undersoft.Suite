@@ -61,7 +61,31 @@ else if (_type.IsValueType)
     @if (_type.IsAssignableTo(typeof(DateTime)))
     {
         <div style="width:@Width">
-            <FluentDatePicker Name="@_name" Style="width:100%" @bind-Value="@_timeValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentDatePicker Name="@_name" Style="width:100%" @bind-Value="@_dateValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(DateOnly)))
+    {
+        <div style="width:@Width">
+            <FluentDatePicker Name="@_name" Style="width:100%" @bind-Value="@_dateOnlyValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(TimeOnly)))
+    {
+        <div style="width:@Width">
+            <FluentTimePicker Name="@_name" Style="width:100%" @bind-Value="@_timeOnlyValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(TimeSpan)))
+    {
+        <div style="width:@Width">
+            <FluentTimePicker Name="@_name" Style="width:100%" @bind-Value="@_timeSpan" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+        </div>
+    }
+    else if (_type.IsAssignableTo(typeof(DateTimeOffset)))
+    {
+        <div style="width:@Width">
+            <FluentDatePicker Name="@_name" Style="width:100%" @bind-Value="@_dateOffsetValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(Enum)))

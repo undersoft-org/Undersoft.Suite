@@ -267,6 +267,12 @@ code {
         right: unset
     }
 
+    .datagrid {
+        display: grid;
+        grid-auto-columns: max-content;
+        overflow-x:auto;
+    }
+
     #navmenu-toggle ~ nav {
         display: none;
     }

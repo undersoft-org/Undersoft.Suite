@@ -1,4 +1,4 @@
-﻿.datagrid {
+﻿.generic-datagrid {
     overflow-y: visible;
     max-height: calc(100dvh - 160px);
     width: 100%;

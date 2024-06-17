@@ -14,7 +14,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
     {
         public virtual string? Notes { get; set; }
 
-        public virtual ScheduleType? Type { get; set; }
+        public virtual ScheduleType Type { get; set; }
 
         public virtual DateTime? Date { get; set; }
 

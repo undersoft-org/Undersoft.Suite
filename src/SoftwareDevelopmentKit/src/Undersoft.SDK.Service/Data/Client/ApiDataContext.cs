@@ -83,7 +83,7 @@ namespace Undersoft.SDK.Service.Data.Client
             await using (CommandRegistry)
             {
 
-                foreach (var cmdType in CommandRegistry)
+                foreach (var cmdType in CommandRegistry.AsItems())
                 {
                     foreach (var cmdMethod in cmdType.Value.GroupBy(method => method.MethodName))
                     {
@@ -110,7 +110,7 @@ namespace Undersoft.SDK.Service.Data.Client
 
             await using (CommandRegistry)
             {
-                foreach (var cmdType in CommandRegistry)
+                foreach (var cmdType in CommandRegistry.AsItems())
                 {
                     foreach (var cmdMethod in cmdType.Value.GroupBy(method => method.MethodName))
                     {

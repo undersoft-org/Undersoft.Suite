@@ -159,7 +159,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
             User.AddToRoleAsync(account.User, current);
             if (previous != null)
             {
-                account.Roles.Remove((email + previous).UniqueKey64());
+                ((Listing<Role>)account.Roles).Remove((email + previous).UniqueKey64());
                 User.RemoveFromRoleAsync(account.User, previous);
             }
         }

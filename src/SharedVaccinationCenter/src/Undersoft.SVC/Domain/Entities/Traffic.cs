@@ -14,7 +14,7 @@ namespace Undersoft.SVC.Domain.Entities
     {
         public virtual string? Notes { get; set; }
 
-        public virtual TrafficType? Type { get; set; }
+        public virtual TrafficType Type { get; set; }
 
         public virtual long? CostId { get; set; }
 

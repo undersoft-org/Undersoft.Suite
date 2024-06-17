@@ -42,7 +42,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [Filterable]
         [Sortable]
         [DisplayRubric("State")]
-        public virtual VaccinationState? State { get; set; }
+        public virtual VaccinationState State { get; set; }
 
         [JsonIgnore]
         [VisibleRubric]
@@ -91,9 +91,9 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [Sortable]
         [OpenQuery("Schedule.Type")]
         [DisplayRubric("Type")]
-        public virtual ScheduleType? Type
+        public virtual ScheduleType Type
         {
-            get => Schedule?.Type;
+            get => (Schedule ??= new Schedule()).Type;
             set => (Schedule ??= new Schedule()).Type = value!;
         }
 

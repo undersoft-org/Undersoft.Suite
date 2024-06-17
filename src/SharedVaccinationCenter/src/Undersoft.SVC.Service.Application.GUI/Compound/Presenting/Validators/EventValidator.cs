@@ -11,13 +11,10 @@ using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Application.GUI.View;
 
 namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
-
-using Undersoft.SVC.Service.Application.ViewModels;
-
 /// <summary>
 /// The country validator.
 /// </summary>
-public class EventValidator : ViewValidator<Event>
+public class EventValidator : ViewValidator<ViewModels.Event>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DetailValidator"/> class.

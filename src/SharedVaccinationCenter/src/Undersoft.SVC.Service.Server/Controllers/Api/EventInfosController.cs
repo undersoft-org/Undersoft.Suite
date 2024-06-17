@@ -16,12 +16,12 @@ namespace Undersoft.SVC.Service.Server.Controllers.Api;
 /// <summary>
 /// The events controller.
 /// </summary>
-[Route($"{StoreRoutes.ApiEventRoute}/Event")]
-public class EventsController : ApiEventController<long, IEventStore, Event, Event>
+[Route($"{StoreRoutes.ApiEventRoute}/EventInfo")]
+public class EventInfosController : ApiEventController<long, IEventStore, Event, EventInfo>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EventsController"/> class.
+    /// Initializes a new instance of the <see cref="EventInfosController"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
-    public EventsController(IServicer servicer) : base(servicer) { }
+    public EventInfosController(IServicer servicer) : base(servicer) { }
 }

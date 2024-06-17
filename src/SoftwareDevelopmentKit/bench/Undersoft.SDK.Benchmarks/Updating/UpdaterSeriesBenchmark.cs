@@ -7,7 +7,6 @@ namespace Undersoft.SDK.Benchmarks.Instant.Math
     using Undersoft.SDK.Instant.Series;
     using Undersoft.SDK.Proxies;
     using Undersoft.SDK.Series;
-    using Undersoft.SDK.Service.Data.Mapper;
     using Undersoft.SDK.Updating;
 
     [MemoryDiagnoser]
@@ -21,7 +20,6 @@ namespace Undersoft.SDK.Benchmarks.Instant.Math
         private IInstantSeries InstantSeriesEmpty;
         private ISeries<User> users;
         private ISeries<EmptyUser> emptyUsers;
-        private DataMapper mapper;
 
         public UpdaterSeriesBenchmark()
         {
@@ -30,7 +28,6 @@ namespace Undersoft.SDK.Benchmarks.Instant.Math
         [GlobalSetup]
         public void Setup()
         {
-            mapper = new DataMapper();
             users = new Listing<User>();
 
             for (int i = 0; i < 1000 * 100; i++)
@@ -47,12 +44,6 @@ namespace Undersoft.SDK.Benchmarks.Instant.Math
             {
                 emptyUsers.Add(new EmptyUser());
             }
-        }
-
-        [Benchmark]
-        public void Mapper_Map()
-        {
-            users.ForEach((m, x) => mapper.Map(m, emptyUsers[x])).Commit();
         }
 
 

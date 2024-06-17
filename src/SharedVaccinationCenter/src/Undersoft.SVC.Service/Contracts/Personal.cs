@@ -13,7 +13,7 @@ namespace Undersoft.SVC.Service.Contracts;
 
 public class Personal : DataObject, IContract
 {
-    public IdentifierType? IdentifierType { get; set; }
+    public IdentifierType IdentifierType { get; set; }
 
     public string? Identifier { get; set; } = default!;
 

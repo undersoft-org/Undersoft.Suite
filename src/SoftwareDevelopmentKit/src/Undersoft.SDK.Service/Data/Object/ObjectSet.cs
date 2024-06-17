@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Undersoft.SDK.Service.Data.Object
 {
 
-    public class ObjectSet<TDto> : KeyedCollection<long, TDto>, IFindable where TDto : class, IOrigin
+    public class ObjectSet<TDto> : KeyedCollection<long, TDto>, IFindable where TDto : class, IIdentifiable
     {
         public ObjectSet() { }
 
@@ -12,7 +12,7 @@ namespace Undersoft.SDK.Service.Data.Object
 
         protected override long GetKeyForItem(TDto item)
         {
-            return item.Id == 0 ? item.AutoId() : item.Id;
+            return item.Id == 0 ? Unique.NewId : item.Id;
         }
 
         [IgnoreDataMember]

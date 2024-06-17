@@ -14,7 +14,7 @@ namespace Undersoft.SVC.Domain.Entities;
 /// </summary>
 public class Organization : Entity
 {
-    public IdentifierType? OrganizatioIdentifierType { get; set; }
+    public IdentifierType OrganizatioIdentifierType { get; set; }
 
     public string? OrganizatioIdentifier { get; set; }
 

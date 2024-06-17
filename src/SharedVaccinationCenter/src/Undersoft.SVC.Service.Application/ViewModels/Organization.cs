@@ -14,7 +14,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels;
 /// </summary>
 public class Organization : DataObject, IViewModel
 {
-    public IdentifierType? OrganizatioIdentifierType { get; set; }
+    public IdentifierType OrganizatioIdentifierType { get; set; }
 
     public string? OrganizatioIdentifier { get; set; }
 

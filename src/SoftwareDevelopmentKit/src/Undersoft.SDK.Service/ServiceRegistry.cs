@@ -111,7 +111,7 @@ namespace Undersoft.SDK.Service
             {
                 if (disposing)
                 {
-                    foreach (var service in this)
+                    foreach (var service in this.AsItems())
                         service.Dispose();
                     base.Dispose(true);
                 }

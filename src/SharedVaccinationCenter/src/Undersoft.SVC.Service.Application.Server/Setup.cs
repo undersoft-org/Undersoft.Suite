@@ -1,6 +1,6 @@
 ﻿// ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License. 
+//   Licensed under the MIT License.
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
 //   server: Undersoft.SVC.Service.Application.Server
@@ -32,37 +32,36 @@ public class Setup
         srvc.AddApplicationServerSetup()
             .ConfigureApplicationServer(
                 true,
-                new[]
-                {
-                    typeof(EventStore),
-                    typeof(ReportStore),
-                    typeof(EntryStore)
-                },
-                new[]
-                {
-                    typeof(ServiceClient),
-                    typeof(AccessClient)
-                }
+                new[] { typeof(EventStore), typeof(ReportStore), typeof(EntryStore) },
+                new[] { typeof(ServiceClient), typeof(AccessClient) }
             )
             .AddDataServer<IEntityStore>(
                 DataServerTypes.All,
                 builder =>
                     builder
                         .AddInvocations<Appointment>()
+                        .AddInvocations<Campaign>()
+                        .AddInvocations<Certificate>()
+                        .AddInvocations<Manufacturer>()
+                        .AddInvocations<Office>()
+                        .AddInvocations<PostSymptom>()
+                        .AddInvocations<Procedure>()
+                        .AddInvocations<Request>()
+                        .AddInvocations<Stock>()
+                        .AddInvocations<Traffic>()
                         .AddInvocations<Vaccine>()
+                        .AddInvocations<Supplier>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,
-                builder =>
-                    builder
-                        .AddInvocations<Event>()
-            ).AddDataServer<IAccountStore>(
+                builder => builder.AddInvocations<EventInfo>()
+            )
+            .AddDataServer<IAccountStore>(
                 DataServerTypes.All,
-                builder =>
-                    builder
-                        .AddInvocations<Account>()
+                builder => builder.AddInvocations<Account>()
             );
     }
+
     /// <summary>
     /// Configures the specified application.
     /// </summary>

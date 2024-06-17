@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Uniques;
 
@@ -23,38 +24,58 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         private long? _longValue
         {
-            get => Value is long ? (long?)Value : null;
-            set => Value = value;
+            get => Value is long? ? (long?)Value : Value is long ? (long)Value : null;
+            set => Value = value != null ? value : Value;
         }
         private double? _doubleValue
         {
-            get => Value is double ? (long?)Value : null;
-            set { Value = value; }
+            get => Value is double? ? (long?)Value : Value is double ? (double)Value : null;
+            set => Value = value != null ? value : Value;
         }
         private int? _intValue
         {
-            get => Value is int ? (int?)Value : null;
-            set => Value = value;
+            get => Value is int? ? (int?)Value : Value is int ? (int)Value : null;
+            set => Value = value != null ? value : Value;
         }
         private float? _floatValue
         {
-            get => Value is float ? (float?)Value : null;
-            set { Value = value; }
+            get => Value is float? ? (float?)Value : Value is float ? (float)Value : null;
+            set => Value = value != null ? value : Value;
         }
         private decimal? _decimalValue
         {
-            get => Value is decimal ? (decimal?)Value : null;
-            set { Value = value; }
+            get => Value is decimal? ? (decimal?)Value : Value is decimal ? (decimal)Value : null;
+            set => Value = value != null ? value : Value;
         }
         private string? _textValue
         {
             get => Value is string ? (string?)Value : null;
-            set { Value = value; }
+            set => Value = value != null ? value : Value;
         }
-        private DateTime? _timeValue
+        private DateTime? _dateValue
         {
-            get => Value is DateTime ? (DateTime?)Value : null;
-            set { Value = value; }
+            get => Value is DateTime? ? (DateTime?)Value : Value is DateTime ? (DateTime)Value : null;
+            set => Value = value != null ? value : Value;
+        }
+        private DateTime? _dateOnlyValue
+        {
+            get => Value is DateOnly? ? ((DateOnly?)Value).Value.ToDateTime(new TimeOnly()) : Value is DateOnly ? ((DateOnly)Value).ToDateTime(new TimeOnly()) : null;
+            set => Value = value != null ? new DateOnly(value.Value.Year, value.Value.Month, value.Value.Day) : Value;
+        }
+        private DateTime? _timeOnlyValue
+        {
+            get => Value is TimeOnly? ? new DateTime(((TimeOnly?)Value).Value.Ticks) : Value is TimeOnly ? new DateTime(((TimeOnly)Value).Ticks) : null;
+            set => Value = value != null ? new TimeOnly(value.Value.Ticks) : Value;
+        }
+        private DateTime? _dateOffsetValue
+        {
+            get => Value is DateTimeOffset? ? ((DateTimeOffset?)Value).Value.DateTime : Value is DateTimeOffset ? ((DateTimeOffset)Value).DateTime : null;
+            set => Value = value != null ? new DateTimeOffset(value.Value) : Value;
+        }
+        private DateTime? _timeSpan
+        {
+            get => Value is TimeSpan? ? new DateTime(((TimeSpan?)Value).Value.Ticks) : Value is TimeSpan ? new DateTime(((TimeSpan)Value).Ticks) : null;
+            set => Value = value != null ? new TimeSpan(value.Value.Ticks) : Value;
         }
         private bool _bitValue
         {
@@ -63,7 +84,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         }
         private string? _enumValue
         {
-            get => Value is Enum ? Value.ToString() : null;
+            get => (Value != null && Value.GetType().GetNotNullableType().IsAssignableTo(typeof(Enum))) ? Value.ToString() : null;
             set
             {
                 if (Enum.TryParse(_type, value, true, out var result))
@@ -71,7 +92,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             }
         }
         private List<Option<string>>? _enumOptions =>
-            Value is Enum
+            (Value != null && Value.GetType().GetNotNullableType().IsAssignableTo(typeof(Enum)))
                 ? Enum.GetNames(_type)
                     .ForEach(n => new Option<string> { Value = n, Text = n })
                     .ToList()
@@ -80,7 +101,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         protected override void OnInitialized()
         {
-            _type = Rubric.RubricType;
+            _type = Rubric.RubricType.GetNotNullableType();
             if (Data != null)
                 _proxy = Data.Model.Proxy;
             _isUpload = Rubric.IsFile;

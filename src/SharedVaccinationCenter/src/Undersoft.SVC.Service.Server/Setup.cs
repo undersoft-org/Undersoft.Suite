@@ -55,10 +55,11 @@ public class Setup
                         .AddInvocations<Stock>()
                         .AddInvocations<Traffic>()
                         .AddInvocations<Vaccine>()
+                        .AddInvocations<Supplier>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,
-                builder => builder.AddInvocations<Event>()
+                builder => builder.AddInvocations<EventInfo>()
             )
             .AddDataServer<IAccountStore>(
                 DataServerTypes.All,

@@ -412,9 +412,6 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         {
             data = new ViewData<TModel>(model) { Root = this.Root, Parent = this };
 
-            //data.MapRubrics(t => t.Rubrics, p => p.Visible);
-            //data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-
             data.Rubrics.Add(Rubrics);
             data.ExtendedRubrics.Add(ExtendedRubrics);
 
@@ -466,8 +463,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
             data = viewData;
             data.Root = this.Root;
             data.Parent = this;
-            data.MapRubrics(t => t.Rubrics, p => p.Visible);
-            data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            data.Rubrics.Add(Rubrics);
+            data.ExtendedRubrics.Add(ExtendedRubrics);
 
             var extends = ExtendedRubrics
                 .ForEach(r =>
@@ -556,7 +553,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
         var loadedData = LoadLocal(patch);
 
-        Pagination.IncreaseTotalCount(models.Count);
+        Pagination!.IncreaseTotalCount(models.Count);
 
         if (LoadCompleted != null)
             LoadCompleted.Invoke(this, loadedData);

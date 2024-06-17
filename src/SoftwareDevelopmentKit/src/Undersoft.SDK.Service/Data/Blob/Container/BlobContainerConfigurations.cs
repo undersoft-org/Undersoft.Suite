@@ -49,7 +49,7 @@ namespace Undersoft.SDK.Service.Data.Blob.Container
 
         public BlobContainerConfigurations ConfigureAll(Action<long, BlobContainerConfiguration> configureAction)
         {
-            foreach (var container in _containers)
+            foreach (var container in _containers.AsItems())
             {
                 configureAction(container.Id, container.Value);
             }

@@ -9,9 +9,9 @@ namespace Undersoft.SDK.Service.Server.Accounts
 
         AccountUser User { get; set; }
 
-        Listing<Role> Roles { get; set; }
+        IList<Role> Roles { get; set; }
 
-        Listing<AccountClaim> Claims { get; set; }
+        IList<AccountClaim> Claims { get; set; }
 
         IEnumerable<Claim> GetClaims();
 

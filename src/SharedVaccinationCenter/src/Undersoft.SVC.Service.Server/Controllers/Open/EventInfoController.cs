@@ -3,24 +3,22 @@
 //   Licensed under the MIT License. 
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
-//   server: Undersoft.SVC.Service.Application.Server
+//   server: Undersoft.SVC.Service.Server
 // ********************************************************
 
-using Undersoft.SDK.Service;
-using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
-namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
+namespace Undersoft.SVC.Service.Server.Controllers.Open;
 
 /// <summary>
 /// The event controller.
 /// </summary>
-public class EventController : OpenEventController<long, IEventStore, Event, Event>
+public class EventInfoController : OpenEventController<long, IEventStore, Event, EventInfo>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EventController"/> class.
+    /// Initializes a new instance of the <see cref="EventInfoController"/> class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
-    public EventController(IServicer servicer) : base(servicer) { }
+    public EventInfoController(IServicer servicer) : base(servicer) { }
 }

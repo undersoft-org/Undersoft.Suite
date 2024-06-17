@@ -16,7 +16,7 @@ namespace Undersoft.SVC.Service.Contracts
     {
         public virtual string? Notes { get; set; }
 
-        public virtual VaccinationState? State { get; set; }
+        public virtual VaccinationState State { get; set; }
 
         public virtual long? OfficeId { get; set; }
 

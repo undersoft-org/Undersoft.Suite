@@ -6,7 +6,7 @@
 
 @inherits ViewItem
 
-<FluentDataGridCell GridColumn=@_ordinal Class="@Rubric.Class" Style="@Rubric.Style" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
+<FluentDataGridCell GridColumn=@_ordinal Class="@(Rubric.Class + "multiline-text")" Style="@Rubric.Style" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
 
     <GenericValue Rubric="@Rubric" Width="100%" />
 
