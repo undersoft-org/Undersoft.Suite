@@ -1,7 +1,4 @@
 using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SVC.Service.Application.GUI.Compound.Graphic;
-
-
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
 //   Licensed under the MIT License. 
@@ -14,6 +11,7 @@ using Undersoft.SDK;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Application.GUI.View.Model;
+using Undersoft.SVC.Service.Application.GUI.Compound.Graphic;
 
 namespace Undersoft.SVC.Service.Application.GUI.Compound.Access.Dialog;
 
@@ -29,16 +27,9 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
     /// </summary>
     /// <param name="dialogService">The dialog service.</param>
     /// <param name="jS">The j S.</param>
-    public AccessDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService)
+    public AccessDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService, jS)
     {
-        JS = jS;
     }
-
-    /// <summary>
-    /// Gets the JS.
-    /// </summary>
-    /// <value>An <see cref="IJSRuntime"/></value>
-    public IJSRuntime JS { get; private set; }
 
     public override async Task Show(IViewData<TModel> data)
     {
@@ -55,7 +46,10 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
                 PreventDismissOnOverlayClick = true,
                 ShowDismiss = false,
                 Modal = false,
-                PreventScroll = true
+                PreventScroll = true,
+                OnDialogOpened = await OpeningAnimationAsync(),
+                OnDialogClosing = await ClosingAnimationAsync()
+
             });
 
             var result = await Reference.Result;

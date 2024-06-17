@@ -53,6 +53,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
                 Checked = true;
         }
 
+        [CascadingParameter]
+        public ViewRubrics MenuShowRubrics { get; set; } = default!;
+
+        [CascadingParameter]
+        public ViewRubrics MenuEditRubrics { get; set; } = default!;
+
         private IViewData? GetItemOperationsData()
         {
             Data.EntryMode = EntryMode;
@@ -61,7 +67,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
                 var data = typeof(ViewData<>)
                     .MakeGenericType(typeof(GenericDataGridBodyItemMenuEdit))
                     .New<IViewData>(new GenericDataGridBodyItemMenuEdit(Data));
-                data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+                data.ExtendedRubrics = MenuEditRubrics;
                 return data;
             }
             else if (FeatureFlags.Showable)
@@ -74,7 +80,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
             var data = typeof(ViewData<>)
                 .MakeGenericType(typeof(GenericDataGridBodyItemMenuShow))
                 .New<IViewData>(new GenericDataGridBodyItemMenuShow(Data));
-            data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            data.ExtendedRubrics = MenuShowRubrics;
             return data;
         }
     }

@@ -10,6 +10,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data
         public override IServicer Servicer { get; set; } = default!;
 
         [Inject]
-        public override IDialogService DialogService { get; set; } = default!;
+        public override IDialogService? DialogService { get; set; } = default!;
     }
 }

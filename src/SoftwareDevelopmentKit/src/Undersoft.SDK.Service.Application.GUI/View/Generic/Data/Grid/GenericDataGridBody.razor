@@ -5,13 +5,19 @@
 @using Undersoft.SDK.Proxies
 
 @inherits ViewStore
-@if (Items != null)
-{
-    foreach (var data in Items)
-    {
-        <GenericDataGridBodyItem Data="data" />
-    }
-}
+<CascadingValue Value="Multiline">
+    <CascadingValue Value="MenuShowRubrics">
+        <CascadingValue Value="MenuEditRubrics">
+            @if (Items != null)
+            {
+                foreach (var data in Items)
+                {
+                    <GenericDataGridBodyItem Data="data" Style="@Style" />
+                }
+            }
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>
 
 
 

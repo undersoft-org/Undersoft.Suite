@@ -1,6 +1,7 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Rubrics;
+using Undersoft.SDK.Series;
 using Undersoft.SDK.Series.Base;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
@@ -279,6 +280,10 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
     public IViewData? Root { get; set; }
 
     public IViewData? Parent { get; set; }
+
+    public string[]? SearchMembers { get; set; }
+
+    public ISeries<Filter>? SearchFilters { get; set; }
 
     public void RenderView()
     {

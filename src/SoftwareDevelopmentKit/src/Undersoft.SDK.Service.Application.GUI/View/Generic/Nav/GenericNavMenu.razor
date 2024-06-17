@@ -20,7 +20,7 @@
 
                     @if (Collapsible)
                     {
-                        <FluentKeyCode Anchor="@BindingId" OnKeyDown="@HandleExpandCollapseKeyDownAsync" />
+                        <FluentKeyCode GlobalDocument="true" PreventDefault="true" Anchor="@BindingId" OnKeyDown="@HandleExpandCollapseKeyDownAsync" />
                     }
                     @if (!SingleMenu)
                     {

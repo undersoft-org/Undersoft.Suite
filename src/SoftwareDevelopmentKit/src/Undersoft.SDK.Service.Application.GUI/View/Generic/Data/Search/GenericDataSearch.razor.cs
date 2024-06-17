@@ -1,57 +1,37 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
 {
-    public partial class GenericDataSearch : ViewItem
+    public partial class GenericDataSearch : ViewStore
     {
         private bool _isAddable = false;
+        private bool _isOpen;
 
         protected override void OnInitialized()
         {
             if (Parent == null)
                 Root = this;
 
-            if (Rubric.Filterable)
+            if (Data.Searchable)
             {
-                FilteredType = Rubric.FilteredType ?? Rubric.RubricType;
-
-                if (Rubric.FilterMembers == null || !Rubric.FilterMembers.Any())
-                    Rubric.FilterMembers = new[] { Rubric.RubricName };
-
-                Rubric.FilterMembers.ForEach(m =>
+                Data.SearchMembers.ForEach(m =>
                 {
-                    var rubricFilters = Filters.Where(f => f.Member == m).Commit();
-                    if (rubricFilters.Any())
-                    {
-                        EmptyFilters.Put(rubricFilters);
-                    }
-                    else
-                    {
-                        EmptyFilters.Put(new Filter(m, Rubric.RubricType.Default(), CompareOperand.Equal, LinkOperand.And));
-                    }
+                    EmptyFilters.Put(new Filter(m, null, CompareOperand.Contains, LinkOperand.Or));
                 });
-
-                if (FilteredType.IsPrimitive || FilteredType.IsAssignableTo(typeof(DateTime)))
-                    _isAddable = true;
             }
             base.OnInitialized();
         }
 
-        public ISeries<Filter> Filters => Rubric.Filters;
-
         public ISeries<Filter> EmptyFilters { get; set; } = new Listing<Filter>();
 
-        public void CloneLastFilter()
+        [CascadingParameter]
+        public override IViewDataStore DataStore
         {
-            var lastfilter = EmptyFilters.LastOrDefault();
-            if (lastfilter != null)
-                EmptyFilters.Put(new Filter(lastfilter.Member, Rubric.RubricType.Default(), lastfilter.Operand, lastfilter.Link));
-
-            StateHasChanged();
+            get => base.DataStore;
+            set => base.DataStore = value;
         }
-
-        public Type FilteredType { get; set; } = default!;
 
         public virtual bool IsOpen { get; set; }
 
@@ -68,6 +48,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         public override string? Style { get; set; }
 
         [Parameter]
+        public virtual string? Width { get; set; }
+
+        [Parameter]
         public string AnchorId { get; set; } = default!;
 
         [Parameter]
@@ -79,6 +62,14 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         private event EventHandler<object> _onMenuItemChange = default!;
 
         [Parameter]
-        public virtual EventHandler<object> OnMenuItemChange { get => _onMenuItemChange; set { if (value != null) _onMenuItemChange += value; } }
+        public virtual EventHandler<object> OnMenuItemChange
+        {
+            get => _onMenuItemChange;
+            set
+            {
+                if (value != null)
+                    _onMenuItemChange += value;
+            }
+        }
     }
 }

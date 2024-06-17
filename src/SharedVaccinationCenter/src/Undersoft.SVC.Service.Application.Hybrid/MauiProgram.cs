@@ -25,7 +25,7 @@ namespace Undersoft.SVC.Service.Application.Hybrid;
 
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SVC.Service.Application.GUI.Compound.Access;
-using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validatore;
+using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 

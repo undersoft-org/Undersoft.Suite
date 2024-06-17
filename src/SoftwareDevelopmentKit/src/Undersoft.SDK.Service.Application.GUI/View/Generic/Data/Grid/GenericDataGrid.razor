@@ -22,6 +22,8 @@
                             <CascadingValue Value="@RubricOrdinalSeed">
                                 <CascadingValue Value="@GridTemplateColumns">
 
+                                    <GenericDataSearch Anchored="true" AnchorId="genericdatasearch" Parent="this"  VerticalPosition="VerticalPosition.Center" Position="HorizontalPosition.Left"/>
+
                                     <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
 
                                         @if (ShowTitle)
@@ -42,7 +44,7 @@
 
                                             <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 
-                                            <GenericDataGridBody Parent="@this" />
+                                            <GenericDataGridBody Parent="@this" Multiline="@Multiline" Style="@RowStyle" />
 
                                         </FluentDataGrid>
                                     

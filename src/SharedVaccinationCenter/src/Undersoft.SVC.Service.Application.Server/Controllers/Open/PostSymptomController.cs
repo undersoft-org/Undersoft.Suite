@@ -6,17 +6,16 @@
 //   server: Undersoft.SVC.Service.Server
 // ********************************************************
 
-using Undersoft.SDK.Service.Data.Store;
-
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Open;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 
 public class PostSymptomController
-    : OpenDataRemoteController<long, IDataStore, PostSymptom, PostSymptom, ServiceManager>
+    : OpenDataRemoteController<long, IVaccinationStore, PostSymptom, PostSymptom, ServiceManager>
 {
     public PostSymptomController(IServicer servicer) : base(servicer) { }
 }

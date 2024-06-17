@@ -33,9 +33,15 @@ public class Setup
             .ConfigureApplicationServer(
                 true,
                 new[] { typeof(EventStore), typeof(ReportStore), typeof(EntryStore) },
-                new[] { typeof(ServiceClient), typeof(AccessClient) }
+                new[]
+                {
+                    typeof(AccessClient),
+                    typeof(CatalogsClient),
+                    typeof(InventoryClient),
+                    typeof(VaccinationClient)
+                }
             )
-            .AddDataServer<IEntityStore>(
+            .AddDataServer<ICenterStore>(
                 DataServerTypes.All,
                 builder =>
                     builder

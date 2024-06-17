@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Api;
 using Microsoft.AspNetCore.Mvc;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Api;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 /// <summary>
@@ -20,11 +21,7 @@ using Undersoft.SVC.Service.Contracts;
 /// </summary>
 [Route($"{StoreRoutes.ApiDataRoute}/Office")]
 public class OfficesController
-    : ApiCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Office,
+ : ApiDataRemoteController<long, ICatalogsStore, Office,
         Office,
         ServiceManager
     >

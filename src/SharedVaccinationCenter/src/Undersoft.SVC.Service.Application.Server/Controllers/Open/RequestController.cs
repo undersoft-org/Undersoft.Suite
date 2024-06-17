@@ -7,15 +7,15 @@
 // ********************************************************
 
 using Undersoft.SDK.Service;
-using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 public class RequestController
-    : OpenDataRemoteController<long, IDataStore, Request, Request, ServiceManager>
+    : OpenDataRemoteController<long, IInventoryStore, Request, Request, ServiceManager>
 {
     public RequestController(IServicer servicer) : base(servicer) { }
 }

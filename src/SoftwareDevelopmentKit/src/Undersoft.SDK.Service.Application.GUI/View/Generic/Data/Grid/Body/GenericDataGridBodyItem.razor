@@ -10,7 +10,7 @@
 
     <div id="@($"{ViewId}-context-operations")" class="datagrid-body-item" role="button" @onclick="@OnItemClick">
 
-        <FluentDataGridRow @key="@ViewId" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="height:35px" TGridItem="string" @ref=Reference>
+        <FluentDataGridRow @key="@ViewId" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="@Style" TGridItem="string" @ref=Reference>
 
             @if (FeatureFlags.Expandable)
             {

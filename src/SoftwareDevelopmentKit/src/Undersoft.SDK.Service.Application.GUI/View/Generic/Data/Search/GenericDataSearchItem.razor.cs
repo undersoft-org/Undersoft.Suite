@@ -1,4 +1,5 @@
 using Microsoft.FluentUI.AspNetCore.Components;
+using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
@@ -11,34 +12,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         private string? _label { get; set; }
         private List<Option<string>>? _operandOptions { get; set; }
         private List<Option<string>>? _linkOptions { get; set; }
+        private IJSObjectReference _jsModule = default!;
 
-        private string? _operandValue
-        {
-            get => Filter.Operand.ToString();
-            set
-            {
-                if (Enum.TryParse<CompareOperand>(value, true, out var result))
-                    Filter.Operand = result;
-            }
-        }
-        private List<Option<string>>? OperandOptions => _operandOptions ??=
-            Enum.GetNames<CompareOperand>()
-                .ForEach(n => new Option<string> { Value = n, Text = n })
-                .ToList();
+        private FluentSearch fluentSearch = default!;
 
-        private string? _linkdValue
-        {
-            get => Filter.Link.ToString();
-            set
-            {
-                if (Enum.TryParse<LinkOperand>(value, true, out var result))
-                    Filter.Link = result;
-            }
-        }
-        private List<Option<string>>? LinkOptions => _linkOptions ??=
-          Enum.GetNames<LinkOperand>()
-              .ForEach(n => new Option<string> { Value = n, Text = n })
-              .ToList();
+        [Inject]
+        private IJSRuntime JSRuntime { get; set; } = default!;
 
         [CascadingParameter]
         private bool IsOpen { get; set; }
@@ -47,34 +26,35 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         public bool ShowIcons { get; set; } = true;
 
         [Parameter]
-        public Filter Filter { get; set; } = default!;
-
-        [Parameter]
-        public override int Index { get => base.Index; set => base.Index = value; }
+        public override int Index
+        {
+            get => base.Index;
+            set => base.Index = value;
+        }
 
         [Parameter]
         public bool AutoFocus { get; set; }
 
         protected override void OnInitialized()
         {
-            _type = FilteredType;
-            _name = Rubric.RubricName;
-            _label = (Rubric.DisplayName != null) ? Rubric.DisplayName : Rubric.RubricName;
-
-            Id = Filter.Id;
-            TypeId = Filter.TypeId;
+            _name = Data.ModelType.Name;
+            _label = _name;
 
             base.OnInitialized();
+
         }
 
-        public override object? Value
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            get => Filter.Value;
-            set => Filter.Value = value;
+            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import",
+                "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/Data/Search/GenericDataSearchItem.razor.js");
+
+            await _jsModule.InvokeVoidAsync("focusElement", "fluentsearchbar");
+
+            await base.OnAfterRenderAsync(firstRender);
         }
 
-        [CascadingParameter]
-        public Type FilteredType { get; set; } = default!;
+        public virtual string? SearchValue { get; set; }
 
         [CascadingParameter]
         public override IViewData Data
@@ -90,12 +70,34 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
             set => base.Root = value;
         }
 
-        private void OnValueChanged(object value)
+        private async Task HandleSearchAsync()
         {
-            if (value != _type.Default())
+            if (SearchValue != null && SearchValue.Length > 2)
             {
-                Rubric.Filters.Put(Filter);
+                var parent = ((GenericDataSearch)Parent!);
+                var searchFilters = new Listing<Filter>();
+                string[] words = SearchValue.Split(' ');
+                words.ForEach(w =>
+                {
+                    var _w = w.Trim();
+                    searchFilters.Add(
+                        parent.EmptyFilters.ForEach(f => new Filter(
+                            f.Member,
+                            _w,
+                            CompareOperand.Contains,
+                            LinkOperand.Or
+                        ))
+                    );
+                });
+                Data.SearchFilters = searchFilters;
+
+                await parent!.LoadViewAsync();
             }
+        }
+
+        public async Task LoadViewAsync()
+        {
+            await ((IViewStore)Parent!).LoadViewAsync();
         }
 
         private event EventHandler<object> _onMenuItemChange = default!;
@@ -121,7 +123,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
             {
                 OnMenuItemChange(this, Data);
             }
-
         }
     }
 }

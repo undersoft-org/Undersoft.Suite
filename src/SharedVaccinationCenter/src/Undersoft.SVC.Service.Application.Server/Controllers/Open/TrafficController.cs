@@ -7,17 +7,17 @@
 // ********************************************************
 
 using Undersoft.SDK.Service;
-using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service.Server.Controller.Open;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 public class TrafficController
     : OpenDataRemoteController<
         long,
-        IDataStore,
+        IInventoryStore,
         Traffic,
         Traffic,
         ServiceManager

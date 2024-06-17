@@ -7,18 +7,18 @@
 // ********************************************************
 
 using Undersoft.SDK.Service;
-using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service.Server.Controller.Open;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 /// <summary>
 /// The contact controller.
 /// </summary>
 public class StockController
-    : OpenDataRemoteController<long, IDataStore, Stock, Stock, ServiceManager>
+    : OpenDataRemoteController<long, IInventoryStore, Stock, Stock, ServiceManager>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PatientNodeController"/> class.

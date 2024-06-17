@@ -18,9 +18,9 @@
 
         <div class="top-bar-tools" style="height:30px">
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="12">
-                <div id="generic-data-search" class="generic-data-search" style="height:20px">                   
+                <div id="genericdatasearch" class="generic-data-search" style="height:20px" role="button">                   
                         <div>
-                            <FluentIcon Value="@(new Icons.Regular.Size20.Search())" Width="20" Color="Color.FillInverse" />
+                            <FluentIcon Value="@(new Icons.Regular.Size20.Search())" Width="20" Color="Color.FillInverse" OnClick="OnSearchClick" />
                         </div>                   
                 </div>
                 <div class="github" style="height:20px">

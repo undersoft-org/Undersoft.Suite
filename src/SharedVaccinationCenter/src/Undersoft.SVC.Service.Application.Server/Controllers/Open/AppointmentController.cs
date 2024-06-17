@@ -6,19 +6,19 @@
 //   server: Undersoft.SVC.Service.Server
 // ********************************************************
 
-using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 /// <summary>
 /// The contact controller.
 /// </summary>
 public class AppointmentController
-    : OpenDataRemoteController<long, IDataStore, Appointment, Appointment, ServiceManager>
+    : OpenDataRemoteController<long, IVaccinationStore, Appointment, Appointment, ServiceManager>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AppointmentController"/> class.

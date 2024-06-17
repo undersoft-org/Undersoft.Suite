@@ -6,12 +6,11 @@
 
 @inherits ViewItem
 
-<GenericFieldMenuItem Id="@ViewId" @ref="@Reference" Style="height:auto">
+<GenericFieldMenuItem Id="@ViewId"  Style="height:auto" >
     <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.End" HorizontalGap="0" VerticalGap="0" VerticalAlignment="VerticalAlignment.Center">
-        
-        <span>
-            <GenericDataFilterField AutoFocus="@AutoFocus" ValueChanged="@OnValueChanged" Filter="@Filter" Rubric="@Rubric" />
-        </span>
+
+        <FluentSearch Id="fluentsearchbar"  @ref="fluentSearch" Class="@(Class + "searchbar")" @bind-Value="SearchValue"  Appearance="FluentInputAppearance.Outline" @oninput="@(e => SearchValue = e.Value?.ToString())" @bind-Value:after="HandleSearchAsync" />
+       
     </FluentStack>
 
 </GenericFieldMenuItem>

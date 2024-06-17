@@ -98,6 +98,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                    m => m.ResolveQueryRubricAttributes
                )
            );
+            Registry.Add(
+            typeof(OpenSearchAttribute), nameof(IViewData).UniqueKey32(),
+            new Invoker<ViewAttributeResolvers>(
+                ViewResolveAttributes,
+                m => m.ResolveSearchAttributes
+            )
+        );
         }
 
         public static IViewData Resolve(IViewData mr)
@@ -221,6 +228,21 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 mr.FilterMembers = fta.FilterMembers;
                 mr.SortMembers = fta.SortMembers;
                 mr.FilteredType = fta.FilteredType ?? mr.RubricType;
+            }
+        }
+
+        public void ResolveSearchAttributes(IViewData data)
+        {
+            var modelType = data.ModelType;
+
+            object? o = modelType
+                .GetCustomAttributes(typeof(OpenSearchAttribute), false)
+                .FirstOrDefault();
+            if ((o != null))
+            {
+                OpenSearchAttribute fta = (OpenSearchAttribute)o;
+
+                data.SearchMembers = fta.SearchMembers;
             }
         }
 

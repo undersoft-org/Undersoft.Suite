@@ -23,7 +23,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
 
         public string ActiveId
         {
-            get => Data.ActiveRubric.RubricName;
+            get => Data.ActiveRubric!.RubricName;
             set => Data.ActiveRubric = Content.Rubrics[value];
         }
 

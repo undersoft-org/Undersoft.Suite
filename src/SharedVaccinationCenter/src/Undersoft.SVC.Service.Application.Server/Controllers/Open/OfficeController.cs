@@ -6,12 +6,11 @@
 //   server: Undersoft.SVC.Service.Server
 // ********************************************************
 
-using Undersoft.SDK.Service.Data.Store;
-
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Open;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 
@@ -20,11 +19,7 @@ using Undersoft.SVC.Service.Contracts;
 /// The contact controller.
 /// </summary>
 public class OfficeController
-    : OpenCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Office,
+    : OpenDataRemoteController<long, ICatalogsStore, Office,
         Office,
         ServiceManager
     >

@@ -1,0 +1,9 @@
+﻿.searchbar {
+    width: calc(100dvw - 325px);
+}
+
+@media (max-width: 600px) {
+    .searchbar {
+        width: calc(100dvw - 290px);
+    }
+}

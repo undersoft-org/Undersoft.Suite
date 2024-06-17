@@ -153,6 +153,9 @@ footer {
     display: none;
 }
 
+.searchbar {
+    width: calc(100dvw - 325px);
+}
 
 #blazor-error-ui {
     background: lightyellow;
@@ -238,6 +241,10 @@ code {
         height: calc(100dvh - 120px);
     }
 
+    .searchbar{
+        width:calc(100dvw - 290px);
+    }
+
     #main-menu {
         width: 100% !important;
     }
@@ -265,12 +272,6 @@ code {
     [dir="rtl"] .navmenu-icon {
         left: 20px;
         right: unset
-    }
-
-    .datagrid {
-        display: grid;
-        grid-auto-columns: max-content;
-        overflow-x:auto;
     }
 
     #navmenu-toggle ~ nav {

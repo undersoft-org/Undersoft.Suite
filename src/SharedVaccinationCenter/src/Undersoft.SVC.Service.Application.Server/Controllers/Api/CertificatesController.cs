@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Api;
 using Microsoft.AspNetCore.Mvc;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Api;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 /// <summary>
@@ -20,7 +21,7 @@ using Undersoft.SVC.Service.Contracts;
 /// </summary>
 [Route($"{StoreRoutes.ApiDataRoute}/Certificate")]
 public class CertificatesController
-    : ApiDataRemoteController<long, IDataStore, Certificate, Certificate, ServiceManager>
+    : ApiDataRemoteController<long, IVaccinationStore, Certificate, Certificate, ServiceManager>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PatientNodeController"/> class.

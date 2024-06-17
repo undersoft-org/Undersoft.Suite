@@ -10,7 +10,7 @@
 <div class="generic datagrid-footer">
 
     <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Wrap="true">
-        @if (DataStore.Pagination.TotalCount > -1)
+        @if (DataStore.Pagination!.TotalCount > -1)
         {
             <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
                 Total: @DataStore.Pagination.TotalCount results

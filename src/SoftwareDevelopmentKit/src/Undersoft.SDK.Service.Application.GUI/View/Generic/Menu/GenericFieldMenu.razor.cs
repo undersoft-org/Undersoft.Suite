@@ -19,12 +19,12 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
 
     /// <summary />
     internal string? StyleValue => new StyleBuilder(Style)
-        .AddStyle("min-width: max-content")
+        .AddStyle("min-width: min-content")
         .AddStyle("width", Width, () => !string.IsNullOrEmpty(Width))
         .AddStyle("border-radius: calc(var(--layer-corner-radius) * 1px)")
-        .AddStyle("padding: 10px 10px 7px 10px")
+            .AddStyle(!NoPadding ? "padding: 10px 10px 7px 10px" : "")
         .AddStyle("background: var(--fill-color)")
-        .AddStyle("box-shadow: var(--elevation-shadow-flyout)")
+        .AddStyle(!NoShadow ? "box-shadow: var(--elevation-shadow-flyout)" : "")
 
         // For Anchored == false
         .AddStyle("z-index", $"{ZIndex.Menu}", () => !Anchored)
@@ -57,6 +57,19 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
     /// </summary>
     [Parameter]
     public bool Open { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Menu status.
+    /// </summary>
+    [Parameter]
+    public bool NoPadding { get; set; }
+
+
+    /// <summary>
+    /// Gets or sets the Menu status.
+    /// </summary>
+    [Parameter]
+    public bool NoShadow { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

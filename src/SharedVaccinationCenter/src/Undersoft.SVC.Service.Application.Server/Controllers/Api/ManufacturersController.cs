@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Api;
 using Microsoft.AspNetCore.Mvc;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Api;
+using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 
 
@@ -21,11 +22,7 @@ using Undersoft.SVC.Service.Contracts;
 /// </summary>
 [Route($"{StoreRoutes.ApiDataRoute}/Manufacturer")]
 public class ManufacturersController
-    : ApiCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Manufacturer,
+     : ApiDataRemoteController<long, ICatalogsStore, Manufacturer,
         Manufacturer,
         ServiceManager
     >

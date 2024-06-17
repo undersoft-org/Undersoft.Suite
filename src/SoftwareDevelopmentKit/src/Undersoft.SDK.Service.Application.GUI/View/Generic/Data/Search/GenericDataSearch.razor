@@ -5,19 +5,16 @@
 @using Undersoft.SDK
 @using Undersoft.SDK.Invoking
 
-@inherits ViewItem
+@inherits ViewStore
 
 <CascadingValue Value="@Data">
     <CascadingValue Value="@Root">
         <CascadingValue Value="@OnMenuItemChange">
-            <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
-                <CascadingValue Value="@FilteredType">
+            <GenericFieldMenu Width="@Width" Class="@(Class + "searchbar")" NoShadow="true" NoPadding="true" @bind-Open="IsOpen" HorizontalPosition="@Position" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored">
                     <CascadingValue Value="@IsOpen">
 
+                        <GenericDataSearchItem Parent="@this" />
 
-                        <GenericDataFilterItem AutoFocus="true" Rubric="@Rubric" Parent="@this" />
-
-                    </CascadingValue>
                 </CascadingValue>
             </GenericFieldMenu>
         </CascadingValue>

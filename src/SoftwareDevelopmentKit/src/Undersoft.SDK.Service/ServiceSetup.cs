@@ -220,8 +220,10 @@ public partial class ServiceSetup : IServiceSetup
 
             IRepositoryClient repoClient = (IRepositoryClient)repoType.New(_connectionString);
 
+            Type storeType = OpenDataRegistry.GetLinkedStoreType(contextType);
+
             Type storeDbType = typeof(OpenDataClient<>).MakeGenericType(
-                OpenDataRegistry.GetLinkedStoreType(contextType)
+                storeType
             );
             Type storeRepoType = typeof(RepositoryClient<>).MakeGenericType(storeDbType);
 
@@ -248,6 +250,8 @@ public partial class ServiceSetup : IServiceSetup
             registry.AddObject(storeRepoType, storeClient);
 
             manager.AddClientPool(globalClient.ContextType, poolsize);
+
+            AddStoreCache(storeType);
         }
 
         return this;
@@ -289,11 +293,13 @@ public partial class ServiceSetup : IServiceSetup
         Type idatacache = typeof(IStoreCache<>).MakeGenericType(tstore);
         Type datacache = typeof(StoreCache<>).MakeGenericType(tstore);
 
+
         object cache = datacache.New(registry.GetObject<IDataCache>());
 
-        registry.AddObject(idatacache, cache);
-        registry.AddObject(datacache, cache);
-
+        if (registry.GetObject(idatacache) == null)
+            registry.AddObject(idatacache, cache);
+        if (registry.GetObject(datacache) == null)
+            registry.AddObject(datacache, cache);
         return this;
     }
 

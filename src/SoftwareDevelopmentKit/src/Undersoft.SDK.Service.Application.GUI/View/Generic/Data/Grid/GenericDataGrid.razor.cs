@@ -73,6 +73,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [Parameter]
+        public string? RowStyle { get; set; } = "max-height:80px; overflow-y:hidden;";
+
+        [Parameter]
+        public bool Multiline { get; set; } = true;
+
+        [Parameter]
         public bool ShowHover { get; set; } = false;
 
         [Parameter]

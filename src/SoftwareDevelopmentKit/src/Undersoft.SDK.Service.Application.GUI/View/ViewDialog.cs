@@ -4,16 +4,30 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Model;
 
-public class ViewDialog<TDialog, TModel> : IViewDialog<TModel> where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
+public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
+    where TDialog : IDialogContentComponent<IViewData<TModel>>
+    where TModel : class, IOrigin, IInnerProxy
 {
-    public ViewDialog(IDialogService dialogService)
+    private const string JAVASCRIPT_FILE =
+        "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/GenericLayout.razor.js";
+
+    private IJSObjectReference _jsModule = default!;
+
+    public ViewDialog(IDialogService dialogService, IJSRuntime js)
     {
         Service = dialogService;
+        JS = js;
     }
+
+    public IJSRuntime JS { get; private set; }
 
     public IDialogService Service { get; private set; }
 
-    public IViewData<TModel>? Content { get => Data != null ? (IViewData<TModel>)Data : null; set => Data = value; }
+    public IViewData<TModel>? Content
+    {
+        get => Data != null ? (IViewData<TModel>)Data : null;
+        set => Data = value;
+    }
 
     public IViewData? Data { get; set; } = default!;
 
@@ -21,19 +35,48 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel> where TDialog : I
 
     IViewData? IViewDialog.Content => Content;
 
+    protected async Task ImportJsModule()
+    {
+        _jsModule = await JS.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
+    }
+
+    public async Task<EventCallback<DialogInstance>> OpeningAnimationAsync()
+    {
+        if (_jsModule == null)
+            await ImportJsModule();
+
+        return EventCallback.Factory.Create<DialogInstance>(
+            this,
+            async (instance) => await _jsModule!.InvokeVoidAsync("dialogOpeningAnimation")
+        );
+    }
+
+    public async Task<EventCallback<DialogInstance>> ClosingAnimationAsync()
+    {
+        if (_jsModule == null)
+            await ImportJsModule();
+
+        return EventCallback.Factory.Create<DialogInstance>(
+            this,
+            async (instance) => await _jsModule!.InvokeVoidAsync("dialogClosingAnimation")
+        );
+    }
+
     public virtual async Task Show(IViewData<TModel> data)
     {
         if (Service != null)
         {
-            Reference = await Service.ShowDialogAsync<TDialog>(data, new DialogParameters()
-            {
-                Height = data.Height,
-                Width = data.Width,
-                Title = data.Title,
-                Id = data.Model.TypeId.ToString(),
-                PrimaryAction = "Submit"
-
-            });
+            Reference = await Service.ShowDialogAsync<TDialog>(
+                data,
+                new DialogParameters()
+                {
+                    Height = data.Height,
+                    Width = data.Width,
+                    Title = data.Title,
+                    Id = data.Model.TypeId.ToString(),
+                    PrimaryAction = "Submit"
+                }
+            );
 
             var result = await Reference.Result;
             if (!result.Cancelled && result.Data != null)
@@ -108,7 +151,11 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel> where TDialog : I
         }
     }
 
-    public virtual async Task Update(string id, IViewData<TModel> data, Action<DialogParameters>? setup = null)
+    public virtual async Task Update(
+        string id,
+        IViewData<TModel> data,
+        Action<DialogParameters>? setup = null
+    )
     {
         if (Service != null)
         {

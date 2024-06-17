@@ -8,12 +8,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid;
 
 public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel>, IGenericDataGridDialog where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
 {
-    public GenericDataGridDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService)
+    public GenericDataGridDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService, jS)
     {
-        JS = jS;
     }
-
-    public IJSRuntime JS { get; private set; }
 
     public virtual async Task ShowPreview(IViewData data)
     {
@@ -35,6 +32,8 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = true,
                 Modal = true,
                 PreventScroll = true,
+                OnDialogOpened = await OpeningAnimationAsync(),
+                OnDialogClosing = await ClosingAnimationAsync()
             });
 
             var result = await Reference.Result;
@@ -60,7 +59,9 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 PreventDismissOnOverlayClick = true,
                 ShowDismiss = false,
                 Modal = true,
-                PreventScroll = true
+                PreventScroll = true,
+                OnDialogOpened = await OpeningAnimationAsync(),
+                OnDialogClosing = await ClosingAnimationAsync()
             });
 
             var result = await Reference.Result;
@@ -86,7 +87,9 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 PreventDismissOnOverlayClick = true,
                 ShowDismiss = false,
                 Modal = true,
-                PreventScroll = true
+                PreventScroll = true,
+                OnDialogOpened = await OpeningAnimationAsync(),
+                OnDialogClosing = await ClosingAnimationAsync()
             });
 
             var result = await Reference.Result;

@@ -77,6 +77,9 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     {
         var query = Rubrics.GetQuery(predicate);
 
+        if (SearchFilters != null)
+            query.FilterItems.Add(SearchFilters);
+
         Query = new QueryParameters<TDto>(query.FilterItems, query.SortItems);
         Query.Offset = Pagination!.Offset;
         Query.Limit = Pagination.PageSize;
@@ -85,7 +88,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
     public virtual IRemoteRepository<TStore, T> RemoteSet<T>() where T : class, IOrigin, IInnerProxy
     {
-        return _session.ServiceProvider.GetRequiredService<IRemoteRepository<TStore, T>>();
+        return _session!.ServiceProvider.GetRequiredService<IRemoteRepository<TStore, T>>();
     }
 
     public virtual IRemoteRepository<TStore, TDto> RemoteStore()
@@ -181,6 +184,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     )
     {
         MapQuery();
+
+
 
         _repository = RemoteStore();
 

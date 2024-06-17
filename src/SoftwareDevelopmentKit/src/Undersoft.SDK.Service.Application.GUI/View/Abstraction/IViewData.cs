@@ -68,6 +68,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         string? ViewTypeName { get; set; }
 
+        public string[]? SearchMembers { get; set; }
+
+        public ISeries<Filter>? SearchFilters { get; set; }
+
+        public bool Searchable => SearchMembers != null && SearchMembers.Length > 0;
+
         void ClearErrors();
 
         IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
