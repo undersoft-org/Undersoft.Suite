@@ -6,6 +6,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
     public partial class GenericDataGridBody : ViewStore
     {
+        protected override void OnInitialized()
+        {
+            Initialize();
+            base.OnInitialized();
+        }
+
         [CascadingParameter]
         public override IViewItem? Root
         {
@@ -21,6 +27,20 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [CascadingParameter]
+        public override FeatureFlags FeatureFlags
+        {
+            get => base.FeatureFlags;
+            set => base.FeatureFlags = value;
+        }
+
+        [CascadingParameter]
+        public override EditMode EditMode
+        {
+            get => base.EditMode;
+            set => base.EditMode = value;
+        }
+
+        [CascadingParameter]
         public override EntryMode EntryMode
         {
             get => base.EntryMode;
@@ -30,26 +50,23 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         [Parameter]
         public bool Multiline { get; set; } = false;
 
-        private IViewRubrics? _menuShowRubrics;
-        public IViewRubrics? MenuShowRubrics => _menuShowRubrics ??= GetMenuShowRubrics();
+        public IViewRubrics? MenuRubrics { get; set; }
 
-        private IViewRubrics? _menuEditRubrics;
-        public IViewRubrics? MenuEditRubrics => _menuEditRubrics ??= GetMenuEditRubrics();
-
-        private IViewRubrics GetMenuEditRubrics()
+        private void Initialize()
         {
-            var data = typeof(ViewData<>)
-                  .MakeGenericType(typeof(GenericDataGridBodyItemMenuEdit))
-                  .New<IViewData>();
-            return data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-        }
-
-        private IViewRubrics GetMenuShowRubrics()
-        {
-            var data = typeof(ViewData<>)
-                .MakeGenericType(typeof(GenericDataGridBodyItemMenuShow))
-                .New<IViewData>();
-            return data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            IViewData? data = null;
+            if (FeatureFlags.Editable && EditMode != EditMode.None)
+                data = typeof(ViewData<>)
+                    .MakeGenericType(typeof(GenericDataGridBodyItemMenuEdit))
+                    .New<IViewData>();
+            else if (FeatureFlags.Showable)
+                data = typeof(ViewData<>)
+                    .MakeGenericType(typeof(GenericDataGridBodyItemMenuShow))
+                    .New<IViewData>();
+            if (data != null)
+            {
+                MenuRubrics = data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+            }
         }
     }
 }

@@ -7,9 +7,9 @@
 @inherits ViewItem
 
 <FluentDataGridCell GridColumn=@_ordinal Class="@Rubric.Class" Style="@Rubric.Style" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
-
-    <GenericField Rubric="@Rubric" Width="100%" />
-
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:100%">
+        <GenericField Rubric="@Rubric" Width="100%" />
+    </FluentStack>
 </FluentDataGridCell>
 
 

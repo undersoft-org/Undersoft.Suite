@@ -11,21 +11,22 @@
     <CascadingValue Value="@Root">
         <CascadingValue Value="@OnMenuItemChange">
             <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
-                <CascadingValue Value="@FilteredType">
-                    <CascadingValue Value="@IsOpen">
-                        @foreach (ISeriesItem<Filter> filterItem in EmptyFilters.AsItems())
-                        {
-                            @if (filterItem.Index == 0)
+                <CascadingValue Value="@NoLabel">
+                    <CascadingValue Value="@FilteredType">
+                        <CascadingValue Value="@IsOpen">
+                            @foreach (ISeriesItem<Filter> filterItem in EmptyFilters.AsItems())
                             {
-                                <GenericDataFilterItem AutoFocus="true" Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
+                                @if (filterItem.Index == 0)
+                                {
+                                    <GenericDataFilterItem AutoFocus="true" Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
+                                }
+                                else
+                                {
+                                    <GenericDataFilterItem Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
+                                }
                             }
-                            else
-                            {
-                                <GenericDataFilterItem Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
-                            }
-                        }
-                        <GenericDataFilterButtons Rubric="@Rubric" Parent="@this" />
-
+                            <GenericDataFilterButtons Rubric="@Rubric" Parent="@this" />
+                        </CascadingValue>
                     </CascadingValue>
                 </CascadingValue>
             </GenericFieldMenu>

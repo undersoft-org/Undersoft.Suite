@@ -1,7 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 
 
-@inherits ViewItem<TModel>
+@inherits GenericDialog<TModel>
 
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
@@ -20,7 +20,7 @@
 </style>
 
 <CascadingValue Value="@Content">
-    <CascadingValue Value="@FormWizard">
+    <CascadingValue Value="@Form">
         <GenericFormWizardHeader TModel="TModel" />
         <FluentDialogBody>
             <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
@@ -51,14 +51,9 @@
 
     public int ActiveId
     {
-        get => Content.ActiveRubric.RubricOrdinal;
+        get => Content.ActiveRubric!.RubricOrdinal;
         set => Content.ActiveRubric = Content.ExtendedRubrics[value];
     }
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
-    public IViewItem FormWizard => this;
 
     [Parameter]
     public bool GoToFirstEnabled { get; set; }

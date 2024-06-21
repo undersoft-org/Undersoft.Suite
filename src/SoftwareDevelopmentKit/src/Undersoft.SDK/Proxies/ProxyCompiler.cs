@@ -406,10 +406,6 @@ public class ProxyCompiler : ProxyCompilerBase
                         else
                             il.Emit(OpCodes.Stfld, rubricBuilder.Field.RubricInfo);
 
-                        //il.Emit(OpCodes.Ldarg_0);
-                        //il.Emit(OpCodes.Ldstr, rubricBuilder.Name);
-                        //il.EmitCall(OpCodes.Call, raisePropertyChanged, null);
-
                         il.Emit(OpCodes.Ret);
                     }
                 }
@@ -570,11 +566,6 @@ public class ProxyCompiler : ProxyCompilerBase
                         }
                         else
                             il.Emit(OpCodes.Stfld, rubricBuilder.Field.RubricInfo);
-
-                        //il.Emit(OpCodes.Ldarg_0);
-                        //il.Emit(OpCodes.Ldstr, rubricBuilder.Name);
-                        //il.EmitCall(OpCodes.Call, raisePropertyChanged, null);
-
 
                         il.Emit(OpCodes.Ret);
                     }

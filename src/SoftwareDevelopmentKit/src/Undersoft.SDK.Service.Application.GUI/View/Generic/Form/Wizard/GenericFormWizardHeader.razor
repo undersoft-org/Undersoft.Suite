@@ -13,8 +13,8 @@
             <FluentStack Orientation="Orientation.Horizontal" VerticalGap="0" Style="text-align: right;">
                 @if (Content.Logo != null)
                 {                    
-                        <a href="">
-                            <FluentIcon Width="auto" Value="@Content.Logo" Color="Color.FillInverse" />
+                        <a href="" tabindex="-1">
+                            <FluentIcon Width="auto" Value="@Content.Logo" Color="Color.Accent" />
                         </a>                 
                 }
                 <FluentSpacer />
@@ -22,7 +22,7 @@
                 {
                     <FluentIcon Value="@Content.Icon" />
                 }
-                <FluentLabel Typo="Typography.Header" style="font-weight:200">
+                <FluentLabel Typo="Typography.Header" style="font-weight:200" Color="Color.FillInverse">
                     @Dialog.Instance.Parameters.Title
                 </FluentLabel>
             </FluentStack>

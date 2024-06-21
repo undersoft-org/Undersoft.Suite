@@ -3,6 +3,8 @@
 @using Undersoft.SDK.Rubrics
 @using Undersoft.SDK;
 
+@inherits GenericDialog<TModel>
+
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
@@ -11,34 +13,15 @@
 
 
 <CascadingValue Value="@Content">
+    <CascadingValue Value="Form">
+        <!-- Header -->
+        <GenericFormPanelHeader TModel="TModel" />
 
-    <!-- Header -->
-    <GenericFormPanelHeader TModel="TModel" />
+        <!-- Body -->
+        <GenericFormPanelBody TValidator="TValidator" TModel="TModel" />
 
-    <!-- Body -->
-    <GenericFormPanelBody TValidator="TValidator" TModel="TModel" />
+        <!-- Footer -->
+        <GenericFormPanelFooter TModel="TModel" />
 
-    <!-- Footer -->
-    <GenericFormPanelFooter TModel="TModel" />
-
+    </CascadingValue>
 </CascadingValue>
-
-@code
-{
-    [Parameter]
-    public IViewData<TModel> Content { get; set; } = default!;
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        Content.View = this;
-        base.OnInitialized();
-    }
-
-    public void RenderView()
-    {
-        this.StateHasChanged();
-    }
-}

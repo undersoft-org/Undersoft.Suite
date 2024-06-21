@@ -7,9 +7,9 @@
 @inherits ViewItem
 
 <FluentDataGridCell GridColumn=@Ordinal Class="@Class" Style="@Style" TGridItem="string" @key="@ViewId">
-
-    @ChildContent
-
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:100%">
+        @ChildContent
+    </FluentStack>
 </FluentDataGridCell>
 
 

@@ -41,9 +41,10 @@
 
         await _panel.Show(data, (p) =>
         {
-            p.ShowDismiss = true;
+            p.ShowDismiss = true;            
             p.Title = $"Appearance";
-            p.PrimaryAction = "Submit";
+            p.PrimaryAction = null;
+            p.SecondaryAction = null;            
             p.Alignment = HorizontalAlignment.Right;
         });
 

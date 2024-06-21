@@ -29,8 +29,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         }
         private double? _doubleValue
         {
-            get => Value is double? ? (long?)Value : Value is double ? (double)Value : null;
-            set => Value = value != null ? value : Value;
+            get => Value is double? ? (double?)Value : Value is double ? (double)Value : null;
+            set => Value = value != null ? value.Value : Value;
         }
         private int? _intValue
         {
@@ -127,6 +127,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
 
         [Parameter]
         public bool AutoFocus { get; set; }
+
+        [Parameter]
+        public FluentInputAppearance Appearance { get; set; } = FluentInputAppearance.Filled;
 
         [Parameter]
         public override string? Label

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -103,6 +103,9 @@
     <Content Update="View\Generic\GenericPersona.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+       <Content Update="View\Generic\GenericPersona.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>    
     <Content Update="wwwroot\favicon.ico">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

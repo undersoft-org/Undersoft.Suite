@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid;
 
 public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel>, IGenericDataGridDialog where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
 {
-    public GenericDataGridDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService, jS)
+    public GenericDataGridDialog(IDialogService dialogService, IViewDialogAnimations animations) : base(dialogService, animations)
     {
     }
 
@@ -32,8 +32,8 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = true,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = await OpeningAnimationAsync(),
-                OnDialogClosing = await ClosingAnimationAsync()
+                OnDialogOpened = Animations.OpeningFromBottom(),
+                OnDialogClosing = Animations.ClosingToTop()
             });
 
             var result = await Reference.Result;
@@ -60,8 +60,8 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = await OpeningAnimationAsync(),
-                OnDialogClosing = await ClosingAnimationAsync()
+                OnDialogOpened = Animations.OpeningFromBottom(),
+                OnDialogClosing = Animations.ClosingToTop()
             });
 
             var result = await Reference.Result;
@@ -88,8 +88,8 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = await OpeningAnimationAsync(),
-                OnDialogClosing = await ClosingAnimationAsync()
+                OnDialogOpened = Animations.OpeningFromBottom(),
+                OnDialogClosing = Animations.ClosingToTop()
             });
 
             var result = await Reference.Result;

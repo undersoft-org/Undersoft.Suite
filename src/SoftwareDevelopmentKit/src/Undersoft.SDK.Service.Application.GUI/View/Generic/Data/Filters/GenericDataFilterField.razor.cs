@@ -11,7 +11,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             _type = FilteredType.GetNotNullableType();
             _size = Rubric.RubricSize;
             _label = Filter.Member.Split('.').Last();
-            if (_label == Rubric.RubricName)
+            if (NoLabel || _label == Rubric.RubricName)
                 _label = null;
 
             if (Rubric.Width != null)
@@ -22,6 +22,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             Id = Filter.Id;
             TypeId = Filter.TypeId;
         }
+
+        [CascadingParameter]
+        public bool NoLabel { get; set; }
 
         [Parameter]
         public Filter Filter { get; set; } = default!;

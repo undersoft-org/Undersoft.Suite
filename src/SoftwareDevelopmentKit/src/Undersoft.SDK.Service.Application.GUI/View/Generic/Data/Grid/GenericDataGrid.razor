@@ -40,11 +40,11 @@
 
                                     <div class="datagrid" tabindex="-1">
 
-                                        <FluentDataGrid ShowHover="@ShowHover" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+                                        <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
                                             <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 
-                                            <GenericDataGridBody Parent="@this" Multiline="@Multiline" Style="@RowStyle" />
+                                            <GenericDataGridBody Parent="@this" Multiline="@Multiline" />
 
                                         </FluentDataGrid>
                                     

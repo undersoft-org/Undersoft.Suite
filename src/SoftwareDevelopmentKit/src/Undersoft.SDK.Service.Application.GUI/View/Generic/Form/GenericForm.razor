@@ -18,14 +18,7 @@
                 <FluentStack Orientation="@Orientation" Wrap="true" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment" VerticalGap="3">
                     @foreach (var _rubric in _rubrics.AsItems())
                     {
-                        if (_rubric.Index == 0)
-                        {
-                            <GenericField AutoFocus="true" Rubric="@_rubric.Value" />
-                        }
-                        else
-                        {
-                            <GenericField Rubric="@_rubric.Value" />
-                        }
+                        <GenericField Rubric="@_rubric.Value" />
                     }
                 </FluentStack>
             </CascadingValue>
@@ -53,16 +46,18 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        var _firstRubric = _rubrics.FirstOrDefault();
-        if (_firstRubric != null)
+        if (firstRender)
         {
-            var reference = _firstRubric.ViewItem?.Reference;
-            if (reference != null)
+            var _firstRubric = _rubrics.FirstOrDefault();
+            if (_firstRubric != null)
             {
-                ((FluentComponentBase)reference).Element.FocusAsync();
+                var reference = _firstRubric.ViewItem?.Reference;
+                if (reference != null)
+                {
+                    ((FluentComponentBase)reference).Element.FocusAsync();
+                }
             }
         }
-
         base.OnAfterRender(firstRender);
     }
 

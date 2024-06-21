@@ -10,11 +10,15 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Service.Data.Query;
+using Undersoft.SDK.Service.Operation;
 using Undersoft.SVC.Domain.Entities.Enums;
 
 namespace Undersoft.SVC.Service.Application.ViewModels
 {
+    [Validator("AppointmentValidator")]
+    [OpenSearch("Campaign.Name", "Personal.LastName", "Personal.FirstName", "Personal.PhoneNumber")]
     public class Appointment : DataObject, IViewModel
     {
         private string? _name;
@@ -41,6 +45,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(16)]
         [Filterable]
         [Sortable]
+        [OpenQuery("State")]
         [DisplayRubric("State")]
         public virtual VaccinationState State { get; set; }
 
@@ -89,6 +94,19 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(64)]
         [Filterable]
         [Sortable]
+        [OpenQuery("Personal.Birthdate")]
+        [DisplayRubric("Day of birth")]
+        public virtual DateTime? Birthdate
+        {
+            get => (Personal ??= new Personal()).Birthdate;
+            set => (Personal ??= new Personal()).Birthdate = value!.Value;
+        }
+
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(64)]
+        [Filterable]
+        [Sortable]
         [OpenQuery("Schedule.Type")]
         [DisplayRubric("Type")]
         public virtual ScheduleType Type
@@ -106,7 +124,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [DisplayRubric("Date")]
         public virtual DateTime? Date
         {
-            get => Schedule?.Date;
+            get => (Schedule ??= new Schedule()).Date;
             set => (Schedule ??= new Schedule()).Date = value!;
         }
 
@@ -115,7 +133,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(64)]
         [Filterable]
         [Sortable]
-        [OpenQuery("Schedule.StartTime", "Schedule.EndTime")]
+        [OpenQuery(typeof(TimeOnly), "Schedule.StartTime", "Schedule.EndTime")]
         [DisplayRubric("Time")]
         public virtual string? TimeFrame
         {
@@ -125,22 +143,27 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         public virtual long? OfficeId { get; set; }
 
+        [Extended]
         public virtual Office? Office { get; set; }
 
         public virtual long? PersonalId { get; set; }
 
+        [Extended]
         public virtual Personal? Personal { get; set; }
 
         public virtual long? ScheduleId { get; set; }
 
+        [Extended]
         public virtual Schedule? Schedule { get; set; }
 
         public virtual long? CampaignId { get; set; }
 
+        [Extended]
         public virtual Campaign? Campaign { get; set; }
 
         public virtual long? ProcedureId { get; set; }
 
+        [Extended]
         public virtual Procedure? Procedure { get; set; }
     }
 }

@@ -51,5 +51,7 @@
         public object Value { get; set; }
 
         public LinkOperand Link { get; set; }
+
+        public bool Added { get; set; }
     }
 }

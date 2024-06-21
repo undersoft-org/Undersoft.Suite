@@ -17,29 +17,34 @@ public class Event : DataObject, IViewModel
     public Event() : base() { }
 
     [VisibleRubric]
+    [RubricSize(8)]
     [DisplayRubric("ID")]
     public override long Id { get => base.Id; set => base.Id = value; }
 
-    [VisibleRubric]
     public virtual uint Version { get; set; }
 
     [VisibleRubric]
+    [RubricSize(128)]
     [DisplayRubric("Type")]
     public virtual string EventType { get; set; }
 
     [VisibleRubric]
+    [RubricSize(8)]
     [DisplayRubric("Entity ID")]
     public virtual long EntityId { get; set; }
 
     [VisibleRubric]
+    [RubricSize(128)]
     [DisplayRubric("Entity type")]
     public virtual string EntityTypeName { get; set; }
 
     [VisibleRubric]
+    [RubricSize(8)]
     [DisplayRubric("Time")]
     public virtual DateTime PublishTime { get; set; }
 
     [VisibleRubric]
+    [RubricSize(16)]
     [DisplayRubric("Status")]
     public virtual EventPublishStatus PublishStatus { get; set; }
 }

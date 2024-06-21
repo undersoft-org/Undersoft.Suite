@@ -56,7 +56,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Accounts
                     _rubrics["SignOut"].Extended = true;
                 }
             }
-
             Data.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
             if (Parent == null)
                 Root = this;

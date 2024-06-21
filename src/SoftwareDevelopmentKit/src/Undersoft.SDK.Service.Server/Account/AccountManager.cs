@@ -46,6 +46,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         }
         return token;
     }
+
     public async Task<string> GetToken(IAuthorization auth)
     {
         if (!TryGetByEmail(auth.Credentials.Email, out IAccount account))
@@ -65,9 +66,16 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         var validation = await Token.Validate(token);
         if (validation.IsValid)
         {
-            var emailClaim = validation.ClaimsIdentity.Claims.Where(c => c.Type == JwtClaimTypes.Email).FirstOrDefault();
+            var emailClaim = validation
+                .ClaimsIdentity.Claims.Where(c => c.Type == JwtClaimTypes.Email)
+                .FirstOrDefault();
             if (emailClaim != null)
-                _token = await GetToken(new Authorization() { Credentials = new Credentials() { Email = emailClaim.Value } });
+                _token = await GetToken(
+                    new Authorization()
+                    {
+                        Credentials = new Credentials() { Email = emailClaim.Value }
+                    }
+                );
         }
         return _token;
     }
@@ -81,7 +89,13 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         return null;
     }
 
-    public async Task<Account> SetUser(string username, string email, string password, IEnumerable<string> roles, IEnumerable<string> scopes = null)
+    public async Task<Account> SetUser(
+        string username,
+        string email,
+        string password,
+        IEnumerable<string> roles,
+        IEnumerable<string> scopes = null
+    )
     {
         IdentityResult result = null;
         if (!TryGetByEmail(email, out IAccount account))
@@ -91,7 +105,10 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         }
         else
         {
-            result = await User.RemoveFromRolesAsync(account.User, account.Roles.Select(r => r.Name));
+            result = await User.RemoveFromRolesAsync(
+                account.User,
+                account.Roles.Select(r => r.Name)
+            );
             if (result.Succeeded)
             {
                 var claims = await User.GetClaimsAsync(account.User);
@@ -108,25 +125,29 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         if (result.Succeeded)
         {
             var basicClaims = new Claim[]
-                {
+            {
                 new Claim(JwtClaimTypes.Id, account.Id.ToString()),
                 new Claim("user_id", account.UserId.ToString()),
                 new Claim(JwtClaimTypes.Email, account.User.Email),
                 new Claim(JwtClaimTypes.Name, account.User.UserName),
                 new Claim("code_no", account.CodeNo),
-                };
+            };
             if (roles != null)
-                basicClaims = basicClaims.Concat(roles?.Select(r => new Claim(JwtClaimTypes.Role, r))).ToArray();
+                basicClaims = basicClaims
+                    .Concat(roles?.Select(r => new Claim(JwtClaimTypes.Role, r)))
+                    .ToArray();
             if (scopes != null)
-                basicClaims = basicClaims.Concat(scopes?.Select(r => new Claim(JwtClaimTypes.Scope, r))).ToArray();
+                basicClaims = basicClaims
+                    .Concat(scopes?.Select(r => new Claim(JwtClaimTypes.Scope, r)))
+                    .ToArray();
 
-            result = await User.AddClaimsAsync(
-                account.User, basicClaims
-            );
+            result = await User.AddClaimsAsync(account.User, basicClaims);
         }
         if (!result.Succeeded)
         {
-            account.Notes.Errors = result.Errors.Select(e => e.Description).Aggregate((a, b) => a + ", " + b);
+            account.Notes.Errors = result
+                .Errors.Select(e => e.Description)
+                .Aggregate((a, b) => a + ", " + b);
             account.Notes.Status = SigningStatus.Failure;
             return (Account)account;
         }
@@ -159,7 +180,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
             User.AddToRoleAsync(account.User, current);
             if (previous != null)
             {
-                ((Listing<Role>)account.Roles).Remove((email + previous).UniqueKey64());
+                account.Roles.Remove((email + previous).UniqueKey64());
                 User.RemoveFromRoleAsync(account.User, previous);
             }
         }
@@ -174,7 +195,13 @@ public class AccountManager : Registry<IAccount>, IAccountManager
 
         if (claim != null)
         {
-            var _claim = new AccountClaim() { ClaimType = claim.Type, ClaimValue = claim.Value, Id = id, UserId = account.UserId };
+            var _claim = new AccountClaim()
+            {
+                ClaimType = claim.Type,
+                ClaimValue = claim.Value,
+                Id = id,
+                UserId = account.UserId.Value
+            };
             await User.RemoveClaimAsync(account.User, claim);
             var result = await User.AddClaimAsync(account.User, claim);
             if (result.Succeeded)
@@ -198,7 +225,9 @@ public class AccountManager : Registry<IAccount>, IAccountManager
     {
         var role = await SetRole(roleName);
         var roleclaims = await Role.GetClaimsAsync(role);
-        var toset = roleclaims.Where(rc => rc.Type == claim.Type & rc.Value != claim.Value).FirstOrDefault();
+        var toset = roleclaims
+            .Where(rc => rc.Type == claim.Type & rc.Value != claim.Value)
+            .FirstOrDefault();
         if (toset != null)
             await Role.RemoveClaimAsync(role, toset);
         return (await Role.AddClaimAsync(role, claim)).Succeeded;
@@ -279,41 +308,33 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         {
             account.Credentials.PatchFrom(account.User);
             account.User.IsLockedOut = await User.IsLockedOutAsync(account.User);
-            account.Roles = (await User.GetRolesAsync(account.User))
-                .Select(async r => await Role.FindByNameAsync(r))
-                .Select(t => t.Result)
-                .ToList()
-                .Select(
-                    async r => new Role(r.Name)
+            account.Roles = new ObjectSet<Role>(
+                (await User.GetRolesAsync(account.User))
+                    .Select(async r => await Role.FindByNameAsync(r))
+                    .Select(t => t.Result)
+                    .ToList()
+                    .Select(async r => new Role(r.Name)
                     {
-                        Claims = (await Role.GetClaimsAsync(r))
-                                .Select(
-                                    c =>
-                                        new RoleClaim()
-                                        {
+                        Claims = new ObjectSet<RoleClaim>((await Role.GetClaimsAsync(r))
+                            .Select(c => new RoleClaim()
+                            {
+                                ClaimType = c.Type,
+                                ClaimValue = c.Value,
+                                RoleId = r.Id
+                            }))
 
-                                            ClaimType = c.Type,
-                                            ClaimValue = c.Value,
-                                            RoleId = r.Id
-                                        }
-                                )
-                                .ToListing()
-                    }
-                )
-                .Select(r => r.Result)
-                .ToListing();
+                    })
+                    .Select(r => r.Result)
+            );
 
-            account.Claims = (await User.GetClaimsAsync(account.User))
-                .Select(
-                    c =>
-                        new AccountClaim()
-                        {
-                            ClaimType = c.Type,
-                            ClaimValue = c.Value,
-                            UserId = account.Id
-                        }
-                )
-                .ToListing();
+            account.Claims = new ObjectSet<AccountClaim>(
+                (await User.GetClaimsAsync(account.User)).Select(c => new AccountClaim()
+                {
+                    ClaimType = c.Type,
+                    ClaimValue = c.Value,
+                    UserId = account.Id
+                })
+            );
         }
         return account;
     }

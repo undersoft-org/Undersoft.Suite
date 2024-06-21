@@ -5,7 +5,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
     public interface IViewDialog<TModel> : IViewDialog where TModel : class, IOrigin, IInnerProxy
     {
-        IViewData<TModel>? Content { get; }
+        new IViewData<TModel>? Content { get; }
 
         Task Show(IViewData<TModel> data);
 

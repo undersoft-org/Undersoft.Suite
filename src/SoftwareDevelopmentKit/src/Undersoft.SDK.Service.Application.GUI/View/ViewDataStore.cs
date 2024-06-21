@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OData.Client;
 using System.Collections;
 using Undersoft.SDK.Proxies;
-using Undersoft.SDK.Rubrics;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
@@ -61,16 +60,6 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     {
         base.MapRubrics(t => t.Rubrics, p => p.Visible);
         base.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-    }
-
-    public override IViewRubrics MapRubrics(
-        Func<IViewData, IViewRubrics> forRubrics,
-        Func<IRubric, bool> predicate
-    )
-    {
-        base.MapRubrics(forRubrics, predicate);
-        base.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-        return forRubrics(this);
     }
 
     public virtual IQueryParameters MapQuery(Func<IViewRubric, bool>? predicate = null)
@@ -419,6 +408,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
             data.Rubrics.Add(Rubrics);
             data.ExtendedRubrics.Add(ExtendedRubrics);
+            data.ValidatorType = this.ValidatorType;
+            data.Validator = this.Validator;
 
             var extends = ExtendedRubrics
                 .ForEach(r =>

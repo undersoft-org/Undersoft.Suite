@@ -534,14 +534,12 @@ public class AccountService<TAccount> : IAccountService<TAccount>
             this.Failure<Accesslog>(_account.Notes.Errors, account);
         }
 
-        _account.Id = _accountuser.Id;
-        _account.UserId = _accountuser.Id;
+        _account.User = null;
 
         _account = await _manager.Accounts.Put(_account, null);
 
         await _manager.Accounts.Save(true);
 
-        _account.User = _accountuser;
         _account.PatchTo(account);
         _accountuser.PatchTo(account.Credentials);
         _account.Personal.PatchTo(account.Credentials);

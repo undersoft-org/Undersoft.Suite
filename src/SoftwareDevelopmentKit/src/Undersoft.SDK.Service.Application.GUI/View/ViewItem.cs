@@ -29,7 +29,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         }
     }
 
-
     public class ViewItem : ComponentBase, IOrigin, IViewItem
     {
         protected long typeId;
@@ -43,9 +42,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             code.SetId(Unique.NewId);
             IsNew = true;
             if (Parent != null)
+            {
+                if (Parent.Children == null)
+                    Parent.Children = new Listing<IViewItem>();
                 Parent.Children.Put(this);
+            }
             base.OnInitialized();
         }
+
+        public virtual IJSRuntime JSRuntime { get; set; } = default!;
 
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -135,7 +140,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         }
         private IViewRubric _rubric = default!;
 
-        public object? Reference { get; set; } = default!;
+        public object? Reference { get; set; }
 
         [CascadingParameter]
         public virtual IViewItem? Root { get; set; }
@@ -144,7 +149,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         public virtual IViewItem? Parent { get; set; }
 
         [Parameter]
-        public virtual ISeries<IViewItem> Children { get; set; } = new Listing<IViewItem>();
+        public virtual ISeries<IViewItem>? Children { get; set; }
 
         [Parameter]
         public string? BindingId { get; set; }

@@ -10,6 +10,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels;
 
 public class Professional : DataObject, IViewModel
 {
+
     public string? ProfessionalImage { get; set; }
 
     public string? ProfessionalManager { get; set; }

@@ -1,4 +1,4 @@
-﻿@inherits ViewItem<TModel>
+﻿@inherits GenericDialog<TModel>
 
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
@@ -8,7 +8,7 @@
 
 
 <CascadingValue Value="@Content">
-    <CascadingValue Value="@FormTabs">
+    <CascadingValue Value="@Form">
         <!-- Header -->
         <GenericFormTabsHeader TModel="TModel" />
 
@@ -20,18 +20,3 @@
 
     </CascadingValue>
 </CascadingValue>
-
-@code
-{
-    public IViewItem FormTabs => this;
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        Content.View = this;
-
-    }
-
-}

@@ -6,6 +6,11 @@
 //   library: Undersoft.SVC.Service.Application
 // *************************************************
 
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Data.Model.Attributes;
+
 namespace Undersoft.SVC.Service.Application.ViewModels;
 
 /// <summary>
@@ -13,6 +18,13 @@ namespace Undersoft.SVC.Service.Application.ViewModels;
 /// </summary>
 public class Specification : DataObject, IViewModel
 {
+    [IgnoreDataMember]
+    [JsonIgnore]
+    [VisibleRubric]
+    [RubricSize(32)]
+    [DisplayRubric("Image")]
+    [ViewImage(ViewImageMode.Regular, "30px", "30px")]
+    [FileRubric(FileRubricType.Property, "VaccineImageData")]
     public string? VaccineImage { get; set; }
 
     public byte[]? VaccineImageData { get; set; }

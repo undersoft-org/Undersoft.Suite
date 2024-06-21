@@ -39,45 +39,32 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual TModel Model { get; set; } = default!;
 
-    public virtual IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate)
+    public virtual void MapValidator(IViewData source)
     {
-        var rubrics = forRubrics(this);
-        if (!rubrics.Any())
-        {
-            if (Parent != null && Parent.Model.TypeId == Model.TypeId)
-            {
-                rubrics.Add(forRubrics(Parent));
-                Validator = Parent.Validator;
-                ValidatorType = Parent.ValidatorType;
-                ValidatorTypeName = Parent.ValidatorTypeName;
-            }
-            else
-            {
-                ViewAttributes.Resolve(this);
-                if (ValidatorType == null)
-                {
-                    ValidatorType = typeof(ViewValidator<>).MakeGenericType(typeof(TModel));
-                    ValidatorTypeName = ValidatorType.FullName;
-                    Validator = typeof(GenericValidator<,>).MakeGenericType(ValidatorType, typeof(TModel)).New<IViewValidator>();
-                }
-
-                var _proxy = Model.Proxy;
-                int ordinal = 0;
-                foreach (var mr in _proxy.Rubrics.Where(_mr => predicate(_mr)))
-                {
-                    ViewRubric vr = (ViewRubric)mr.ShallowCopy(new ViewRubric());
-                    ViewAttributes.Resolve(vr);
-                    if (vr.IconMember != null)
-                        vr.Icon = (Icon)_proxy[vr.IconMember];
-                    vr.RubricOrdinal = ordinal++;
-                    rubrics.Put(vr);
-                }
-            }
-        }
-        return rubrics;
+        Validator = source.Validator;
+        ValidatorType = source.ValidatorType;
+        ValidatorTypeName = source.ValidatorTypeName;
     }
 
-    public virtual IViewRubrics BasicMapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate)
+    public virtual void MapAttributes()
+    {
+        if (Parent != null && Parent.Model.TypeId == Model.TypeId)
+        {
+            MapValidator(Parent);
+        }
+        else
+        {
+            ViewAttributes.Resolve(this);
+            if (ValidatorType == null)
+            {
+                ValidatorType = typeof(ViewValidator<>).MakeGenericType(typeof(TModel));
+                ValidatorTypeName = ValidatorType.FullName;
+                Validator = typeof(GenericValidator<,>).MakeGenericType(ValidatorType, typeof(TModel)).New<IViewValidator>();
+            }
+        }
+    }
+
+    public virtual IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate, bool resolveAttributes = true)
     {
         var rubrics = forRubrics(this);
         if (!rubrics.Any())
@@ -85,15 +72,23 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
             if (Parent != null && Parent.Model.TypeId == Model.TypeId)
             {
                 rubrics.Add(forRubrics(Parent));
+                MapValidator(Parent);
             }
             else
             {
+                if (resolveAttributes)
+                    MapAttributes();
+
                 var _proxy = Model.Proxy;
                 int ordinal = 0;
                 foreach (var mr in _proxy.Rubrics.Where(_mr => predicate(_mr)))
                 {
                     ViewRubric vr = (ViewRubric)mr.ShallowCopy(new ViewRubric());
                     vr.RubricOrdinal = ordinal++;
+                    if (resolveAttributes)
+                        ViewAttributes.Resolve(vr);
+                    if (vr.IconMember != null)
+                        vr.Icon = (Icon)_proxy[vr.IconMember];
                     rubrics.Put(vr);
                 }
             }

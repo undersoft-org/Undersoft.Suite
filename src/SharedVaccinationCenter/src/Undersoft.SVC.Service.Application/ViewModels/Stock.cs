@@ -6,6 +6,8 @@
 //   library: Undersoft.SVC
 // *************************************************
 
+using Undersoft.SDK.Rubrics.Attributes;
+
 namespace Undersoft.SVC.Service.Application.ViewModels
 {
     public class Stock : DataObject, IViewModel
@@ -14,6 +16,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         public long? VaccineId { get; set; }
 
+        [Extended]
         public virtual Vaccine? Vaccine { get; set; }
 
         public virtual float? Amount { get; set; }

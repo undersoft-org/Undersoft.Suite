@@ -1,5 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 
+@inherits ViewItem<TModel>
+
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
@@ -14,20 +16,14 @@
 
 @code
 {
-    [Parameter]
-    public IViewData<TModel> Content { get; set; } = default!;
-
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
+
+    [Inject]
+    public override IJSRuntime JSRuntime { get => base.JSRuntime; set => base.JSRuntime = value; }
 
     protected override void OnInitialized()
     {
         Content.View = this;
     }
-
-    public void RenderView()
-    {
-        this.StateHasChanged();
-    }
-
 }

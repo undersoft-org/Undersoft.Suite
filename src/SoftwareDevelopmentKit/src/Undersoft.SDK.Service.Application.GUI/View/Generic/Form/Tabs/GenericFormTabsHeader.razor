@@ -8,9 +8,9 @@
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" VerticalGap="0" Style="text-align: center;">
                 @if (Content.Icon != null)
                 {
-                    <FluentIcon Width="auto" Value="@Content.Icon" Color="Color.FillInverse" />
+                    <FluentIcon Width="auto" Value="@Content.Icon" Color="Color.Accent" />
                 }
-                <FluentLabel Typo="Typography.Header" style="font-weight:200">
+                <FluentLabel Typo="Typography.Header" style="font-weight:200" Color="Color.FillInverse">
                     @Dialog.Instance.Parameters.Title
                 </FluentLabel>
             </FluentStack>

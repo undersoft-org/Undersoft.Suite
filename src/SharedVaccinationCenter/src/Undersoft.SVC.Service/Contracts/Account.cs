@@ -24,7 +24,7 @@ using Undersoft.SVC.Service.Contracts.Accounts;
 /// The account.
 /// </summary>
 [Validator("AccountValidator")]
-[ViewSize("400px", "650px")]
+[ViewSize("380px", "650px")]
 public class Account : Authorization, IContract
 {
     /// <summary>
@@ -108,7 +108,7 @@ public class Account : Authorization, IContract
     [JsonIgnore]
     [VisibleRubric]
     [RubricSize(64)]
-    [DisplayRubric("Phone number")]
+    [DisplayRubric("Phone")]
     public virtual string? PhoneNumber
     {
         get => Personal?.PhoneNumber;
@@ -123,7 +123,7 @@ public class Account : Authorization, IContract
     [JsonIgnore]
     [VisibleRubric]
     [RubricSize(128)]
-    [DisplayRubric("Assigned roles")]
+    [DisplayRubric("Roles")]
     public virtual string? RoleString
     {
         get
@@ -166,7 +166,7 @@ public class Account : Authorization, IContract
     /// <summary>
     /// Gets or sets the claims.
     /// </summary>
-    /// <value>A TODO: Add missing XML "/&gt;</value>
+    /// <value>A TODO: Add missing XML "/&gt;</value>   
     [AutoExpand]
     public Listing<Claim>? Claims { get; set; } = default!;
 
@@ -236,6 +236,8 @@ public class Account : Authorization, IContract
     /// Gets or sets the consent.
     /// </summary>
     /// <value>An <see cref="AccountConsent"/></value>
+    [AutoExpand]
+    [Extended]
     public virtual AccountConsent? Consent { get; set; } = default!;
 
     /// <summary>
@@ -248,6 +250,8 @@ public class Account : Authorization, IContract
     /// Gets or sets the subscription.
     /// </summary>
     /// <value>An <see cref="AccountSubscription"/></value>
+    [AutoExpand]
+    [Extended]
     public virtual AccountSubscription? Subscription { get; set; } = default!;
 
     /// <summary>

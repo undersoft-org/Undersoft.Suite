@@ -1,3 +1,4 @@
+using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters;
@@ -19,8 +20,8 @@ public partial class GenericDataFilterButtons : ViewItem
     protected override void OnInitialized()
     {
         if (
-            Rubric.FilteredType!.IsPrimitive
-            || Rubric.FilteredType.IsAssignableTo(typeof(DateTime))
+            Rubric.FilteredType!.GetNotNullableType().IsPrimitive
+            || Rubric.FilteredType!.GetNotNullableType().IsAssignableTo(typeof(DateTime))
         )
             _isAddable = true;
 

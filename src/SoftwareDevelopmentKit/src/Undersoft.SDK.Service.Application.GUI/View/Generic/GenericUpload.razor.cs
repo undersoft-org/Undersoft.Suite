@@ -76,11 +76,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         public string? GetImageStyle()
         {
             var builder = new StyleBuilder()
-                .AddStyle("width: 100%")
-                .AddStyle("height:100%");
+                .AddStyle("width: ")
+                .AddStyle("height: 140px%");
             if (Image != null)
             {
                 builder.AddStyle(GetBackgroundImage())
+                .AddStyle("background-position: center")
+                .AddStyle("background-repeat: no-repeat")
                 .AddStyle("background-size: cover");
             }
             return builder.Build();

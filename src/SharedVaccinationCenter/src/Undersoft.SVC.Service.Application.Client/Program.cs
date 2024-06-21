@@ -21,6 +21,7 @@ using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SVC.Service.Application.Client;
 
+using Undersoft.SDK.Service.Application.GUI;
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SVC.Service.Application.GUI.Compound.Access;
 using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
@@ -55,6 +56,7 @@ public class Program
                 var reg = manager.GetRegistry();
                 reg.AddAuthorizationCore()
                     .AddFluentUIComponents((o) => o.UseTooltipServiceProvider = true)
+                    .AddViewServices()
                     .AddScoped<
                         IRemoteRepository<IAccountStore, Account>,
                         RemoteRepository<IAccountStore, Account>

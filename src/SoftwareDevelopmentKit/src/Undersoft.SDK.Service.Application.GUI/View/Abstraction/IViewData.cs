@@ -76,9 +76,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         void ClearErrors();
 
-        IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
+        void MapAttributes();
 
-        IViewRubrics BasicMapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate);
+        IViewRubrics MapRubrics(Func<IViewData, IViewRubrics> forRubrics, Func<IRubric, bool> predicate, bool resolveAttributes = true);
 
         void ClearData();
 

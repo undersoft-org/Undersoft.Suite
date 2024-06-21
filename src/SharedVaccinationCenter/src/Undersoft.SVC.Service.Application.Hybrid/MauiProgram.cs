@@ -4,18 +4,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System.Reflection;
-
+using Undersoft.SDK.Service;
+using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Application.Access;
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License. 
+//   Licensed under the MIT License.
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
 //   application: Undersoft.SVC.Service.Application.Hybrid
 // ********************************************************
 
-using Undersoft.SDK.Service;
-using Undersoft.SDK.Service.Access;
-using Undersoft.SDK.Service.Application.Access;
+using Undersoft.SDK.Service.Application.GUI;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Data.Remote.Repository;
@@ -36,7 +36,7 @@ public static class MauiProgram
 {
     /// <summary>
     /// There is not any async MAUI entry point type to run application. That's why client started
-    /// in the same time with servers will throw exception ones or twice to logs 
+    /// in the same time with servers will throw exception ones or twice to logs
     /// http client cannot connect and get metadata before servers starts and provide them
     /// Creates maui app.
     /// </summary>
@@ -72,8 +72,8 @@ public static class MauiProgram
         if (config != null)
             builder.Configuration.AddConfiguration(config);
 
-        var manager = builder.Services
-            .AddServiceSetup(config)
+        var manager = builder
+            .Services.AddServiceSetup(config)
             .ConfigureServices(
                 new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) },
                 s => s.AddValidators()
@@ -90,6 +90,7 @@ public static class MauiProgram
                 reg.AddMauiBlazorWebView();
                 reg.AddAuthorizationCore()
                     .AddFluentUIComponents((o) => o.UseTooltipServiceProvider = true)
+                    .AddViewServices()
                     .AddSingleton<AppearanceState>()
                     .AddScoped<
                         IRemoteRepository<IAccountStore, Account>,
@@ -103,24 +104,91 @@ public static class MauiProgram
                         IRemoteRepository<IDataStore, Manufacturer>,
                         RemoteRepository<IDataStore, Manufacturer>
                     >()
-                      .AddScoped<
-                        IRemoteRepository<IEventStore, Event>,
-                        RemoteRepository<IEventStore, Event>
+                    .AddScoped<
+                        IRemoteRepository<IEventStore, EventInfo>,
+                        RemoteRepository<IEventStore, EventInfo>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Appointment>,
+                        RemoteRepository<IDataStore, Appointment>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Campaign>,
+                        RemoteRepository<IDataStore, Campaign>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Certificate>,
+                        RemoteRepository<IDataStore, Certificate>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Procedure>,
+                        RemoteRepository<IDataStore, Procedure>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Stock>,
+                        RemoteRepository<IDataStore, Stock>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Request>,
+                        RemoteRepository<IDataStore, Request>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Traffic>,
+                        RemoteRepository<IDataStore, Traffic>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Vaccine>,
+                        RemoteRepository<IDataStore, Vaccine>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, PostSymptom>,
+                        RemoteRepository<IDataStore, PostSymptom>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, PostSymptom>,
+                        RemoteRepository<IDataStore, PostSymptom>
+                    >()
+                    .AddScoped<
+                        IRemoteRepository<IDataStore, Supplier>,
+                        RemoteRepository<IDataStore, Supplier>
                     >()
                     .AddScoped<AccessProvider<Account>>()
-                    .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(
-                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
                     )
-                    .AddScoped<IAccountAccess, AccessProvider<Account>>(
-                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    .AddScoped<IAccountAccess, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
                     )
-                    .AddScoped<IAccountService<Account>, AccessProvider<Account>>(
-                        sp => sp.GetRequiredService<AccessProvider<Account>>()
+                    .AddScoped<IAccountService<Account>, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Appointment>>, AppointmentValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Office>>, OfficeValidator>();
+                    .AddScoped<IValidator<IViewData<ViewModels.Event>>, EventValidator>()
+                    .AddScoped<
+                        IValidator<IViewData<ViewModels.Appointment>>,
+                        AppointmentValidator
+                    >()
+                    .AddScoped<IValidator<IViewData<ViewModels.Office>>, OfficeValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Vaccine>>, VaccineValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Stock>>, StockValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Procedure>>, ProcedureValidator>()
+                    .AddScoped<
+                        IValidator<IViewData<ViewModels.Certificate>>,
+                        CertificateValidator
+                    >()
+                    .AddScoped<
+                        IValidator<IViewData<ViewModels.PostSymptom>>,
+                        PostSymptomValidator
+                    >()
+                    .AddScoped<IValidator<IViewData<ViewModels.Request>>, RequestValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Traffic>>, TrafficValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Campaign>>, CampaignValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Supplier>>, SupplierValidator>()
+                    .AddScoped<
+                        IValidator<IViewData<ViewModels.Manufacturer>>,
+                        ManufacturerValidator
+                    >();
                 reg.MergeServices(services, true);
             }
         );

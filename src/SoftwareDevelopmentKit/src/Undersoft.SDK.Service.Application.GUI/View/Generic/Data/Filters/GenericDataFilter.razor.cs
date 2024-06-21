@@ -22,6 +22,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
                 if (Rubric.FilterMembers == null || !Rubric.FilterMembers.Any())
                     Rubric.FilterMembers = new[] { Rubric.RubricName };
 
+                if (Rubric.FilterMembers.Length < 2)
+                    NoLabel = true;
+
                 Rubric.FilterMembers.ForEach(m =>
                 {
                     var rubricFilters = Filters.Where(f => f.Member == m).Commit();
@@ -41,6 +44,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             base.OnInitialized();
         }
 
+        public bool NoLabel { get; set; }
+
         public ISeries<Filter> Filters => Rubric.Filters;
 
         public ISeries<Filter> EmptyFilters { get; set; } = new Listing<Filter>();
@@ -49,7 +54,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
         {
             var lastfilter = EmptyFilters.LastOrDefault();
             if (lastfilter != null)
-                EmptyFilters.Put(new Filter(lastfilter.Member, Rubric.RubricType.Default(), lastfilter.Operand, lastfilter.Link));
+                EmptyFilters.Put(new Filter(lastfilter.Member, Rubric.RubricType.Default(), lastfilter.Operand, lastfilter.Link) { Added = true });
 
             StateHasChanged();
         }

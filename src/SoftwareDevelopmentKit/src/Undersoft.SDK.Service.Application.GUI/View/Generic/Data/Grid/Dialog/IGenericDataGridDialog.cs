@@ -4,7 +4,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
 {
     public interface IGenericDataGridDialog : IViewDialog
     {
-        IJSRuntime JS { get; }
+        IJSRuntime? JSRuntime { get; }
 
         Task ShowDelete(IViewData data);
         Task ShowEdit(IViewData data);

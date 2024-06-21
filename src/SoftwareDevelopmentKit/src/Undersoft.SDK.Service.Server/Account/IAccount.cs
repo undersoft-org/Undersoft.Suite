@@ -5,13 +5,13 @@ namespace Undersoft.SDK.Service.Server.Accounts
 {
     public interface IAccount : IOrigin, IAuthorization
     {
-        long UserId { get; set; }
+        long? UserId { get; set; }
 
         AccountUser User { get; set; }
 
-        IList<Role> Roles { get; set; }
+        ObjectSet<Role> Roles { get; set; }
 
-        IList<AccountClaim> Claims { get; set; }
+        ObjectSet<AccountClaim> Claims { get; set; }
 
         IEnumerable<Claim> GetClaims();
 

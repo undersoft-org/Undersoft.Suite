@@ -23,7 +23,26 @@ public class AppearanceState : ViewwModel
     [JsonIgnore]
     public bool IsLoaded { get; set; }
 
+    [Parameter]
+    public int? BaseHorizontalSpacingMultiplier { get; set; } = 3;
+
+    [Parameter]
     public int? Density { get; set; } = 0;
+
+    [Parameter]
+    public int? FontWeight { get; set; } = 300;
+
+    [Parameter]
+    public int? FocusStrokeWidth { get; set; } = 1;
+
+    [Parameter]
+    public string? TypeRampBaseFontSize { get; set; } = "13px";
+
+    [Parameter]
+    public string? TypeRampBaseLineHeight { get; set; } = "18px";
+
+    [Parameter]
+    public int? BaseHeight { get; set; } = 7;
 
     public int? ControlCornerRadius { get; set; } = 0;
 

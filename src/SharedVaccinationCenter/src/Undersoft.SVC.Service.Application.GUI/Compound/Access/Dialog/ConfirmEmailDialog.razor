@@ -1,4 +1,6 @@
-﻿@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+﻿@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
 @implements IDialogContentComponent<IViewData<TModel>>
@@ -35,6 +37,9 @@
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
+    [Inject]
+    public override IJSRuntime JSRuntime { get => base.JSRuntime; set => base.JSRuntime = value; }
+
     protected override void OnInitialized()
     {
         Content.View = this;
@@ -42,7 +47,7 @@
 
     private async Task SaveAsync()
     {
-        if ((await Content.Validator.ValidateAsync()).IsValid)
+        if ((await Content.Validator!.ValidateAsync()).IsValid)
         {
             await Dialog.CloseAsync(Content);
         }

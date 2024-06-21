@@ -27,7 +27,7 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
     /// </summary>
     /// <param name="dialogService">The dialog service.</param>
     /// <param name="jS">The j S.</param>
-    public AccessDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService, jS)
+    public AccessDialog(IDialogService dialogService, IViewDialogAnimations animations) : base(dialogService, animations)
     {
     }
 
@@ -47,8 +47,8 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
                 ShowDismiss = false,
                 Modal = false,
                 PreventScroll = true,
-                OnDialogOpened = await OpeningAnimationAsync(),
-                OnDialogClosing = await ClosingAnimationAsync()
+                OnDialogOpened = Animations.OpeningFromLeft(),
+                OnDialogClosing = Animations.ClosingToRight()
 
             });
 

@@ -39,7 +39,7 @@
 
     public string ActiveId
     {
-        get => Content.ActiveRubric.RubricName;
+        get => Content.ActiveRubric!.RubricName;
         set => Content.ActiveRubric = Content.ExtendedRubrics[value];
     }
 
@@ -47,7 +47,7 @@
     public FluentDialog Dialog { get; set; } = default!;
 
     [CascadingParameter]
-    public IViewItem FormTabs { get; set; } = default!;
+    public IViewItem Form { get; set; } = default!;
 
     [Parameter]
     public override EntryMode EntryMode { get; set; } = EntryMode.Tabs!;

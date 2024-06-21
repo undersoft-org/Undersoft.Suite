@@ -6,6 +6,7 @@
 //   library: Undersoft.SVC.Service.Application
 // *************************************************
 
+using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SVC.Domain.Entities.Enums;
 
@@ -13,18 +14,32 @@ namespace Undersoft.SVC.Service.Application.ViewModels;
 
 public class Personal : DataObject, IContract
 {
+    [VisibleRubric]
+    [DisplayRubric("ID type")]
     public IdentifierType IdentifierType { get; set; }
 
+    [VisibleRubric]
+    [DisplayRubric("ID")]
     public string? Identifier { get; set; } = default!;
 
+    [VisibleRubric]
+    [DisplayRubric("First name")]
     public string FirstName { get; set; } = default!;
 
+    [VisibleRubric]
+    [DisplayRubric("Last name")]
     public string LastName { get; set; } = default!;
 
+    [VisibleRubric]
+    [DisplayRubric("Email")]
     public string Email { get; set; } = default!;
 
+    [VisibleRubric]
+    [DisplayRubric("Phone number")]
     public string PhoneNumber { get; set; } = default!;
 
+    [VisibleRubric]
+    [DisplayRubric("Day of birth")]
     public DateTime Birthdate { get; set; } = DateTime.UtcNow;
 
     public long? AppointmentId { get; set; }

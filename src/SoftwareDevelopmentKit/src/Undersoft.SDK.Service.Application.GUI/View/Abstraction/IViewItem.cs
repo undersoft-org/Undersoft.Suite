@@ -17,6 +17,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         object? Reference { get; set; }
         EditMode EditMode { get; set; }
 
+        IJSRuntime JSRuntime { get; set; }
+
         FeatureFlags FeatureFlags { get; set; }
 
         StateFlags StateFlags { get; set; }

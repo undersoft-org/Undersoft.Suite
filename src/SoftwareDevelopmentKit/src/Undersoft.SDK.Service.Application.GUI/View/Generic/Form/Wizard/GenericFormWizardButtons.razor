@@ -59,16 +59,16 @@
 {
     public int ActiveId
     {
-        get => Content.ActiveRubric.RubricOrdinal;
+        get => Content.ActiveRubric!.RubricOrdinal;
         set => Content.ActiveRubric = Content.ExtendedRubrics[value];
     }
 
-    public bool IsLast => Content.ActiveRubric.RubricOrdinal == Content.ExtendedRubrics.Count - 1;
+    public bool IsLast => Content.ActiveRubric!.RubricOrdinal == Content.ExtendedRubrics.Count - 1;
 
-    public bool IsFirst => Content.ActiveRubric.RubricOrdinal == 0;
+    public bool IsFirst => Content.ActiveRubric!.RubricOrdinal == 0;
 
     [CascadingParameter]
-    public IViewItem FormWizard { get; set; } = default!;
+    public IViewItem Form { get; set; } = default!;
 
     [Parameter]
     public bool Validatable { get; set; } = true;
@@ -94,7 +94,7 @@
             if (result.IsValid)
                 await Dialog.CloseAsync(Content);
             else
-                FormWizard.RenderView();
+                Form.RenderView();
         }
         else
             await Dialog.CloseAsync(Content);
@@ -103,13 +103,13 @@
     private void GoToFirst()
     {
         ActiveId = 0;
-        FormWizard.RenderView();
+        Form.RenderView();
     }
 
     private void GoToLast()
     {
         ActiveId = Content.ExtendedRubrics.Count - 1;
-        FormWizard.RenderView();
+        Form.RenderView();
     }
 
     private async Task Next()
@@ -130,14 +130,14 @@
             if (!IsLast)
                 ActiveId += 1;
         }
-        FormWizard.RenderView();
+        Form.RenderView();
     }
 
     private void Previous()
     {
         if (!IsFirst)
             ActiveId -= 1;
-        FormWizard.RenderView();
+        Form.RenderView();
     }
 
     private async Task CancelAsync(MouseEventArgs e)

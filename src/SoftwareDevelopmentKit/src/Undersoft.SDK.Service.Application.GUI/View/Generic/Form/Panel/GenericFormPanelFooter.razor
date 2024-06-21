@@ -31,13 +31,18 @@
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
+    [CascadingParameter]
+    public IViewItem Form { get; set; } = default!;
+
     private async Task SaveAsync()
     {
-        var result = await Content.Validator.ValidateAsync();
+        var result = await Content.Validator!.ValidateAsync();
         if (result.IsValid)
         {
             await Dialog.CloseAsync(Content);
         }
+        else
+            Form.RenderView();
     }
 
     private async Task CancelAsync(MouseEventArgs e)

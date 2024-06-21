@@ -42,22 +42,26 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
             var dataType = typeof(ViewData<>).MakeGenericType(typeof(TModel));
             var data = dataType.New<IViewData<TModel>>();
-            data.BasicMapRubrics(r => r.Rubrics, v => v.Visible);
+            data.MapRubrics(r => r.Rubrics, v => v.Visible, false);
 
             var templateArray = data.Rubrics
                 .ForEach(r =>
                 {
                     if (r.RubricSize < 4)
-                        return "0.25fr";
-                    if (r.RubricSize < 5)
+                        return "0.1fr";
+                    if (r.RubricSize < 9)
+                        return "0.2fr";
+                    if (r.RubricSize < 17)
+                        return "0.4fr";
+                    if (r.RubricSize < 33)
                         return "0.5fr";
                     if (r.RubricSize < 65)
-                        return "1fr";
+                        return "0.6fr";
                     if (r.RubricSize < 129)
-                        return "1.25fr";
-                    if (r.RubricSize < 513)
-                        return "1.5fr";
-                    return "2fr";
+                        return "0.8fr";
+                    if (r.RubricSize < 259)
+                        return "1fr";
+                    return "0.4fr";
                 })
                 .Commit();
 
@@ -73,7 +77,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [Parameter]
-        public string? RowStyle { get; set; } = "max-height:80px; overflow-y:hidden;";
+        public Func<string, string> ForRowStyle { get; set; } = s => s + " max-height:80px; overflow-y:hidden;";
+
+        [Parameter]
+        public Func<string, string> ForRowClass { get; set; } = r => r + " datagrid-item";
+
+        [Parameter]
+        public string? RowStyle { get; set; }
 
         [Parameter]
         public bool Multiline { get; set; } = true;

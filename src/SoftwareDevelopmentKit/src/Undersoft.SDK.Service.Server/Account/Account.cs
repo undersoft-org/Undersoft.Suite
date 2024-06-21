@@ -11,7 +11,7 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string email)
     {
         User = new AccountUser(email);
-        Roles = new Listing<Role>();
+        Roles = new ObjectSet<Role>();
         Roles.Add(new Role("guest"));
         UserId = User.Id;
         Id = User.Id;
@@ -20,7 +20,7 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string email, string role)
     {
         User = new AccountUser(email);
-        Roles = new Listing<Role>();
+        Roles = new ObjectSet<Role>();
         Roles.Add(new Role(role));
         UserId = User.Id;
         Id = User.Id;
@@ -29,21 +29,21 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string userName, string email, IEnumerable<string> roles)
     {
         User = new AccountUser(userName, email);
-        Roles = new Listing<Role>();
+        Roles = new ObjectSet<Role>();
         roles.ForEach(r => Roles.Add(new Role(r)));
         UserId = User.Id;
         Id = User.Id;
     }
 
-    public long UserId { get; set; }
+    public long? UserId { get; set; }
     public virtual AccountUser User { get; set; }
 
-    public virtual IList<Role> Roles { get; set; }
+    public virtual ObjectSet<Role> Roles { get; set; }
 
     [NotMapped]
-    public IList<AccountClaim> Claims { get; set; }
+    public ObjectSet<AccountClaim> Claims { get; set; }
 
-    public virtual IList<AccountToken> Tokens { get; set; }
+    public virtual ObjectSet<AccountToken> Tokens { get; set; }
 
     public long? PersonalId { get; set; }
     public virtual AccountPersonal Personal { get; set; }

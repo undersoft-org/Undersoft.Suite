@@ -30,7 +30,7 @@
     public FluentDialog Dialog { get; set; } = default!;
 
     [CascadingParameter]
-    public IViewItem FormTabs { get; set; } = default!;
+    public IViewItem Form { get; set; } = default!;
 
     [Parameter]
     public bool Validatable { get; set; } = true;
@@ -49,7 +49,7 @@
             if (result.IsValid)
                 await Dialog.CloseAsync(Content);
             else
-                FormTabs.RenderView();
+                Form.RenderView();
         }
         else
             await Dialog.CloseAsync(Content);

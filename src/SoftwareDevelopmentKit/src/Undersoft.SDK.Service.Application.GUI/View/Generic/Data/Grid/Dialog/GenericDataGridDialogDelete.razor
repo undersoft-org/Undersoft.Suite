@@ -1,4 +1,4 @@
-﻿@inherits ViewItem<TModel>
+﻿@inherits GenericDialog<TModel>
 
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
@@ -22,21 +22,15 @@
 </CascadingValue>
 @code
 {
-    public IViewItem Form => this;
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
     protected override void OnInitialized()
     {
-        Content.View = this;
         var model = Content.Model;
         var proxy = model.Proxy;
         if (proxy.Rubrics.ContainsKey("Name"))
         {
             Content.Model.Label = proxy["Name"].ToString();
         }
-
+        base.OnInitialized();
 
     }
 }

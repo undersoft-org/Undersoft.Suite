@@ -6,6 +6,7 @@
 //   library: Undersoft.SVC.Service
 // *************************************************
 
+using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Data.Contract;
 
@@ -20,6 +21,9 @@ public class Role : InnerProxy, IRole, IContract
     /// Gets or sets the name.
     /// </summary>
     /// <value>A <see cref="string? "/></value>
+    [VisibleRubric]
+    [RubricSize(32)]
+    [DisplayRubric("Name")]
     public virtual string? Name { get; set; }
 
     /// <summary>

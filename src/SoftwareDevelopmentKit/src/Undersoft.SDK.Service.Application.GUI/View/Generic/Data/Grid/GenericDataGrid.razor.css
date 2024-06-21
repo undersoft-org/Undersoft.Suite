@@ -1,6 +1,10 @@
 ﻿.generic-datagrid {
     overflow-y: visible;
-    max-height: calc(100dvh - 160px);
+    max-height: calc(100dvh - 100px);    
     width: 100%;
     padding: 5px 10px 5px 0px
+}
+
+.datagrid{
+    min-width:600px;
 }

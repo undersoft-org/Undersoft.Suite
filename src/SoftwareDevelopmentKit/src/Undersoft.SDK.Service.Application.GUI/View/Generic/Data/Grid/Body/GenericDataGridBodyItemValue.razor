@@ -6,10 +6,10 @@
 
 @inherits ViewItem
 
-<FluentDataGridCell GridColumn=@_ordinal Class="@(Rubric.Class + (Multiline ? "multiline-text" : ""))" Style="@Rubric.Style" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
-
-    <GenericValue Rubric="@Rubric" Width="100%" />
-
+<FluentDataGridCell GridColumn=@_ordinal Class="@(Rubric.Class + (Multiline ? "multiline-text" : ""))" Style="@("align-items:center;" + Rubric.Style)" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:100%">
+        <GenericValue Rubric="@Rubric" Width="100%" />
+    </FluentStack>
 </FluentDataGridCell>
 
 

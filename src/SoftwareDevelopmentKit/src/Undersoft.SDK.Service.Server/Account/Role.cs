@@ -9,7 +9,7 @@ public class Role : IdentityRole<long>, IIdentifiable, IAccountRole
 
     public long TypeId { get; set; }
 
-    public virtual Listing<RoleClaim> Claims { get; set; }
+    public virtual ObjectSet<RoleClaim> Claims { get; set; }
 
-    public virtual Listing<Account> Accounts { get; set; }
+    public virtual ObjectSet<Account> Accounts { get; set; }
 }
