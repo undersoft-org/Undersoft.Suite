@@ -17,7 +17,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         private FluentSearch fluentSearch = default!;
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; } = default!;
+        public override IJSRuntime? JSRuntime { get; set; }
 
         [CascadingParameter]
         private bool IsOpen { get; set; }
@@ -46,7 +46,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import",
+            _jsModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",
                 "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/Data/Search/GenericDataSearchItem.razor.js");
 
             await _jsModule.InvokeVoidAsync("focusElement", "fluentsearchbar");

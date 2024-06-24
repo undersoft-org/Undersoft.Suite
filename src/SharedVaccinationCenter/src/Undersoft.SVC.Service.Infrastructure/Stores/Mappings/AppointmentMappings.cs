@@ -32,15 +32,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-                .RelateOneToOne<Appointment, Personal>(
-                    r => r.Appointment,
+                .RelateOneToOne<Personal, Appointment>(
                     r => r.Personal,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Appointment, Schedule>(
                     r => r.Appointment,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Schedule, Appointment>(
                     r => r.Schedule,
-                    ExpandSite.OnRight,
+                    r => r.Appointment,
+                    ExpandSite.WithMany,
                     true
                 );
         }

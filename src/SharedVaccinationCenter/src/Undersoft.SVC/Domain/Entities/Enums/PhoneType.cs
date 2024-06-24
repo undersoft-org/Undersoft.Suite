@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Domain.Entities.Enums;
 /// </summary>
 public enum PhoneType
 {
+    None,
     Generic,
     Mobile,
     Landline,

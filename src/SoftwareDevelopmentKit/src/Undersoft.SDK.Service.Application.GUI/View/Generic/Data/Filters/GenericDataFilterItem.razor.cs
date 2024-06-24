@@ -41,6 +41,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
               .ToList();
 
         [CascadingParameter]
+        public bool IsAddable { get; set; } = false;
+
+        [CascadingParameter]
         private bool IsOpen { get; set; }
 
         [CascadingParameter]
@@ -92,9 +95,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
 
         private void OnValueChanged(object value)
         {
-            if (value != _type.Default())
+            if (Parent != null)
             {
-                Rubric.Filters.Put(Filter);
+                ((IViewFilter)Parent).UpdateFilters();
+                Parent.RenderView();
             }
         }
 

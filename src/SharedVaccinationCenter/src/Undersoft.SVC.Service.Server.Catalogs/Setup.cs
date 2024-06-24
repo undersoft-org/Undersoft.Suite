@@ -52,6 +52,7 @@ public class Setup
                         .AddInvocations<Office>()
                         .AddInvocations<Vaccine>()
                         .AddInvocations<Supplier>()
+                        .AddInvocations<Price>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

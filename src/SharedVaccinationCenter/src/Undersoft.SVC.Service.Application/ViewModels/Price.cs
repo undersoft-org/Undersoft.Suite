@@ -7,11 +7,10 @@
 // *************************************************
 
 using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SVC.Service.Application.ViewModels
 {
-    public class Price : DataObject, IContract
+    public class Price : DataObject, IViewModel
     {
         [VisibleRubric]
         [RubricSize(32)]

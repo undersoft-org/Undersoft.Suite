@@ -722,6 +722,12 @@ public class Updater : IUpdater
         set => source.Rubrics = value;
     }
 
+    public IRubrics Changes
+    {
+        get => source.Changes;
+        set => source.Changes = value;
+    }
+
     public object Target
     {
         get => source.Target;

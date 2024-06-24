@@ -32,12 +32,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-                .RelateOneToOne<Campaign, Price>(
-                    r => r.Campaign,
-                    r => r.Price,
-                    ExpandSite.OnRight,
-                    true
-                )
                .RelateOneToSet<Campaign, Appointment>(
                     r => r.Campaign,
                     r => r.Appointments,

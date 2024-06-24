@@ -31,25 +31,25 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-                .RelateOneToOne<Certificate, Procedure>(
-                    r => r.Certificate,
+                .RelateOneToOne<Procedure, Certificate>(
                     r => r.Procedure,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Certificate, Personal>(
                     r => r.Certificate,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Personal, Certificate>(
                     r => r.Personal,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Certificate, Term>(
                     r => r.Certificate,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Term, Certificate>(
                     r => r.Term,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Certificate, Payment>(
                     r => r.Certificate,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Payment, Certificate>(
                     r => r.Payment,
-                    ExpandSite.OnRight,
+                    r => r.Certificate,
+                    ExpandSite.OnLeft,
                     true
                 ); ;
         }

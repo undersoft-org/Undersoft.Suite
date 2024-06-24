@@ -14,7 +14,7 @@
         { opacity: "0", transform: "translateX(100%)" }
     ],
         {
-            duration: 1000
+            duration: 650
         }
 
     );
@@ -35,7 +35,7 @@ export async function dialogOpeningFromLeft(id) {
         { opacity: "1", transform: "" }
     ],
         {        
-            duration: 1000
+            duration: 650
         }
     );
     return animation.finished;
@@ -58,7 +58,7 @@ export async function dialogClosingToTop(id) {
         { opacity: "0", transform: "translateY(-100%)" }
     ],
         {
-            duration: 1000
+            duration: 650
         }
 
     );
@@ -79,7 +79,7 @@ export async function dialogOpeningFromBottom(id) {
         { opacity: "1", transform: "" }
     ],
         {
-            duration: 1000
+            duration: 650
         }
     );
     return animation.finished;
@@ -102,7 +102,7 @@ export async function dialogClosing(id) {
         { opacity: "0", transform: "" }
     ],
         {
-            duration: 1000
+            duration: 650
         }
 
     );
@@ -123,7 +123,7 @@ export async function dialogOpening(id) {
         { opacity: "1", transform: "" }
     ],
         {
-            duration: 1000
+            duration: 650
         }
     );
     return animation.finished;

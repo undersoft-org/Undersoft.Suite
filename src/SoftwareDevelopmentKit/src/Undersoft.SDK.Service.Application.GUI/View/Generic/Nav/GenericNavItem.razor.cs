@@ -79,19 +79,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
             string? link = null;
             if (Rubric.LinkValue != null)
                 link = Rubric.LinkValue;
-            if (Rubric.RubricType == typeof(string))
+            else if (Rubric.RubricType == typeof(string))
                 link = Value?.ToString();
             return link;
         }
 
         public void OnClick()
         {
-            if (Rubric.IsLink)
-            {
-                var link = Href;
-                if (link != null)
-                    _navigation.NavigateTo(link);
-            }
             if (Rubric.Invoker != null)
             {
                 Rubric.Invoker.Invoke(Value);

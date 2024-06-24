@@ -103,6 +103,8 @@
             return null;
         }
 
+        public virtual IRubrics Changes { get; set; }
+
         public object[] ValueArray
         {
             get => ToObjectArray();

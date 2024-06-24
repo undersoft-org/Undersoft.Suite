@@ -46,6 +46,69 @@ namespace System
             );
         }
 
+        public static object DefaultNotNullable(this Type type)
+        {
+            var notNullableType = type.GetNotNullableType();
+
+            if (notNullableType.IsAssignableTo(typeof(DateTime)))
+                return DateTime.Now;
+            else if (notNullableType.IsAssignableTo(typeof(DateOnly)))
+                return DateOnly.FromDateTime(DateTime.Now);
+            else if (notNullableType.IsAssignableTo(typeof(DateTimeOffset)))
+                return DateTimeOffset.UtcNow;
+            else
+                return notNullableType.Default();
+        }
+
+        public static object DefaultNullable(this Type type)
+        {
+            var nullable = false;
+            var notNullableType = type;
+            if (type.IsNullable())
+            {
+                notNullableType = type.GetNotNullableType();
+                nullable = true;
+            }
+            object value;
+            if (notNullableType.IsAssignableTo(typeof(DateTime)))
+                value = DateTime.Now;
+            else if (notNullableType.IsAssignableTo(typeof(DateOnly)))
+                value = DateOnly.FromDateTime(DateTime.Now);
+            else if (notNullableType.IsAssignableTo(typeof(DateTimeOffset)))
+                value = DateTimeOffset.UtcNow;
+            else
+                value = notNullableType.Default();
+            if (nullable)
+                return typeof(Nullable<>).MakeGenericType(notNullableType).New(value);
+            return value;
+        }
+
+        public static bool IsNullable(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        }
+
+        public static Type GetNotNullableType(this Type type)
+        {
+            if (type.IsGenericType)
+            {
+                var _type = type.GetGenericTypeDefinition();
+                return _type == typeof(Nullable<>) ? type.GetGenericArguments()[0] : type;
+            }
+            return type;
+        }
+
+        public static Type GetNotNullableType<T>(this T obj)
+        {
+            var type = typeof(T);
+            if (type.IsGenericType)
+            {
+                var _type = type.GetGenericTypeDefinition();
+                return _type == typeof(Nullable<>) ? type.GetGenericArguments()[0] : type;
+            }
+            return type;
+        }
+
         public static unsafe object DefaultHighBits(this Type type)
         {
             if (

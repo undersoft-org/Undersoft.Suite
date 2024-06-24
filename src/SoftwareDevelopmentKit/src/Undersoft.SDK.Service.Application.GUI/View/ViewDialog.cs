@@ -32,6 +32,15 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
 
     IViewData? IViewDialog.Content => Content;
 
+    public async Task ProcessDialog()
+    {
+        var result = await Reference!.Result;
+        if (!result.Cancelled && result.Data != null)
+        {
+            Content = (IViewData<TModel>)result.Data;
+        }
+    }
+
     public virtual async Task Show(IViewData<TModel> data)
     {
         if (Service != null)
@@ -44,15 +53,10 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
                     Width = data.Width,
                     Title = data.Title,
                     Id = data.Model.TypeId.ToString(),
-                    PrimaryAction = "Submit"
+                    PrimaryAction = "Submit",
                 }
             );
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
 
@@ -68,13 +72,8 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
             parameters.PrimaryAction = "Submit";
             setup.Invoke(parameters);
             Reference = await Service.ShowDialogAsync<TDialog>(data, parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
         }
+        await ProcessDialog();
     }
 
     public virtual async Task Show(Action<DialogParameters<TModel>> setup)
@@ -85,13 +84,8 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
             parameters.PrimaryAction = "Submit";
             setup(parameters);
             Reference = await Service.ShowDialogAsync<TDialog>(parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
         }
+        await ProcessDialog();
     }
 
     public virtual async Task Show(IViewData data)
@@ -112,12 +106,7 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
             parameters.PrimaryAction = "Submit";
             setup(parameters);
             Reference = await Service.ShowDialogAsync<TDialog>(parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
 
@@ -139,6 +128,7 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
             if (setup != null)
                 setup(parameters);
             Reference = await Service.UpdateDialogAsync(id, parameters);
+            await ProcessDialog();
         }
     }
 

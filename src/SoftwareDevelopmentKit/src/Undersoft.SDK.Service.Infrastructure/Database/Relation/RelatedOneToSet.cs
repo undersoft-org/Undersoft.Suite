@@ -101,9 +101,9 @@ public class RelatedOneToSet<TParent, TChild> where TParent : class, IOrigin, II
                 else
                     _firstBuilder.Navigation(CHILD_NAME).AutoInclude();
             }
-            else
+            if ((_expandSite & (ExpandSite.OnLeft | ExpandSite.WithMany)) > 0)
             {
-                if (!autoinclude)
+                if (!autoinclude || (_expandSite & ExpandSite.WithMany) > 0)
                     _secondBuilder.Navigation(PARENT_NAME);
                 else
                     _secondBuilder.Navigation(PARENT_NAME).AutoInclude();

@@ -17,7 +17,9 @@ namespace Undersoft.SVC.Service.Contracts
 
         public virtual ScheduleType? Type { get; set; }
 
-        public virtual DateTime? Date { get; set; }
+        public virtual DateTime? StartDate { get; set; }
+
+        public virtual DateTime? EndDate { get; set; }
 
         public virtual TimeOnly? StartTime { get; set; }
 

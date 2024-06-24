@@ -7,12 +7,11 @@
 // *************************************************
 
 using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SVC.Domain.Entities.Enums;
 
 namespace Undersoft.SVC.Service.Application.ViewModels;
 
-public class Personal : DataObject, IContract
+public class Personal : DataObject, IViewModel
 {
     [VisibleRubric]
     [DisplayRubric("ID type")]

@@ -6,6 +6,7 @@
     using SDK.Uniques;
     using System.ComponentModel;
     using System.Runtime.InteropServices;
+    using Undersoft.SDK.Rubrics;
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
@@ -41,6 +42,8 @@
             get => value[propertyName];
             set => this.value[propertyName] = value;
         }
+
+        public virtual IRubrics Changes { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

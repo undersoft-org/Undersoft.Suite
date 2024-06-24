@@ -1,6 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 
-@inherits ViewItem<TModel>
+@inherits GenericDialog<TModel>
 
 @inject NavigationManager _navigation
 
@@ -27,6 +27,9 @@
             Password recovery
         </FluentButton>
         <FluentSpacer />
+       @*  <FluentButton Id="Register" Appearance="Appearance.Lightweight">
+            Register
+        </FluentButton> *@
         <FluentButton Id="SignUp" OnClick="@OnSignUp" Appearance="Appearance.Lightweight">
             Sign up
         </FluentButton>
@@ -39,18 +42,6 @@
 
 @code
 {
-
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
-    [Inject]
-    public override IJSRuntime JSRuntime { get => base.JSRuntime; set => base.JSRuntime = value; }
-
-    protected override void OnInitialized()
-    {
-        Content.View = this;
-    }
-
     private async Task OnSignUp(MouseEventArgs e)
     {
         Content.NextHref = "access/sign_up";
@@ -67,14 +58,10 @@
 
     private async Task SaveAsync()
     {
-        if ((await Content.Validator.ValidateAsync()).IsValid)
+        if ((await Content.Validator!.ValidateAsync()).IsValid)
         {
             await Dialog.CloseAsync(Content);
         }
-    }
-    public void RenderView()
-    {
-        this.StateHasChanged();
     }
 
 }

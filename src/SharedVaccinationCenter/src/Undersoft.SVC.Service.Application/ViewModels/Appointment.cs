@@ -18,6 +18,7 @@ using Undersoft.SVC.Domain.Entities.Enums;
 namespace Undersoft.SVC.Service.Application.ViewModels
 {
     [Validator("AppointmentValidator")]
+    [ViewSize("380px", "750px")]
     [OpenSearch("Campaign.Name", "Personal.LastName", "Personal.FirstName", "Personal.PhoneNumber")]
     public class Appointment : DataObject, IViewModel
     {
@@ -98,7 +99,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [DisplayRubric("Day of birth")]
         public virtual DateTime? Birthdate
         {
-            get => (Personal ??= new Personal()).Birthdate;
+            get => Personal?.Birthdate;
             set => (Personal ??= new Personal()).Birthdate = value!.Value;
         }
 
@@ -120,12 +121,12 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(64)]
         [Filterable]
         [Sortable]
-        [OpenQuery("Schedule.Date")]
+        [OpenQuery("Schedule.StartDate")]
         [DisplayRubric("Date")]
         public virtual DateTime? Date
         {
-            get => (Schedule ??= new Schedule()).Date;
-            set => (Schedule ??= new Schedule()).Date = value!;
+            get => Schedule?.StartDate;
+            set => (Schedule ??= new Schedule()).StartDate = value!;
         }
 
         [JsonIgnore]
@@ -133,7 +134,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(64)]
         [Filterable]
         [Sortable]
-        [OpenQuery(typeof(TimeOnly), "Schedule.StartTime", "Schedule.EndTime")]
+        [OpenQuery(typeof(TimeOnly?), "Schedule.StartTime", "Schedule.EndTime")]
         [DisplayRubric("Time")]
         public virtual string? TimeFrame
         {
@@ -163,7 +164,6 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         public virtual long? ProcedureId { get; set; }
 
-        [Extended]
         public virtual Procedure? Procedure { get; set; }
     }
 }

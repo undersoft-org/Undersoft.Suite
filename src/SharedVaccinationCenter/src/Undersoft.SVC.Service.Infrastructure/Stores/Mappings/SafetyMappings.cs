@@ -20,7 +20,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
     /// </summary>
     public class SafetyMappings : EntityTypeMapping<Safety>
     {
-        const string TABLE_NAME = "VaccineSafety";
+        const string TABLE_NAME = "Safety";
 
         /// <summary>
         /// TODO: Add Summary.

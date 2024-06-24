@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Domain.Entities.Enums;
 /// </summary>
 public enum AddressType
 {
+    None,
     Generic,
     Residential,
     Correspondence,

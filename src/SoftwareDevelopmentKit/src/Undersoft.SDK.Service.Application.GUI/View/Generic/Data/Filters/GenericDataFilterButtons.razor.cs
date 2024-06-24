@@ -8,7 +8,6 @@ public partial class GenericDataFilterButtons : ViewItem
     private Type _type = default!;
     private string? _name { get; set; } = "";
     private string? _label { get; set; }
-    private bool _isAddable = false;
     private IViewStore? _store;
 
     [CascadingParameter]
@@ -19,14 +18,16 @@ public partial class GenericDataFilterButtons : ViewItem
 
     protected override void OnInitialized()
     {
-        if (
-            Rubric.FilteredType!.GetNotNullableType().IsPrimitive
-            || Rubric.FilteredType!.GetNotNullableType().IsAssignableTo(typeof(DateTime))
-        )
-            _isAddable = true;
-
+        var type = FilteredType.GetNotNullableType();
+        if (type.IsValueType && !type.IsAssignableTo(typeof(Enum)))
+            IsAddable = true;
         base.OnInitialized();
     }
+
+    [CascadingParameter]
+    public Type FilteredType { get; set; } = default!;
+
+    public bool IsAddable { get; set; }
 
     [CascadingParameter]
     public override IViewItem? Root
@@ -37,19 +38,17 @@ public partial class GenericDataFilterButtons : ViewItem
 
     public void Add()
     {
-        if (Root != null)
+        if (Parent != null)
         {
-            ((GenericDataFilter)Root).CloneLastFilter();
+            ((IViewFilter)Parent).CloneLastFilter();
         }
     }
 
     public void Close()
     {
-        if (Root != null)
+        if (Parent != null)
         {
-            ((GenericDataFilter)Root).IsOpen = false;
-
-            StateHasChanged();
+            ((IViewFilter)Parent).Close();
         }
     }
 
@@ -57,6 +56,7 @@ public partial class GenericDataFilterButtons : ViewItem
     {
         if (Parent != null)
         {
+            Close();
             ((IViewFilter)Parent).ClearFilters();
         }
     }
@@ -65,6 +65,7 @@ public partial class GenericDataFilterButtons : ViewItem
     {
         if (Parent != null)
         {
+            Close();
             await ((IViewFilter)Parent).ApplyFiltersAsync();
         }
     }

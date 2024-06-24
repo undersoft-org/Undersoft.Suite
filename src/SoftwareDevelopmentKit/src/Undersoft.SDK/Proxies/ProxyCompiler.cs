@@ -30,6 +30,8 @@ public class ProxyCompiler : ProxyCompilerBase
 
         CreateRubricsProperty(tb, typeof(MemberRubrics), "Rubrics");
 
+        CreateChangesProperty(tb, typeof(MemberRubrics), "Changes");
+
         CreateFieldsAndProperties(tb);
 
         CreateCodeProperty(tb, typeof(Uscn), "Code");
@@ -731,6 +733,72 @@ public class ProxyCompiler : ProxyCompilerBase
                 new object[0],
                 DataMemberProps,
                 new object[2] { rubricCount + 2, name.ToUpper() }
+            )
+        );
+    }
+
+    public override void CreateChangesProperty(TypeBuilder tb, Type type, string name)
+    {
+        changesField = tb.DefineField(name.ToLower(), type, FieldAttributes.Private);
+
+        PropertyBuilder prop = tb.DefineProperty(
+            name,
+            PropertyAttributes.HasDefault,
+            type,
+            new Type[] { type }
+        );
+
+        PropertyInfo iprop = typeof(IInstant).GetProperty(name);
+
+        MethodInfo accessor = iprop.GetGetMethod();
+
+        ParameterInfo[] args = accessor.GetParameters();
+        Type[] argTypes = Array.ConvertAll(args, a => a.ParameterType);
+
+        MethodBuilder getter = tb.DefineMethod(
+            accessor.Name,
+            accessor.Attributes & ~MethodAttributes.Abstract,
+            accessor.CallingConvention,
+            accessor.ReturnType,
+            argTypes
+        );
+        tb.DefineMethodOverride(getter, accessor);
+
+        prop.SetGetMethod(getter);
+        ILGenerator il = getter.GetILGenerator();
+
+        il.Emit(OpCodes.Ldarg_0);
+        il.Emit(OpCodes.Ldfld, changesField);
+        il.Emit(OpCodes.Ret);
+
+        MethodInfo mutator = iprop.GetSetMethod();
+
+        args = mutator.GetParameters();
+        argTypes = Array.ConvertAll(args, a => a.ParameterType);
+
+        MethodBuilder setter = tb.DefineMethod(
+            mutator.Name,
+            mutator.Attributes & ~MethodAttributes.Abstract,
+            mutator.CallingConvention,
+            mutator.ReturnType,
+            argTypes
+        );
+        tb.DefineMethodOverride(setter, mutator);
+
+        prop.SetSetMethod(setter);
+        il = setter.GetILGenerator();
+
+        il.Emit(OpCodes.Ldarg_0);
+        il.Emit(OpCodes.Ldarg_1);
+        il.Emit(OpCodes.Stfld, changesField);
+        il.Emit(OpCodes.Ret);
+
+        prop.SetCustomAttribute(
+            new CustomAttributeBuilder(
+                DataMemberCtor,
+                new object[0],
+                DataMemberProps,
+                new object[2] { rubricCount + 3, name.ToUpper() }
             )
         );
     }

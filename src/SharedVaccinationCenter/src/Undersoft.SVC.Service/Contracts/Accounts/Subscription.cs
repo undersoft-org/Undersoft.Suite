@@ -63,6 +63,8 @@ public class Subscription : DataObject, IContract
     public string? SubscriptionStatus { get; set; }
 
     public string? SubscriptionToken { get; set; }
+
+    public long? AccountId { get; set; }
 }
 
 

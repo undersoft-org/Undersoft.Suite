@@ -39,34 +39,6 @@ public static class ReflectionExtensions
         };
     }
 
-
-
-    public static bool IsNullable(this Type type)
-    {
-        return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-    }
-
-    public static Type GetNotNullableType(this Type type)
-    {
-        if (type.IsGenericType)
-        {
-            var _type = type.GetGenericTypeDefinition();
-            return _type == typeof(Nullable<>) ? type.GetGenericArguments()[0] : type;
-        }
-        return type;
-    }
-
-    public static Type GetNotNullableType<T>(this T obj)
-    {
-        var type = typeof(T);
-        if (type.IsGenericType)
-        {
-            var _type = type.GetGenericTypeDefinition();
-            return _type == typeof(Nullable<>) ? type.GetGenericArguments()[0] : type;
-        }
-        return type;
-    }
-
     public static Type GetSignificantType(this Type type)
     {
         var _type = type.GetDataType();

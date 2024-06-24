@@ -1,5 +1,6 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Series;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
@@ -10,7 +11,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
     {
         IViewDataStore<TModel> Contents { get; set; }
 
-        IList<TModel>? Models { get; }
+        ISeries<TModel>? Models { get; }
 
         Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; }
     }
@@ -31,8 +32,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         IEnumerable<IViewData>? Items { get; }
 
         IViewDataStore DataStore { get; set; }
-
-        Task LoadViewAsync();
 
         Task SaveViewAsync(bool changesets = false);
 

@@ -16,12 +16,7 @@
             <nav class="sitenav" aria-labelledby="main-menu">
 
                 <FluentNavMenu @bind-Expanded="@Expanded" Style="@Style" @ref="@Reference" Width="@Width" Margin="0px">
-
-
-                    @if (Collapsible)
-                    {
-                        <FluentKeyCode GlobalDocument="true" PreventDefault="true" Anchor="@BindingId" OnKeyDown="@HandleExpandCollapseKeyDownAsync" />
-                    }
+                    
                     @if (!SingleMenu)
                     {
                         <GenericNavSet TMenu="TMenu" Content="@Content" Parent="this" />

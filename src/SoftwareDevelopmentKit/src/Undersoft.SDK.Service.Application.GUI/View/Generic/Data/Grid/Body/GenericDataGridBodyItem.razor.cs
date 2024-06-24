@@ -5,6 +5,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
 {
     public partial class GenericDataGridBodyItem : ViewItem
     {
+        public override string ViewId => Data.ViewId;
+
         [CascadingParameter]
         public override IViewItem? Root
         {

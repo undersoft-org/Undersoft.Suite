@@ -32,7 +32,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
     public class ViewItem : ComponentBase, IOrigin, IViewItem
     {
         protected long typeId;
-
+        protected object? _value;
         protected IOrigin origin = new Origin();
 
         protected Uscn code;
@@ -50,7 +50,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             base.OnInitialized();
         }
 
-        public virtual IJSRuntime JSRuntime { get; set; } = default!;
+        public virtual IJSRuntime? JSRuntime { get; set; }
 
         [Parameter]
         public RenderFragment? ChildContent { get; set; }
@@ -91,24 +91,29 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public bool IsNew { get; set; }
 
-        public virtual string ViewId => CodeNo;
+        public virtual string ViewId => "cn" + CodeNo;
 
         [Parameter]
         public virtual object? Value
         {
-            get => (Rubric != null) ? Data.Model.Proxy[Rubric.RubricId] : Data.Model;
+            get => (Data != null) ? (Rubric != null) ? Data.Model.Proxy[Rubric.RubricId] : Data.Model : _value;
             set
             {
-                if (Rubric != null)
-                    Data.Model.Proxy[Rubric.RubricId] = value;
-                else if (value != null)
+                if (Data != null)
                 {
-                    Data.Model = (IInnerProxy)value;
+                    if (Rubric != null)
+                        Data.Model.Proxy[Rubric.RubricId] = value;
+                    else if (value != null)
+                    {
+                        Data.Model = (IInnerProxy)value;
+                    }
                 }
+                else
+                    _value = value;
             }
         }
 
-        public virtual IInnerProxy Model => Data.Model;
+        public virtual IInnerProxy Model => (Data != null) ? Data.Model : default!;
 
         [Parameter]
         public virtual IViewData Data

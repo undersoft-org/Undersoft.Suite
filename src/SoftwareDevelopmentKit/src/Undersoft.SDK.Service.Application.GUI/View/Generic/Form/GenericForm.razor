@@ -16,9 +16,9 @@
             <CascadingValue Value="@Content">
                 <GenericValidator TValidator="TValidator" TModel="TModel" />
                 <FluentStack Orientation="@Orientation" Wrap="true" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment" VerticalGap="3">
-                    @foreach (var _rubric in _rubrics.AsItems())
+                    @foreach (var _rubric in _rubrics)
                     {
-                        <GenericField Rubric="@_rubric.Value" />
+                        <GenericField Rubric="@_rubric" />
                     }
                 </FluentStack>
             </CascadingValue>

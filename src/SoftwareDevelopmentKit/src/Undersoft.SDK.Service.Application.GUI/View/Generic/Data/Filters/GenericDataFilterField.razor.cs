@@ -1,5 +1,4 @@
 using Microsoft.FluentUI.AspNetCore.Components;
-using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
@@ -8,11 +7,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
     {
         protected override void OnInitialized()
         {
+            _nullable = FilteredType.IsNullable();
             _type = FilteredType.GetNotNullableType();
             _size = Rubric.RubricSize;
-            _label = Filter.Member.Split('.').Last();
-            if (NoLabel || _label == Rubric.RubricName)
+            _name = Filter.Member;
+
+            if (_type.IsValueType || Rubric.FilterMembers!.Length < 2)
                 _label = null;
+            else
+                _label = Filter.Member.Split('.').Last();
 
             if (Rubric.Width != null)
                 Width = Rubric.Width;
@@ -24,7 +27,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
         }
 
         [CascadingParameter]
-        public bool NoLabel { get; set; }
+        public bool IsAddable { get; set; } = false;
 
         [Parameter]
         public Filter Filter { get; set; } = default!;
@@ -47,9 +50,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             get => Filter.Value;
             set
             {
-                Filter.Value = value;
-                if (ValueChanged.HasDelegate)
-                    ValueChanged.InvokeAsync(value);
+                if (Filter.Value != value)
+                {
+                    Filter.Value = value;
+                    if (ValueChanged.HasDelegate)
+                        ValueChanged.InvokeAsync(value);
+                }
             }
         }
 

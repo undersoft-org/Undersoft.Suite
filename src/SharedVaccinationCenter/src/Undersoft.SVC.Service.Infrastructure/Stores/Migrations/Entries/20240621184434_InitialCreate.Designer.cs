@@ -9,10 +9,10 @@ using Undersoft.SVC.Service.Infrastructure.Stores;
 
 #nullable disable
 
-namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
+namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 {
-    [DbContext(typeof(ReportStore))]
-    [Migration("20240616135523_InitialCreate")]
+    [DbContext(typeof(EntryStore))]
+    [Migration("20240621184434_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -245,7 +245,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<long?>("ScheduleId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("State")
+                    b.Property<int>("State")
                         .HasColumnType("integer");
 
                     b.Property<long>("TypeId")
@@ -265,7 +265,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("OfficeId");
 
-                    b.HasIndex("ProcedureId")
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
+                    b.HasIndex("ScheduleId")
                         .IsUnique();
 
                     b.ToTable("Appointments", "domain");
@@ -331,6 +334,9 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
+
+                    b.HasIndex("PriceId")
+                        .IsUnique();
 
                     b.ToTable("Campaigns", "domain");
                 });
@@ -407,6 +413,18 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
+
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcedureId")
+                        .IsUnique();
+
+                    b.HasIndex("TermId")
+                        .IsUnique();
 
                     b.HasIndex("VaccineId");
 
@@ -485,12 +503,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
-
-                    b.HasIndex("ProcedureId")
-                        .IsUnique();
-
-                    b.HasIndex("TrafficId")
-                        .IsUnique();
 
                     b.ToTable("Costs", "domain");
                 });
@@ -674,7 +686,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("OrganizatioIdentifier")
                         .HasColumnType("text");
 
-                    b.Property<int?>("OrganizatioIdentifierType")
+                    b.Property<int>("OrganizatioIdentifierType")
                         .HasColumnType("integer");
 
                     b.Property<string>("OrganizatioIndustry")
@@ -794,9 +806,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CertificateId")
-                        .IsUnique();
-
                     b.HasIndex("Index");
 
                     b.ToTable("Payments", "domain");
@@ -843,7 +852,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Identifier")
                         .HasColumnType("text");
 
-                    b.Property<int?>("IdentifierType")
+                    b.Property<int>("IdentifierType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Index")
@@ -889,16 +898,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
-
-                    b.HasIndex("CertificateId")
-                        .IsUnique();
-
                     b.HasIndex("Index");
-
-                    b.HasIndex("PostSymptomId")
-                        .IsUnique();
 
                     b.ToTable("Personals", "domain");
                 });
@@ -973,7 +973,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("Index");
 
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
                     b.HasIndex("ProcedureId")
+                        .IsUnique();
+
+                    b.HasIndex("TermId")
                         .IsUnique();
 
                     b.HasIndex("VaccineId");
@@ -1055,16 +1061,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CampaignId")
-                        .IsUnique();
-
                     b.HasIndex("Index");
-
-                    b.HasIndex("ProcedureId")
-                        .IsUnique();
-
-                    b.HasIndex("TrafficId")
-                        .IsUnique();
 
                     b.ToTable("Prices", "domain");
                 });
@@ -1146,10 +1143,19 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CertificateId")
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
+
+                    b.HasIndex("CostId")
                         .IsUnique();
 
                     b.HasIndex("Index");
+
+                    b.HasIndex("PriceId")
+                        .IsUnique();
+
+                    b.HasIndex("TermId")
+                        .IsUnique();
 
                     b.HasIndex("VaccineId");
 
@@ -1383,10 +1389,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("Index");
 
-                    b.HasIndex("VaccineId")
-                        .IsUnique();
-
-                    b.ToTable("VaccineSafety", "domain");
+                    b.ToTable("Safety", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Schedule", b =>
@@ -1413,7 +1416,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(9);
 
-                    b.Property<DateTime?>("Date")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<TimeOnly?>("EndTime")
@@ -1446,10 +1449,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<TimeOnly?>("StartTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.Property<long>("TypeId")
@@ -1462,9 +1468,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasColumnOrder(5);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
 
                     b.HasIndex("Index");
 
@@ -1550,9 +1553,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("Index");
 
-                    b.HasIndex("VaccineId")
-                        .IsUnique();
-
                     b.ToTable("Specifications", "domain");
                 });
 
@@ -1619,6 +1619,9 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
+
+                    b.HasIndex("VaccineId")
+                        .IsUnique();
 
                     b.ToTable("Stocks", "domain");
                 });
@@ -1776,16 +1779,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CertificateId")
-                        .IsUnique();
-
                     b.HasIndex("Index");
-
-                    b.HasIndex("PostSymptomId")
-                        .IsUnique();
-
-                    b.HasIndex("ProcedureId")
-                        .IsUnique();
 
                     b.ToTable("Vaccinations", "domain");
                 });
@@ -1847,7 +1841,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<long?>("StockId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.Property<long>("TypeId")
@@ -1861,7 +1855,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CostId")
+                        .IsUnique();
+
                     b.HasIndex("Index");
+
+                    b.HasIndex("PriceId")
+                        .IsUnique();
 
                     b.HasIndex("StockId");
 
@@ -1940,7 +1940,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.HasIndex("ManufacturerId");
 
-                    b.HasIndex("StockId")
+                    b.HasIndex("SafetyId")
+                        .IsUnique();
+
+                    b.HasIndex("SpecificationId")
                         .IsUnique();
 
                     b.ToTable("Vaccines", "domain");
@@ -1982,39 +1985,63 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .WithMany("Appointments")
                         .HasForeignKey("OfficeId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
                         .WithOne("Appointment")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Appointment", "ProcedureId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Appointment", "PersonalId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Schedule", "Schedule")
+                        .WithOne("Appointment")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Appointment", "ScheduleId");
 
                     b.Navigation("Campaign");
 
                     b.Navigation("Office");
 
-                    b.Navigation("Procedure");
+                    b.Navigation("Personal");
+
+                    b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Campaign", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
+                        .WithOne("Campaign")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Campaign", "PriceId");
+
+                    b.Navigation("Price");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Certificate", b =>
                 {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Payment", "Payment")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "PaymentId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "PersonalId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "ProcedureId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
+                        .WithOne("Certificate")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "TermId");
+
                     b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
                         .WithMany("Certificates")
                         .HasForeignKey("VaccineId");
 
-                    b.Navigation("Vaccine");
-                });
+                    b.Navigation("Payment");
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Cost", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
-                        .WithOne("Cost")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Cost", "ProcedureId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Traffic", "Traffic")
-                        .WithOne("Cost")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Cost", "TrafficId");
+                    b.Navigation("Personal");
 
                     b.Navigation("Procedure");
 
-                    b.Navigation("Traffic");
+                    b.Navigation("Term");
+
+                    b.Navigation("Vaccine");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Organization", b =>
@@ -2026,83 +2053,62 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Certificate", "Certificate")
-                        .WithOne("Payment")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Payment", "CertificateId");
-
-                    b.Navigation("Certificate");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Personal", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Appointment", "Appointment")
-                        .WithOne("Personal")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Personal", "AppointmentId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Certificate", "Certificate")
-                        .WithOne("Personal")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Personal", "CertificateId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.PostSymptom", "PostSymptom")
-                        .WithOne("Personal")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Personal", "PostSymptomId");
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Certificate");
-
-                    b.Navigation("PostSymptom");
-                });
-
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.PostSymptom", b =>
                 {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
+                        .WithOne("PostSymptom")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "PersonalId");
+
                     b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
                         .WithOne("PostSymptom")
                         .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "ProcedureId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
+                        .WithOne("PostSymptom")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "TermId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
                         .WithMany("PostSymptoms")
                         .HasForeignKey("VaccineId");
 
+                    b.Navigation("Personal");
+
                     b.Navigation("Procedure");
+
+                    b.Navigation("Term");
 
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Price", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Campaign", "Campaign")
-                        .WithOne("Price")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Price", "CampaignId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
-                        .WithOne("Price")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Price", "ProcedureId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Traffic", "Traffic")
-                        .WithOne("Price")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Price", "TrafficId");
-
-                    b.Navigation("Campaign");
-
-                    b.Navigation("Procedure");
-
-                    b.Navigation("Traffic");
-                });
-
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Procedure", b =>
                 {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Certificate", "Certificate")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Appointment", "Appointment")
                         .WithOne("Procedure")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "CertificateId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "AppointmentId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Cost", "Cost")
+                        .WithOne("Procedure")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "CostId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
+                        .WithOne("Procedure")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "PriceId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
+                        .WithOne("Procedure")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "TermId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
                         .WithMany("Procedures")
                         .HasForeignKey("VaccineId");
 
-                    b.Navigation("Certificate");
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Cost");
+
+                    b.Navigation("Price");
+
+                    b.Navigation("Term");
 
                     b.Navigation("Vaccine");
                 });
@@ -2125,59 +2131,32 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Stock");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Safety", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Stock", b =>
                 {
                     b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
-                        .WithOne("Safety")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Safety", "VaccineId");
+                        .WithOne("Stock")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Stock", "VaccineId");
 
                     b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Schedule", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Appointment", "Appointment")
-                        .WithOne("Schedule")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Schedule", "AppointmentId");
-
-                    b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Specification", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
-                        .WithOne("Specification")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Specification", "VaccineId");
-
-                    b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Term", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Certificate", "Certificate")
-                        .WithOne("Term")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Term", "CertificateId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.PostSymptom", "PostSymptom")
-                        .WithOne("Term")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Term", "PostSymptomId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
-                        .WithOne("Term")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Term", "ProcedureId");
-
-                    b.Navigation("Certificate");
-
-                    b.Navigation("PostSymptom");
-
-                    b.Navigation("Procedure");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Traffic", b =>
                 {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Cost", "Cost")
+                        .WithOne("Traffic")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Traffic", "CostId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
+                        .WithOne("Traffic")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Traffic", "PriceId");
+
                     b.HasOne("Undersoft.SVC.Domain.Entities.Stock", "Stock")
                         .WithMany("Traffics")
                         .HasForeignKey("StockId");
+
+                    b.Navigation("Cost");
+
+                    b.Navigation("Price");
 
                     b.Navigation("Stock");
                 });
@@ -2188,38 +2167,36 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .WithMany("Vaccines")
                         .HasForeignKey("ManufacturerId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Stock", "Stock")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Safety", "Safety")
                         .WithOne("Vaccine")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccine", "StockId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccine", "SafetyId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Specification", "Specification")
+                        .WithOne("Vaccine")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccine", "SpecificationId");
 
                     b.Navigation("Manufacturer");
 
-                    b.Navigation("Stock");
+                    b.Navigation("Safety");
+
+                    b.Navigation("Specification");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Appointment", b =>
                 {
-                    b.Navigation("Personal");
-
-                    b.Navigation("Schedule");
+                    b.Navigation("Procedure");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Campaign", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("Price");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Certificate", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Cost", b =>
                 {
-                    b.Navigation("Payment");
-
-                    b.Navigation("Personal");
-
                     b.Navigation("Procedure");
 
-                    b.Navigation("Term");
+                    b.Navigation("Traffic");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Manufacturer", b =>
@@ -2232,24 +2209,49 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Appointments");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.PostSymptom", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Payment", b =>
                 {
-                    b.Navigation("Personal");
+                    b.Navigation("Certificate");
+                });
 
-                    b.Navigation("Term");
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Personal", b =>
+                {
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Certificate");
+
+                    b.Navigation("PostSymptom");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Price", b =>
+                {
+                    b.Navigation("Campaign");
+
+                    b.Navigation("Procedure");
+
+                    b.Navigation("Traffic");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Procedure", b =>
                 {
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Cost");
+                    b.Navigation("Certificate");
 
                     b.Navigation("PostSymptom");
+                });
 
-                    b.Navigation("Price");
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Safety", b =>
+                {
+                    b.Navigation("Vaccine");
+                });
 
-                    b.Navigation("Term");
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Schedule", b =>
+                {
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Specification", b =>
+                {
+                    b.Navigation("Vaccine");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Stock", b =>
@@ -2257,8 +2259,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Requests");
 
                     b.Navigation("Traffics");
-
-                    b.Navigation("Vaccine");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Supplier", b =>
@@ -2270,11 +2270,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Navigation("Professional");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Traffic", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Term", b =>
                 {
-                    b.Navigation("Cost");
+                    b.Navigation("Certificate");
 
-                    b.Navigation("Price");
+                    b.Navigation("PostSymptom");
+
+                    b.Navigation("Procedure");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccine", b =>
@@ -2285,9 +2287,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Navigation("Procedures");
 
-                    b.Navigation("Safety");
-
-                    b.Navigation("Specification");
+                    b.Navigation("Stock");
                 });
 #pragma warning restore 612, 618
         }

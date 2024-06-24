@@ -10,7 +10,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
         private IJSObjectReference _jsModule = default!;
 
         [Inject]
-        private IJSRuntime JSRuntime { get; set; } = default!;
+        public override IJSRuntime JSRuntime { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;

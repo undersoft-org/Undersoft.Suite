@@ -31,15 +31,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-                .RelateOneToOne<PostSymptom, Personal>(
-                    r => r.PostSymptom,
+                .RelateOneToOne<Personal, PostSymptom>(
                     r => r.Personal,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<PostSymptom, Term>(
                     r => r.PostSymptom,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Term, PostSymptom>(
                     r => r.Term,
-                    ExpandSite.OnRight,
+                    r => r.PostSymptom,
+                    ExpandSite.OnLeft,
                     true
                 );
         }

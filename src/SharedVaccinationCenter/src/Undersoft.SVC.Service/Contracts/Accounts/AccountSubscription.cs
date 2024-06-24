@@ -54,9 +54,7 @@ public class AccountSubscription : DataObject
 
     public string? SubscriptionToken { get; set; }
 
-    public long? SubscriptionId { get; set; }
-
-    public virtual Subscription? Subscription { get; set; }
+    public long? AccountId { get; set; }
 }
 
 

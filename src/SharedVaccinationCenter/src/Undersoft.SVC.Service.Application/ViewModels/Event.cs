@@ -24,7 +24,7 @@ public class Event : DataObject, IViewModel
     public virtual uint Version { get; set; }
 
     [VisibleRubric]
-    [RubricSize(128)]
+    [RubricSize(512)]
     [DisplayRubric("Type")]
     public virtual string EventType { get; set; }
 
@@ -34,7 +34,7 @@ public class Event : DataObject, IViewModel
     public virtual long EntityId { get; set; }
 
     [VisibleRubric]
-    [RubricSize(128)]
+    [RubricSize(32)]
     [DisplayRubric("Entity type")]
     public virtual string EntityTypeName { get; set; }
 
@@ -44,7 +44,7 @@ public class Event : DataObject, IViewModel
     public virtual DateTime PublishTime { get; set; }
 
     [VisibleRubric]
-    [RubricSize(16)]
+    [RubricSize(4)]
     [DisplayRubric("Status")]
     public virtual EventPublishStatus PublishStatus { get; set; }
 }

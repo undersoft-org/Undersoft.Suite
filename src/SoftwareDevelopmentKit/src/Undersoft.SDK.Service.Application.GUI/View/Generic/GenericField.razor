@@ -16,7 +16,7 @@ else if (_type.IsPrimitive)
     @if (_type.IsAssignableTo(typeof(long)))
     {
         <div style="width:@Width">
-            <FluentNumberField Name="@_name" Appearance="@Appearance" Style="width:100%"  @bind-Value="@_longValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            <FluentNumberField Name="@_name" Appearance="@Appearance" Style="width:100%" MaxLength="20" Max="@(long.MaxValue.ToString())"  @bind-Value="@_longValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
         </div>
     }
     else if (_type.IsAssignableTo(typeof(int)))

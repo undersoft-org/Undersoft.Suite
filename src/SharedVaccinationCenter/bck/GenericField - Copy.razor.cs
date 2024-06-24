@@ -10,7 +10,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
     public partial class GenericField : ViewItem, IIdentifiable, IViewItem
     {
         protected Type _type = default!;
-        protected Type _targetType = default!;
         protected bool _nullable = false;
         private IProxy _proxy = default!;
         protected int _index;
@@ -26,27 +25,27 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         private long? _longValue
         {
             get => _nullable ? (long?)Value : (long)Value!;
-            set => Value = value != null ? value : Value;
+            set => Value = _nullable ? value : value != null ? value.Value : Value;
         }
         private double? _doubleValue
         {
             get => _nullable ? (double?)Value : (double)Value!;
-            set => Value = value != null ? value.Value : Value;
+            set => Value = _nullable ? value : value != null ? value.Value : Value;
         }
         private int? _intValue
         {
             get => _nullable ? (int?)Value : (int)Value!;
-            set => Value = value != null ? value : Value;
+            set => Value = _nullable ? value : value != null ? value.Value : Value;
         }
         private float? _floatValue
         {
             get => _nullable ? (float?)Value : (float)Value!;
-            set => Value = value != null ? value : Value;
+            set => Value = _nullable ? value : value != null ? value.Value : Value;
         }
         private decimal? _decimalValue
         {
             get => _nullable ? (decimal?)Value : (decimal)Value!;
-            set => Value = value != null ? value : Value;
+            set => Value = _nullable ? value : value != null ? value.Value : Value;
         }
         private string? _textValue
         {
@@ -56,27 +55,27 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         private DateTime? _dateValue
         {
             get => _nullable ? (DateTime?)Value : (DateTime)Value!;
-            set => Value = value != null ? value : Value;
+            set => Value = _nullable ? new Nullable<DateTime>(value!.Value) : value != null ? value.Value : Value;
         }
         private DateTime? _dateOnlyValue
         {
-            get => Value != null ? _nullable ? ((DateOnly?)Value).Value.ToDateTime(new TimeOnly()) : ((DateOnly)Value).ToDateTime(new TimeOnly()) : null;
-            set => Value = value != null ? new DateOnly(value.Value.Year, value.Value.Month, value.Value.Day) : Value;
+            get => _nullable ? new Nullable<DateTime>(((DateOnly?)Value)!.Value.ToDateTime(new TimeOnly())) : ((DateOnly)Value!).ToDateTime(new TimeOnly());
+            set => Value = _nullable ? new Nullable<DateOnly>(new DateOnly(value!.Value.Year, value!.Value.Month, value!.Value.Day)) : value != null ? new DateOnly(value!.Value.Year, value!.Value.Month, value!.Value.Day) : Value;
         }
         private DateTime? _timeOnlyValue
         {
-            get => Value != null ? _nullable ? new DateTime(((TimeOnly?)Value).Value.Ticks) : new DateTime(((TimeOnly)Value).Ticks) : null;
-            set => Value = value != null ? new TimeOnly(value.Value.Ticks) : Value;
+            get => _nullable ? new Nullable<DateTime>(new DateTime(((TimeOnly?)Value)!.Value.Ticks)) : new DateTime(((TimeOnly)Value!).Ticks);
+            set => Value = _nullable ? new Nullable<TimeOnly>(new TimeOnly(value!.Value.Ticks)) : value != null ? new TimeOnly(value!.Value.Ticks) : Value;
         }
         private DateTime? _dateOffsetValue
         {
-            get => Value != null ? _nullable ? ((DateTimeOffset?)Value).Value.DateTime : ((DateTimeOffset)Value).DateTime : null;
-            set => Value = value != null ? new DateTimeOffset(value.Value) : Value;
+            get => _nullable ? new Nullable<DateTime>(((DateTimeOffset?)Value)!.Value.DateTime) : ((DateTimeOffset)Value!).DateTime;
+            set => Value = _nullable ? new Nullable<DateTimeOffset>(new DateTimeOffset(value!.Value)) : value != null ? new DateTimeOffset(value!.Value) : Value;
         }
         private DateTime? _timeSpan
         {
-            get => Value != null ? _nullable ? new DateTime(((TimeSpan?)Value).Value.Ticks) : new DateTime(((TimeSpan)Value).Ticks) : null;
-            set => Value = value != null ? new TimeSpan(value.Value.Ticks) : Value;
+            get => _nullable ? new Nullable<DateTime>(new DateTime(((TimeSpan?)Value)!.Value.Ticks)) : new DateTime(((TimeSpan)Value!).Ticks);
+            set => Value = _nullable ? new Nullable<TimeSpan>(new TimeSpan(value!.Value.Ticks)) : value != null ? new TimeSpan(value!.Value.Ticks) : Value;
         }
         private bool _bitValue
         {
@@ -89,7 +88,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             set
             {
                 if (Enum.TryParse(_type, value, true, out var result))
-                    Value = result;
+                {
+                    if (_nullable)
+                        Value = typeof(Nullable<>).MakeGenericType(_type).New(result);
+                    else
+                        Value = result;
+                }
             }
         }
         private List<Option<string>>? _enumOptions =>
@@ -115,10 +119,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
             {
                 var targetType = Rubric.RubricType;
                 _nullable = targetType.IsNullable();
-                if (_nullable)
-                    _type = targetType.GetNotNullableType();
-                else
-                    _type = targetType;
+                _type = targetType.GetNotNullableType();
                 _isUpload = Rubric.IsFile;
                 _index = Rubric.RubricId;
                 _size = Rubric.RubricSize;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View
@@ -20,7 +21,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         public virtual Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; } = default!;
 
 
-        public virtual IList<TModel>? Models => Contents.Models;
+        public virtual ISeries<TModel>? Models => Contents.Models;
 
         [Parameter]
         public virtual IViewDataStore<TModel> Contents

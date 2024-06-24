@@ -6,8 +6,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
 {
     public partial class GenericDataFilter : ViewItem, IViewFilter
     {
-        private bool _isAddable = false;
-
         protected override void OnInitialized()
         {
             if (Parent == null)
@@ -22,9 +20,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
                 if (Rubric.FilterMembers == null || !Rubric.FilterMembers.Any())
                     Rubric.FilterMembers = new[] { Rubric.RubricName };
 
-                if (Rubric.FilterMembers.Length < 2)
-                    NoLabel = true;
-
                 Rubric.FilterMembers.ForEach(m =>
                 {
                     var rubricFilters = Filters.Where(f => f.Member == m).Commit();
@@ -34,17 +29,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
                     }
                     else
                     {
-                        EmptyFilters.Put(new Filter(m, Rubric.RubricType.Default(), CompareOperand.Equal, LinkOperand.And));
+                        EmptyFilters.Put(new Filter(m, FilteredType.DefaultNotNullable(), CompareOperand.Equal, LinkOperand.And));
                     }
                 });
-
-                if (FilteredType.IsPrimitive || FilteredType.IsAssignableTo(typeof(DateTime)))
-                    _isAddable = true;
             }
             base.OnInitialized();
         }
-
-        public bool NoLabel { get; set; }
 
         public ISeries<Filter> Filters => Rubric.Filters;
 
@@ -54,24 +44,28 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
         {
             var lastfilter = EmptyFilters.LastOrDefault();
             if (lastfilter != null)
-                EmptyFilters.Put(new Filter(lastfilter.Member, Rubric.RubricType.Default(), lastfilter.Operand, lastfilter.Link) { Added = true });
+                EmptyFilters.Put(new Filter(lastfilter.Member, FilteredType.DefaultNotNullable(), lastfilter.Operand, lastfilter.Link) { Added = true });
 
-            StateHasChanged();
+            RenderView();
+        }
+
+        public void Close()
+        {
+            IsOpen = false;
+            RenderView();
         }
 
         public void ClearFilters()
         {
-
+            Filters.Clear();
         }
 
         public void UpdateFilters()
         {
             EmptyFilters.ForEach(f =>
             {
-                if (f.Value != FilteredType.Default())
-                {
+                if (!Filters.Contains(f))
                     Rubric.Filters.Put(f);
-                }
             });
         }
 
@@ -86,7 +80,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             await ((IViewLoadable)Parent!).LoadViewAsync();
         }
 
-
+        public override void RenderView()
+        {
+            Parent?.RenderView();
+            base.RenderView();
+        }
 
         public Type FilteredType { get; set; } = default!;
 
@@ -102,7 +100,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
         public VerticalPosition VerticalPosition { get; set; } = VerticalPosition.Bottom;
 
         [Parameter]
-        public override string? Style { get; set; }
+        public override string? Style { get; set; } = "margin-top:7px;";
 
         [Parameter]
         public string AnchorId { get; set; } = default!;

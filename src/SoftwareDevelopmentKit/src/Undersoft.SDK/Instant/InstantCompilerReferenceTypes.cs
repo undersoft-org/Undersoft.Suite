@@ -22,11 +22,13 @@
         {
             TypeBuilder tb = GetTypeBuilder(typeName);
 
-            CreatePropertyChanged(tb);
-
             CreateFieldsAndProperties(tb);
 
             CreateCodeProperty(tb, typeof(Uscn), "Code");
+
+            CreateChangesProperty(tb, typeof(MemberRubrics), "Changes");
+
+            CreatePropertyChanged(tb);
 
             CreateValueArrayProperty(tb);
 

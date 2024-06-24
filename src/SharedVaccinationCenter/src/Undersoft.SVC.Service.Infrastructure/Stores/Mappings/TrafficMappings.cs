@@ -31,15 +31,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-              .RelateOneToOne<Traffic, Cost>(
-                   r => r.Traffic,
+              .RelateOneToOne<Cost, Traffic>(
                    r => r.Cost,
-                   ExpandSite.OnRight,
-                   true
-               ).RelateOneToOne<Traffic, Price>(
                    r => r.Traffic,
+                   ExpandSite.OnLeft,
+                   true
+               ).RelateOneToOne<Price, Traffic>(
                    r => r.Price,
-                   ExpandSite.OnRight,
+                   r => r.Traffic,
+                   ExpandSite.OnLeft,
                    true
                );
         }

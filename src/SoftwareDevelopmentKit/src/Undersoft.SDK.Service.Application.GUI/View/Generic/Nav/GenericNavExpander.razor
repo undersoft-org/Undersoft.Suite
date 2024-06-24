@@ -8,15 +8,15 @@
 @typeparam TMenu where TMenu : class, IOrigin, IInnerProxy
 
 <div id="@BindingId" role="button" class="nav-expander" style="@Style">
-    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="@HorizontalAlignment" HorizontalGap="5">
+    <FluentStack Orientation="Orientation.Horizontal" Style="padding: 1px 13px;" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="@HorizontalAlignment" VerticalGap="0" HorizontalGap="5">
 
         @if (Expanded)
         {
-            <FluentIcon Value="@ExpandedIcon" Width="20px" Color="@IconColor" Title="@Label" />
+            <FluentIcon Value="@ExpandedIcon" Width="14px" Color="@IconColor" Title="@Label" />
         }
         else
         {
-            <FluentIcon Value="@CollapsedIcon" Width="20px" Color="@IconColor" Title="@Label" />
+            <FluentIcon Value="@CollapsedIcon" Width="14px" Color="@IconColor" Title="@Label" />
         }
 
         @if (ShowLabel)

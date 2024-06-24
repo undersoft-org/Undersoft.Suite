@@ -14,19 +14,21 @@ namespace Undersoft.SVC.Service.Contracts.Accounts;
 public class Consent : DataObject, IContract
 {
     [VisibleRubric]
-    [RubricSize(128)]
+    [RubricSize(512)]
     [DisplayRubric("Terms & Conditions")]
     public string? TermsText { get; set; }
 
     public string? PersonalDataText { get; set; }
 
     [VisibleRubric]
-    [RubricSize(128)]
+    [RubricSize(512)]
     [DisplayRubric("Marketing & Analitics")]
     public string? MarketingText { get; set; }
 
     [VisibleRubric]
-    [RubricSize(32)]
+    [RubricSize(512)]
     [DisplayRubric("Third party & Contributors")]
     public string? ThirdPartyText { get; set; }
+
+    public long? AccountId { get; set; }
 }

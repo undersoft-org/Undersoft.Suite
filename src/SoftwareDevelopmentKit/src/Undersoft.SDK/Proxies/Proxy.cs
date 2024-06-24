@@ -79,6 +79,12 @@ public class Proxy : InnerProxy, IProxy
         set => proxy.Rubrics = value;
     }
 
+    public IRubrics Changes
+    {
+        get => proxy.Changes;
+        set => proxy.Changes = value;
+    }
+
     public virtual object Target { get => proxy.Target; set => proxy.Target = value; }
 
     public Uscn Code

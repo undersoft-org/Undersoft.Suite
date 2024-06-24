@@ -19,6 +19,8 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [Extended]
         public virtual Stock? Stock { get; set; }
 
+        [VisibleRubric]
+        [DisplayRubric("Quantity")]
         public virtual float? Quentity { get; set; }
     }
 

@@ -11,5 +11,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
 
         [CascadingParameter]
         public override IViewData Data { get; set; } = default!;
+
+
+        public override string ViewId => Data.ViewId + "feature" + Ordinal.ToString();
     }
 }

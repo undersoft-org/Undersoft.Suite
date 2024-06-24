@@ -15,6 +15,12 @@ namespace Undersoft.SVC.Service.Contracts.Accounts;
 public class AccountOrganization : DataObject, IContract
 {
     [VisibleRubric]
+    [DisplayRubric("Organization logo")]
+    [ViewImage(ViewImageMode.Regular, "30px", "30px")]
+    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
+    public string? OrganizationImage { get; set; }
+
+    [VisibleRubric]
     [DisplayRubric("Industry")]
     public string? OrganizationIndustry { get; set; }
 
@@ -34,11 +40,7 @@ public class AccountOrganization : DataObject, IContract
     [DisplayRubric("Websites")]
     public string? OrganizationWebsites { get; set; }
 
-    [VisibleRubric]
-    [DisplayRubric("Organization logo")]
-    [ViewImage(ViewImageMode.Regular, "30px", "30px")]
-    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
-    public string? OrganizationImage { get; set; }
-
     public byte[]? OrganizationImageData { get; set; }
+
+    public long? AccountId { get; set; }
 }

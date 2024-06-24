@@ -12,7 +12,7 @@
 </FluentLabel>
 <div style="@ImageStyle">
     <FluentInputFile @ref="@FileByStream"
-                     Id="@CodeNo"
+                     Id="@ViewId"
                      Disabled="@Disabled"
                      DragDropZoneVisible="true"
                      Mode="InputFileMode.Stream"
@@ -27,7 +27,7 @@
             @if (Image == null)
             {
                 <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center" VerticalGap="10">
-                    <label for="@CodeNo" style="padding-top:20px;">
+                    <label for="@ViewId" style="padding-top:20px;">
                         <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
                     </label>
                     <div>
@@ -41,7 +41,7 @@
             }
             else
             {
-                <label for="@CodeNo">
+                <label for="@ViewId">
                     <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())" Color="Color.Accent" />
                 </label>
             }

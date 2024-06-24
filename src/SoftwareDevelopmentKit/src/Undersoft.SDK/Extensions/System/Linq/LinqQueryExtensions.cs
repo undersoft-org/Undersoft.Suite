@@ -76,7 +76,10 @@ namespace System.Linq
         public static Expression GetComparisonExpression(this Filter filter, ParameterExpression parameter, Expression connectToExpression = null)
         {
             var property = filter.Member.GetNestedMemberExpression(parameter);
-            var constant = Expression.Constant(filter.Value);
+            Expression constant = Expression.Constant(filter.Value);
+            if (property.Type.IsNullable())
+                constant = Expression.Convert(constant, property.Type);
+
             Expression comparison;
 
             if (property.Type == typeof(string))

@@ -115,9 +115,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
             {
                 await CommitToLocalAsync();
             }
-
-            ViewItem?.RenderView();
             ViewStore!.ProgressVisible = false;
+            ViewItem?.RenderView();
         }
     }
 
@@ -173,8 +172,6 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     )
     {
         MapQuery();
-
-
 
         _repository = RemoteStore();
 

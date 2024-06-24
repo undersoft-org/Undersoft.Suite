@@ -32,15 +32,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-               .RelateOneToOne<Vaccine, Safety>(
-                    r => r.Vaccine,
+               .RelateOneToOne<Safety, Vaccine>(
                     r => r.Safety,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Vaccine, Specification>(
                     r => r.Vaccine,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Specification, Vaccine>(
                     r => r.Specification,
-                    ExpandSite.OnRight,
+                    r => r.Vaccine,
+                    ExpandSite.WithMany,
                     true
                 ).RelateOneToSet<Vaccine, Procedure>(
                     r => r.Vaccine,

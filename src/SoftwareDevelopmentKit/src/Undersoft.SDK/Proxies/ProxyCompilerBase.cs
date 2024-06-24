@@ -45,6 +45,8 @@ public abstract class ProxyCompilerBase : InstantCompilerBase
 
     public abstract void CreateRubricsProperty(TypeBuilder tb, Type type, string name);
 
+    public abstract void CreateChangesProperty(TypeBuilder tb, Type type, string name);
+
     public abstract void CreateCodeProperty(TypeBuilder tb, Type type, string name);
 
     public abstract void CreateValueArrayProperty(TypeBuilder tb);

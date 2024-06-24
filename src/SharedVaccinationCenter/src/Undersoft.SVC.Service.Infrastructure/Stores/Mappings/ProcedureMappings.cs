@@ -31,25 +31,25 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
 
             ModelBuilder
-                .RelateOneToOne<Procedure, Appointment>(
-                    r => r.Procedure,
+                .RelateOneToOne<Appointment, Procedure>(
                     r => r.Appointment,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Procedure, Cost>(
                     r => r.Procedure,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Cost, Procedure>(
                     r => r.Cost,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Procedure, Price>(
                     r => r.Procedure,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Price, Procedure>(
                     r => r.Price,
-                    ExpandSite.OnRight,
-                    true
-                ).RelateOneToOne<Procedure, Term>(
                     r => r.Procedure,
+                    ExpandSite.OnLeft,
+                    true
+                ).RelateOneToOne<Term, Procedure>(
                     r => r.Term,
-                    ExpandSite.OnRight,
+                    r => r.Procedure,
+                    ExpandSite.OnLeft,
                     true
                 ).RelateOneToOne<Procedure, PostSymptom>(
                     r => r.Procedure,

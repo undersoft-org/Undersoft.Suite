@@ -109,6 +109,8 @@
             set => Put(value);
         }
 
+        public virtual IRubrics Changes { get; set; }
+
         public Type Type { get; set; }
 
         public IQueryable<IInstant> View { get; set; }

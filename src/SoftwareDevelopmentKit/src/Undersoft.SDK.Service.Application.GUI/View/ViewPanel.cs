@@ -25,6 +25,19 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
 
     public IDialogReference? Reference { get; set; }
 
+    public async Task ProcessPanel()
+    {
+        var result = await Reference!.Result;
+        if (!result.Cancelled && result.Data != null)
+            Content = (IViewData<TModel>)result.Data;
+    }
+
+    public async Task ProcessPanel(IDialogReference reference)
+    {
+        Reference = reference;
+        await ProcessPanel();
+    }
+
     public virtual async Task Show(IViewData<TModel> data)
     {
         if (Service != null)
@@ -40,15 +53,10 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
                     Alignment = data.HorizontalAlignment,
                     SecondaryActionEnabled = false,
                     ShowDismiss = true,
-                    PrimaryAction = "Submit"
+                    PrimaryAction = "Submit",
                 }
             );
-
-            var result = await dialog.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessPanel(dialog);
         }
     }
 
@@ -66,13 +74,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
                 parameters.PrimaryAction = "Submit";
                 parameters.SecondaryActionEnabled = false;
             }
-            Reference = await Service.ShowPanelAsync<TPanel>(data, parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessPanel(await Service.ShowPanelAsync<TPanel>(data, parameters));
         }
     }
 
@@ -83,13 +85,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
             var parameters = new DialogParameters<TModel>();
             parameters.PrimaryAction = "Submit";
             setup(parameters);
-            Reference = await Service.ShowPanelAsync<TPanel>(parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null && result.Data is IViewData)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessPanel(await Service.ShowPanelAsync<TPanel>(parameters));
         }
     }
 
@@ -110,13 +106,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
             var parameters = new DialogParameters<TModel>();
             parameters.PrimaryAction = "Submit";
             setup(parameters);
-            Reference = await Service.ShowPanelAsync<TPanel>(parameters);
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null && result.Data is IViewData)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessPanel(await Service.ShowPanelAsync<TPanel>(parameters));
         }
     }
 
@@ -136,7 +126,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
             parameters.Content = data;
             if (setup != null)
                 setup(parameters);
-            Reference = await Service.UpdateDialogAsync(id, parameters);
+            await ProcessPanel((await Service.UpdateDialogAsync(id, parameters))!);
         }
     }
 

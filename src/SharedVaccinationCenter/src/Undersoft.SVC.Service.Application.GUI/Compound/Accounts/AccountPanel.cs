@@ -1,8 +1,7 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
-
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License. 
+//   Licensed under the MIT License.
 //   author: Dariusz Hanc
 //   email: dh@undersoft.pl
 //   library: Undersoft.SVC.Service.Application.GUI
@@ -30,7 +29,7 @@ public class AccountPanel
             data = new ViewData<Account>(new Account(), OperationType.Any);
 
         data.EntryMode = EntryMode.Tabs;
-        data.Width = "400px";
+        data.Width = "390px";
 
         await _panel.Show(
             data,
@@ -47,8 +46,7 @@ public class AccountPanel
         HandlePanel(_panel.Content);
     }
 
-
-    /// <summary>    
+    /// <summary>
     /// </summary>
     /// <param name="result"></param>
     /// <TODO> Handle saving account panel</TODO>

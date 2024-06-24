@@ -64,13 +64,11 @@ namespace Undersoft.SVC.Service.Application.ViewModels
             set => _vaccineString = value;
         }
 
-
         public virtual long? PriceId { get; set; }
 
         [Extended]
         public virtual Price? Price { get; set; }
 
-        [Extended]
         public virtual Listing<Vaccine>? Vaccines { get; set; }
     }
 

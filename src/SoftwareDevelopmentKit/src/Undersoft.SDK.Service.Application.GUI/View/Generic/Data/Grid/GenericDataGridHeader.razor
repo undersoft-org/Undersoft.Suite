@@ -20,7 +20,7 @@
         @if (FeatureFlags.Multiselect)
         {
             <GenericDataGridHeaderFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
-                <div id="@($"{Model.Id.ToString()}-{DataStore.Pagination!.PageIndex}-multiselect")">
+                <div id="@($"{ViewId}-{DataStore.Pagination!.PageIndex}-multiselect")">
                     <FluentCheckbox @bind-Value="@Checked" CheckStateChanged="@OnCheckStateChanged" ThreeState="true" />
                 </div>
             </GenericDataGridHeaderFeature>
@@ -34,12 +34,12 @@
         @if (FeatureFlags.Editable && EditMode != EditMode.None)
         {
             <GenericDataGridHeaderFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="padding-inline:13px">
-                <div id="@($"{Model.Id.ToString()}-operation")" role="button">
+                <div id="@($"{ViewId}-operation")" role="button">
                     <FluentIcon Value="@(new Icons.Regular.Size20.GroupList())" Color="Color.Accent" />
                 </div>
                 <div>
                     <GenericMenu Position="HorizontalPosition.Left"
-                                 AnchorId="@($"{Model.Id.ToString()}-operation")"
+                                 AnchorId="@($"{ViewId}-operation")"
                                  Data="@(GetOperationData())"
                                  Anchored="true" />
                 </div>

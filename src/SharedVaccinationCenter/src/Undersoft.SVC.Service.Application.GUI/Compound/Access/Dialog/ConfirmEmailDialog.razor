@@ -31,9 +31,6 @@
 
 @code
 {
-    [Parameter]
-    public IViewData<TModel> Content { get; set; } = default!;
-
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
@@ -56,10 +53,5 @@
     private async Task SendAgain(MouseEventArgs e)
     {
         await Dialog.CancelAsync();
-    }
-
-    public void RenderView()
-    {
-        this.StateHasChanged();
     }
 }

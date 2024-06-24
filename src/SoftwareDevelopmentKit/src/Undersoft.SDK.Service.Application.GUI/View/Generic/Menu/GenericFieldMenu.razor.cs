@@ -22,7 +22,7 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
         .AddStyle("min-width: min-content")
         .AddStyle("width", Width, () => !string.IsNullOrEmpty(Width))
         .AddStyle("border-radius: calc(var(--layer-corner-radius) * 1px)")
-            .AddStyle(!NoPadding ? "padding: 10px 10px 7px 10px" : "")
+            .AddStyle(!NoPadding ? "padding: 10px 10px 4px 10px" : "")
         .AddStyle("background: var(--fill-color)")
         .AddStyle(!NoShadow ? "box-shadow: var(--elevation-shadow-flyout)" : "")
 

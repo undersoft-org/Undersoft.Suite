@@ -15,7 +15,7 @@
         }
         @if (Content.ExtendedRubricsEnabled && _extendedRubrics.Any())
         {
-            <FluentTabs @bind-ActiveTabId="@ActiveId" Width="100%" Orientation="@Orientation">
+            <FluentTabs @bind-ActiveTabId="@ActiveId" Orientation="@Orientation">
                 @foreach (var _rubric in _extendedRubrics)
                 {
                     @if (ContainsTabData(_rubric))
@@ -36,6 +36,8 @@
 
     private IViewRubrics _rubrics => Content.Rubrics;
     private IViewRubrics _extendedRubrics => Content.ExtendedRubrics;
+
+    private ISeries<IViewData> TabData = new Listing<IViewData>();
 
     public string ActiveId
     {
@@ -73,11 +75,15 @@
 
     private IViewData GetTabData(IViewRubric rubric)
     {
-        var data = typeof(ViewData<>).MakeGenericType(rubric.RubricType).New<IViewData>(Model.Proxy[rubric.RubricId]);
-        data.Title = (rubric.DisplayName != null) ? rubric.DisplayName : rubric.RubricName;
-        data.MapRubrics(t => t.Rubrics, p => p.Visible);
-        if (rubric.Disabled)
-            data.Rubrics.ForEach(r => r.Disabled = true).Commit();
+        if (!TabData.TryGet(rubric.Id, out IViewData data))
+        {
+            data = typeof(ViewData<>).MakeGenericType(rubric.RubricType).New<IViewData>(Model.Proxy[rubric.RubricId]);
+            data.Title = (rubric.DisplayName != null) ? rubric.DisplayName : rubric.RubricName;
+            data.MapRubrics(t => t.Rubrics, p => p.Visible);
+            if (rubric.Disabled)
+                data.Rubrics.ForEach(r => r.Disabled = true).Commit();
+            TabData.Add(rubric.Id, data);
+        }
         return data;
     }
 

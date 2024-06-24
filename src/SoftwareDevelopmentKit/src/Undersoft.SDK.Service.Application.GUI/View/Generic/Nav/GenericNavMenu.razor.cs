@@ -1,4 +1,3 @@
-using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
@@ -65,22 +64,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
 
         [Parameter]
         public bool CollapseOnOverlayClick { get; set; } = true;
-
-        public async Task HandleExpandCollapseKeyDownAsync(FluentKeyCodeEventArgs args)
-        {
-            if (args.TargetId != BindingId)
-            {
-                return;
-            }
-            Task handler = args.Key switch
-            {
-                KeyCode.Enter => ToggleExpandedAsync(),
-                KeyCode.Right => SetExpandedAsync(true),
-                KeyCode.Left => SetExpandedAsync(false),
-                _ => Task.CompletedTask
-            };
-            await handler;
-        }
 
         [JSInvokable]
         public async Task ToggleExpandedAsync()

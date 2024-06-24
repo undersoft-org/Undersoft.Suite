@@ -20,7 +20,7 @@
 
             @if (Rubric.Filterable)
             {
-                <div id="@($"{Rubric.Id.ToString()}-filter")" class="rubric-header-filter" style="width:20px" role="button">
+                <div id="@($"{ViewId}-filter")" class="rubric-header-filter" style="width:20px" role="button">
                     @if (Rubric.Filtered)
                     {
                         <FluentIcon Value="@(new Icons.Regular.Size20.FilterDismiss())" Width="20px" OnClick="@OnFilterDismiss" />
@@ -33,7 +33,7 @@
                 <div>
                     <GenericDataFilter Position="HorizontalPosition.Right"
                                        VerticalPosition="VerticalPosition.Unset"
-                                       AnchorId="@($"{Rubric.Id.ToString()}-filter")"
+                                       AnchorId="@($"{ViewId}-filter")"
                                        Rubric="@Rubric"
                                        Class="rubric-header-data-filter"
                                        Anchored="true" 
@@ -43,7 +43,7 @@
 
             @if (Rubric.Sortable)
             {
-                <div id="@($"{Rubric.Id.ToString()}-sorter")" class="rubric-header-sorter" style="width:calc(100% - 60px)" role="button" @onclick="@OnClickSort">
+                <div id="@($"{ViewId}-sorter")" class="rubric-header-sorter" style="width:calc(100% - 60px)" role="button" @onclick="@OnClickSort">
 
                     <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
                         @Rubric.DisplayName
@@ -51,7 +51,7 @@
                 </div>
                 <FluentSpacer />
 
-                <div id="@($"{Rubric.Id.ToString()}-sorter-icon")" class="rubric-header=sprter-icon" style="width:25px">
+                <div id="@($"{ViewId}-sorter-icon")" class="rubric-header=sprter-icon" style="width:25px">
 
                     @if (Rubric.Sorted)
                     {
@@ -69,7 +69,7 @@
             }
             else
             {
-                <div id="@($"{Rubric.Id.ToString()}-label")" class="rubric-header-Label" style="width:100%">
+                <div id="@($"{ViewId}-label")" class="rubric-header-Label" style="width:100%">
 
                     <FluentLabel Typo="Typography.H6" Color="Color.FillInverse">
                         @Rubric.DisplayName

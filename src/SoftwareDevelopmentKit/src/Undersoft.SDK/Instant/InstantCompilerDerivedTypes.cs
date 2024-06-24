@@ -21,6 +21,8 @@
 
             CreateCodeProperty(tb, typeof(Uscn), "Code");
 
+            CreateChangesProperty(tb, typeof(MemberRubrics), "Changes");
+
             CreatePropertyChanged(tb);
 
             OverrideDerivedTypeProperty(tb);

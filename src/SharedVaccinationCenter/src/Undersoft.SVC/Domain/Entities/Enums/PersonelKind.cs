@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Domain.Entities.Enums;
 /// </summary>
 public enum PersonelKind
 {
+    None,
     Generic,
     Nurse,
     Doctor

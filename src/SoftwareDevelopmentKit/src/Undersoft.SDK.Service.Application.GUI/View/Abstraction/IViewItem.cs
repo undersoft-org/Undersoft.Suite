@@ -17,7 +17,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         object? Reference { get; set; }
         EditMode EditMode { get; set; }
 
-        IJSRuntime JSRuntime { get; set; }
+        IJSRuntime? JSRuntime { get; set; }
 
         FeatureFlags FeatureFlags { get; set; }
 
@@ -27,6 +27,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         IViewData Data { get; set; }
 
-        ISeries<IViewItem> Children { get; set; }
+        ISeries<IViewItem>? Children { get; set; }
     }
 }

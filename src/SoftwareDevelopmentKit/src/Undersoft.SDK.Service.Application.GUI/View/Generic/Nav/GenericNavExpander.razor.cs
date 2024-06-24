@@ -12,10 +12,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Nav
         public override string? Label { get; set; } = typeof(TMenu).Name;
 
         [Parameter]
-        public Icon? ExpandedIcon { get; set; } = new Icons.Regular.Size20.ChevronDoubleLeft();
+        public Icon? ExpandedIcon { get; set; } = new Icons.Regular.Size20.MoreHorizontal();
 
         [Parameter]
-        public Icon? CollapsedIcon { get; set; } = new Icons.Regular.Size20.ChevronDoubleRight();
+        public Icon? CollapsedIcon { get; set; } = new Icons.Regular.Size20.MoreHorizontal();
 
         [Parameter]
         public Color IconColor { get; set; } = Color.FillInverse;

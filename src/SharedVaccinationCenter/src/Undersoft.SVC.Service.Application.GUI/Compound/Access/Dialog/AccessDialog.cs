@@ -48,15 +48,12 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
                 Modal = false,
                 PreventScroll = true,
                 OnDialogOpened = Animations.OpeningFromLeft(),
-                OnDialogClosing = Animations.ClosingToRight()
+                OnDialogClosing = Animations.ClosingToRight(),
 
             });
-
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
+
+
 }

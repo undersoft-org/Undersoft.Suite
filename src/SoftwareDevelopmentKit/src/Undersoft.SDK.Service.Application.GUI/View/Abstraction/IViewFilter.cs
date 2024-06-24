@@ -5,6 +5,10 @@
     {
         bool IsOpen { get; set; }
 
+        void Close();
+
+        void CloneLastFilter();
+
         void UpdateFilters();
 
         void ClearFilters();

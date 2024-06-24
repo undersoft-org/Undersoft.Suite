@@ -86,7 +86,7 @@ public partial class RegisterBase : ComponentBase
 
     private async Task Registering(string title, string description = "")
     {
-        var account = new Account(_authorization.Credentials.Email);
+        var account = new Account(_authorization.Credentials.Email ?? "your@personal.email");
 
         account.Credentials = _authorization.Credentials;
         _authorization.Credentials.PatchTo(account.Personal);

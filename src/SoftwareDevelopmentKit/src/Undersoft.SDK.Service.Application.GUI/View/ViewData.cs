@@ -24,6 +24,8 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public ViewData(TModel data) : this(data, OperationType.Any) { }
 
+    public ViewData(TModel data, IViewData parent) : this(data, OperationType.Any) { Parent = parent; }
+
     public ViewData(TModel data, OperationType mode, string title = "") : base(true)
     {
         Model = data;
@@ -183,7 +185,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
         Rubrics.Put(rubrics);
     }
 
-    public string ViewId => Model.CodeNo;
+    public string ViewId => "cn" + Model.CodeNo;
 
     public virtual int Index
     {
@@ -203,7 +205,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public string Height { get; set; } = "auto";
 
-    public string Width { get; set; } = "360px";
+    public string Width { get; set; } = "390px";
 
     public string? Z { get; set; }
 

@@ -86,7 +86,7 @@
 
     @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.SubRow)
     {
-        <FluentDataGridRow @key="@ViewId" TGridItem="string">
+        <FluentDataGridRow @key="@($"{ViewId}-edit")" TGridItem="string">
 
             <GenericFormItem Orientation="Orientation.Horizontal" Parent="this" />
 

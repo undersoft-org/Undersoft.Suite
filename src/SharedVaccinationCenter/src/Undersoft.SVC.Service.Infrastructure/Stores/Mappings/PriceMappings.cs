@@ -29,6 +29,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
         public override void Configure(EntityTypeBuilder<Price> typeBuilder)
         {
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
+
+            ModelBuilder.RelateOneToOne<Price, Campaign>(
+                 r => r.Price,
+                 r => r.Campaign,
+                 ExpandSite.OnLeft,
+                 true
+             );
         }
     }
 }

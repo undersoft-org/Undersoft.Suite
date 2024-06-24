@@ -35,17 +35,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
                 .RelateOneToOne<Supplier, Organization>(
                     r => r.Supplier,
                     r => r.Organization,
-                    ExpandSite.OnRight,
+                    ExpandSite.WithMany,
                     true
                 ).RelateOneToOne<Supplier, Address>(
                     r => r.Supplier,
                     r => r.Address,
-                    ExpandSite.OnRight,
+                    ExpandSite.WithMany,
                     true
                 ).RelateOneToOne<Supplier, Professional>(
                     r => r.Supplier,
                     r => r.Professional,
-                    ExpandSite.OnRight,
+                    ExpandSite.WithMany,
                     true
                 );
         }

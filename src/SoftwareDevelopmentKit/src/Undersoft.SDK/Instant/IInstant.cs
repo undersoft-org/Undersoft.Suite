@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
+    using Undersoft.SDK.Rubrics;
     using Uniques;
 
 
@@ -22,6 +23,10 @@
         [IgnoreDataMember]
         [JsonIgnore]
         Uscn Code { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
+        IRubrics Changes { get; set; }
     }
 
     public interface IValueArray

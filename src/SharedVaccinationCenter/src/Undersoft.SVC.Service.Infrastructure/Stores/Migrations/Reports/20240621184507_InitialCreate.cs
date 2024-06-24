@@ -19,7 +19,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 name: "relations");
 
             migrationBuilder.CreateTable(
-                name: "Campaigns",
+                name: "Costs",
                 schema: "domain",
                 columns: table => new
                 {
@@ -35,11 +35,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    PriceId = table.Column<long>(type: "bigint", nullable: true)
+                    Value = table.Column<double>(type: "double precision", nullable: true),
+                    Tax = table.Column<double>(type: "double precision", nullable: true),
+                    Amount = table.Column<double>(type: "double precision", nullable: true),
+                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
+                    TrafficId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Campaigns", x => x.Id);
+                    table.PrimaryKey("PK_Costs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,7 +97,121 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stocks",
+                name: "Payments",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Value = table.Column<double>(type: "double precision", nullable: true),
+                    Tax = table.Column<double>(type: "double precision", nullable: true),
+                    Amount = table.Column<double>(type: "double precision", nullable: true),
+                    CertificateId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Personals",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    IdentifierType = table.Column<int>(type: "integer", nullable: false),
+                    Identifier = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    Birthdate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    AppointmentId = table.Column<long>(type: "bigint", nullable: true),
+                    CertificateId = table.Column<long>(type: "bigint", nullable: true),
+                    PostSymptomId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prices",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Value = table.Column<double>(type: "double precision", nullable: true),
+                    Tax = table.Column<double>(type: "double precision", nullable: true),
+                    Amount = table.Column<double>(type: "double precision", nullable: true),
+                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
+                    CampaignId = table.Column<long>(type: "bigint", nullable: true),
+                    TrafficId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Safety",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ExpirationDays = table.Column<int>(type: "integer", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Temperature = table.Column<float>(type: "real", nullable: true),
+                    VaccineId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Safety", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
                 schema: "domain",
                 columns: table => new
                 {
@@ -109,12 +227,47 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
-                    VaccineId = table.Column<long>(type: "bigint", nullable: true),
-                    Amount = table.Column<float>(type: "real", nullable: true)
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
+                    EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
+                    Interval = table.Column<TimeSpan>(type: "interval", nullable: true),
+                    AppointmentId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stocks", x => x.Id);
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specifications",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    VaccineImage = table.Column<string>(type: "text", nullable: true),
+                    VaccineImageData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Virus = table.Column<string>(type: "text", nullable: true),
+                    Dose = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    VaccineId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specifications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,7 +298,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 });
 
             migrationBuilder.CreateTable(
-                name: "Requests",
+                name: "Vaccinations",
                 schema: "domain",
                 columns: table => new
                 {
@@ -160,23 +313,23 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    StockId = table.Column<long>(type: "bigint", nullable: true),
-                    Quentity = table.Column<float>(type: "real", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Dose = table.Column<string>(type: "text", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Interval = table.Column<TimeSpan>(type: "interval", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
+                    PostSymptomId = table.Column<long>(type: "bigint", nullable: true),
+                    CertificateId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Requests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Requests_Stocks_StockId",
-                        column: x => x.StockId,
-                        principalSchema: "domain",
-                        principalTable: "Stocks",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_Vaccinations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Traffics",
+                name: "Campaigns",
                 schema: "domain",
                 columns: table => new
                 {
@@ -191,21 +344,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: true),
-                    CostId = table.Column<long>(type: "bigint", nullable: true),
-                    PriceId = table.Column<long>(type: "bigint", nullable: true),
-                    Quantity = table.Column<float>(type: "real", nullable: true),
-                    StockId = table.Column<long>(type: "bigint", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    PriceId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Traffics", x => x.Id);
+                    table.PrimaryKey("PK_Campaigns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Traffics_Stocks_StockId",
-                        column: x => x.StockId,
+                        name: "FK_Campaigns_Prices_PriceId",
+                        column: x => x.PriceId,
                         principalSchema: "domain",
-                        principalTable: "Stocks",
+                        principalTable: "Prices",
                         principalColumn: "Id");
                 });
 
@@ -241,10 +390,16 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         principalTable: "Manufacturers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Vaccines_Stocks_StockId",
-                        column: x => x.StockId,
+                        name: "FK_Vaccines_Safety_SafetyId",
+                        column: x => x.SafetyId,
                         principalSchema: "domain",
-                        principalTable: "Stocks",
+                        principalTable: "Safety",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Vaccines_Specifications_SpecificationId",
+                        column: x => x.SpecificationId,
+                        principalSchema: "domain",
+                        principalTable: "Specifications",
                         principalColumn: "Id");
                 });
 
@@ -302,7 +457,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    OrganizatioIdentifierType = table.Column<int>(type: "integer", nullable: true),
+                    OrganizatioIdentifierType = table.Column<int>(type: "integer", nullable: false),
                     OrganizatioIdentifier = table.Column<string>(type: "text", nullable: true),
                     OrganizatioIndustry = table.Column<string>(type: "text", nullable: true),
                     OrganizationName = table.Column<string>(type: "text", nullable: true),
@@ -365,6 +520,59 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 });
 
             migrationBuilder.CreateTable(
+                name: "Appointments",
+                schema: "domain",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    State = table.Column<int>(type: "integer", nullable: false),
+                    OfficeId = table.Column<long>(type: "bigint", nullable: true),
+                    PersonalId = table.Column<long>(type: "bigint", nullable: true),
+                    ScheduleId = table.Column<long>(type: "bigint", nullable: true),
+                    CampaignId = table.Column<long>(type: "bigint", nullable: true),
+                    ProcedureId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Campaigns_CampaignId",
+                        column: x => x.CampaignId,
+                        principalSchema: "domain",
+                        principalTable: "Campaigns",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Offices_OfficeId",
+                        column: x => x.OfficeId,
+                        principalSchema: "domain",
+                        principalTable: "Offices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Personals_PersonalId",
+                        column: x => x.PersonalId,
+                        principalSchema: "domain",
+                        principalTable: "Personals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Appointments_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalSchema: "domain",
+                        principalTable: "Schedules",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CampaignsToVaccines",
                 schema: "relations",
                 columns: table => new
@@ -403,40 +611,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 });
 
             migrationBuilder.CreateTable(
-                name: "Certificates",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
-                    PersonalId = table.Column<long>(type: "bigint", nullable: true),
-                    VaccineId = table.Column<long>(type: "bigint", nullable: true),
-                    TermId = table.Column<long>(type: "bigint", nullable: true),
-                    PaymentId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certificates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Certificates_Vaccines_VaccineId",
-                        column: x => x.VaccineId,
-                        principalSchema: "domain",
-                        principalTable: "Vaccines",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Specifications",
+                name: "Stocks",
                 schema: "domain",
                 columns: table => new
                 {
@@ -451,87 +626,18 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    VaccineImage = table.Column<string>(type: "text", nullable: true),
-                    VaccineImageData = table.Column<byte[]>(type: "bytea", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Virus = table.Column<string>(type: "text", nullable: true),
-                    Dose = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
-                    VaccineId = table.Column<long>(type: "bigint", nullable: true)
+                    VaccineId = table.Column<long>(type: "bigint", nullable: true),
+                    Amount = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specifications", x => x.Id);
+                    table.PrimaryKey("PK_Stocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Specifications_Vaccines_VaccineId",
+                        name: "FK_Stocks_Vaccines_VaccineId",
                         column: x => x.VaccineId,
                         principalSchema: "domain",
                         principalTable: "Vaccines",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "VaccineSafety",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ExpirationDays = table.Column<int>(type: "integer", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Temperature = table.Column<float>(type: "real", nullable: true),
-                    VaccineId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VaccineSafety", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_VaccineSafety_Vaccines_VaccineId",
-                        column: x => x.VaccineId,
-                        principalSchema: "domain",
-                        principalTable: "Vaccines",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Value = table.Column<double>(type: "double precision", nullable: true),
-                    Tax = table.Column<double>(type: "double precision", nullable: true),
-                    Amount = table.Column<double>(type: "double precision", nullable: true),
-                    CertificateId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Payments_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
                         principalColumn: "Id");
                 });
 
@@ -564,9 +670,28 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 {
                     table.PrimaryKey("PK_Procedures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Procedures_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
+                        name: "FK_Procedures_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalSchema: "domain",
+                        principalTable: "Appointments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Procedures_Costs_CostId",
+                        column: x => x.CostId,
+                        principalSchema: "domain",
+                        principalTable: "Costs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Procedures_Prices_PriceId",
+                        column: x => x.PriceId,
+                        principalSchema: "domain",
+                        principalTable: "Prices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Procedures_Vaccinations_TermId",
+                        column: x => x.TermId,
+                        principalSchema: "domain",
+                        principalTable: "Vaccinations",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Procedures_Vaccines_VaccineId",
@@ -577,7 +702,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "Requests",
                 schema: "domain",
                 columns: table => new
                 {
@@ -593,38 +718,22 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
-                    State = table.Column<int>(type: "integer", nullable: true),
-                    OfficeId = table.Column<long>(type: "bigint", nullable: true),
-                    PersonalId = table.Column<long>(type: "bigint", nullable: true),
-                    ScheduleId = table.Column<long>(type: "bigint", nullable: true),
-                    CampaignId = table.Column<long>(type: "bigint", nullable: true),
-                    ProcedureId = table.Column<long>(type: "bigint", nullable: true)
+                    StockId = table.Column<long>(type: "bigint", nullable: true),
+                    Quentity = table.Column<float>(type: "real", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointments_Campaigns_CampaignId",
-                        column: x => x.CampaignId,
+                        name: "FK_Requests_Stocks_StockId",
+                        column: x => x.StockId,
                         principalSchema: "domain",
-                        principalTable: "Campaigns",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Offices_OfficeId",
-                        column: x => x.OfficeId,
-                        principalSchema: "domain",
-                        principalTable: "Offices",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Procedures_ProcedureId",
-                        column: x => x.ProcedureId,
-                        principalSchema: "domain",
-                        principalTable: "Procedures",
+                        principalTable: "Stocks",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Costs",
+                name: "Traffics",
                 schema: "domain",
                 columns: table => new
                 {
@@ -639,27 +748,90 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Value = table.Column<double>(type: "double precision", nullable: true),
-                    Tax = table.Column<double>(type: "double precision", nullable: true),
-                    Amount = table.Column<double>(type: "double precision", nullable: true),
-                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
-                    TrafficId = table.Column<long>(type: "bigint", nullable: true)
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    CostId = table.Column<long>(type: "bigint", nullable: true),
+                    PriceId = table.Column<long>(type: "bigint", nullable: true),
+                    Quantity = table.Column<float>(type: "real", nullable: true),
+                    StockId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Costs", x => x.Id);
+                    table.PrimaryKey("PK_Traffics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Costs_Procedures_ProcedureId",
+                        name: "FK_Traffics_Costs_CostId",
+                        column: x => x.CostId,
+                        principalSchema: "domain",
+                        principalTable: "Costs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Traffics_Prices_PriceId",
+                        column: x => x.PriceId,
+                        principalSchema: "domain",
+                        principalTable: "Prices",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Traffics_Stocks_StockId",
+                        column: x => x.StockId,
+                        principalSchema: "domain",
+                        principalTable: "Stocks",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Certificates",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
+                    PersonalId = table.Column<long>(type: "bigint", nullable: true),
+                    VaccineId = table.Column<long>(type: "bigint", nullable: true),
+                    TermId = table.Column<long>(type: "bigint", nullable: true),
+                    PaymentId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certificates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Certificates_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalSchema: "domain",
+                        principalTable: "Payments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Certificates_Personals_PersonalId",
+                        column: x => x.PersonalId,
+                        principalSchema: "domain",
+                        principalTable: "Personals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Certificates_Procedures_ProcedureId",
                         column: x => x.ProcedureId,
                         principalSchema: "domain",
                         principalTable: "Procedures",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Costs_Traffics_TrafficId",
-                        column: x => x.TrafficId,
+                        name: "FK_Certificates_Vaccinations_TermId",
+                        column: x => x.TermId,
                         principalSchema: "domain",
-                        principalTable: "Traffics",
+                        principalTable: "Vaccinations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Certificates_Vaccines_VaccineId",
+                        column: x => x.VaccineId,
+                        principalSchema: "domain",
+                        principalTable: "Vaccines",
                         principalColumn: "Id");
                 });
 
@@ -689,195 +861,28 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 {
                     table.PrimaryKey("PK_PostSymptoms", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_PostSymptoms_Personals_PersonalId",
+                        column: x => x.PersonalId,
+                        principalSchema: "domain",
+                        principalTable: "Personals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_PostSymptoms_Procedures_ProcedureId",
                         column: x => x.ProcedureId,
                         principalSchema: "domain",
                         principalTable: "Procedures",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_PostSymptoms_Vaccinations_TermId",
+                        column: x => x.TermId,
+                        principalSchema: "domain",
+                        principalTable: "Vaccinations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_PostSymptoms_Vaccines_VaccineId",
                         column: x => x.VaccineId,
                         principalSchema: "domain",
                         principalTable: "Vaccines",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Prices",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Value = table.Column<double>(type: "double precision", nullable: true),
-                    Tax = table.Column<double>(type: "double precision", nullable: true),
-                    Amount = table.Column<double>(type: "double precision", nullable: true),
-                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
-                    CampaignId = table.Column<long>(type: "bigint", nullable: true),
-                    TrafficId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Prices", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Prices_Campaigns_CampaignId",
-                        column: x => x.CampaignId,
-                        principalSchema: "domain",
-                        principalTable: "Campaigns",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Prices_Procedures_ProcedureId",
-                        column: x => x.ProcedureId,
-                        principalSchema: "domain",
-                        principalTable: "Procedures",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Prices_Traffics_TrafficId",
-                        column: x => x.TrafficId,
-                        principalSchema: "domain",
-                        principalTable: "Traffics",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Schedules",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: true),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
-                    EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
-                    Interval = table.Column<TimeSpan>(type: "interval", nullable: true),
-                    AppointmentId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalSchema: "domain",
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Personals",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    IdentifierType = table.Column<int>(type: "integer", nullable: true),
-                    Identifier = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Birthdate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    AppointmentId = table.Column<long>(type: "bigint", nullable: true),
-                    CertificateId = table.Column<long>(type: "bigint", nullable: true),
-                    PostSymptomId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Personals", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Personals_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalSchema: "domain",
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Personals_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Personals_PostSymptoms_PostSymptomId",
-                        column: x => x.PostSymptomId,
-                        principalSchema: "domain",
-                        principalTable: "PostSymptoms",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vaccinations",
-                schema: "domain",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Dose = table.Column<string>(type: "text", nullable: true),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Interval = table.Column<TimeSpan>(type: "interval", nullable: true),
-                    Expiration = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    ProcedureId = table.Column<long>(type: "bigint", nullable: true),
-                    PostSymptomId = table.Column<long>(type: "bigint", nullable: true),
-                    CertificateId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vaccinations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vaccinations_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Vaccinations_PostSymptoms_PostSymptomId",
-                        column: x => x.PostSymptomId,
-                        principalSchema: "domain",
-                        principalTable: "PostSymptoms",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Vaccinations_Procedures_ProcedureId",
-                        column: x => x.ProcedureId,
-                        principalSchema: "domain",
-                        principalTable: "Procedures",
                         principalColumn: "Id");
                 });
 
@@ -913,10 +918,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "OfficeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ProcedureId",
+                name: "IX_Appointments_PersonalId",
                 schema: "domain",
                 table: "Appointments",
-                column: "ProcedureId",
+                column: "PersonalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ScheduleId",
+                schema: "domain",
+                table: "Appointments",
+                column: "ScheduleId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -924,6 +936,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain",
                 table: "Campaigns",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Campaigns_PriceId",
+                schema: "domain",
+                table: "Campaigns",
+                column: "PriceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CampaignsToVaccines_LeftEntityId",
@@ -943,6 +962,30 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "Index");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Certificates_PaymentId",
+                table: "Certificates",
+                column: "PaymentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Certificates_PersonalId",
+                table: "Certificates",
+                column: "PersonalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Certificates_ProcedureId",
+                table: "Certificates",
+                column: "ProcedureId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Certificates_TermId",
+                table: "Certificates",
+                column: "TermId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Certificates_VaccineId",
                 table: "Certificates",
                 column: "VaccineId");
@@ -952,20 +995,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain",
                 table: "Costs",
                 column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Costs_ProcedureId",
-                schema: "domain",
-                table: "Costs",
-                column: "ProcedureId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Costs_TrafficId",
-                schema: "domain",
-                table: "Costs",
-                column: "TrafficId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Manufacturers_Index",
@@ -993,31 +1022,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_CertificateId",
-                schema: "domain",
-                table: "Payments",
-                column: "CertificateId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_Index",
                 schema: "domain",
                 table: "Payments",
                 column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Personals_AppointmentId",
-                schema: "domain",
-                table: "Personals",
-                column: "AppointmentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Personals_CertificateId",
-                schema: "domain",
-                table: "Personals",
-                column: "CertificateId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Personals_Index",
@@ -1026,17 +1034,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "Index");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Personals_PostSymptomId",
-                schema: "domain",
-                table: "Personals",
-                column: "PostSymptomId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PostSymptoms_Index",
                 schema: "domain",
                 table: "PostSymptoms",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostSymptoms_PersonalId",
+                schema: "domain",
+                table: "PostSymptoms",
+                column: "PersonalId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostSymptoms_ProcedureId",
@@ -1046,17 +1054,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostSymptoms_TermId",
+                schema: "domain",
+                table: "PostSymptoms",
+                column: "TermId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostSymptoms_VaccineId",
                 schema: "domain",
                 table: "PostSymptoms",
                 column: "VaccineId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prices_CampaignId",
-                schema: "domain",
-                table: "Prices",
-                column: "CampaignId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prices_Index",
@@ -1065,24 +1073,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "Index");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prices_ProcedureId",
-                schema: "domain",
-                table: "Prices",
-                column: "ProcedureId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Prices_TrafficId",
-                schema: "domain",
-                table: "Prices",
-                column: "TrafficId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Procedures_CertificateId",
+                name: "IX_Procedures_AppointmentId",
                 schema: "domain",
                 table: "Procedures",
-                column: "CertificateId",
+                column: "AppointmentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Procedures_CostId",
+                schema: "domain",
+                table: "Procedures",
+                column: "CostId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1090,6 +1091,20 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain",
                 table: "Procedures",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Procedures_PriceId",
+                schema: "domain",
+                table: "Procedures",
+                column: "PriceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Procedures_TermId",
+                schema: "domain",
+                table: "Procedures",
+                column: "TermId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Procedures_VaccineId",
@@ -1123,11 +1138,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "StockId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_AppointmentId",
+                name: "IX_Safety_Index",
                 schema: "domain",
-                table: "Schedules",
-                column: "AppointmentId",
-                unique: true);
+                table: "Safety",
+                column: "Index");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_Index",
@@ -1142,17 +1156,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "Index");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specifications_VaccineId",
-                schema: "domain",
-                table: "Specifications",
-                column: "VaccineId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Stocks_Index",
                 schema: "domain",
                 table: "Stocks",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stocks_VaccineId",
+                schema: "domain",
+                table: "Stocks",
+                column: "VaccineId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Suppliers_Index",
@@ -1161,10 +1175,24 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "Index");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Traffics_CostId",
+                schema: "domain",
+                table: "Traffics",
+                column: "CostId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Traffics_Index",
                 schema: "domain",
                 table: "Traffics",
                 column: "Index");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Traffics_PriceId",
+                schema: "domain",
+                table: "Traffics",
+                column: "PriceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Traffics_StockId",
@@ -1173,31 +1201,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "StockId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vaccinations_CertificateId",
-                schema: "domain",
-                table: "Vaccinations",
-                column: "CertificateId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Vaccinations_Index",
                 schema: "domain",
                 table: "Vaccinations",
                 column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vaccinations_PostSymptomId",
-                schema: "domain",
-                table: "Vaccinations",
-                column: "PostSymptomId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vaccinations_ProcedureId",
-                schema: "domain",
-                table: "Vaccinations",
-                column: "ProcedureId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vaccines_Index",
@@ -1212,23 +1219,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 column: "ManufacturerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vaccines_StockId",
+                name: "IX_Vaccines_SafetyId",
                 schema: "domain",
                 table: "Vaccines",
-                column: "StockId",
+                column: "SafetyId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_VaccineSafety_Index",
+                name: "IX_Vaccines_SpecificationId",
                 schema: "domain",
-                table: "VaccineSafety",
-                column: "Index");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VaccineSafety_VaccineId",
-                schema: "domain",
-                table: "VaccineSafety",
-                column: "VaccineId",
+                table: "Vaccines",
+                column: "SpecificationId",
                 unique: true);
         }
 
@@ -1244,23 +1245,14 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "relations");
 
             migrationBuilder.DropTable(
-                name: "Costs",
-                schema: "domain");
+                name: "Certificates");
 
             migrationBuilder.DropTable(
                 name: "Organizations",
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Payments",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "Personals",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "Prices",
+                name: "PostSymptoms",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -1272,23 +1264,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Schedules",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "Specifications",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "Vaccinations",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
-                name: "VaccineSafety",
-                schema: "domain");
-
-            migrationBuilder.DropTable(
                 name: "Traffics",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Payments",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Procedures",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -1296,11 +1280,23 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain");
 
             migrationBuilder.DropTable(
+                name: "Stocks",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
                 name: "Appointments",
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "PostSymptoms",
+                name: "Costs",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Vaccinations",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Vaccines",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -1312,14 +1308,11 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Procedures",
+                name: "Personals",
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Certificates");
-
-            migrationBuilder.DropTable(
-                name: "Vaccines",
+                name: "Schedules",
                 schema: "domain");
 
             migrationBuilder.DropTable(
@@ -1327,7 +1320,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                 schema: "domain");
 
             migrationBuilder.DropTable(
-                name: "Stocks",
+                name: "Safety",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Specifications",
+                schema: "domain");
+
+            migrationBuilder.DropTable(
+                name: "Prices",
                 schema: "domain");
         }
     }

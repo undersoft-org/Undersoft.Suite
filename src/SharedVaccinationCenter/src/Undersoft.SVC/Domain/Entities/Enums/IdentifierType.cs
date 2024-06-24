@@ -13,6 +13,7 @@ namespace Undersoft.SVC.Domain.Entities.Enums;
 /// </summary>
 public enum IdentifierType
 {
+    None,
     PersonalNumber,
     PersonalID,
     TaxID,

@@ -47,7 +47,7 @@ body {
 }
 
 nav.sitenav {
-    height: calc(100dvh - 120px);
+    height: auto;
 }
 
 nav h2 {
@@ -153,6 +153,9 @@ footer {
     display: none;
 }
 
+.searchbar {
+    width: calc(100dvw - 325px);
+}
 
 #blazor-error-ui {
     background: lightyellow;
@@ -238,6 +241,10 @@ code {
         height: calc(100dvh - 120px);
     }
 
+    .searchbar{
+        width:calc(100dvw - 290px);
+    }
+
     #main-menu {
         width: 100% !important;
     }
@@ -247,7 +254,6 @@ code {
         }
 
     .navmenu {
-        width:180px;
     }
 
     #navmenu-toggle {

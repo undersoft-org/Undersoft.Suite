@@ -2,7 +2,7 @@
 
 @inject NavigationManager _navigation
 
-@inherits ViewItem<TModel>
+@inherits GenericDialog<TModel>
 
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
@@ -35,12 +35,6 @@
 
 @code
 {
-    [CascadingParameter]
-    public FluentDialog Dialog { get; set; } = default!;
-
-    [Inject]
-    public override IJSRuntime JSRuntime { get => base.JSRuntime; set => base.JSRuntime = value; }
-
     private async Task OnSignIn(MouseEventArgs e)
     {
         Content.NextHref = "access/sign_in";
@@ -48,22 +42,11 @@
         await Dialog.CloseAsync(Content);
     }
 
-    protected override void OnInitialized()
-    {
-        Content.View = this;
-        base.OnInitialized();
-    }
-
     private async Task SaveAsync()
     {
-        if ((await Content.Validator.ValidateAsync()).IsValid)
+        if ((await Content.Validator!.ValidateAsync()).IsValid)
         {
             await Dialog.CloseAsync(Content);
         }
-    }
-
-    public void RenderView()
-    {
-        this.StateHasChanged();
     }
 }

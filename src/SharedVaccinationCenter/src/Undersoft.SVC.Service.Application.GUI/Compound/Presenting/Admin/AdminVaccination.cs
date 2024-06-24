@@ -29,7 +29,7 @@ public class AdminVaccination : DataObject
     [IconRubric("ProceduresIcon")]
     [DisplayRubric("Procedures")]
     public string Procedures { get; set; } = "/presenting/admin/vaccination/procedures";
-    public Icon ProceduresIcon = new Icons.Regular.Size20.BuildingFactory();
+    public Icon ProceduresIcon = new Icons.Regular.Size20.Stethoscope();
 
     [Link]
     [MenuItem]

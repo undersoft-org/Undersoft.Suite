@@ -15,10 +15,17 @@
     <GenericFormTabsHeader TModel="TModel" />
 
     <!-- Body -->
-    <GenericFormTabsBody TValidator="TValidator" TModel="TModel" EntryMode="@EntryMode" />
+    <GenericFormTabsBody TValidator="TValidator" Orientation="@Orientation" TModel="TModel" EntryMode="@EntryMode" />
 
     <!-- Footer -->
     <GenericFormTabsFooter TModel="TModel" />
 
     </CascadingValue>
 </CascadingValue>
+
+
+@code
+{
+    [Parameter]
+    public Orientation Orientation { get; set; } = Orientation.Vertical;
+}

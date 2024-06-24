@@ -34,7 +34,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
                 var modelType = item.ModelType;
                 var data = typeof(ViewData<>)
                     .MakeGenericType(modelType)
-                    .New<IViewData>(modelType.New());
+                    .New<IViewData>(modelType.New(), item);
                 data.Title = $"Add {modelType.Name.ToLower()}";
                 data.Height = "auto";
                 data.EntryMode = item.EntryMode;
@@ -63,7 +63,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
                 var tempModel = modelType.New();
                 var tempData = typeof(ViewData<>)
                     .MakeGenericType(modelType)
-                    .New<IViewData>(tempModel);
+                    .New<IViewData>(tempModel, item);
                 item.Model.PutTo(tempData.Model);
                 tempData.Title = $"Edit {modelType.Name.ToLower()}";
                 tempData.Height = "auto";

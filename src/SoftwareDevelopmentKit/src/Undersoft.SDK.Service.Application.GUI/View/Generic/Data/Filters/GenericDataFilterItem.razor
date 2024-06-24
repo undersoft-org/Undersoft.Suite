@@ -9,7 +9,7 @@
 <GenericFieldMenuItem Id="@ViewId" @ref="@Reference" Style="height:auto">
     <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.End" HorizontalGap="0" VerticalGap="0">
       
-        @if (_type.IsPrimitive || (_type.IsValueType && !_type.IsAssignableTo(typeof(Enum))))
+        @if (_type.IsValueType && !_type.IsAssignableTo(typeof(Enum)))
         {
             @if (Index > 0)
             {
