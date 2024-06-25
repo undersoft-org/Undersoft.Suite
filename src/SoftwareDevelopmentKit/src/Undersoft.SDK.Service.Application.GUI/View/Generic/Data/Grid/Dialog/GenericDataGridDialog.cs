@@ -36,11 +36,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 OnDialogClosing = Animations.ClosingToTop()
             });
 
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
 
@@ -64,11 +60,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 OnDialogClosing = Animations.ClosingToTop()
             });
 
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
 
@@ -92,11 +84,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 OnDialogClosing = Animations.ClosingToTop()
             });
 
-            var result = await Reference.Result;
-            if (!result.Cancelled && result.Data != null)
-            {
-                Content = (IViewData<TModel>)result.Data;
-            }
+            await ProcessDialog();
         }
     }
 }

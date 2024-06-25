@@ -22,89 +22,117 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
             ViewResolveAttributes = new ViewAttributeResolvers();
 
             Registry.Add(
-                typeof(ViewClassAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(ViewClassAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveClassAttributes
                 )
             );
             Registry.Add(
-                typeof(ViewStyleAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(ViewStyleAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveStyleAttributes
                 )
             );
             Registry.Add(
-                typeof(GridAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(GridAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveGridAttributes
                 )
             );
             Registry.Add(
-                typeof(StackAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(StackAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveStackAttributes
                 )
             );
             Registry.Add(
-                typeof(MenuItemAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(MenuItemAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveMenuItemAttributes
                 )
             );
             Registry.Add(
-                typeof(MenuGroupAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(MenuGroupAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveMenuGroupAttributes
                 )
             );
             Registry.Add(
-                typeof(ValidatorAttribute), nameof(IViewData).UniqueKey32(),
+                typeof(ValidatorAttribute),
+                nameof(IViewData).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveValidatorAttributes
                 )
             );
             Registry.Add(
-            typeof(ViewSizeAttribute), nameof(IViewData).UniqueKey32(),
-            new Invoker<ViewAttributeResolvers>(
-                ViewResolveAttributes,
-                m => m.ResolveSizeClassAttributes
-            )
-        );
+                typeof(ViewSizeAttribute),
+                nameof(IViewData).UniqueKey32(),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveSizeClassAttributes
+                )
+            );
             Registry.Add(
-                typeof(ViewImageAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(ViewImageAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveImageAttributes
                 )
             );
             Registry.Add(
-                typeof(ViewSizeAttribute), nameof(ViewRubric).UniqueKey32(),
+                typeof(ViewSizeAttribute),
+                nameof(ViewRubric).UniqueKey32(),
                 new Invoker<ViewAttributeResolvers>(
                     ViewResolveAttributes,
                     m => m.ResolveSizeRubricAttributes
                 )
             );
             Registry.Add(
-               typeof(OpenQueryAttribute), nameof(ViewRubric).UniqueKey32(),
-               new Invoker<ViewAttributeResolvers>(
-                   ViewResolveAttributes,
-                   m => m.ResolveQueryRubricAttributes
-               )
-           );
+                typeof(OpenQueryAttribute),
+                nameof(ViewRubric).UniqueKey32(),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveQueryRubricAttributes
+                )
+            );
             Registry.Add(
-            typeof(OpenSearchAttribute), nameof(IViewData).UniqueKey32(),
-            new Invoker<ViewAttributeResolvers>(
-                ViewResolveAttributes,
-                m => m.ResolveSearchAttributes
-            )
-        );
+                typeof(OpenSearchAttribute),
+                nameof(IViewData).UniqueKey32(),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveSearchAttributes
+                )
+            );
+            Registry.Add(
+                typeof(GridAttribute),
+                nameof(IViewData).UniqueKey32(),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveGridClassAttributes
+                )
+            );
+            Registry.Add(
+                typeof(StackAttribute),
+                nameof(IViewData).UniqueKey32(),
+                new Invoker<ViewAttributeResolvers>(
+                    ViewResolveAttributes,
+                    m => m.ResolveStackClassAttributes
+                )
+            );
         }
 
         public static IViewData Resolve(IViewData mr)
@@ -117,7 +145,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 {
                     var type = a.GetType();
                     if (
-                        ViewAttributes.Registry.TryGet(type, nameof(IViewData).UniqueKey32(), out IInvoker invoker)
+                        ViewAttributes.Registry.TryGet(
+                            type,
+                            nameof(IViewData).UniqueKey32(),
+                            out IInvoker invoker
+                        )
                     )
                     {
                         invoker.Invoke(mr);
@@ -139,7 +171,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 {
                     var type = a.GetType();
                     if (
-                        ViewAttributes.Registry.TryGet(type, nameof(ViewRubric).UniqueKey32(), out IInvoker invoker)
+                        ViewAttributes.Registry.TryGet(
+                            type,
+                            nameof(ViewRubric).UniqueKey32(),
+                            out IInvoker invoker
+                        )
                     )
                     {
                         invoker.Invoke(mr);
@@ -333,6 +369,42 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
                 data.Validator = typeof(GenericValidator<,>)
                     .MakeGenericType(data.ValidatorType, modelType)
                     .New<IViewValidator>();
+            }
+        }
+
+        public void ResolveGridClassAttributes(IViewData data)
+        {
+            if (data.Validator != null)
+                return;
+
+            var modelType = data.ModelType;
+
+            object? o = modelType
+                .GetCustomAttributes(typeof(GridAttribute), false)
+                .FirstOrDefault();
+            if ((o != null))
+            {
+                GridAttribute fta = (GridAttribute)o;
+
+                data.Grid = fta.PutTo<ViewGrid>();
+            }
+        }
+
+        public void ResolveStackClassAttributes(IViewData data)
+        {
+            if (data.Validator != null)
+                return;
+
+            var modelType = data.ModelType;
+
+            object? o = modelType
+                .GetCustomAttributes(typeof(StackAttribute), false)
+                .FirstOrDefault();
+            if ((o != null))
+            {
+                StackAttribute fta = (StackAttribute)o;
+
+                data.Stack = fta.PutTo<ViewStack>();
             }
         }
     }

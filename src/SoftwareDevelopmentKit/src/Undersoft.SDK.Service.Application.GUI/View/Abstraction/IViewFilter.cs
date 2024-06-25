@@ -5,9 +5,15 @@
     {
         bool IsOpen { get; set; }
 
+        bool Added { get; }
+
+        bool IsAddable { get; }
+
         void Close();
 
         void CloneLastFilter();
+
+        void RemoveLastFilter();
 
         void UpdateFilters();
 

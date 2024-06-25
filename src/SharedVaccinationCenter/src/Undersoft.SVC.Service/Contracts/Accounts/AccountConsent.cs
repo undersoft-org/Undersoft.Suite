@@ -47,4 +47,8 @@ public class AccountConsent : DataObject
     public bool ThirdPartyConsent { get; set; } = default!;
 
     public long? AccountId { get; set; }
+
+    public long? ConsentId { get; set; }
+
+    public virtual Consent? Consent { get; set; }
 }

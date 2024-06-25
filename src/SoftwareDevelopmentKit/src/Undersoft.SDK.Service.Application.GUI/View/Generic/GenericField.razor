@@ -5,7 +5,7 @@
 
 @inherits ViewItem
 
-@if (_isUpload)
+@if (_upload)
 {
     <div style="width:@Width;">
         <GenericUpload Rubric="@Rubric" Disabled="@Rubric.Disabled" Data="@Data" Label="@_label" DisplayName="@_label" @ref="Reference" />
@@ -15,9 +15,18 @@ else if (_type.IsPrimitive)
 {
     @if (_type.IsAssignableTo(typeof(long)))
     {
-        <div style="width:@Width">
-            <FluentNumberField Name="@_name" Appearance="@Appearance" Style="width:100%" MaxLength="20" Max="@(long.MaxValue.ToString())"  @bind-Value="@_longValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
-        </div>
+        @if (_identity)
+        {
+            <div style="width:@Width">
+                <FluentTextField Name="@_name" Appearance="@Appearance" Style="width:100%" @bind-Value="@_identityValue" Label="@_label" Autofocus="@AutoFocus" DisplayName="@_name" TextFieldType="@_textFieldType" InputMode="@_inputMode" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            </div>
+        }
+        else
+        {
+            <div style="width:@Width">
+                <FluentNumberField Name="@_name" Appearance="@Appearance" Style="width:100%" MaxLength="20" Max="@(long.MaxValue.ToString())" @bind-Value="@_longValue" Autofocus="@AutoFocus" Label="@_label" DisplayName="@_name" Required="@_required" @ref="Reference" Disabled="@Rubric.Disabled" />
+            </div>
+        }
     }
     else if (_type.IsAssignableTo(typeof(int)))
     {
@@ -117,17 +126,17 @@ else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
     }
 }
 
-<FluentStack Orientation="Orientation.Vertical" VerticalGap="0" HorizontalAlignment="HorizontalAlignment.Center">
+<FluentStack Orientation="Orientation.Horizontal" Wrap="true" VerticalGap="0" HorizontalAlignment="HorizontalAlignment.Center" Width="@null">
     @foreach (var error in Rubric.Errors)
     {
         <div style="width:@Width">
             <FluentLabel Typo="Typography.Body" Color="Color.Error">
                 <small>
-                @error
+                    @error
                 </small>
             </FluentLabel>
         </div>
     }
-</FluentStack>
+    </FluentStack>
 
 

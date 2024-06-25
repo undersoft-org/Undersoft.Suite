@@ -8,6 +8,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Header
         [Parameter]
         public int Ordinal { get; set; } = 1;
 
+        [CascadingParameter]
+        public bool Resizable { get; set; }
 
         private static string? RubricClass(IViewRubric rubric) => rubric.Align switch
         {

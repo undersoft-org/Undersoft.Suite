@@ -51,11 +51,11 @@ namespace System
             var notNullableType = type.GetNotNullableType();
 
             if (notNullableType.IsAssignableTo(typeof(DateTime)))
-                return DateTime.Now;
+                return DateTime.Now.Date;
             else if (notNullableType.IsAssignableTo(typeof(DateOnly)))
-                return DateOnly.FromDateTime(DateTime.Now);
+                return DateOnly.FromDateTime(DateTime.Now.Date);
             else if (notNullableType.IsAssignableTo(typeof(DateTimeOffset)))
-                return DateTimeOffset.UtcNow;
+                return new DateTimeOffset(DateTime.Now.Date);
             else
                 return notNullableType.Default();
         }
@@ -71,11 +71,11 @@ namespace System
             }
             object value;
             if (notNullableType.IsAssignableTo(typeof(DateTime)))
-                value = DateTime.Now;
+                value = DateTime.Now.Date;
             else if (notNullableType.IsAssignableTo(typeof(DateOnly)))
-                value = DateOnly.FromDateTime(DateTime.Now);
+                value = DateOnly.FromDateTime(DateTime.Now.Date);
             else if (notNullableType.IsAssignableTo(typeof(DateTimeOffset)))
-                value = DateTimeOffset.UtcNow;
+                value = new DateTimeOffset(DateTime.Now.Date);
             else
                 value = notNullableType.Default();
             if (nullable)

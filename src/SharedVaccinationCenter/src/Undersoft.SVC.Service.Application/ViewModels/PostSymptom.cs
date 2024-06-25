@@ -10,6 +10,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 {
     public class PostSymptom : DataObject, IViewModel
     {
+
         public virtual string? Title { get; set; }
 
         public virtual long? PersonalId { get; set; }

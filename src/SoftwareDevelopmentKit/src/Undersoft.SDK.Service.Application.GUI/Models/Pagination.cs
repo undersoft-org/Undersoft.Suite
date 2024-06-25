@@ -64,7 +64,7 @@ public class Pagination
     {
         PagingLimit = pagingLimit;
         if (PagingLimit % 2 == 0)
-            PagingLimit += 1;
+            PagingLimit++;
         PagingRange = PagingLimit / 2;
     }
 
@@ -73,7 +73,10 @@ public class Pagination
         var lowest = PageIndex / PagingRange;
         if (lowest == 0)
             return 1;
-        return (lowest - 1) * PagingRange + (lowest * PagingRange - PageIndex);
+        lowest = (lowest - 1) * PagingRange + (lowest * PagingRange - PageIndex);
+        if (lowest < 1)
+            return 1;
+        return lowest;
     }
 
     public int GetHighestPageIndex()

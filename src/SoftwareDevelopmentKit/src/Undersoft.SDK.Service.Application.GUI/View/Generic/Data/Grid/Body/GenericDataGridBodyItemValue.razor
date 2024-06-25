@@ -6,11 +6,22 @@
 
 @inherits ViewItem
 
-<FluentDataGridCell GridColumn=@_ordinal Class="@(Rubric.Class + (Multiline ? "multiline-text" : ""))" Style="@("align-items:center;" + Rubric.Style)" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
-    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="height:100%">
-        <GenericValue Rubric="@Rubric" Width="100%" />
-    </FluentStack>
-</FluentDataGridCell>
+<FluentDataGridCell GridColumn=@_ordinal Class="@(Rubric.Class + (Multiline ? "multiline-text" : ""))" Style="@("padding:0px;" + Rubric.Style)" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
+    <div id="@($"{ViewId}-context-menu-{Rubric.RubricId}")" class="datagrid-body-item" role="button" style="height:100%">
+        <FluentStack Orientation="Orientation.Horizontal" Wrap="true" HorizontalGap="0" VerticalGap="0" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="padding:0px 2px; height:100%;">
+            <GenericValue Rubric="@Rubric" Width="100%" />
+        </FluentStack>
+    </div>
+    @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
+    {
+        <GenericMenu Position="HorizontalPosition.Right"
+                     Trigger="MouseButton.Right"
+                     VerticalPosition="VerticalPosition.Unset"
+                     AnchorId="@($"{ViewId}-context-menu-{Rubric.RubricId}")"
+                     Data="@OperationsData"
+                     Anchored="false" />
+    }
+    </FluentDataGridCell>
 
 
 

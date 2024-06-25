@@ -41,18 +41,23 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public virtual TModel Model { get; set; } = default!;
 
-    public virtual void MapValidator(IViewData source)
+    public virtual void MapParent(IViewData source)
     {
         Validator = source.Validator;
         ValidatorType = source.ValidatorType;
         ValidatorTypeName = source.ValidatorTypeName;
+        Width = source.Width;
+        Height = source.Height;
+        Grid = source.Grid;
+        Stack = source.Stack;
+        SearchMembers = source.SearchMembers;
     }
 
     public virtual void MapAttributes()
     {
         if (Parent != null && Parent.Model.TypeId == Model.TypeId)
         {
-            MapValidator(Parent);
+            MapParent(Parent);
         }
         else
         {
@@ -74,7 +79,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
             if (Parent != null && Parent.Model.TypeId == Model.TypeId)
             {
                 rubrics.Add(forRubrics(Parent));
-                MapValidator(Parent);
+                MapParent(Parent);
             }
             else
             {
@@ -203,9 +208,13 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public Icon? Logo { get; set; }
 
-    public string Height { get; set; } = "auto";
+    public ViewGrid? Grid { get; set; }
 
-    public string Width { get; set; } = "390px";
+    public ViewStack? Stack { get; set; }
+
+    public string Height { get; set; }
+
+    public string Width { get; set; } = "400px";
 
     public string? Z { get; set; }
 
@@ -217,7 +226,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public OperationNotes Notes { get; set; } = new OperationNotes();
 
-    public HorizontalAlignment HorizontalAlignment { get; set; }
+    public HorizontalAlignment PanelAlignment { get; set; }
 
     private string? nextHref = null;
     public string? NextHref

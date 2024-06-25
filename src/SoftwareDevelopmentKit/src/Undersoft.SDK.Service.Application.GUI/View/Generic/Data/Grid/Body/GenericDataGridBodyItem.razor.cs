@@ -5,7 +5,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
 {
     public partial class GenericDataGridBodyItem : ViewItem
     {
+        private IViewData? _operations;
+
         public override string ViewId => Data.ViewId;
+
+        [CascadingParameter]
+        public string? GridTemplateColumns { get; set; }
 
         [CascadingParameter]
         public override IViewItem? Root
@@ -42,9 +47,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
         }
 
         [CascadingParameter]
-        public string GridTemplateColumns { get; set; } = default!;
-
-        [CascadingParameter]
         public int RubricOrdinalSeed { get; set; } = 1;
 
         public void OnItemClick()
@@ -61,26 +63,28 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
         [Parameter]
         public IViewRubrics? MenuRubrics { get; set; }
 
-        private IViewData? GetItemOperationsData()
+        private IViewData? GetOperationsData()
         {
+            if (_operations != null)
+                return _operations;
+
             Data.EntryMode = EntryMode;
-            IViewData? data = null;
             if (FeatureFlags.Editable && EditMode != EditMode.None)
-                data = typeof(ViewData<>)
+                _operations = typeof(ViewData<>)
                     .MakeGenericType(typeof(GenericDataGridBodyItemMenuEdit))
                     .New<IViewData>(new GenericDataGridBodyItemMenuEdit(Data));
             else if (FeatureFlags.Showable)
-                data = typeof(ViewData<>)
+                _operations = typeof(ViewData<>)
                     .MakeGenericType(typeof(GenericDataGridBodyItemMenuShow))
                     .New<IViewData>(new GenericDataGridBodyItemMenuShow(Data));
-            if (data != null)
+            if (_operations != null)
             {
                 if (MenuRubrics != null)
-                    data.ExtendedRubrics = MenuRubrics;
+                    _operations.ExtendedRubrics = MenuRubrics;
                 else
-                    data.MapRubrics(r => r.ExtendedRubrics, r => r.Visible, false);
+                    _operations.MapRubrics(r => r.ExtendedRubrics, r => r.Visible, false);
             }
-            return data;
+            return _operations;
         }
     }
 }

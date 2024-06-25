@@ -30,7 +30,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             set => base.EntryMode = value;
         }
 
-
         [Parameter]
         public bool Checked { get => Data.StateFlags.Checked; set => Data.StateFlags.Checked = value; }
 

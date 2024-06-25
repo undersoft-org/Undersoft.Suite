@@ -7,7 +7,7 @@
 
 
 @inherits GenericDataStore<TStore, TDto, TModel>
-
+@implements IGenericDataGrid
 @typeparam TStore where TStore : IDataServiceStore
 @typeparam TDto where TDto : class, IOrigin, IInnerProxy
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy

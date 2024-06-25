@@ -50,7 +50,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
                     Width = data.Width,
                     Title = data.Title,
                     ShowTitle = true,
-                    Alignment = data.HorizontalAlignment,
+                    Alignment = data.PanelAlignment,
                     SecondaryActionEnabled = false,
                     ShowDismiss = true,
                     PrimaryAction = "Submit",

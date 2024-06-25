@@ -8,81 +8,64 @@
 
 <CascadingValue Value="Data">
 
-    <div id="@($"{ViewId}-context-operations")" class="datagrid-body-item" role="button" @onclick="@OnItemClick">
+    <FluentDataGridRow @onclick="OnItemClick" @key="@ViewId" GridTemplateColumns="@GridTemplateColumns" VerticalAlignment="VerticalAlignment.Center" Style="@Style" TGridItem="string" @ref=Reference>
 
-        <FluentDataGridRow @key="@ViewId" GridTemplateColumns=@GridTemplateColumns VerticalAlignment="VerticalAlignment.Center" Style="@Style" TGridItem="string" @ref=Reference>
+        @if (FeatureFlags.Expandable)
+        {
+            <GenericDataGridBodyItemFeature Ordinal="1">
+                <div id="@($"{ViewId}-expander")" role="button">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.MoreVertical())" Color="Color.Accent" />
+                </div>
+                <GenericMenu Position="HorizontalPosition.Right"
+                             VerticalPosition="VerticalPosition.Unset"
+                             AnchorId="@($"{ViewId}-expander")"
+                             Data="@Data"
+                             Anchored="true" />
+            </GenericDataGridBodyItemFeature>
+        }
 
-            @if (FeatureFlags.Expandable)
+        @if (FeatureFlags.Multiselect)
+        {
+            <GenericDataGridBodyItemFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)">
+                <div id="@($"{ViewId}-selector")">
+                    <FluentCheckbox @bind-Value="@Checked" Style="" />
+                </div>
+            </GenericDataGridBodyItemFeature>
+        }
+
+        @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.Row)
+        {
+            foreach (var rubric in Data.Rubrics)
             {
-                <GenericDataGridBodyItemFeature Ordinal="1">
-                    <div id="@($"{ViewId}-expander")" role="button">
-                        <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
-                    </div>
-                    <div>
-                        <GenericMenu Position="HorizontalPosition.Right"
-                                     VerticalPosition="VerticalPosition.Unset"
-                                     AnchorId="@($"{ViewId}-expander")"
-                                     Data="@Data"
-                                     Anchored="true" />
-                    </div>
-                </GenericDataGridBodyItemFeature>
+                <GenericDataGridBodyItemField OperationsData="@(GetOperationsData())" Rubric="rubric" Parent="this" />
             }
-
-            @if (FeatureFlags.Multiselect)
+        }
+        else
+        {
+            foreach (var rubric in Data.Rubrics)
             {
-                <GenericDataGridBodyItemFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)">
-                    <div id="@($"{ViewId}-selector")">
-                        <FluentCheckbox @bind-Value="@Checked" />
-                    </div>
-                </GenericDataGridBodyItemFeature>
+                <GenericDataGridBodyItemValue OperationsData="@(GetOperationsData())" Rubric="rubric" Parent="this" />
             }
+        }
 
-            @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.Row)
-            {
-                foreach (var rubric in Data.Rubrics)
-                {
-                    <GenericDataGridBodyItemField Rubric="rubric" Parent="this" />
-                }
-            }
-            else
-            {
-                foreach (var rubric in Data.Rubrics)
-                {
-                    <GenericDataGridBodyItemValue Rubric="rubric" Parent="this" />
-                }
-            }
-
-            @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
-            {
-                <GenericDataGridBodyItemFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this">
-                    <div id="@($"{ViewId}-item-operations")" role="button">
-                        <FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Accent" />
-                    </div>
-                    <div id="@($"{ViewId}-item-menu")">
-                        <GenericMenu Position="HorizontalPosition.Left"
-                                     VerticalPosition="VerticalPosition.Unset"
-                                     AnchorId="@($"{ViewId}-item-operations")"
-                                     Data="@(GetItemOperationsData())"
-                                     Anchored="true" />
-                    </div>
-                </GenericDataGridBodyItemFeature>
-            }
+        @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
+        {
+            <GenericDataGridBodyItemFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this">
+                <div id="@($"{ViewId}-menu")" role="button">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.MoreVertical())" Color="Color.Accent" />
+                </div>
+                <GenericMenu Position="HorizontalPosition.Left"
+                             VerticalPosition="VerticalPosition.Unset"
+                             AnchorId="@($"{ViewId}-menu")"
+                             Data="@(GetOperationsData())"
+                             Anchored="true" />
+            </GenericDataGridBodyItemFeature>
+        }
 
 
-        </FluentDataGridRow>
-    </div>
+    </FluentDataGridRow>
 
-    @if ((FeatureFlags.Editable && EditMode != EditMode.None) || FeatureFlags.Showable)
-    {
-        <div id="@($"{ViewId}-item-context-menu")">
-            <GenericMenu Position="HorizontalPosition.Right"
-                         Trigger="MouseButton.Right"
-                         VerticalPosition="VerticalPosition.Unset"
-                         AnchorId="@($"{ViewId}-context-operations")"
-                         Data="@(GetItemOperationsData())"
-                         Anchored="false" />
-        </div>
-    }
+
 
     @if (FeatureFlags.Editable && StateFlags.Editing && EditMode == EditMode.SubRow)
     {

@@ -14,6 +14,7 @@ namespace Undersoft.SVC.Service.Server;
 
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Accounts;
 using Undersoft.SVC.Service.Infrastructure.Stores;
 
 /// <summary>
@@ -64,6 +65,8 @@ public class Setup
             .AddDataServer<IAccountStore>(
                 DataServerTypes.All,
                 builder => builder.AddInvocations<Account>()
+                                  .AddInvocations<AccountConsent>()
+                                  .AddInvocations<AccountSubscription>()
             );
     }
 

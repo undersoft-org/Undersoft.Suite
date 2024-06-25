@@ -97,17 +97,13 @@ aside {
     width: 18rem;
 }
 
-.content {
-    min-height: calc(100dvh - 90px);
-    display: flex;
-    background-color: var(--neutral-layer-1);
-}
-
-.presenting-content {
+.body-content {
     min-height: calc(100dvh - 80px);
     display: flex;
     background-color: var(--neutral-layer-1);
+    width: 100%;
 }
+
 
 footer {
     display: flex !important;
@@ -238,7 +234,7 @@ code {
     }
 
     nav.sitenav {
-        height: calc(100dvh - 120px);
+        height:auto;
     }
 
     .searchbar{
@@ -290,8 +286,9 @@ code {
         display: none;
     }
 
-    .content {
+    .body-content {
         flex-direction: column;
+        width: 100%;
     }
 
     article {
@@ -389,7 +386,7 @@ code {
         width: env(viewport-segment-width 0 0) !important;
     }
 
-    .content {
+    .body-content {
         display: grid;
         grid-template-columns: auto;
     }

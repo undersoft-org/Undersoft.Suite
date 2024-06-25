@@ -40,11 +40,27 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
 
         public ISeries<Filter> EmptyFilters { get; set; } = new Listing<Filter>();
 
+        public bool Added => EmptyFilters.Where(f => f.Added).Any();
+
+        public bool IsAddable => Rubric.FilterMembers!.Length < 2;
+
         public void CloneLastFilter()
         {
             var lastfilter = EmptyFilters.LastOrDefault();
             if (lastfilter != null)
                 EmptyFilters.Put(new Filter(lastfilter.Member, FilteredType.DefaultNotNullable(), lastfilter.Operand, lastfilter.Link) { Added = true });
+
+            RenderView();
+        }
+
+        public void RemoveLastFilter()
+        {
+            var lastfilter = EmptyFilters.LastOrDefault();
+            if (lastfilter != null)
+            {
+                EmptyFilters.Remove(lastfilter);
+                Filters.Remove(lastfilter);
+            }
 
             RenderView();
         }
@@ -64,7 +80,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
         {
             EmptyFilters.ForEach(f =>
             {
-                if (!Filters.Contains(f))
+                if (!Filters.Contains(f) && f.Value != FilteredType.DefaultNotNullable())
                     Rubric.Filters.Put(f);
             });
         }

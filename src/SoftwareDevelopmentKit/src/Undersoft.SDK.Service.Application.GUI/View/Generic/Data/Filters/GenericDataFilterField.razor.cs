@@ -11,6 +11,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
             _type = FilteredType.GetNotNullableType();
             _size = Rubric.RubricSize;
             _name = Filter.Member;
+            _identity = Rubric.IsIdentity;
 
             if (_type.IsValueType || Rubric.FilterMembers!.Length < 2)
                 _label = null;

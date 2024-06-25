@@ -16,6 +16,7 @@ using Undersoft.SDK.Service.Operation;
 namespace Undersoft.SVC.Service.Application.ViewModels
 {
     [Validator("CampaignValidator")]
+    [ViewSize("400px", "auto")]
     [OpenSearch("Name")]
     public class Campaign : DataObject, IViewModel
     {
@@ -27,6 +28,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [Sortable]
         [OpenQuery("Name")]
         [DisplayRubric("Name")]
+        [ViewSize("220px")]
         public virtual string? Name { get; set; }
 
         [IgnoreDataMember]
@@ -36,6 +38,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [DisplayRubric("Price")]
         [Filterable]
         [Sortable]
+        [ViewSize("80px")]
         [OpenQuery("Price.Amount")]
         public virtual double? PriceAmount
         {
@@ -49,6 +52,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [RubricSize(128)]
         [Filterable]
         [Sortable]
+        [ViewSize("300px")]
         [OpenQuery("Vaccines.Specification.Name")]
         [DisplayRubric("Vaccines")]
         public virtual string? AssignedVaccines

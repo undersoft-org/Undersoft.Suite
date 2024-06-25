@@ -4,14 +4,14 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
     public partial class GenericDataGrid<TStore, TDto, TModel>
-        : GenericDataStore<TStore, TDto, TModel>
+        : GenericDataStore<TStore, TDto, TModel>, IGenericDataGrid
         where TStore : IDataServiceStore
         where TDto : class, IOrigin, IInnerProxy
         where TModel : class, IOrigin, IInnerProxy
     {
-        private string GridTemplateColumns = string.Empty;
+        public string? GridTemplateColumns { get; set; }
 
-        private int RubricOrdinalSeed = 1;
+        public int RubricOrdinalSeed { get; set; } = 1;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,9 +36,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
             string template = "";
 
             if (FeatureFlags.Expandable)
-                template += "40px ";
+                template += "30px ";
             if (FeatureFlags.Multiselect)
-                template += "50px ";
+                template += "35px ";
 
             var dataType = typeof(ViewData<>).MakeGenericType(typeof(TModel));
             var data = dataType.New<IViewData<TModel>>();
@@ -70,7 +70,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
                 template += templateArray.Aggregate((a, b) => a + " " + b);
 
                 if (EditMode != GUI.Models.EditMode.None)
-                    template += " 40px";
+                    template += " 30px";
             }
 
             return template;

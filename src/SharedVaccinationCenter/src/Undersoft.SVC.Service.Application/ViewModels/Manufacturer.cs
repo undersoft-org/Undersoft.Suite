@@ -21,7 +21,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels;
 public class Manufacturer : DataObject, IViewModel
 {
     [VisibleRubric]
-    [RubricSize(32)]
+    [RubricSize(8)]
     [DisplayRubric("Image")]
     [ViewImage(ViewImageMode.Regular, "30px", "30px")]
     [FileRubric(FileRubricType.Property, "ManufacturerImageData")]

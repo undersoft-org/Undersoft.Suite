@@ -37,7 +37,6 @@
     private async Task OpenAppearancePanel()
     {
         var data = new ViewData<AppearanceState>(AppearanceState);
-        data.HorizontalAlignment = HorizontalAlignment.Right;
 
         await _panel.Show(data, (p) =>
         {

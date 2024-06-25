@@ -12,14 +12,14 @@
 
         @if (FeatureFlags.Expandable)
         {
-            <GenericDataGridHeaderFeature Ordinal="1" Parent="this" Style="padding-inline:13px">
-                <FluentIcon Value="@(new Icons.Regular.Size20.List())" Color="Color.Accent" />
+            <GenericDataGridHeaderFeature Ordinal="1" Parent="this" Style="justify-content:center;">
+                @* <FluentIcon Value="@(new Icons.Regular.Size20.TextBulletListTree())" Color="Color.Accent" /> *@
             </GenericDataGridHeaderFeature>
         }
 
         @if (FeatureFlags.Multiselect)
         {
-            <GenericDataGridHeaderFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="padding-inline:13px">
+            <GenericDataGridHeaderFeature Ordinal="@(RubricOrdinalSeed > 2 ? 2 : 1)" Parent="this" Style="justify-content:center; align-items:center;">
                 <div id="@($"{ViewId}-{DataStore.Pagination!.PageIndex}-multiselect")">
                     <FluentCheckbox @bind-Value="@Checked" CheckStateChanged="@OnCheckStateChanged" ThreeState="true" />
                 </div>
@@ -28,14 +28,14 @@
 
         @foreach (var rubric in DataStore.Rubrics)
         {
-            <GenericDataGridHeaderRubric Rubric="rubric" Parent="this" Style="padding-inline:4px" />
+            <GenericDataGridHeaderRubric Rubric="rubric" Parent="this" Style="padding:0px 2px" />
         }
 
         @if (FeatureFlags.Editable && EditMode != EditMode.None)
         {
-            <GenericDataGridHeaderFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="padding-inline:13px">
+            <GenericDataGridHeaderFeature Ordinal="@(Data.Rubrics.Count + RubricOrdinalSeed)" Parent="this" Style="justify-content:center;">
                 <div id="@($"{ViewId}-operation")" role="button">
-                    <FluentIcon Value="@(new Icons.Regular.Size20.GroupList())" Color="Color.Accent" />
+                    <FluentIcon Value="@(new Icons.Regular.Size20.MultiselectLtr())" Color="Color.Accent" />
                 </div>
                 <div>
                     <GenericMenu Position="HorizontalPosition.Left"

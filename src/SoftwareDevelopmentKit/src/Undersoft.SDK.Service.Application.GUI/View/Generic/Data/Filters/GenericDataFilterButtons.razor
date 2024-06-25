@@ -13,6 +13,12 @@
             <div>
                 <FluentIcon Value="@(new Icons.Regular.Size20.Add())" Width="18px" OnClick="Add" />
             </div>
+            @if(Added)
+            {
+                <div>
+                    <FluentIcon Value="@(new Icons.Regular.Size20.Subtract())" Width="18px" OnClick="Subtract" />
+                </div>
+            }
         }
         <FluentSpacer />
         <div>

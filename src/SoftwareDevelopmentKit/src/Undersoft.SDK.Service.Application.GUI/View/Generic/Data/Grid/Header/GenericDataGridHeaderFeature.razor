@@ -9,8 +9,8 @@
 <FluentDataGridCell TGridItem="string"
                     GridColumn=@Ordinal
                     CellType="DataGridCellType.ColumnHeader"
-                    Class="@("rubric-header rubric-header-feature")"
-                    Style="@Style" @key="@ViewId" scope="col">
+                    Class="@("rubric-header rubric-header-feature" + (Resizable ? " resizable" : ""))"
+                    Style="@Style" @key="@(ViewId + "feature" + Ordinal.ToString())" scope="col">
 
     @ChildContent
         

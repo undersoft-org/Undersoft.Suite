@@ -9,23 +9,25 @@
 
 <FluentDialogBody>
     <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
-        @if (Content.RubricsEnabled && _rubrics.Any())
-        {
-            <GenericFormItem Data="@Content" HorizontalAlignment="HorizontalAlignment.Center" Orientation="@Orientation" />
-        }
-        @if (Content.ExtendedRubricsEnabled && _extendedRubrics.Any())
-        {
-            <FluentTabs @bind-ActiveTabId="@ActiveId" Orientation="@Orientation">
-                @foreach (var _rubric in _extendedRubrics)
-                {
-                    @if (ContainsTabData(_rubric))
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" HorizontalGap="5" VerticalGap="5">
+            @if (Content.RubricsEnabled && _rubrics.Any())
+            {
+                <GenericFormItem Data="@Content" HorizontalAlignment="HorizontalAlignment.Center" Orientation="Orientation.Horizontal" />
+            }
+            @if (Content.ExtendedRubricsEnabled && _extendedRubrics.Any())
+            {
+                <FluentTabs @bind-ActiveTabId="@ActiveId" Orientation="@TabOrientation">
+                    @foreach (var _rubric in _extendedRubrics)
                     {
-                        <GenericFormTabsTab Rubric="_rubric" Data="@(GetTabData(_rubric))" Orientation="@Orientation" />
-                    }
+                        @if (ContainsTabData(_rubric))
+                        {
+                            <GenericFormTabsTab Rubric="_rubric" Data="@(GetTabData(_rubric))" Orientation="@Orientation" />
+                        }
 
-                }
-            </FluentTabs>
-        }
+                    }
+                </FluentTabs>
+            }
+        </FluentStack>
     </GenericFormSet>
 </FluentDialogBody>
 
@@ -38,6 +40,8 @@
     private IViewRubrics _extendedRubrics => Content.ExtendedRubrics;
 
     private ISeries<IViewData> TabData = new Listing<IViewData>();
+
+    private bool IsDisabled { get; set; }
 
     public string ActiveId
     {
@@ -52,7 +56,10 @@
     public IViewItem Form { get; set; } = default!;
 
     [Parameter]
-    public override EntryMode EntryMode { get; set; } = EntryMode.Tabs!;
+    public override EntryMode EntryMode { get; set; } = EntryMode.Tabs;
+
+    [Parameter]
+    public Orientation TabOrientation { get; set; } = Orientation.Vertical;
 
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
@@ -61,8 +68,8 @@
     {
         Content.ViewItem = this;
         ResolveEntryMode();
-        if(Content.RubricsEnabled)        
-            Content.MapRubrics(t => t.Rubrics, p => p.Visible);        
+        if (Content.RubricsEnabled)
+            Content.MapRubrics(t => t.Rubrics, p => p.Visible);
         if (Content.ExtendedRubricsEnabled)
         {
             Content.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
@@ -70,7 +77,7 @@
             var firstRubric = Content.ExtendedRubrics.FirstOrDefault();
             if (firstRubric != null)
                 Content.ActiveRubric = firstRubric;
-        }     
+        }
     }
 
     private IViewData GetTabData(IViewRubric rubric)
@@ -80,16 +87,20 @@
             data = typeof(ViewData<>).MakeGenericType(rubric.RubricType).New<IViewData>(Model.Proxy[rubric.RubricId]);
             data.Title = (rubric.DisplayName != null) ? rubric.DisplayName : rubric.RubricName;
             data.MapRubrics(t => t.Rubrics, p => p.Visible);
-            if (rubric.Disabled)
-                data.Rubrics.ForEach(r => r.Disabled = true).Commit();
             TabData.Add(rubric.Id, data);
+        }
+        if (IsDisabled != rubric.Disabled)
+        {
+            bool disabled = rubric.Disabled;
+            data.Rubrics.ForEach(r => r.Disabled = disabled).Commit();
+            IsDisabled = disabled;
         }
         return data;
     }
 
     private bool ContainsTabData(IViewRubric rubric)
     {
-        return rubric.RubricType.IsClass ? true : false;        
+        return rubric.RubricType.IsClass ? true : false;
     }
 
     private void ResolveEntryMode()
@@ -109,6 +120,7 @@
         }
         else
         {
+            TabOrientation = Orientation.Horizontal;
             Content.RubricsEnabled = true;
             Content.ExtendedRubricsEnabled = true;
         }

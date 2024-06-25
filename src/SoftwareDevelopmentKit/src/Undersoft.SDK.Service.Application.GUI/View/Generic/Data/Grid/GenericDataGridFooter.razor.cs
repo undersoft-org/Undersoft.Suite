@@ -30,7 +30,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         protected override async Task OnInitializedAsync()
         {
-            _pagination = DataStore.Pagination;
+            _pagination = DataStore.Pagination!;
             if (PagingLimit != _pagination.PagingLimit)
                 _pagination.SetPagingLimit(PagingLimit);
             await base.OnInitializedAsync();

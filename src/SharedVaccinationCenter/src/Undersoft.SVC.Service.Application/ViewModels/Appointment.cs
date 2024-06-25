@@ -25,6 +25,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         private string? _name;
         private string? _office;
         private string? _time;
+        private string? _date;
 
         public virtual string? Notes { get; set; }
 
@@ -33,7 +34,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [VisibleRubric]
         [Filterable]
         [Sortable]
-        [RubricSize(64)]
+        [RubricSize(32)]
         [OpenQuery("Campaign.Name")]
         [DisplayRubric("Campaign")]
         public virtual string? CampaignName
@@ -52,24 +53,24 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(32)]
         [Filterable]
         [Sortable]
         [OpenQuery("Office.Number", "Office.Name")]
         [DisplayRubric("Office")]
         public virtual string? OfficeName
         {
-            get => _office ??= $"{Office?.Number} {Office?.Name}";
+            get => _office ??= $"{Office?.Number}<br/>{Office?.Name}";
             set => _office = value;
         }
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(32)]
         [Filterable]
         [Sortable]
         [OpenQuery("Personal.LastName", "Personal.FirstName")]
-        [DisplayRubric("Name")]
+        [DisplayRubric("Person")]
         public virtual string? Name
         {
             get => _name ??= $"{Personal?.FirstName} {Personal?.LastName}";
@@ -81,7 +82,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         [VisibleRubric]
         [Filterable]
         [Sortable]
-        [RubricSize(64)]
+        [RubricSize(16)]
         [OpenQuery("Personal.PhoneNumber")]
         [DisplayRubric("Phone")]
         public virtual string? PhoneNumber
@@ -92,7 +93,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(16)]
         [Filterable]
         [Sortable]
         [OpenQuery("Personal.Birthdate")]
@@ -105,7 +106,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(16)]
         [Filterable]
         [Sortable]
         [OpenQuery("Schedule.Type")]
@@ -118,27 +119,27 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(32)]
         [Filterable]
         [Sortable]
-        [OpenQuery("Schedule.StartDate")]
+        [OpenQuery(typeof(DateTime?), "Schedule.StartDate", "Schedule.EndDate")]
         [DisplayRubric("Date")]
-        public virtual DateTime? Date
+        public virtual string? Date
         {
-            get => Schedule?.StartDate;
-            set => (Schedule ??= new Schedule()).StartDate = value!;
+            get => _date ??= $"Start:{Schedule?.StartDate} End:{Schedule?.EndDate}";
+            set => _date = value;
         }
 
         [JsonIgnore]
         [VisibleRubric]
-        [RubricSize(64)]
+        [RubricSize(32)]
         [Filterable]
         [Sortable]
         [OpenQuery(typeof(TimeOnly?), "Schedule.StartTime", "Schedule.EndTime")]
         [DisplayRubric("Time")]
         public virtual string? TimeFrame
         {
-            get => _time ??= $"{Schedule?.StartTime}-{Schedule?.EndTime}";
+            get => _time ??= $"Start:{Schedule?.StartTime} End:{Schedule?.EndTime}";
             set => _time = value;
         }
 

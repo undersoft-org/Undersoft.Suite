@@ -61,7 +61,7 @@ public class Account : Authorization, IContract
     [IgnoreDataMember]
     [JsonIgnore]
     [VisibleRubric]
-    [RubricSize(32)]
+    [RubricSize(8)]
     [DisplayRubric("Image")]
     [ViewImage(ViewImageMode.Persona, "30px", "30px")]
     [FileRubric(FileRubricType.Property, "ImageData")]
@@ -77,7 +77,7 @@ public class Account : Authorization, IContract
     /// <value>A <see cref="string? "/></value>
     [JsonIgnore]
     [VisibleRubric]
-    [RubricSize(64)]
+    [RubricSize(32)]
     [DisplayRubric("Name")]
     public virtual string? Name
     {
@@ -107,7 +107,7 @@ public class Account : Authorization, IContract
     [IgnoreDataMember]
     [JsonIgnore]
     [VisibleRubric]
-    [RubricSize(64)]
+    [RubricSize(32)]
     [DisplayRubric("Phone")]
     public virtual string? PhoneNumber
     {
@@ -122,7 +122,7 @@ public class Account : Authorization, IContract
     [IgnoreDataMember]
     [JsonIgnore]
     [VisibleRubric]
-    [RubricSize(128)]
+    [RubricSize(64)]
     [DisplayRubric("Roles")]
     public virtual string? RoleString
     {

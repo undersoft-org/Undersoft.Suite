@@ -10,7 +10,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
     public partial class GenericField : ViewItem, IIdentifiable, IViewItem
     {
         protected Type _type = default!;
-        protected Type _targetType = default!;
         protected bool _nullable = false;
         private IProxy _proxy = default!;
         protected int _index;
@@ -20,7 +19,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         protected bool _required { get; set; }
         protected InputMode _inputMode { get; set; } = InputMode.None;
         protected TextFieldType _textFieldType { get; set; } = TextFieldType.Text;
-        protected bool _isUpload { get; set; }
+        protected bool _upload { get; set; }
+        protected bool _identity { get; set; }
+        protected bool _disbled { get; set; }
         protected string _placeholder = default!;
 
         private long? _longValue
@@ -47,6 +48,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         {
             get => _nullable ? (decimal?)Value : (decimal)Value!;
             set => Value = value != null ? value : Value;
+        }
+        private string? _identityValue
+        {
+            get => Value?.ToString();
+            set => Value = value != null ? Int64.Parse(value) : Value;
         }
         private string? _textValue
         {
@@ -119,7 +125,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
                     _type = targetType.GetNotNullableType();
                 else
                     _type = targetType;
-                _isUpload = Rubric.IsFile;
+                _upload = Rubric.IsFile;
+                _identity = Rubric.IsIdentity;
                 _index = Rubric.RubricId;
                 _size = Rubric.RubricSize;
                 _name = Rubric.RubricName;
@@ -150,7 +157,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         }
 
         [Parameter]
-        public virtual string Width { get; set; } = "190px";
+        public virtual string Width { get; set; } = "200px";
 
         [Parameter]
         public virtual string Height { get; set; } = "28px";

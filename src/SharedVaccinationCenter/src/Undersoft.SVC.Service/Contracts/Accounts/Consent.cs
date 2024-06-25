@@ -30,5 +30,4 @@ public class Consent : DataObject, IContract
     [DisplayRubric("Third party & Contributors")]
     public string? ThirdPartyText { get; set; }
 
-    public long? AccountId { get; set; }
 }

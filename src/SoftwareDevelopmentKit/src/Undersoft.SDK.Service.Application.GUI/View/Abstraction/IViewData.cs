@@ -32,6 +32,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         IInnerProxy Model { get; set; }
 
         IViewRubric? ActiveRubric { get; set; }
+
         IViewRubrics Rubrics { get; set; }
 
         bool RubricsEnabled { get; set; }
@@ -60,7 +61,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         OperationType Operation { get; set; }
 
-        HorizontalAlignment HorizontalAlignment { get; set; }
+        HorizontalAlignment PanelAlignment { get; set; }
+
+        public ViewGrid? Grid { get; set; }
+
+        public ViewStack? Stack { get; set; }
 
         OperationNotes Notes { get; set; }
 

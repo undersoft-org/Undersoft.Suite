@@ -333,10 +333,6 @@ code {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-    fluent-select::part(control) {
-        width: 150px;
-    }
-
     aside {
         padding: 1.0em 0.75em 1em 0.75em;
         width: 18rem;

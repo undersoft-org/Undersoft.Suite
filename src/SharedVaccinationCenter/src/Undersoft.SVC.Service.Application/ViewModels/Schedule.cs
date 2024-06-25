@@ -21,15 +21,15 @@ namespace Undersoft.SVC.Service.Application.ViewModels
 
         [VisibleRubric]
         [DisplayRubric("Start date")]
-        public virtual DateTime? StartDate { get; set; }
-
-        [VisibleRubric]
-        [DisplayRubric("End date")]
-        public virtual DateTime? EndDate { get; set; }
+        public virtual DateTime? StartDate { get; set; } = DateTime.Now.Date;
 
         [VisibleRubric]
         [DisplayRubric("Start Time")]
         public virtual TimeOnly? StartTime { get; set; }
+
+        [VisibleRubric]
+        [DisplayRubric("End date")]
+        public virtual DateTime? EndDate { get; set; } = DateTime.Now.Date;
 
         [VisibleRubric]
         [DisplayRubric("End Time")]

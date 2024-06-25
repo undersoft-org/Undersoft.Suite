@@ -3,7 +3,7 @@
 namespace Undersoft.SDK.Service.Application.GUI.View
 {
 
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
     public class StackAttribute : Attribute
     {
         public StackAttribute() { }

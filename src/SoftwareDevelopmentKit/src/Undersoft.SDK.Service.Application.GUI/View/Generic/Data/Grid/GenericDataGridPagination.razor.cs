@@ -30,11 +30,17 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 
         protected override async Task OnInitializedAsync()
         {
-            _pagination = DataStore.Pagination;
+            _pagination = DataStore.Pagination!;
             if (PagingLimit != _pagination.PagingLimit)
                 _pagination.SetPagingLimit(PagingLimit);
             await base.OnInitializedAsync();
         }
+
+        private Color PageNexColor() =>
+       _pagination.HasNextPage ? Color.Accent : Color.Neutral;
+
+        private Color PagePreviousColor() =>
+      _pagination.HasPreviousPage ? Color.Accent : Color.Neutral;
 
         private Appearance PageButtonAppearance(int pageIndex) =>
         _pagination.PageIndex == pageIndex ? Appearance.Outline : Appearance.Stealth;

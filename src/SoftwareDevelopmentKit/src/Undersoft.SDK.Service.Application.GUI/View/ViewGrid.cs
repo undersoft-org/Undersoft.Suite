@@ -25,6 +25,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View
 
         public JustifyContent? Justify { get; set; }
 
+        public int Spacing { get; set; }
+
+        public string? Style { get; set; }
 
         public string? Gap { get; set; }
 

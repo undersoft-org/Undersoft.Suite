@@ -1,4 +1,3 @@
-using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters;
@@ -19,15 +18,13 @@ public partial class GenericDataFilterButtons : ViewItem
     protected override void OnInitialized()
     {
         var type = FilteredType.GetNotNullableType();
-        if (type.IsValueType && !type.IsAssignableTo(typeof(Enum)))
-            IsAddable = true;
         base.OnInitialized();
     }
 
     [CascadingParameter]
     public Type FilteredType { get; set; } = default!;
 
-    public bool IsAddable { get; set; }
+    public bool IsAddable => Parent != null ? ((IViewFilter)Parent).IsAddable : false;
 
     [CascadingParameter]
     public override IViewItem? Root
@@ -36,11 +33,21 @@ public partial class GenericDataFilterButtons : ViewItem
         set => base.Root = value;
     }
 
+    public bool Added => Parent != null ? ((IViewFilter)Parent).Added : false;
+
     public void Add()
     {
         if (Parent != null)
         {
             ((IViewFilter)Parent).CloneLastFilter();
+        }
+    }
+
+    public void Subtract()
+    {
+        if (Parent != null)
+        {
+            ((IViewFilter)Parent).RemoveLastFilter();
         }
     }
 
