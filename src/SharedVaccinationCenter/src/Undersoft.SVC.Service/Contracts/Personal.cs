@@ -9,27 +9,28 @@
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SVC.Domain.Entities.Enums;
 
-namespace Undersoft.SVC.Service.Contracts;
-
-public class Personal : DataObject, IContract
+namespace Undersoft.SVC.Service.Contracts
 {
-    public IdentifierType IdentifierType { get; set; }
+    public class Personal : DataObject, IContract
+    {
+        public IdentifierType IdentifierType { get; set; }
 
-    public string? Identifier { get; set; } = default!;
+        public string? Identifier { get; set; } = default!;
 
-    public string FirstName { get; set; } = default!;
+        public string FirstName { get; set; } = default!;
 
-    public string LastName { get; set; } = default!;
+        public string LastName { get; set; } = default!;
 
-    public string Email { get; set; } = default!;
+        public string Email { get; set; } = default!;
 
-    public string PhoneNumber { get; set; } = default!;
+        public string PhoneNumber { get; set; } = default!;
 
-    public DateTime Birthdate { get; set; } = DateTime.UtcNow;
+        public DateTime Birthdate { get; set; } = DateTime.UtcNow;
 
-    public long? AppointmentId { get; set; }
+        public long? AppointmentId { get; set; }
 
-    public virtual long? CertificateId { get; set; }
+        public virtual long? CertificateId { get; set; }
 
-    public virtual long? PostSymptomId { get; set; }
+        public virtual long? PostSymptomId { get; set; }
+    }
 }

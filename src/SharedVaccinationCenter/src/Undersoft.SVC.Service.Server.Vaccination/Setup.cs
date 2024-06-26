@@ -14,6 +14,7 @@ namespace Undersoft.SVC.Service.Server.Vaccination;
 
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Vaccination;
 using Undersoft.SVC.Service.Infrastructure.Stores;
 
 /// <summary>

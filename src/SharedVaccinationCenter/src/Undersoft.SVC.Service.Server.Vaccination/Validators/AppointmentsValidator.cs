@@ -9,7 +9,7 @@
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Operation.Remote.Command.Validator;
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Vaccination;
 
 namespace Undersoft.SVC.Service.Application.Server.Validators;
 

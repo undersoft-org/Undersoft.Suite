@@ -6,16 +6,17 @@
 //   library: Undersoft.SVC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// The address types.
-/// </summary>
-public enum AddressType
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    Generic,
-    Residential,
-    Correspondence,
-    Temporary
+    /// <summary>
+    /// The address types.
+    /// </summary>
+    public enum AddressType
+    {
+        None,
+        Generic,
+        Residential,
+        Correspondence,
+        Temporary
+    }
 }

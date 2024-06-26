@@ -10,8 +10,8 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Open;
-using Undersoft.SVC.Service.Clients;
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Clients.Abstractions;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 
 
 

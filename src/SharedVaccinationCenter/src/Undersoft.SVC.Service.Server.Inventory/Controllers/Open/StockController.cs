@@ -9,26 +9,27 @@
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
-namespace Undersoft.SVC.Service.Server.Inventory.Controllers.Open;
-
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-public class StockController
-    : OpenCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Stock,
-        Stock,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Inventory.Controllers.Open
 {
+    using Undersoft.SVC.Service.Contracts.Inventory;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public StockController(IServicer servicer) : base(servicer) { }
+    public class StockController
+        : OpenCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Inventory.Stock,
+            Stock,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public StockController(IServicer servicer) : base(servicer) { }
+    }
 }

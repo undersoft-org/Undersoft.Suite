@@ -14,6 +14,7 @@ namespace Undersoft.SVC.Service.Server.Catalogs.Catalogs;
 
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 using Undersoft.SVC.Service.Infrastructure.Stores;
 
 /// <summary>

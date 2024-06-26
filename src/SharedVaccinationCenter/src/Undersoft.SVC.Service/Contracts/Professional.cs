@@ -8,27 +8,28 @@
 
 using Undersoft.SDK.Service.Data.Contract;
 
-namespace Undersoft.SVC.Service.Contracts;
-
-public class Professional : DataObject, IContract
+namespace Undersoft.SVC.Service.Contracts
 {
-    public string? ProfessionalImage { get; set; }
+    public class Professional : DataObject, IContract
+    {
+        public string? ProfessionalImage { get; set; }
 
-    public string? ProfessionalManager { get; set; }
+        public string? ProfessionalManager { get; set; }
 
-    public string? ProfessionalName { get; set; }
+        public string? ProfessionalName { get; set; }
 
-    public string? ProfessionalPosition { get; set; }
+        public string? ProfessionalPosition { get; set; }
 
-    public string? ProfessionalEmail { get; set; }
+        public string? ProfessionalEmail { get; set; }
 
-    public string? ProfessionalPhoneNumber { get; set; }
+        public string? ProfessionalPhoneNumber { get; set; }
 
-    public string? ProfessionalWebsites { get; set; }
+        public string? ProfessionalWebsites { get; set; }
 
-    public float? ProfessionalExperience { get; set; }
+        public float? ProfessionalExperience { get; set; }
 
-    public byte[]? ProfessionalImageData { get; set; }
+        public byte[]? ProfessionalImageData { get; set; }
 
-    public long? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
+    }
 }

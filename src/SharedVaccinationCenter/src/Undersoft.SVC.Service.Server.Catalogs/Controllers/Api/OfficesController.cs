@@ -8,30 +8,31 @@
 
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Api;
-
-using Microsoft.AspNetCore.Mvc;
-using Undersoft.SDK.Service.Server.Controller.Api;
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-[Route($"{StoreRoutes.ApiDataRoute}/Office")]
-public class OfficesController
-    : ApiCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Office,
-        Office,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Api
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Undersoft.SDK.Service.Server.Controller.Api;
+    using Undersoft.SVC.Service.Contracts.Catalogs;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public OfficesController(IServicer servicer)
-        : base(servicer) { }
+    [Route($"{StoreRoutes.ApiDataRoute}/Office")]
+    public class OfficesController
+        : ApiCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Catalogs.Office,
+            Office,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public OfficesController(IServicer servicer)
+            : base(servicer) { }
+    }
 }

@@ -8,18 +8,19 @@
 
 using Undersoft.SDK.Service.Data.Contract;
 
-namespace Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact address.
-/// </summary>
-public class Safety : DataObject, IContract
+namespace Undersoft.SVC.Service.Contracts
 {
-    public int? ExpirationDays { get; set; }
+    /// <summary>
+    /// The contact address.
+    /// </summary>
+    public class Safety : DataObject, IContract
+    {
+        public int? ExpirationDays { get; set; }
 
-    public string? Description { get; set; }
+        public string? Description { get; set; }
 
-    public float? Temperature { get; set; }
+        public float? Temperature { get; set; }
 
-    public long? VaccineId { get; set; }
+        public long? VaccineId { get; set; }
+    }
 }

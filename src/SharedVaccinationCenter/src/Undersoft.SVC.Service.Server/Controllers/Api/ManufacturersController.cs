@@ -12,7 +12,7 @@ namespace Undersoft.SVC.Service.Server.Controllers.Api;
 
 using Microsoft.AspNetCore.Mvc;
 using Undersoft.SDK.Service.Server.Controller.Api;
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 
 
 /// <summary>

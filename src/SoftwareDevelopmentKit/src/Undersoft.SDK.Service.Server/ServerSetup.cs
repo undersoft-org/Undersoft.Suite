@@ -294,11 +294,15 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         registry.Services
             .AddAuthentication(x =>
             {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(x =>
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
             {
+                x.Authority = configuration.IdentityServerBaseUrl();
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
@@ -372,7 +376,10 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                         Password = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri(
-                                $"{configuration.BaseUrl}/open/auth/Account/Access/SignIn"
+                                $"{configuration.BaseUrl}/api/auth/Account/Access/SignIn"
+                            ),
+                            RefreshUrl = new Uri(
+                                $"{configuration.BaseUrl}/api/auth/Account/Access/Renew"
                             )
                         }
                     }

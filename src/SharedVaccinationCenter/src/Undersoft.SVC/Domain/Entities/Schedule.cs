@@ -7,6 +7,7 @@
 // *************************************************
 
 using Undersoft.SVC.Domain.Entities.Enums;
+using Undersoft.SVC.Domain.Entities.Vaccination;
 
 namespace Undersoft.SVC.Domain.Entities
 {

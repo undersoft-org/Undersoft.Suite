@@ -10,27 +10,28 @@
 
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SVC.Service.Clients;
-
-/// <summary>
-/// The service client.
-/// </summary>
-public class ServiceClient : OpenDataClient<IDataStore>
+namespace Undersoft.SVC.Service.Clients
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ServiceClient"/> class.
+    /// The service client.
     /// </summary>
-    /// <param name="serviceUri">The service uri.</param>
-    public ServiceClient(Uri serviceUri) : base(serviceUri) { }
-
-    /// <summary>
-    /// On model creating.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>An <see cref="IEdmModel"/></returns>
-    protected override IEdmModel OnModelCreating(IEdmModel builder)
+    public class ServiceClient : OpenDataClient<IDataStore>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceClient"/> class.
+        /// </summary>
+        /// <param name="serviceUri">The service uri.</param>
+        public ServiceClient(Uri serviceUri) : base(serviceUri) { }
 
-        return base.OnModelCreating(builder);
+        /// <summary>
+        /// On model creating.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>An <see cref="IEdmModel"/></returns>
+        protected override IEdmModel OnModelCreating(IEdmModel builder)
+        {
+
+            return base.OnModelCreating(builder);
+        }
     }
 }

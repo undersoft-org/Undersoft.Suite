@@ -1,0 +1,8 @@
+tocTab[tocTab.length] = new Array("0.2.4.1:1", "", "Stores", "EARoot/EA2/EA4/EA1/EA172.htm", "175.png", "43", "0", "", "Logical diagram0","{E426334C-6355-4215-A9B2-7BC296D9377F}");
+tocTab[tocTab.length] = new Array("0.2.4.1:2", "", "AccountStore", "EARoot/EA2/EA4/EA1/EA175.htm", "5.png", "E409", "0", "", "Class0","{7AC004B3-EF76-4a9d-89E9-1F64EF4B9252}");
+tocTab[tocTab.length] = new Array("0.2.4.1:3", "", "EntryStore", "EARoot/EA2/EA4/EA1/EA176.htm", "5.png", "E410", "0", "", "Class0","{2A202307-BECC-420e-9A41-A405FF092D15}");
+tocTab[tocTab.length] = new Array("0.2.4.1:4", "", "EventStore", "EARoot/EA2/EA4/EA1/EA177.htm", "5.png", "E411", "0", "", "Class0","{247BBB37-8066-417d-B482-90712F9FD270}");
+tocTab[tocTab.length] = new Array("0.2.4.1:5", "", "ReportStore", "EARoot/EA2/EA4/EA1/EA180.htm", "5.png", "E412", "0", "", "Class0","{C27F9BA6-8C16-4acc-ADDE-60D72759CCBD}");
+tocTab[tocTab.length] = new Array("0.2.4.1:6", "", "StoreBase", "EARoot/EA2/EA4/EA1/EA181.htm", "5.png", "E413", "0", "", "Class0","{82A728A8-CFA2-4042-BA5A-B045C2019E81}");
+tocTab[tocTab.length] = new Array("0.2.4.1.1", "1", "Factories", "EARoot/EA2/EA4/EA1/EA1/EA184.htm", "4.png", "", "", "{8AC1F8D9-48EE-471c-9F8F-BC7658F0F237}", "Package");
+tocTab[tocTab.length] = new Array("0.2.4.1.2", "1", "Mappings", "EARoot/EA2/EA4/EA1/EA2/EA191.htm", "4.png", "", "", "{1A14E656-D73A-48db-BCC5-1197F8C9188D}", "Package");

@@ -13,8 +13,8 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Api;
 using Microsoft.AspNetCore.Mvc;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Server.Controller.Api;
-using Undersoft.SVC.Service.Clients;
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Clients.Abstractions;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 
 /// <summary>
 /// The contact controller.

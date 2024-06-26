@@ -1,0 +1,6 @@
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:1", "", "Open", "EARoot/EA2/EA5/EA1/EA1/EA2/EA233.htm", "3.png", "47", "0", "", "Logical diagram0","{368F996B-CD67-4a1b-9C89-7C494E4036AA}");
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:2", "", "CampaignController", "EARoot/EA2/EA5/EA1/EA1/EA2/EA236.htm", "5.png", "E429", "0", "", "Class0","{BCA6C68E-FE4D-4f9c-B5C6-89EE4A2F4D79}");
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:3", "", "ManufacturerController", "EARoot/EA2/EA5/EA1/EA1/EA2/EA237.htm", "5.png", "E430", "0", "", "Class0","{37CE7E26-644C-4624-A32A-526B1F9E59FF}");
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:4", "", "OfficeController", "EARoot/EA2/EA5/EA1/EA1/EA2/EA238.htm", "5.png", "E431", "0", "", "Class0","{60B94879-5C6A-4c58-BC55-FBC95D23B3A4}");
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:5", "", "SupplierController", "EARoot/EA2/EA5/EA1/EA1/EA2/EA239.htm", "5.png", "E432", "0", "", "Class0","{6D0A7927-A44A-4623-9354-6E4AD5472603}");
+tocTab[tocTab.length] = new Array("0.2.5.1.1.2:6", "", "VaccineController", "EARoot/EA2/EA5/EA1/EA1/EA2/EA240.htm", "5.png", "E433", "0", "", "Class0","{7C5AD595-8EC6-490d-B159-E215CB9EF97B}");

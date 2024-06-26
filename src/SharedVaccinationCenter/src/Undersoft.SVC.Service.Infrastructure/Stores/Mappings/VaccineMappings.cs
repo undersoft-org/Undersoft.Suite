@@ -15,6 +15,8 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
     using Undersoft.SDK.Service.Infrastructure.Database;
     using Undersoft.SDK.Service.Infrastructure.Database.Relation;
     using Undersoft.SVC.Domain.Entities;
+    using Undersoft.SVC.Domain.Entities.Catalogs;
+    using Undersoft.SVC.Domain.Entities.Vaccination;
 
     /// <summary>
     /// The contact mappings.
@@ -40,7 +42,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
                 ).RelateOneToOne<Specification, Vaccine>(
                     r => r.Specification,
                     r => r.Vaccine,
-                    ExpandSite.WithMany,
+                    ExpandSite.OnLeft,
                     true
                 ).RelateOneToSet<Vaccine, Procedure>(
                     r => r.Vaccine,

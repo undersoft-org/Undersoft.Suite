@@ -6,32 +6,35 @@
 //   library: Undersoft.SCC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities;
+using Undersoft.SVC.Domain.Entities.Catalogs;
 
-/// <summary>
-/// The contact professional.
-/// </summary>
-public class Professional : Entity
+namespace Undersoft.SVC.Domain.Entities
 {
-    public string? ProfessionalImage { get; set; }
+    /// <summary>
+    /// The contact professional.
+    /// </summary>
+    public class Professional : Entity
+    {
+        public string? ProfessionalImage { get; set; }
 
-    public string? ProfessionalManager { get; set; }
+        public string? ProfessionalManager { get; set; }
 
-    public string? ProfessionalName { get; set; }
+        public string? ProfessionalName { get; set; }
 
-    public string? ProfessionalPosition { get; set; }
+        public string? ProfessionalPosition { get; set; }
 
-    public string? ProfessionalEmail { get; set; }
+        public string? ProfessionalEmail { get; set; }
 
-    public string? ProfessionalPhoneNumber { get; set; }
+        public string? ProfessionalPhoneNumber { get; set; }
 
-    public string? ProfessionalWebsites { get; set; }
+        public string? ProfessionalWebsites { get; set; }
 
-    public float? ProfessionalExperience { get; set; }
+        public float? ProfessionalExperience { get; set; }
 
-    public byte[]? ProfessionalImageData { get; set; }
+        public byte[]? ProfessionalImageData { get; set; }
 
-    public long? SupplierId { get; set; }
+        public long? SupplierId { get; set; }
 
-    public virtual Supplier? Supplier { get; set; }
+        public virtual Supplier? Supplier { get; set; }
+    }
 }

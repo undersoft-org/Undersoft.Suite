@@ -6,15 +6,16 @@
 //   library: Undersoft.SVC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// The contact types.
-/// </summary>
-public enum PersonelKind
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    Generic,
-    Nurse,
-    Doctor
+    /// <summary>
+    /// The contact types.
+    /// </summary>
+    public enum PersonelKind
+    {
+        None,
+        Generic,
+        Nurse,
+        Doctor
+    }
 }

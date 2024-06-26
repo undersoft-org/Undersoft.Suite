@@ -6,17 +6,18 @@
 //   library: Undersoft.SCC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// The organizations sizes.
-/// </summary>
-public enum OrganizationSize
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    Nano,
-    Micro,
-    Small,
-    Medium,
-    Enterprise
+    /// <summary>
+    /// The organizations sizes.
+    /// </summary>
+    public enum OrganizationSize
+    {
+        None,
+        Nano,
+        Micro,
+        Small,
+        Medium,
+        Enterprise
+    }
 }

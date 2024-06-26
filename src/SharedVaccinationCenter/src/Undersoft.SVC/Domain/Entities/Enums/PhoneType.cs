@@ -6,16 +6,17 @@
 //   library: Undersoft.SVC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// Phone types.
-/// </summary>
-public enum PhoneType
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    Generic,
-    Mobile,
-    Landline,
-    Fax
+    /// <summary>
+    /// Phone types.
+    /// </summary>
+    public enum PhoneType
+    {
+        None,
+        Generic,
+        Mobile,
+        Landline,
+        Fax
+    }
 }

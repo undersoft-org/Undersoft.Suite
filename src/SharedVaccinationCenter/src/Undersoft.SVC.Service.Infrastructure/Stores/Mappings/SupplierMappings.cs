@@ -15,6 +15,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
     using Undersoft.SDK.Service.Infrastructure.Database;
     using Undersoft.SDK.Service.Infrastructure.Database.Relation;
     using Undersoft.SVC.Domain.Entities;
+    using Undersoft.SVC.Domain.Entities.Catalogs;
 
     /// <summary>
     /// The contact mappings.

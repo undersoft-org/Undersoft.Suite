@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("0.2.2.1:1", "", "Abstractions", "EARoot/EA2/EA2/EA1/EA111.htm", "175.png", "26", "0", "", "Logical diagram0","{BF902CE0-5CBF-4a6d-8F2D-777EDDE51254}");
+tocTab[tocTab.length] = new Array("0.2.2.1:2", "", "ICatalogsStore", "EARoot/EA2/EA2/EA1/EA114.htm", "8.png", "E286", "0", "", "Interface0","{3D90F0AE-98AA-4a8c-861A-CDCEBDD09161}");
+tocTab[tocTab.length] = new Array("0.2.2.1:3", "", "ICenterStore", "EARoot/EA2/EA2/EA1/EA115.htm", "8.png", "E287", "0", "", "Interface0","{78D44382-2474-49a1-B148-36F9A47D6C41}");
+tocTab[tocTab.length] = new Array("0.2.2.1:4", "", "IInventoryStore", "EARoot/EA2/EA2/EA1/EA116.htm", "8.png", "E288", "0", "", "Interface0","{B064FF17-1719-4ca6-8725-A4F449162E92}");
+tocTab[tocTab.length] = new Array("0.2.2.1:5", "", "IVaccinationStore", "EARoot/EA2/EA2/EA1/EA117.htm", "8.png", "E289", "0", "", "Interface0","{17D889E1-6BF8-41fd-8C70-BA198E708FE9}");

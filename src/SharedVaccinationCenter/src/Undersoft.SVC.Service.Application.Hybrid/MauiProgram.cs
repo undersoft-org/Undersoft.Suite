@@ -28,6 +28,9 @@ using Undersoft.SVC.Service.Application.GUI.Compound.Access;
 using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
+using Undersoft.SVC.Service.Contracts.Inventory;
+using Undersoft.SVC.Service.Contracts.Vaccination;
 
 /// <summary>
 /// The maui program.
@@ -75,8 +78,7 @@ public static class MauiProgram
         var manager = builder
             .Services.AddServiceSetup(config)
             .ConfigureServices(
-                new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) },
-                s => s.AddValidators()
+                new[] { typeof(ApplicationClient), typeof(AccessClient), typeof(EventClient) }
             )
             .Manager;
 
@@ -166,27 +168,27 @@ public static class MauiProgram
                     .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()
                     .AddScoped<IValidator<IViewData<ViewModels.Event>>, EventValidator>()
                     .AddScoped<
-                        IValidator<IViewData<ViewModels.Appointment>>,
+                        IValidator<IViewData<ViewModels.Vaccination.Appointment>>,
                         AppointmentValidator
                     >()
-                    .AddScoped<IValidator<IViewData<ViewModels.Office>>, OfficeValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Vaccine>>, VaccineValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Stock>>, StockValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Procedure>>, ProcedureValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Catalogs.Office>>, OfficeValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Catalogs.Vaccine>>, VaccineValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Inventory.Stock>>, StockValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Vaccination.Procedure>>, ProcedureValidator>()
                     .AddScoped<
-                        IValidator<IViewData<ViewModels.Certificate>>,
+                        IValidator<IViewData<ViewModels.Vaccination.Certificate>>,
                         CertificateValidator
                     >()
                     .AddScoped<
-                        IValidator<IViewData<ViewModels.PostSymptom>>,
+                        IValidator<IViewData<ViewModels.Vaccination.PostSymptom>>,
                         PostSymptomValidator
                     >()
-                    .AddScoped<IValidator<IViewData<ViewModels.Request>>, RequestValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Traffic>>, TrafficValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Campaign>>, CampaignValidator>()
-                    .AddScoped<IValidator<IViewData<ViewModels.Supplier>>, SupplierValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Inventory.Request>>, RequestValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Inventory.Traffic>>, TrafficValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Catalogs.Campaign>>, CampaignValidator>()
+                    .AddScoped<IValidator<IViewData<ViewModels.Catalogs.Supplier>>, SupplierValidator>()
                     .AddScoped<
-                        IValidator<IViewData<ViewModels.Manufacturer>>,
+                        IValidator<IViewData<ViewModels.Catalogs.Manufacturer>>,
                         ManufacturerValidator
                     >();
                 reg.MergeServices(services, true);

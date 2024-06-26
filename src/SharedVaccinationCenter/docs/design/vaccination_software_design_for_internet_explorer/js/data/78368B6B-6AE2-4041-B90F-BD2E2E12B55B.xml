@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("0.2.3.4:1", "", "Vaccination", "EARoot/EA2/EA3/EA4/EA158.htm", "175.png", "31", "0", "", "Logical diagram0","{9A120AD3-9BD2-4065-9F6A-67F4E5259246}");
+tocTab[tocTab.length] = new Array("0.2.3.4:2", "", "Appointment", "EARoot/EA2/EA3/EA4/EA161.htm", "5.png", "E315", "0", "", "Class0","{BC11B06E-D161-48e0-A58A-F0D3DBB1EF62}");
+tocTab[tocTab.length] = new Array("0.2.3.4:3", "", "Certificate", "EARoot/EA2/EA3/EA4/EA162.htm", "5.png", "E316", "0", "", "Class0","{BA003CAE-197A-4bff-8D93-36B9180A0272}");
+tocTab[tocTab.length] = new Array("0.2.3.4:4", "", "PostSymptom", "EARoot/EA2/EA3/EA4/EA163.htm", "5.png", "E317", "0", "", "Class0","{72E7F34E-3E26-4236-A92E-57730D414C8E}");
+tocTab[tocTab.length] = new Array("0.2.3.4:5", "", "Procedure", "EARoot/EA2/EA3/EA4/EA164.htm", "5.png", "E318", "0", "", "Class0","{E89DE011-9796-4818-AA99-2E2CEF57E41C}");

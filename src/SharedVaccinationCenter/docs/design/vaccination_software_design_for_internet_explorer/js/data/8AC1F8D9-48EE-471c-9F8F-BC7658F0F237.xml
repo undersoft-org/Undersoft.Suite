@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("0.2.4.1.1:1", "", "Factories", "EARoot/EA2/EA4/EA1/EA1/EA182.htm", "175.png", "37", "0", "", "Logical diagram0","{C6195E8C-B53B-4f58-9C64-967C00EB89F2}");
+tocTab[tocTab.length] = new Array("0.2.4.1.1:2", "", "AccountStoreFactory", "EARoot/EA2/EA4/EA1/EA1/EA185.htm", "5.png", "E364", "0", "", "Class0","{1D85CBD7-2D7F-4adf-8373-155B6D822332}");
+tocTab[tocTab.length] = new Array("0.2.4.1.1:3", "", "EntryStoreFactory", "EARoot/EA2/EA4/EA1/EA1/EA186.htm", "5.png", "E365", "0", "", "Class0","{827B9E8F-48F6-439e-B0AD-6556C6CABDD0}");
+tocTab[tocTab.length] = new Array("0.2.4.1.1:4", "", "EventStoreFactory", "EARoot/EA2/EA4/EA1/EA1/EA187.htm", "5.png", "E366", "0", "", "Class0","{45CD5E12-2932-44e5-AD58-890C23C80BF6}");
+tocTab[tocTab.length] = new Array("0.2.4.1.1:5", "", "ReportStoreFactory", "EARoot/EA2/EA4/EA1/EA1/EA188.htm", "5.png", "E367", "0", "", "Class0","{35C51F9F-57C7-4a66-ADCA-6161C820F88A}");

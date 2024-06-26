@@ -9,26 +9,27 @@
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
-namespace Undersoft.SVC.Service.Server.Controllers.Open;
-
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-public class ProcedureController
-    : OpenCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Procedure,
-        Procedure,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Controllers.Open
 {
+    using Undersoft.SVC.Service.Contracts.Vaccination;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public ProcedureController(IServicer servicer) : base(servicer) { }
+    public class ProcedureController
+        : OpenCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Vaccination.Procedure,
+            Procedure,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public ProcedureController(IServicer servicer) : base(servicer) { }
+    }
 }

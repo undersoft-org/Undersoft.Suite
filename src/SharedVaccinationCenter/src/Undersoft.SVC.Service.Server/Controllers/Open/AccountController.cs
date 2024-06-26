@@ -10,23 +10,24 @@ using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Accounts;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
-namespace Undersoft.SVC.Service.Server.Controllers.Open;
-
-/// <summary>
-/// The account controller.
-/// </summary>
-public class AccountController
-    : OpenDataController<
-        long,
-        IAccountStore,
-        Account,
-        Contracts.Account,
-        AccountService<Contracts.Account>
-    >
+namespace Undersoft.SVC.Service.Server.Controllers.Open
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AccountController"/> class.
+    /// The account controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public AccountController(IServicer servicer) : base(servicer) { }
+    public class AccountController
+        : OpenDataController<
+            long,
+            IAccountStore,
+            Account,
+            Contracts.Account,
+            AccountService<Contracts.Account>
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public AccountController(IServicer servicer) : base(servicer) { }
+    }
 }

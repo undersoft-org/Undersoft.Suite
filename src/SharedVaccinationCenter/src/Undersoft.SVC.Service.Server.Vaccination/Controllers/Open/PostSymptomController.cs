@@ -9,26 +9,27 @@
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Controller.Open;
 
-namespace Undersoft.SVC.Service.Server.Vaccination.Controllers.Open;
-
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-public class PostSymptomController
-    : OpenCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.PostSymptom,
-        PostSymptom,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Vaccination.Controllers.Open
 {
+    using Undersoft.SVC.Service.Contracts.Vaccination;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public PostSymptomController(IServicer servicer) : base(servicer) { }
+    public class PostSymptomController
+        : OpenCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Vaccination.PostSymptom,
+            PostSymptom,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostSymptomController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public PostSymptomController(IServicer servicer) : base(servicer) { }
+    }
 }

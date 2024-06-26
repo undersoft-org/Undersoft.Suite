@@ -11,8 +11,8 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
-using Undersoft.SVC.Service.Clients;
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Clients.Abstractions;
+using Undersoft.SVC.Service.Contracts.Inventory;
 
 public class RequestController
     : OpenDataRemoteController<long, IInventoryStore, Request, Request, ServiceManager>

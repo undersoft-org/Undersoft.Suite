@@ -1,0 +1,10 @@
+tocTab[tocTab.length] = new Array("0.1.1.2:1", "", "Enums", "EARoot/EA1/EA1/EA2/EA34.htm", "175.png", "22", "0", "", "Logical diagram0","{64D81656-8178-4333-88CE-615AEB2A398F}");
+tocTab[tocTab.length] = new Array("0.1.1.2:2", "", "AddressType", "EARoot/EA1/EA1/EA2/EA37.htm", "247.png", "E258", "0", "", "Enumeration0","{165BE475-6D0D-4456-97C9-FCBBE49AD55A}");
+tocTab[tocTab.length] = new Array("0.1.1.2:3", "", "IdentifierType", "EARoot/EA1/EA1/EA2/EA38.htm", "247.png", "E259", "0", "", "Enumeration0","{C41AAC17-76A1-41c8-A022-66197C58F42C}");
+tocTab[tocTab.length] = new Array("0.1.1.2:4", "", "OrganizationSize", "EARoot/EA1/EA1/EA2/EA39.htm", "247.png", "E260", "0", "", "Enumeration0","{07282A46-08A3-47d4-B669-CEFFE4E3EED1}");
+tocTab[tocTab.length] = new Array("0.1.1.2:5", "", "PatientKind", "EARoot/EA1/EA1/EA2/EA40.htm", "247.png", "E261", "0", "", "Enumeration0","{A7AB8FA3-5237-46de-8439-0EA178B82FCD}");
+tocTab[tocTab.length] = new Array("0.1.1.2:6", "", "PersonelKind", "EARoot/EA1/EA1/EA2/EA41.htm", "247.png", "E262", "0", "", "Enumeration0","{700F06A0-A6F3-457f-A950-150F0C593F0E}");
+tocTab[tocTab.length] = new Array("0.1.1.2:7", "", "PhoneType", "EARoot/EA1/EA1/EA2/EA42.htm", "247.png", "E263", "0", "", "Enumeration0","{D7A90DBE-2B6D-4f13-B6D6-FCAF5A082D5F}");
+tocTab[tocTab.length] = new Array("0.1.1.2:8", "", "ScheduleType", "EARoot/EA1/EA1/EA2/EA43.htm", "247.png", "E264", "0", "", "Enumeration0","{8304550C-CB0B-4d4d-B375-F9A7B4B30C16}");
+tocTab[tocTab.length] = new Array("0.1.1.2:9", "", "TrafficType", "EARoot/EA1/EA1/EA2/EA44.htm", "247.png", "E265", "0", "", "Enumeration0","{8FDE17B0-C045-4264-9616-6D86A46587A1}");
+tocTab[tocTab.length] = new Array("0.1.1.2:10", "", "VaccinationState", "EARoot/EA1/EA1/EA2/EA45.htm", "247.png", "E266", "0", "", "Enumeration0","{11EA2784-8D2F-4373-97B0-0CCE466C49F1}");

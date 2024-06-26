@@ -11,16 +11,17 @@
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server.Accounts;
 
-namespace Undersoft.SVC.Service.Infrastructure.Stores;
-
-/// <summary>
-/// The account store.
-/// </summary>
-public class AccountStore : AccountStore<IAccountStore, AccountStore>
+namespace Undersoft.SVC.Service.Infrastructure.Stores
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AccountStore"/> class.
+    /// The account store.
     /// </summary>
-    /// <param name="options">The options.</param>
-    public AccountStore(DbContextOptions<AccountStore> options) : base(options) { }
+    public class AccountStore : AccountStore<IAccountStore, AccountStore>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountStore"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        public AccountStore(DbContextOptions<AccountStore> options) : base(options) { }
+    }
 }

@@ -8,29 +8,30 @@
 
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SVC.Service.Server.Inventory.Controllers.Api;
-
-using Microsoft.AspNetCore.Mvc;
-using Undersoft.SDK.Service.Server.Controller.Api;
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-[Route($"{StoreRoutes.ApiDataRoute}/Request")]
-public class RequestsController
-    : ApiCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Request,
-        Request,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Inventory.Controllers.Api
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Undersoft.SDK.Service.Server.Controller.Api;
+    using Undersoft.SVC.Service.Contracts.Inventory;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public RequestsController(IServicer servicer) : base(servicer) { }
+    [Route($"{StoreRoutes.ApiDataRoute}/Request")]
+    public class RequestsController
+        : ApiCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Inventory.Request,
+            Request,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public RequestsController(IServicer servicer) : base(servicer) { }
+    }
 }

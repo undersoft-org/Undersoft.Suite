@@ -6,16 +6,17 @@
 //   library: Undersoft.SVC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// The contact types.
-/// </summary>
-public enum IdentifierType
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    PersonalNumber,
-    PersonalID,
-    TaxID,
-    PassportNumber
+    /// <summary>
+    /// The contact types.
+    /// </summary>
+    public enum IdentifierType
+    {
+        None,
+        PersonalNumber,
+        PersonalID,
+        TaxID,
+        PassportNumber
+    }
 }

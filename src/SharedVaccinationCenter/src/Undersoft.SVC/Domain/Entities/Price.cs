@@ -6,6 +6,10 @@
 //   library: Undersoft.SVC
 // *************************************************
 
+using Undersoft.SVC.Domain.Entities.Catalogs;
+using Undersoft.SVC.Domain.Entities.Inventory;
+using Undersoft.SVC.Domain.Entities.Vaccination;
+
 namespace Undersoft.SVC.Domain.Entities
 {
     public class Price : Entity, IEntity

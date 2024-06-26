@@ -8,29 +8,30 @@
 
 using Undersoft.SDK.Service.Data.Store;
 
-namespace Undersoft.SVC.Service.Server.Controllers.Api;
-
-using Microsoft.AspNetCore.Mvc;
-using Undersoft.SDK.Service.Server.Controller.Api;
-using Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact controller.
-/// </summary>
-[Route($"{StoreRoutes.ApiDataRoute}/Certificate")]
-public class CertificatesController
-    : ApiCqrsController<
-        long,
-        IEntryStore,
-        IReportStore,
-        Domain.Entities.Certificate,
-        Certificate,
-        ServiceManager
-    >
+namespace Undersoft.SVC.Service.Server.Controllers.Api
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Undersoft.SDK.Service.Server.Controller.Api;
+    using Undersoft.SVC.Service.Contracts.Vaccination;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// The contact controller.
     /// </summary>
-    /// <param name="servicer">The servicer.</param>
-    public CertificatesController(IServicer servicer) : base(servicer) { }
+    [Route($"{StoreRoutes.ApiDataRoute}/Certificate")]
+    public class CertificatesController
+        : ApiCqrsController<
+            long,
+            IEntryStore,
+            IReportStore,
+            Domain.Entities.Vaccination.Certificate,
+            Certificate,
+            ServiceManager
+        >
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// </summary>
+        /// <param name="servicer">The servicer.</param>
+        public CertificatesController(IServicer servicer) : base(servicer) { }
+    }
 }

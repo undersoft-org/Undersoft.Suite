@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("0.2.5.4.1.2:1", "", "Open", "EARoot/EA2/EA5/EA4/EA1/EA2/EA302.htm", "3.png", "52", "0", "", "Logical diagram0","{318C2612-D19D-44ae-9198-C68355777C77}");
+tocTab[tocTab.length] = new Array("0.2.5.4.1.2:2", "", "AppointmentController", "EARoot/EA2/EA5/EA4/EA1/EA2/EA305.htm", "5.png", "E468", "0", "", "Class0","{28A3EFB1-C778-43da-8230-46A3F8512E68}");
+tocTab[tocTab.length] = new Array("0.2.5.4.1.2:3", "", "CertificateController", "EARoot/EA2/EA5/EA4/EA1/EA2/EA306.htm", "5.png", "E469", "0", "", "Class0","{6B77E720-D258-4071-88F7-0F33B10E1F05}");
+tocTab[tocTab.length] = new Array("0.2.5.4.1.2:4", "", "PostSymptomController", "EARoot/EA2/EA5/EA4/EA1/EA2/EA307.htm", "5.png", "E470", "0", "", "Class0","{3250217B-B2ED-4433-A55F-FCB7B58AEE50}");
+tocTab[tocTab.length] = new Array("0.2.5.4.1.2:5", "", "ProcedureController", "EARoot/EA2/EA5/EA4/EA1/EA2/EA308.htm", "5.png", "E471", "0", "", "Class0","{0EC23E98-0B8F-4bdd-BCDE-C0FC41D8B00E}");

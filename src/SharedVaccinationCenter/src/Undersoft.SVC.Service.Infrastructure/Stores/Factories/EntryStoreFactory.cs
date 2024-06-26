@@ -9,9 +9,10 @@
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Server;
 
-namespace Undersoft.SVC.Service.Infrastructure.Stores.Factories;
-
-/// <summary>
-/// The entry store factory.
-/// </summary>
-public class EntryStoreFactory : DbStoreFactory<EntryStore, ServerSourceProviderConfiguration> { }
+namespace Undersoft.SVC.Service.Infrastructure.Stores.Factories
+{
+    /// <summary>
+    /// The entry store factory.
+    /// </summary>
+    public class EntryStoreFactory : DbStoreFactory<EntryStore, ServerSourceProviderConfiguration> { }
+}

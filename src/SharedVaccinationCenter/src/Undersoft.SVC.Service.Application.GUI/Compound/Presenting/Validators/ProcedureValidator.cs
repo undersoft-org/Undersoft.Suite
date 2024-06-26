@@ -12,7 +12,7 @@ using Undersoft.SDK.Service.Application.GUI.View;
 
 namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
 
-using Undersoft.SVC.Service.Application.ViewModels;
+using Undersoft.SVC.Service.Application.ViewModels.Vaccination;
 
 /// <summary>
 /// The group validator.

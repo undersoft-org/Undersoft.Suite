@@ -1,0 +1,12 @@
+tocTab[tocTab.length] = new Array("0.2.3:1", "", "Contracts", "EARoot/EA2/EA3/EA118.htm", "175.png", "32", "0", "", "Logical diagram0","{A3A1EB46-D913-45ac-8F35-6E17CA8184B2}");
+tocTab[tocTab.length] = new Array("0.2.3:2", "", "Address", "EARoot/EA2/EA3/EA126.htm", "5.png", "E319", "0", "", "Class0","{BD832B0A-F6BE-4835-9B58-0DEAA55A2EBA}");
+tocTab[tocTab.length] = new Array("0.2.3:3", "", "Cost", "EARoot/EA2/EA3/EA128.htm", "5.png", "E320", "0", "", "Class0","{C05657B1-D690-4058-82BE-18923954F3E9}");
+tocTab[tocTab.length] = new Array("0.2.3:4", "", "Payment", "EARoot/EA2/EA3/EA130.htm", "5.png", "E321", "0", "", "Class0","{3136F69E-2FD3-4357-9B58-20F4880840A9}");
+tocTab[tocTab.length] = new Array("0.2.3:5", "", "Price", "EARoot/EA2/EA3/EA131.htm", "5.png", "E322", "0", "", "Class0","{774EAD9E-0C4C-4b9a-83D8-17BD9BD5049B}");
+tocTab[tocTab.length] = new Array("0.2.3:6", "", "Safety", "EARoot/EA2/EA3/EA132.htm", "5.png", "E323", "0", "", "Class0","{FC98A051-8A77-47d2-AA87-7298EBE5ACBA}");
+tocTab[tocTab.length] = new Array("0.2.3:7", "", "Schedule", "EARoot/EA2/EA3/EA133.htm", "5.png", "E324", "0", "", "Class0","{2A446063-3E6D-4ba8-83F2-7F18E2E2E09F}");
+tocTab[tocTab.length] = new Array("0.2.3:8", "", "Term", "EARoot/EA2/EA3/EA134.htm", "5.png", "E325", "0", "", "Class0","{6F433900-992F-495a-A11E-0111D4E41A69}");
+tocTab[tocTab.length] = new Array("0.2.3.1", "1", "Accounts", "EARoot/EA2/EA3/EA1/EA138.htm", "4.png", "", "", "{725BD881-3D21-4b77-BD41-FC645A5EEFA5}", "Package");
+tocTab[tocTab.length] = new Array("0.2.3.2", "1", "Catalogs", "EARoot/EA2/EA3/EA2/EA147.htm", "4.png", "", "", "{C68645A0-DDCE-422d-9FDF-A0F3B4765DE4}", "Package");
+tocTab[tocTab.length] = new Array("0.2.3.3", "1", "Inventory", "EARoot/EA2/EA3/EA3/EA154.htm", "4.png", "", "", "{D928D691-5788-4b46-884A-54EFD6DE3CD4}", "Package");
+tocTab[tocTab.length] = new Array("0.2.3.4", "1", "Vaccination", "EARoot/EA2/EA3/EA4/EA160.htm", "4.png", "", "", "{78368B6B-6AE2-4041-B90F-BD2E2E12B55B}", "Package");

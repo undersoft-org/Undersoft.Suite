@@ -8,26 +8,27 @@
 
 using Undersoft.SDK.Service.Data.Contract;
 
-namespace Undersoft.SVC.Service.Contracts;
-
-/// <summary>
-/// The contact address.
-/// </summary>
-public class Specification : DataObject, IContract
+namespace Undersoft.SVC.Service.Contracts
 {
-    public string? VaccineImage { get; set; }
+    /// <summary>
+    /// The contact address.
+    /// </summary>
+    public class Specification : DataObject, IContract
+    {
+        public string? VaccineImage { get; set; }
 
-    public byte[]? VaccineImageData { get; set; }
+        public byte[]? VaccineImageData { get; set; }
 
-    public string? Name { get; set; }
+        public string? Name { get; set; }
 
-    public string? Virus { get; set; }
+        public string? Virus { get; set; }
 
-    public string? Dose { get; set; }
+        public string? Dose { get; set; }
 
-    public string? Description { get; set; }
+        public string? Description { get; set; }
 
-    public string? Notes { get; set; }
+        public string? Notes { get; set; }
 
-    public long? VaccineId { get; set; }
+        public long? VaccineId { get; set; }
+    }
 }

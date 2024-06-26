@@ -1,4 +1,5 @@
 ﻿using Microsoft.OData.Edm;
+using Undersoft.SVC.Service.Clients.Abstractions;
 
 // *************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
@@ -8,28 +9,28 @@
 //   library: Undersoft.SVC.Service
 // *************************************************
 
-
-namespace Undersoft.SVC.Service.Clients;
-
-/// <summary>
-/// The service client.
-/// </summary>
-public class CatalogsClient : OpenDataClient<ICatalogsStore>
+namespace Undersoft.SVC.Service.Clients
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ServiceClient"/> class.
+    /// The service client.
     /// </summary>
-    /// <param name="serviceUri">The service uri.</param>
-    public CatalogsClient(Uri serviceUri) : base(serviceUri) { }
-
-    /// <summary>
-    /// On model creating.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>An <see cref="IEdmModel"/></returns>
-    protected override IEdmModel OnModelCreating(IEdmModel builder)
+    public class CatalogsClient : OpenDataClient<ICatalogsStore>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceClient"/> class.
+        /// </summary>
+        /// <param name="serviceUri">The service uri.</param>
+        public CatalogsClient(Uri serviceUri) : base(serviceUri) { }
 
-        return base.OnModelCreating(builder);
+        /// <summary>
+        /// On model creating.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>An <see cref="IEdmModel"/></returns>
+        protected override IEdmModel OnModelCreating(IEdmModel builder)
+        {
+
+            return base.OnModelCreating(builder);
+        }
     }
 }

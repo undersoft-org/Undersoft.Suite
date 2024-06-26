@@ -10,7 +10,7 @@
 <CascadingValue Value="@Data">
     <CascadingValue Value="@Root">
         <CascadingValue Value="@OnMenuItemChange">
-                <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" HorizontalThreshold="300" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
+                <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" HorizontalThreshold="350" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
                     <CascadingValue Value="@FilteredType">
                         <CascadingValue Value="@IsOpen">
                             @foreach (ISeriesItem<Filter> filterItem in EmptyFilters.AsItems())

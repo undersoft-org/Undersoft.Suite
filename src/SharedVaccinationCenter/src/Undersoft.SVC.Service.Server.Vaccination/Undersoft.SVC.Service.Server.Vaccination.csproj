@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\SoftwareDevelopmentKit\src\Undersoft.SDK.Service.Server\Undersoft.SDK.Service.Server.csproj" />
     <ProjectReference Include="..\Undersoft.SVC.Service.Infrastructure\Undersoft.SVC.Service.Infrastructure.csproj" />
+    <ProjectReference Include="..\Undersoft.SVC.Service.Server.Inventory\Undersoft.SVC.Service.Server.Inventory.csproj" />
   </ItemGroup>
   
   <ItemGroup>

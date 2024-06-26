@@ -6,15 +6,16 @@
 //   library: Undersoft.SVC
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities.Enums;
-
-/// <summary>
-/// The contact types.
-/// </summary>
-public enum ScheduleType
+namespace Undersoft.SVC.Domain.Entities.Enums
 {
-    None,
-    Open,
-    Booked,
-    Canceled
+    /// <summary>
+    /// The contact types.
+    /// </summary>
+    public enum ScheduleType
+    {
+        None,
+        Open,
+        Booked,
+        Canceled
+    }
 }

@@ -11,7 +11,7 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Server.Controllers.Open;
 
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 
 /// <summary>
 /// The contact controller.

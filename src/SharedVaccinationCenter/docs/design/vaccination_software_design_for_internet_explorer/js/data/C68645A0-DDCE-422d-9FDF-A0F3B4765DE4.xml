@@ -1,0 +1,5 @@
+tocTab[tocTab.length] = new Array("0.2.3.2:1", "", "Catalogs", "EARoot/EA2/EA3/EA2/EA145.htm", "175.png", "29", "0", "", "Logical diagram0","{D85E8684-C694-4720-B2EE-E9872B2AF726}");
+tocTab[tocTab.length] = new Array("0.2.3.2:2", "", "Campaign", "EARoot/EA2/EA3/EA2/EA148.htm", "5.png", "E306", "0", "", "Class0","{2E58723E-9C1A-48ab-A2DA-4FD789CF52CA}");
+tocTab[tocTab.length] = new Array("0.2.3.2:3", "", "Office", "EARoot/EA2/EA3/EA2/EA149.htm", "5.png", "E307", "0", "", "Class0","{AF1CE13A-985A-43e9-B986-88A92BD21A47}");
+tocTab[tocTab.length] = new Array("0.2.3.2:4", "", "Supplier", "EARoot/EA2/EA3/EA2/EA150.htm", "5.png", "E308", "0", "", "Class0","{6F2EE266-4D16-422c-B001-58B82419CB7B}");
+tocTab[tocTab.length] = new Array("0.2.3.2:5", "", "Vaccine", "EARoot/EA2/EA3/EA2/EA151.htm", "5.png", "E309", "0", "", "Class0","{B0903B89-9CDB-49f5-A3A1-2FA29CD87DB8}");

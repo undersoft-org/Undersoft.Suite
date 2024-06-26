@@ -6,20 +6,23 @@
 //   library: Undersoft.SVC.Service.Application
 // *************************************************
 
-namespace Undersoft.SVC.Domain.Entities;
+using Undersoft.SVC.Domain.Entities.Catalogs;
 
-/// <summary>
-/// The contact address.
-/// </summary>
-public class Safety : Entity
+namespace Undersoft.SVC.Domain.Entities
 {
-    public int? ExpirationDays { get; set; }
+    /// <summary>
+    /// The contact address.
+    /// </summary>
+    public class Safety : Entity
+    {
+        public int? ExpirationDays { get; set; }
 
-    public string? Description { get; set; }
+        public string? Description { get; set; }
 
-    public float? Temperature { get; set; }
+        public float? Temperature { get; set; }
 
-    public long? VaccineId { get; set; }
+        public long? VaccineId { get; set; }
 
-    public virtual Vaccine? Vaccine { get; set; }
+        public virtual Vaccine? Vaccine { get; set; }
+    }
 }

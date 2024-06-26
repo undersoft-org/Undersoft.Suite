@@ -1,0 +1,4 @@
+tocTab[tocTab.length] = new Array("0.2.5.1", "1", "Catalogs", "EARoot/EA2/EA5/EA1/EA220.htm", "4.png", "", "", "{B162B172-27DC-46e3-8965-B82A0E13C12C}", "Package");
+tocTab[tocTab.length] = new Array("0.2.5.2", "1", "Controllers", "EARoot/EA2/EA5/EA2/EA246.htm", "4.png", "", "", "{8DAC333D-719F-4612-935A-6DF4CAA5D81B}", "Package");
+tocTab[tocTab.length] = new Array("0.2.5.3", "1", "Inventory", "EARoot/EA2/EA5/EA3/EA273.htm", "4.png", "", "", "{AD11969A-50E0-4ad2-A68B-4ED24D3CA2B3}", "Package");
+tocTab[tocTab.length] = new Array("0.2.5.4", "1", "Vaccination", "EARoot/EA2/EA5/EA4/EA290.htm", "4.png", "", "", "{BC2BB041-4D3C-4013-B52B-F02417FDE126}", "Package");

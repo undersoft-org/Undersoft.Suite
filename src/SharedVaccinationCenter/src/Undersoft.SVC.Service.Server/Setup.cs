@@ -15,6 +15,9 @@ namespace Undersoft.SVC.Service.Server;
 using Undersoft.SVC.Service.Clients;
 using Undersoft.SVC.Service.Contracts;
 using Undersoft.SVC.Service.Contracts.Accounts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
+using Undersoft.SVC.Service.Contracts.Inventory;
+using Undersoft.SVC.Service.Contracts.Vaccination;
 using Undersoft.SVC.Service.Infrastructure.Stores;
 
 /// <summary>

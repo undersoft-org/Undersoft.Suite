@@ -12,7 +12,7 @@ using Undersoft.SDK.Service.Operation.Remote.Command.Validator;
 
 namespace Undersoft.SVC.Service.Application.Server.Validators;
 
-using Undersoft.SVC.Service.Contracts;
+using Undersoft.SVC.Service.Contracts.Catalogs;
 
 /// <summary>
 /// The contacts validator.

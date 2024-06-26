@@ -1,0 +1,10 @@
+tocTab[tocTab.length] = new Array("0.2.5.2.1:1", "", "Api", "EARoot/EA2/EA5/EA2/EA1/EA249.htm", "3.png", "53", "0", "", "Logical diagram0","{BDB70B27-FBE0-4f4e-95A5-5EDAC605046A}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:2", "", "AppointmentsController", "EARoot/EA2/EA5/EA2/EA1/EA252.htm", "5.png", "E478", "0", "", "Class0","{55B3C6D8-78CA-46dd-BEA4-695D5B86CB30}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:3", "", "CampaignsController", "EARoot/EA2/EA5/EA2/EA1/EA253.htm", "5.png", "E479", "0", "", "Class0","{76E8E566-FB64-49c4-BF55-CE5DD2FC912B}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:4", "", "CertificatesController", "EARoot/EA2/EA5/EA2/EA1/EA254.htm", "5.png", "E480", "0", "", "Class0","{F40E814F-E0D2-4ea9-B928-22711F59DFB3}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:5", "", "PostSymptomsController", "EARoot/EA2/EA5/EA2/EA1/EA255.htm", "5.png", "E481", "0", "", "Class0","{5ACEA134-9534-4493-A907-EAF6B50BDED7}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:6", "", "ProceduresController", "EARoot/EA2/EA5/EA2/EA1/EA256.htm", "5.png", "E482", "0", "", "Class0","{648F55B7-17EB-4bd8-8FA7-53FF88A25EC6}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:7", "", "RequestsController", "EARoot/EA2/EA5/EA2/EA1/EA257.htm", "5.png", "E483", "0", "", "Class0","{6A14A9BF-95F0-4be0-A45A-CC4A764C14F2}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:8", "", "StocksController", "EARoot/EA2/EA5/EA2/EA1/EA258.htm", "5.png", "E484", "0", "", "Class0","{15A0F310-D67D-4633-81D1-D06EF634F462}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:9", "", "SuppliersController", "EARoot/EA2/EA5/EA2/EA1/EA259.htm", "5.png", "E485", "0", "", "Class0","{7CE56B5D-61AB-478f-B54B-0FC3552D99D0}");
+tocTab[tocTab.length] = new Array("0.2.5.2.1:10", "", "TrafficsController", "EARoot/EA2/EA5/EA2/EA1/EA260.htm", "5.png", "E486", "0", "", "Class0","{328AAF12-2571-40fb-90D4-06CAAF590B3E}");
