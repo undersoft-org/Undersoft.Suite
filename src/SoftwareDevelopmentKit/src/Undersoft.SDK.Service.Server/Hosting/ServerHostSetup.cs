@@ -190,6 +190,7 @@ public class ServerHostSetup : IServerHostSetup
             .UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint($"/swagger/v1/swagger.json", ao.ServiceName);
+                options.InjectStylesheet("/themes/css/theme-feeling-blue.css");
                 //s.OAuthClientId(ao.SwaggerClientId);
                 //s.OAuthAppName(ao.ApiName);
             });
