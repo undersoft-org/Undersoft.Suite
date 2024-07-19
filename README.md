@@ -4,7 +4,7 @@
 ### Landing
 ![SSC_Landing](https://github.com/undersoft-org/Undersoft/assets/82622935/9273f4b7-7c83-42c0-a4af-7f56a7f0dc44)
 
-### Public 
+### Guest 
 ![publiclayout](https://github.com/user-attachments/assets/0c4d3434-4491-4d0f-8a4f-0fd1d879b7d3)
 
 ### Admin
