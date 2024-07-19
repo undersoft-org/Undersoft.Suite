@@ -22,9 +22,9 @@ public class ConversionArithmetic<T> where T : class, ICurrencyConversion
 
     public void MathFormula(IInstantSeries series)
     {
-        MathSet<T> rateMAth = _math[r => r.Rate];
+        MathSet<T> rateMath = _math[r => r.Rate];
 
-        rateMAth.Formula = rateMAth[p => p.TargetRate] / rateMAth[p => p.SourceRate];
+        rateMath.Formula = rateMath[p => p.TargetRate] / rateMath[p => p.SourceRate];
 
     }
 }

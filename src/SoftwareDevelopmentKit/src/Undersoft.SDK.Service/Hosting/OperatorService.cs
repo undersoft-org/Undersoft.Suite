@@ -15,7 +15,7 @@ namespace Undersoft.SDK.Service.Hosting
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            Log.Info<Servicelog>("{Service} is running.", nameof(TimerService));
+            Log.Info<Servicelog>("{Service} is running.", nameof(OperatorService));
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
@@ -28,14 +28,14 @@ namespace Undersoft.SDK.Service.Hosting
 
             Log.Info<Servicelog>(
                 "{Service} is working, execution count: {Count:#,0}",
-                nameof(TimerService),
+                nameof(OperatorService),
                 count);
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
             Log.Info<Servicelog>(
-                "{Service} is stopping.", nameof(TimerService));
+                "{Service} is stopping.", nameof(OperatorService));
 
             _timer?.Change(Timeout.Infinite, 0);
 

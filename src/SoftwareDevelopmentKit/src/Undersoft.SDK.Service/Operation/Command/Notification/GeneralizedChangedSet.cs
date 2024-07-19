@@ -21,7 +21,7 @@ public class GeneralizedChangedSet<TStore, TEntity, TDto> : NotificationSet<Comm
             commands
                 .ForOnly(
                     c => c.Result != null,
-                    c => new Changed<TStore, TEntity, TDto>((GeneralizedChange<TStore, TEntity, TDto>)c)
+                    c => new GeneralizedChanged<TStore, TEntity, TDto>((GeneralizedChange<TStore, TEntity, TDto>)c)
                 )
                 .ToArray()
         )

@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Undersoft.GCC.Domain.Entities;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Entity;
@@ -6,7 +5,7 @@ using Undersoft.SDK.Service.Data.Object;
 
 namespace Undersoft.GCC.Service.Contracts;
 
-public class CurrencyRateTable : DataObject, IContract, INotifyPropertyChanged
+public class CurrencyRateTable : DataObject, IContract
 {
     public virtual CurrencyRateType Type { get; set; }
 

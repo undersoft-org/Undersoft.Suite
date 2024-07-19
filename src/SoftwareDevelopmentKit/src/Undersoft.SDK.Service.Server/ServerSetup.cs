@@ -302,7 +302,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
             {
-                x.Authority = configuration.IdentityServerBaseUrl();
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters

@@ -430,7 +430,7 @@ public abstract class ProxyCompilerBase : InstantCompilerBase
 
         // PropertyChanged += value; // PropertyChanged -= value;
         ilGen.Emit(OpCodes.Ldarg_0);
-        ilGen.Emit(OpCodes.Ldarg_0);
+        ilGen.Emit(OpCodes.Dup);
         ilGen.Emit(OpCodes.Ldfld, eventField);
         ilGen.Emit(OpCodes.Ldarg_1);
         ilGen.EmitCall(

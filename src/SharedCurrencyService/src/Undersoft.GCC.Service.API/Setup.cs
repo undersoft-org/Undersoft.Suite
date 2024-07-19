@@ -1,4 +1,4 @@
-﻿using Undersoft.GCC.Infrastructure.DataStores;
+﻿using Undersoft.GCC.Infrastructure.Stores;
 using Undersoft.GCC.Service.API.Extensions;
 using Undersoft.GCC.Service.Extensions;
 using Undersoft.SDK.Service.Data.Event;

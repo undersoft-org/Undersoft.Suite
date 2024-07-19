@@ -32,9 +32,9 @@ public class GeneralizedChangeHandler<TStore, TEntity, TDto>
             return request;
 
         if (request.Keys != null)
-            request.Result = await _repository.PatchBy(request.Contract, request.Keys);
+            request.Result = await _repository.GeneralizedPatchBy(request.Contract, request.Keys);
         else
-            request.Result = await _repository.PatchBy(request.Contract, request.Predicate);
+            request.Result = await _repository.GeneralizedPatchBy(request.Contract, request.Predicate);
 
         if (request.Result == null)
             throw new Exception(
@@ -42,7 +42,7 @@ public class GeneralizedChangeHandler<TStore, TEntity, TDto>
             );
 
         _ = _servicer
-            .Publish(new Changed<TStore, TEntity, TDto>(request), cancellationToken)
+            .Publish(new GeneralizedChanged<TStore, TEntity, TDto>(request), cancellationToken)
             .ConfigureAwait(false);
 
         return request;

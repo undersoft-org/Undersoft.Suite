@@ -1,4 +1,4 @@
-using Undersoft.GCC.Infrastructure.DataServices.Internal;
+using Undersoft.GCC.Service.Clients;
 using Undersoft.GCC.Service.Extensions;
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Service.Hosting;
@@ -69,13 +69,13 @@ public class Program
 
     private static async Task StartScheduler()
     {
-        await Task.Delay(30000);
+        await Task.Delay(10000);
 
         scheduler = new SchedulerServiceHost();
 
         scheduler.Configure().AddWorkflowSchedule();
 
-        await scheduler.RunAsync<SchedulerHostedService>(new[] { typeof(ServiceOpenClient) });
+        await scheduler.RunAsync<SchedulerHostedService>(new[] { typeof(GCCServiceClient) });
     }
 
     private static void StartServer()

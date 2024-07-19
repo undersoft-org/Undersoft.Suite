@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Quartz;
-using Undersoft.GCC.Infrastructure.DataServices.Currencies;
-using Undersoft.GCC.Infrastructure.DataServices.Currencies.ECB;
-using Undersoft.GCC.Infrastructure.DataServices.Currencies.Frankfurter;
-using Undersoft.GCC.Infrastructure.DataServices.Currencies.NBP;
+using Undersoft.GCC.Infrastructure.Currencies;
+using Undersoft.GCC.Infrastructure.Currencies.ECB;
+using Undersoft.GCC.Infrastructure.Currencies.Frankfurter;
+using Undersoft.GCC.Infrastructure.Currencies.NBP;
 using Undersoft.GCC.Service.API.Workflows;
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Series;

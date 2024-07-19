@@ -35,7 +35,6 @@ namespace Undersoft.SDK.Service.Hosting
         public IHost Build<TStartup>(Type[] serviceClients = null)
             where TStartup : class, IHostedService
         {
-
             _hostBuilder.ConfigureServices(async
                 (hostContext, services) =>
                 {

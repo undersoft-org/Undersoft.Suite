@@ -13,12 +13,12 @@ namespace Undersoft.SDK.Service.Hosting
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             await DoWork(stoppingToken);
         }
 
-        private async Task DoWork(CancellationToken stoppingToken)
+        public virtual Task DoWork(CancellationToken stoppingToken)
         {
+            return default(Task);
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)

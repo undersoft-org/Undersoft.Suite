@@ -613,11 +613,10 @@
 
             MethodBuilder getter = tb.DefineMethod(
                 "get_" + name,
-                MethodAttributes.Public
+               MethodAttributes.Public
                     | MethodAttributes.SpecialName
                     | MethodAttributes.HideBySig
-                    | MethodAttributes.Virtual
-                    | MethodAttributes.NewSlot,
+                    | MethodAttributes.Virtual,
                 type,
                 Type.EmptyTypes
             );
@@ -631,11 +630,10 @@
 
             MethodBuilder setter = tb.DefineMethod(
                 "set_" + name,
-                  MethodAttributes.Public
+                MethodAttributes.Public
                     | MethodAttributes.SpecialName
                     | MethodAttributes.HideBySig
-                    | MethodAttributes.Virtual
-                    | MethodAttributes.NewSlot,
+                    | MethodAttributes.Virtual,
                 typeof(void),
                 new Type[] { type }
             );

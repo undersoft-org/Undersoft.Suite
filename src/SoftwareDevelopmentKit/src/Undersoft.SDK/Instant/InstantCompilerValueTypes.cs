@@ -680,9 +680,7 @@
                  MethodAttributes.Public
                     | MethodAttributes.SpecialName
                     | MethodAttributes.HideBySig
-                    | MethodAttributes.Virtual
-                    | MethodAttributes.NewSlot
-                    | MethodAttributes.Final,
+                    | MethodAttributes.Virtual,
                 type,
                 Type.EmptyTypes
             );
@@ -699,9 +697,7 @@
                 MethodAttributes.Public
                     | MethodAttributes.SpecialName
                     | MethodAttributes.HideBySig
-                    | MethodAttributes.Virtual
-                    | MethodAttributes.NewSlot
-                    | MethodAttributes.Final,
+                    | MethodAttributes.Virtual,
                 typeof(void),
                 new Type[] { type }
             );
@@ -732,7 +728,10 @@
 
             MethodBuilder getter = tb.DefineMethod(
                 "get_" + name,
-                MethodAttributes.Public | MethodAttributes.HideBySig,
+               MethodAttributes.Public
+                    | MethodAttributes.SpecialName
+                    | MethodAttributes.HideBySig
+                    | MethodAttributes.Virtual,
                 type,
                 Type.EmptyTypes
             );
@@ -755,7 +754,10 @@
 
             MethodBuilder setter = tb.DefineMethod(
                 "set_" + name,
-                MethodAttributes.Public | MethodAttributes.HideBySig,
+                MethodAttributes.Public
+                    | MethodAttributes.SpecialName
+                    | MethodAttributes.HideBySig
+                    | MethodAttributes.Virtual,
                 typeof(void),
                 new Type[] { type }
             );

@@ -12,13 +12,6 @@ namespace Undersoft.SDK.Service.Hosting
             _hostBuilder = new ServiceHostBuilder(this);
         }
 
-        public virtual ServiceHost CreateHost(string[] args = null)
-        {
-            var sh = new ServiceHost();
-            sh.Configure(args);
-            return sh;
-        }
-
         public virtual IHostBuilder AddWorker<TStartup>()
             where TStartup : BackgroundService
         {

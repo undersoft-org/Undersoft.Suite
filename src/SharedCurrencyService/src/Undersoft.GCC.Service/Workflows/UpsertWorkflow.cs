@@ -1,5 +1,5 @@
 ﻿using Quartz;
-using Undersoft.GCC.Infrastructure.DataServices.Currencies;
+using Undersoft.GCC.Infrastructure.Currencies;
 using Undersoft.GCC.Service.Commands;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Workflows;

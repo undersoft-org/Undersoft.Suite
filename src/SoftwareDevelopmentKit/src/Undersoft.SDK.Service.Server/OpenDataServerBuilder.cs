@@ -45,13 +45,17 @@ public class OpenDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuild
 
     public object EntitySet(Type entityType)
     {
+        var ets = odataBuilder.EntitySets.FirstOrDefault(e => e.EntityType.ClrType == entityType);
+        if (ets != null)
+            return ets;
+
         var entitySetName = entityType.Name;
         if (entityType.IsGenericType && entityType.IsAssignableTo(typeof(Identifier)))
             entitySetName = entityType.GetGenericArguments().FirstOrDefault().Name + "Identifier";
 
         var etc = odataBuilder.AddEntityType(entityType);
         etc.Name = entitySetName;
-        var ets = odataBuilder.AddEntitySet(entitySetName, etc);
+        ets = odataBuilder.AddEntitySet(entitySetName, etc);
         ets.EntityType.HasKey(entityType.GetProperty("Id"));
 
         SubEntitySet(entityType);

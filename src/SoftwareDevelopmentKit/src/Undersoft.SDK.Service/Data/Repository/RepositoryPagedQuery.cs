@@ -4,112 +4,21 @@ namespace Undersoft.SDK.Service.Data.Repository;
 
 public partial class Repository<TEntity>
 {
-    public virtual Task<ISeries<TDto>> FilterAsync<TDto>(
-        int skip,
-        int take,
-        SortExpression<TEntity> sortTerms
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, sortTerms]);
-    }
-
-    public virtual Task<ISeries<TDto>> FilterAsync<TDto>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, bool>> predicate
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, predicate]);
-    }
-
-    public virtual IList<TDto> Filter<TDto, TResult>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, TResult>> selector
-    ) where TResult : class
-    {
-        return MapTo<TDto>(
-            (take > 0)
-                ? Query.Select(selector).Skip(skip).Take(take).ToArray()
-                : Query.Select(selector).ToArray()
-        );
-    }
-
-    public virtual Task<ISeries<TDto>> FilterAsync<TDto>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, bool>> predicate,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, predicate, expanders]);
-    }
-
-    public virtual Task<ISeries<TDto>> FilterAsync<TDto>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, bool>> predicate,
-        SortExpression<TEntity> sortTerms
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, predicate, sortTerms]);
-    }
-
-    public virtual Task<ISeries<TDto>> Filter<TDto>(
-        int skip,
-        int take,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, sortTerms, expanders]);
-    }
-
-    public virtual IAsyncEnumerable<TDto> FilterStreamAsync<TDto>(
-        int skip,
-        int take,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    ) where TDto : class
-    {
-        return MapToAsync<TDto>(this[skip, take, sortTerms, expanders]);
-    }
-
-    public virtual IList<TDto> Filter<TDto, TResult>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, bool>> predicate
-    ) where TResult : class
-    {
-        return MapTo<TDto>(this[skip, take, this[predicate]].Select(selector));
-    }
-
-    public virtual IList<TDto> Filter<TDto, TResult>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, object>>[] expanders
-    ) where TResult : class
-    {
-        return MapTo<TDto>(this[skip, take, this[expanders]].Select(selector));
-    }
-
-    public virtual Task<ISeries<TDto>> FilterAsync<TDto>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, bool>> predicate,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
+    public virtual Task<IQueryable<TDto>> DetalizedFilterQueryAsync<TDto>(
+       int skip,
+       int take,
+       Expression<Func<TEntity, bool>> predicate,
+       SortExpression<TEntity> sortTerms,
+       params Expression<Func<TEntity, object>>[] expanders
+   ) where TDto : class
     {
         if (predicate == null)
-            return GetAsync<TDto>(skip, take, sortTerms, expanders);
+            return DetalizedGetQueryAsync<TDto>(skip, take, sortTerms, expanders);
 
         if (typeof(TEntity) != typeof(TDto))
-            return KeyedMapAsync<TDto>(this[skip, take, predicate, sortTerms, expanders]);
+            return DetalizeQueryAsync<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
         else
-            return Task.FromResult((ISeries<TDto>)((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]]).ToListing());
+            return Task.FromResult((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]]);
     }
 
     public virtual Task<IQueryable<TDto>> FilterQueryAsync<TDto>(
@@ -155,29 +64,14 @@ public partial class Repository<TEntity>
         return MapToAsync<TDto>(this[skip, take, predicate, sortTerms, expanders]);
     }
 
-    public virtual IList<TDto> Filter<TDto, TResult>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, TResult>> selector,
-        SortExpression<TEntity> sortTerms,
-        Expression<Func<TEntity, bool>> predicate
-    ) where TResult : class
+    public virtual IAsyncEnumerable<TDto> FilterStreamAsync<TDto>(
+      int skip,
+      int take,
+      SortExpression<TEntity> sortTerms,
+      params Expression<Func<TEntity, object>>[] expanders
+  ) where TDto : class
     {
-        return MapTo<TDto>(this[skip, take, this[predicate, sortTerms]].Select(selector));
-    }
-
-    public virtual IList<TDto> Filter<TDto, TResult>(
-        int skip,
-        int take,
-        Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, bool>> predicate,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    ) where TResult : class
-    {
-        return MapTo<TDto>(
-            this[skip, take, this[predicate, sortTerms, expanders]].Select(selector)
-        );
+        return MapToAsync<TDto>(this[skip, take, this[sortTerms, expanders]]);
     }
 
     public virtual TDto Find<TDto>(params object[] keys)
@@ -281,49 +175,6 @@ public partial class Repository<TEntity>
         return MapQuery<TDto>(new[] { this[keys, expanders] }.AsQueryable());
     }
 
-    public virtual IList<TDto> Get<TDto, TResult>(Expression<Func<TEntity, TResult>> selector)
-        where TResult : class
-    {
-        return Query.Select(selector).ForEach(s => s.PutTo<TDto>()).ToArray();
-    }
-
-    public virtual IList<TDto> Get<TDto, TResult>(
-        Expression<Func<TEntity, TResult>> selector,
-        Expression<Func<TEntity, object>>[] expanders
-    ) where TResult : class
-    {
-        return MapTo<TDto>(this[0, 0, this[expanders]].Select(selector));
-    }
-
-    public virtual Task<ISeries<TDto>> Get<TDto>(
-        int skip,
-        int take,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, expanders]);
-    }
-
-    public virtual Task<ISeries<TDto>> GetAsync<TDto>(
-        int skip,
-        int take,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
-    {
-        return KeyedMapAsync<TDto>(this[skip, take, sortTerms, expanders]);
-    }
-
-    public virtual IEnumerable<TDto> GetYield<TDto>(
-        int skip,
-        int take,
-        SortExpression<TEntity> sortTerms,
-        params Expression<Func<TEntity, object>>[] expanders
-    )
-    {
-        return MapTo<TDto>(this[skip, take, sortTerms, expanders]);
-    }
-
     public virtual IQueryable<TDto> GetQuery<TDto>(int skip, int take,
         params Expression<Func<TEntity, object>>[] expanders
     ) where TDto : class
@@ -377,7 +228,7 @@ public partial class Repository<TEntity>
         params Expression<Func<TEntity, object>>[] expanders
     ) where TDto : class
     {
-        return MapToAsync<TDto>(this[skip, take, expanders]);
+        return MapToAsync<TDto>(this[skip, take, this[expanders]]);
     }
 
     public virtual IAsyncEnumerable<TDto> GetStreamAsync<TDto>(
@@ -387,6 +238,6 @@ public partial class Repository<TEntity>
         params Expression<Func<TEntity, object>>[] expanders
     ) where TDto : class
     {
-        return MapToAsync<TDto>(this[skip, take, sortTerms, expanders]);
+        return MapToAsync<TDto>(this[skip, take, this[sortTerms, expanders]]);
     }
 }
