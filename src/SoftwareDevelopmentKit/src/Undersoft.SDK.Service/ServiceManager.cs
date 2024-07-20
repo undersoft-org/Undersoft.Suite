@@ -280,6 +280,15 @@ namespace Undersoft.SDK.Service
             return registry.AddObject(typeof(T).New<T>()).Value;
         }
 
+        public T AddKeyedObject<T>(object key, T obj) where T : class
+        {
+            return registry.AddKeyedObject(key, obj).Value;
+        }
+        public T AddKeyedObject<T>(object key) where T : class
+        {
+            return registry.AddKeyedObject(key, typeof(T).New<T>()).Value;
+        }
+
         public static T GetRootObject<T>() where T : class
         {
             return rootRegistry.GetObject<T>();
@@ -387,6 +396,21 @@ namespace Undersoft.SDK.Service
                 BuildInternalProvider();
 
             return this;
+        }
+
+        public T GetKeyedObject<T>(object key) where T : class
+        {
+            return registry.GetKeyedObject<T>(key);
+        }
+
+        public T GetKeyedService<T>(object key) where T : class
+        {
+            return registry.GetKeyedService<T>(key);
+        }
+
+        public T GetKeyedSingleton<T>(object key) where T : class
+        {
+            return registry.GetKeyedSingleton<T>(key);
         }
     }
 }

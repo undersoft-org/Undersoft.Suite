@@ -66,6 +66,9 @@ public class Account : Authorization, IEntity, IAccount
     public long? PaymentId { get; set; }
     public virtual AccountPayment Payment { get; set; }
 
+    public long? TenantId { get; set; }
+    public virtual AccountTenant Tenant { get; set; }
+
     public IEnumerable<Claim> GetClaims()
     {
         return Claims.Select(c => c.Claim);

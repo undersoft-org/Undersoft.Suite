@@ -36,6 +36,9 @@ namespace Undersoft.SDK.Service.Server.Accounts
         long? ConsentId { get; set; }
         AccountConsent Consent { get; set; }
 
+        long? TenantId { get; set; }
+        AccountTenant Tenant { get; set; }
+
         bool IsAvailable { get; set; }
 
         bool Authenticated { get; set; }

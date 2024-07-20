@@ -5,7 +5,7 @@ namespace Undersoft.SDK.Service;
 
 public partial class ServiceRegistry
 {
-    public ServiceObject<T> TryAddObject<T>() where T : class
+    public ServiceObject<T> EnsureGetObject<T>() where T : class
     {
         if (ContainsKey(typeof(ServiceObject<T>)))
         {
@@ -15,7 +15,7 @@ public partial class ServiceRegistry
         return AddObject<T>();
     }
 
-    public ServiceObject TryAddObject(Type type)
+    public ServiceObject EnsureGetObject(Type type)
     {
         Type accessorType = typeof(ServiceObject<>).MakeGenericType(type);
         if (ContainsKey(accessorType))
@@ -26,27 +26,24 @@ public partial class ServiceRegistry
         return AddObject(type);
     }
 
+    public ServiceObject<T> AddKeyedObject<T>(object key) where T : class
+    {
+        return AddKeyedObject(key, new ServiceObject<T>());
+    }
+
     public ServiceObject<T> AddObject<T>() where T : class
     {
         return AddObject(new ServiceObject<T>());
     }
 
+    public ServiceObject AddKeyedObject(object key, Type type)
+    {
+        return this.AddObject(type, null);
+    }
+
     public ServiceObject AddObject(Type type)
     {
-        Type oaType = typeof(ServiceObject<>).MakeGenericType(type);
-        Type iaType = typeof(IServiceObject<>).MakeGenericType(type);
-
-        ServiceObject accessor = (ServiceObject)oaType.New();
-
-        if (ContainsKey(oaType))
-        {
-            return accessor;
-        }
-
-        Put(ServiceDescriptor.Singleton(oaType, accessor));
-        Put(ServiceDescriptor.Singleton(iaType, accessor));
-
-        return accessor;
+        return this.AddObject(type, null);
     }
 
     public ServiceObject AddObject(Type type, object obj)
@@ -61,8 +58,35 @@ public partial class ServiceRegistry
             return accessor;
         }
 
-        this.Put(ServiceDescriptor.Singleton(oaType, accessor));
-        this.Put(ServiceDescriptor.Singleton(iaType, accessor));
+        Put(ServiceDescriptor.Singleton(oaType, accessor));
+        Put(ServiceDescriptor.Singleton(iaType, accessor));
+
+        if (obj != null)
+            this.AddSingleton(type, obj);
+
+        return accessor;
+    }
+
+    public ServiceObject AddKeyedObject(object key, Type type, object obj)
+    {
+        Type oaType = typeof(ServiceObject<>).MakeGenericType(type);
+        Type iaType = typeof(IServiceObject<>).MakeGenericType(type);
+
+        ServiceObject accessor = (ServiceObject)oaType.New(obj);
+
+        if (!ContainsKey(key))
+        {
+            Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.Singleton(oaType, accessor));
+            Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.Singleton(iaType, accessor));
+        }
+
+        if (ContainsKey(oaType))
+        {
+            return accessor;
+        }
+
+        Put(ServiceDescriptor.Singleton(oaType, accessor));
+        Put(ServiceDescriptor.Singleton(iaType, accessor));
 
         if (obj != null)
             this.AddSingleton(type, obj);
@@ -73,6 +97,11 @@ public partial class ServiceRegistry
     public ServiceObject<T> AddObject<T>(T obj) where T : class
     {
         return AddObject(new ServiceObject<T>(obj));
+    }
+
+    public ServiceObject<T> AddKeyedObject<T>(object key, T obj) where T : class
+    {
+        return AddKeyedObject<T>(key, new ServiceObject<T>(obj));
     }
 
     public ServiceObject<T> AddObject<T>(ServiceObject<T> accessor) where T : class
@@ -91,6 +120,17 @@ public partial class ServiceRegistry
         return accessor;
     }
 
+    public ServiceObject<T> AddKeyedObject<T>(object key, ServiceObject<T> accessor) where T : class
+    {
+        if (!ContainsKey(key))
+        {
+            Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.Singleton(typeof(ServiceObject<T>), accessor));
+            Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.Singleton(typeof(IServiceObject<T>), accessor));
+        }
+
+        return AddObject<T>(accessor);
+    }
+
     public object GetObject(Type type)
     {
         Type accessorType = typeof(ServiceObject<>).MakeGenericType(type);
@@ -101,6 +141,12 @@ public partial class ServiceRegistry
         where T : class
     {
         return GetSingleton<ServiceObject<T>>()?.Value;
+    }
+
+    public T GetKeyedObject<T>(object key)
+    where T : class
+    {
+        return GetKeyedSingleton<ServiceObject<T>>(key)?.Value;
     }
 
     public T GetRequiredObject<T>()

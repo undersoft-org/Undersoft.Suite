@@ -95,11 +95,8 @@ namespace Undersoft.SDK.Service
 
         public IServiceProvider GetProvider()
         {
-
             var a = (ServiceObject<IServiceProvider>)(
-                   Get<ServiceObject<IServiceProvider>>()?.ImplementationInstance
-               );
-
+                   Get<ServiceObject<IServiceProvider>>()?.ImplementationInstance);
             return a.Value;
         }
 
@@ -121,9 +118,19 @@ namespace Undersoft.SDK.Service
             return (T)Get<T>()?.ImplementationInstance;
         }
 
+        public T GetKeyedSingleton<T>(object key) where T : class
+        {
+            return (T)Get(key.UniqueKey64(typeof(T).UniqueKey64()))?.ImplementationInstance;
+        }
+
         public object GetSingleton(Type type)
         {
             return Get(type)?.ImplementationInstance;
+        }
+
+        public bool IsAdded(object key)
+        {
+            return ContainsKey(key);
         }
 
         public bool IsAdded<T>() where T : class
@@ -136,12 +143,17 @@ namespace Undersoft.SDK.Service
             return ContainsKey(type);
         }
 
-        internal T GetService<T>() where T : class
+        public T GetService<T>() where T : class
         {
             return GetSingleton<IServiceManager>().Provider.GetService<T>();
         }
 
-        internal object GetService(Type type)
+        public T GetKeyedService<T>(object key) where T : class
+        {
+            return GetSingleton<IServiceManager>().Provider.GetKeyedService<T>(key.UniqueKey64());
+        }
+
+        public object GetService(Type type)
         {
             return GetSingleton<IServiceManager>().Provider.GetService(type);
         }

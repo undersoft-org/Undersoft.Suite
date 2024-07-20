@@ -27,14 +27,25 @@ using Undersoft.SDK.Service.Data.Store;
 
 public partial class ServerSetup : ServiceSetup, IServerSetup
 {
-    protected IMvcBuilder mvc;
+    protected IMvcBuilder _mvc;
+    protected ITenant _tenant;
 
-    public ServerSetup(IServiceCollection services, IMvcBuilder mvcBuilder = null) : base(services)
+    public ServerSetup(IServicer servicer, ITenant tenant)
+        : base(new ServiceCollection())
+    {
+        _tenant = tenant;
+        servicer.AddKeyedObject<ITenant>(tenant.Id, tenant);
+        servicer.AddKeyedObject<IServiceManager>(tenant.Id, manager);
+        manager.AddKeyedObject<ITenant>(tenant.Id, tenant);
+    }
+
+    public ServerSetup(IServiceCollection services, IMvcBuilder mvcBuilder = null)
+        : base(services)
     {
         if (mvcBuilder != null)
-            mvc = mvcBuilder;
+            _mvc = mvcBuilder;
         else
-            mvc = services.AddControllers();
+            _mvc = services.AddControllers();
 
         registry.MergeServices(services);
     }
@@ -42,14 +53,15 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
     public ServerSetup(IServiceCollection services, IConfiguration configuration)
         : base(services, configuration)
     {
-        mvc = services.AddControllers();
+        _mvc = services.AddControllers();
         registry.MergeServices(services);
     }
 
     public IServerSetup AddDataServer<TServiceStore>(
         DataServerTypes dataServerTypes,
         Action<DataServerBuilder> builder = null
-    ) where TServiceStore : IDataStore
+    )
+        where TServiceStore : IDataStore
     {
         DataServerBuilder.ServiceTypes = dataServerTypes;
         if ((dataServerTypes & DataServerTypes.OData) > 0)
@@ -58,7 +70,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             if (builder != null)
                 builder.Invoke(ds);
             ds.Build();
-            ds.AddODataServicer(mvc);
+            ds.AddODataServicer(_mvc);
         }
         if ((dataServerTypes & DataServerTypes.Grpc) > 0)
         {
@@ -91,7 +103,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
     public IServiceSetup AddJsonOptions()
     {
-        mvc.AddJsonOptions(json =>
+        _mvc.AddJsonOptions(json =>
         {
             var options = json.JsonSerializerOptions;
             options.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -235,8 +247,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         where TContext : DbContext
         where TAccount : class, IOrigin, IAuthorization
     {
-        registry.Services
-            .AddIdentity<AccountUser, Role>(options =>
+        registry
+            .Services.AddIdentity<AccountUser, Role>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Tokens.ProviderMap.Add(
@@ -264,8 +276,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<TContext>();
-        registry.Configure<DataProtectionTokenProviderOptions>(
-            o => o.TokenLifespan = TimeSpan.FromHours(1)
+        registry.Configure<DataProtectionTokenProviderOptions>(o =>
+            o.TokenLifespan = TimeSpan.FromHours(1)
         );
 
         registry.AddTransient<AccountEmailConfirmationTokenProvider<AccountUser>>();
@@ -291,8 +303,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         registry.AddObject(jwtFactory);
 
-        registry.Services
-            .AddAuthentication(x =>
+        registry
+            .Services.AddAuthentication(x =>
             {
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -300,18 +312,21 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                 x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+            .AddJwtBearer(
+                JwtBearerDefaults.AuthenticationScheme,
+                x =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                }
+            );
         return this;
     }
 
@@ -392,16 +407,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         });
 
         return this;
-    }
-
-    public IServiceSetup AddRepositorySources()
-    {
-        var assemblies = Assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        Type[] storeTypes = assemblies
-            .SelectMany(a => a.DefinedTypes)
-            .Select(t => t.UnderlyingSystemType)
-            .ToArray();
-        return AddRepositorySources(storeTypes);
     }
 
     public IServiceSetup AddRepositorySources(Type[] storeTypes)
@@ -529,8 +534,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         if (sourceTypes != null)
             AddRepositorySources(sourceTypes);
-        else
-            AddRepositorySources();
 
         AddDataStoreImplementations();
 
@@ -539,8 +542,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         AddValidators(Assemblies);
 
         AddMediator(Assemblies);
-
-        Services.AddHttpContextAccessor();
 
         AddServerSetupCqrsImplementations();
 

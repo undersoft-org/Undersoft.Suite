@@ -162,8 +162,6 @@ public class ServerHostSetup : IServerHostSetup
 
         _builder.UseAuthentication().UseAuthorization();
 
-        UseJwtMiddleware();
-
         UseEndpoints();
 
         return this;
@@ -215,6 +213,12 @@ public class ServerHostSetup : IServerHostSetup
     public IServerHostSetup UseJwtMiddleware()
     {
         _builder.UseMiddleware<ServerHostJwtMiddleware>();
+        return this;
+    }
+
+    public IServerHostSetup UseMultitenancyMiddleware()
+    {
+        _builder.UseMiddleware<ServerHostMultitenancyMiddleware>();
         return this;
     }
 

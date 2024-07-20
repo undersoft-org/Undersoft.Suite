@@ -131,6 +131,8 @@ public class AccountManager : Registry<IAccount>, IAccountManager
                 new Claim(JwtClaimTypes.Email, account.User.Email),
                 new Claim(JwtClaimTypes.Name, account.User.UserName),
                 new Claim("code_no", account.CodeNo),
+                 new Claim("tenant_id", account.TenantId.ToString()),
+
             };
             if (roles != null)
                 basicClaims = basicClaims

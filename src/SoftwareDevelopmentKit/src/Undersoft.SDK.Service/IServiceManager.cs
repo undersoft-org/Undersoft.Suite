@@ -13,6 +13,8 @@ namespace Undersoft.SDK.Service
         IServiceScope Session { get; }
 
         T AddObject<T>() where T : class;
+        T AddKeyedObject<T>(object key) where T : class;
+        T AddKeyedObject<T>(object key, T item) where T : class;
         T AddObject<T>(T obj) where T : class;
         IServiceProvider AddPropertyInjection();
         IServiceProvider BuildInternalProvider(bool withPropertyInjection = false);
@@ -20,6 +22,9 @@ namespace Undersoft.SDK.Service
         T EnsureGetRootService<T>() where T : class;
         IServiceConfiguration GetConfiguration();
         T GetObject<T>() where T : class;
+        T GetKeyedObject<T>(object key) where T : class;
+        T GetKeyedService<T>(object key) where T : class;
+        T GetKeyedSingleton<T>(object key) where T : class;
         IServiceManager ReplaceProvider(IServiceProvider serviceProvider);
         IServiceProvider GetProvider();
         IServiceProviderFactory<IServiceCollection> GetProviderFactory();

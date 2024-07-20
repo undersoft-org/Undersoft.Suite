@@ -42,6 +42,18 @@ namespace Undersoft.SDK.Service
             return base.Get(GetKey<TService>());
         }
 
+        public override ServiceDescriptor Get(object key)
+        {
+            return base.Get(GetKey(key));
+        }
+
+        public override bool TryGet(object key, out ServiceDescriptor value)
+        {
+            if (base.TryGet(GetKey(key), out value))
+                return true;
+            return false;
+        }
+
         public bool TryGet<TService>(out ServiceDescriptor profile) where TService : class
         {
             if (base.TryGet(GetKey<TService>(), out profile))
@@ -95,7 +107,7 @@ namespace Undersoft.SDK.Service
             return item.UniqueKey64();
         }
 
-        public long GetKey(string item)
+        public long GetKey(object item)
         {
             return item.UniqueKey64();
         }
@@ -152,6 +164,11 @@ namespace Undersoft.SDK.Service
         public bool ContainsKey(Type type)
         {
             return base.ContainsKey(GetKey(type));
+        }
+
+        public override bool ContainsKey(object key)
+        {
+            return base.ContainsKey(GetKey(key));
         }
 
         public IServiceRegistry ReplaceServices(IServiceCollection services)

@@ -12,7 +12,7 @@ namespace Undersoft.SDK.Service.Server
             Action<DataServerBuilder> builder = null
         ) where TServiceStore : IDataStore;
         IServerSetup AddAccessServer<TContext, TAccount>() where TContext : DbContext where TAccount : class, IOrigin, IAuthorization;
-        IServiceSetup AddRepositorySources();
+        IServiceSetup AddRepositorySources(Type[] sourceTypes);
         IServerSetup AddAuthentication();
         IServerSetup AddAuthorization();
         IServerSetup UseServiceClients();
