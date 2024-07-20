@@ -39,7 +39,7 @@
 
 <img src="https://github.com/user-attachments/assets/635bee8c-a872-4701-ac3c-140acef27e95" width=18% height=20% /> 
 
-### Email conformation
+### Email confirmation
 ![emailconfirmationpanel](https://github.com/user-attachments/assets/65b83061-11cc-471a-957e-bca72f4250d4)
 
 ### Context Menus 
