@@ -22,13 +22,13 @@
 ### Open Filtering
 ![winhybridvaccination](https://github.com/user-attachments/assets/46b961b4-21be-4257-9f62-97cf6f612459)
 
-### Web Assembly 
+### Web Assembly UI - Single Base Code
 ![webassemblyclient](https://github.com/user-attachments/assets/8fb72f76-e9cc-46b1-a308-4ddaa4e98683)
 
-### Windows Hybrid
+### Windows Hybrid UI - Single Base Code
 ![winhybridcatalogs](https://github.com/user-attachments/assets/ee514064-53f6-4e6d-bb64-c491caef19ab)
 
-### Android Hybrid
+### Android Hybrid UI - Single Base Code
 <img src="https://github.com/user-attachments/assets/b6db8ecf-b360-444e-a43f-467d03111e35" width=18% height=20% /> 
 
 <img src="https://github.com/user-attachments/assets/07ba4dbe-fb6a-46b4-b084-5aa83f222ec5" width=18% height=20% /> 
