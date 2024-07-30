@@ -1,5 +1,5 @@
 ## Undersoft Suite
-### This is part of portfolio and skills presenting web application with operational data service tier. Provide synchronization for corelated concurrent and parallel hypergraphs with bussines process workflow features for various designs and implementations of generated as single code based hybrid applications.
+### This is part of portfolio and skills presenting web application with operational data service tier. Various designs and implementations of generated as single code based hybrid applications.
 
 ### Landing
 ![SSC_Landing](https://github.com/undersoft-org/Undersoft/assets/82622935/9273f4b7-7c83-42c0-a4af-7f56a7f0dc44)
