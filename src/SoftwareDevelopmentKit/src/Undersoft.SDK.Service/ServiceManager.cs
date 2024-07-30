@@ -6,6 +6,7 @@ namespace Undersoft.SDK.Service
     using Configuration;
     using Undersoft.SDK.Service.Data.Repository;
     using Undersoft.SDK.Service.Hosting;
+    using Undersoft.SDK.Utilities;
 
     public class ServiceManager : RepositoryManager, IServiceManager, IAsyncDisposable
     {

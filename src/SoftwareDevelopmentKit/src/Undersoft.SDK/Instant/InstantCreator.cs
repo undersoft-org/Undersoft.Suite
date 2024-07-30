@@ -9,6 +9,7 @@
     using Undersoft.SDK.Logging;
     using Undersoft.SDK.Series;
     using Undersoft.SDK.Uniques;
+    using Undersoft.SDK.Utilities;
 
     public class InstantCreator<T> : InstantCreator
     {

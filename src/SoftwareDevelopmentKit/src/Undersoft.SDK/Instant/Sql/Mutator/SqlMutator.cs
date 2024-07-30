@@ -2,6 +2,7 @@
 {
     using Undersoft.SDK.Instant.Series;
     using Undersoft.SDK.Series;
+    using Undersoft.SDK.Utilities;
 
     public class SqlMutator
     {
@@ -58,7 +59,7 @@
                         var result = _sqldb.Update(series, true, true, true, null, prepareType);
                         if (result != null)
                         {
-                            IInstantSeries postseries = (IInstantSeries)Instances.New(series.GetType());
+                            IInstantSeries postseries = (IInstantSeries)InstanceUtilities.New(series.GetType());
                             postseries.Rubrics = series.Rubrics;
                             postseries.InstantType = series.InstantType;
                             postseries.InstantSize = series.InstantSize;

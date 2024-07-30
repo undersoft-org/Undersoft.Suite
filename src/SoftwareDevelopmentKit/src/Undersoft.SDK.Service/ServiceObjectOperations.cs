@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service;
 
@@ -58,8 +59,8 @@ public partial class ServiceRegistry
             return accessor;
         }
 
-        Put(ServiceDescriptor.Singleton(oaType, accessor));
-        Put(ServiceDescriptor.Singleton(iaType, accessor));
+        this.Put(ServiceDescriptor.Singleton(oaType, accessor));
+        this.Put(ServiceDescriptor.Singleton(iaType, accessor));
 
         if (obj != null)
             this.AddSingleton(type, obj);
@@ -76,8 +77,8 @@ public partial class ServiceRegistry
 
         if (!ContainsKey(key))
         {
-            Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.Singleton(oaType, accessor));
-            Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.Singleton(iaType, accessor));
+            this.Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.KeyedSingleton(oaType, key, accessor));
+            this.Put(key.UniqueKey64(type.UniqueKey64()), ServiceDescriptor.KeyedSingleton(iaType, key, accessor));
         }
 
         if (ContainsKey(oaType))
@@ -85,8 +86,8 @@ public partial class ServiceRegistry
             return accessor;
         }
 
-        Put(ServiceDescriptor.Singleton(oaType, accessor));
-        Put(ServiceDescriptor.Singleton(iaType, accessor));
+        this.Put(ServiceDescriptor.Singleton(oaType, accessor));
+        this.Put(ServiceDescriptor.Singleton(iaType, accessor));
 
         if (obj != null)
             this.AddSingleton(type, obj);
@@ -111,8 +112,8 @@ public partial class ServiceRegistry
             return accessor;
         }
 
-        Put(ServiceDescriptor.Singleton(typeof(ServiceObject<T>), accessor));
-        Put(ServiceDescriptor.Singleton(typeof(IServiceObject<T>), accessor));
+        this.Put(ServiceDescriptor.Singleton(typeof(ServiceObject<T>), accessor));
+        this.Put(ServiceDescriptor.Singleton(typeof(IServiceObject<T>), accessor));
 
         if (accessor.Value != null)
             this.AddSingleton<T>(accessor.Value);
@@ -124,8 +125,8 @@ public partial class ServiceRegistry
     {
         if (!ContainsKey(key))
         {
-            Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.Singleton(typeof(ServiceObject<T>), accessor));
-            Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.Singleton(typeof(IServiceObject<T>), accessor));
+            this.Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.KeyedSingleton<ServiceObject>(key, accessor));
+            this.Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.KeyedSingleton<IServiceObject>(key, accessor));
         }
 
         return AddObject<T>(accessor);

@@ -20,6 +20,8 @@
 
         IServerHostSetup UseJwtMiddleware();
 
+        IServerHostSetup UseMultitenancy();
+
         IServerHostSetup RebuildProviders();
 
         IServerHostSetup UseSwaggerSetup(string[] apiVersions);

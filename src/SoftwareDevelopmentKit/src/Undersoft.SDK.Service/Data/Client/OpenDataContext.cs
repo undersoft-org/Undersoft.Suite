@@ -19,14 +19,15 @@ namespace Undersoft.SDK.Service.Data.Client
                 new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
-            MergeOption = MergeOption.AppendOnly;
+            MergeOption = MergeOption.OverwriteChanges;
 
             IgnoreResourceNotFoundException = true;
 
             AutoNullPropagation = true;
             HttpRequestTransportMode = HttpRequestTransportMode.HttpClient;
-            DisableInstanceAnnotationMaterialization = false;
+            DisableInstanceAnnotationMaterialization = true;
             EnableWritingODataAnnotationWithoutPrefix = true;
+
             AddAndUpdateResponsePreference = DataServiceResponsePreference.None;
             SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;
             ResolveName = (t) => this.GetMappedName(t);

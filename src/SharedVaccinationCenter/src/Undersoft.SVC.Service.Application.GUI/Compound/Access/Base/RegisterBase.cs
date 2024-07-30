@@ -30,7 +30,7 @@ public partial class RegisterBase : ComponentBase
     /// </summary>
     /// <value>An IAccountService</value>
     [Inject]
-    private IAccountService<Account> _access { get; set; } = default!;
+    private IAccessService<Account> _access { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the navigation.

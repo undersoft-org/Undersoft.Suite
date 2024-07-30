@@ -12,6 +12,7 @@ namespace Undersoft.SDK.Service.Server.Hosting;
 using Logging;
 using Series;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Service.Server.Hosting.Middlewares;
 
 public class ServerHostSetup : IServerHostSetup
 {
@@ -212,13 +213,13 @@ public class ServerHostSetup : IServerHostSetup
 
     public IServerHostSetup UseJwtMiddleware()
     {
-        _builder.UseMiddleware<ServerHostJwtMiddleware>();
+        _builder.UseMiddleware<JwtMiddleware>();
         return this;
     }
 
-    public IServerHostSetup UseMultitenancyMiddleware()
+    public IServerHostSetup UseMultitenancy()
     {
-        _builder.UseMiddleware<ServerHostMultitenancyMiddleware>();
+        _builder.UseMiddleware<MultiTenancyMiddleware>();
         return this;
     }
 

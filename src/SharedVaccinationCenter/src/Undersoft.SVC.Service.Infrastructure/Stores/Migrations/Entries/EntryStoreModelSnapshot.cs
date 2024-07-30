@@ -17,7 +17,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -25,7 +25,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Campaign, Undersoft.SVC.Domain.Entities.Vaccine>", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -182,96 +182,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.ToTable("Addresses", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Appointment", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("CampaignId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<long?>("OfficeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PersonalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProcedureId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ScheduleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CampaignId");
-
-                    b.HasIndex("Index");
-
-                    b.HasIndex("OfficeId");
-
-                    b.HasIndex("PersonalId")
-                        .IsUnique();
-
-                    b.HasIndex("ScheduleId")
-                        .IsUnique();
-
-                    b.ToTable("Appointments", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Campaign", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -332,13 +243,80 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
                     b.HasIndex("Index");
 
-                    b.HasIndex("PriceId")
-                        .IsUnique();
-
                     b.ToTable("Campaigns", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Certificate", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Manufacturer", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<string>("ManufacturerImage")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ManufacturerImageData")
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.ToTable("Manufacturers", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Office", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -380,19 +358,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
-                    b.Property<long?>("PaymentId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
-                    b.Property<long?>("PersonalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProcedureId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("TermId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
+                    b.Property<string>("Number")
                         .HasColumnType("text");
 
                     b.Property<long>("TypeId")
@@ -404,28 +373,165 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(768)")
                         .HasColumnOrder(5);
 
-                    b.Property<long?>("VaccineId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.ToTable("Offices", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Supplier", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AddressId")
                         .HasColumnType("bigint");
+
+                    b.Property<long?>("AddresslId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProfessionalId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
 
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
 
-                    b.HasIndex("PaymentId")
+                    b.ToTable("Suppliers", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<long?>("ManufacturerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("SafetyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SpecificationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("StockId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("SafetyId")
                         .IsUnique();
 
-                    b.HasIndex("PersonalId")
+                    b.HasIndex("SpecificationId")
                         .IsUnique();
 
-                    b.HasIndex("ProcedureId")
-                        .IsUnique();
-
-                    b.HasIndex("TermId")
-                        .IsUnique();
-
-                    b.HasIndex("VaccineId");
-
-                    b.ToTable("Certificates");
+                    b.ToTable("Vaccines", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Cost", b =>
@@ -504,7 +610,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.ToTable("Costs", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Manufacturer", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Request", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -525,9 +631,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(9);
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("text");
-
                     b.Property<int>("Index")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
@@ -540,12 +643,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(256)")
                         .HasColumnOrder(11);
 
-                    b.Property<string>("ManufacturerImage")
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("ManufacturerImageData")
-                        .HasColumnType("bytea");
-
                     b.Property<DateTime>("Modified")
                         .HasColumnType("timestamp")
                         .HasColumnOrder(6);
@@ -555,8 +652,14 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<float?>("Quentity")
+                        .HasColumnType("real");
+
+                    b.Property<long?>("StockId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
@@ -571,14 +674,19 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
                     b.HasIndex("Index");
 
-                    b.ToTable("Manufacturers", "domain");
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Requests", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Office", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Stock", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
                         .HasColumnOrder(1);
+
+                    b.Property<float?>("Amount")
+                        .HasColumnType("real");
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
@@ -616,11 +724,90 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<string>("Number")
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.Property<long?>("VaccineId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.HasIndex("VaccineId")
+                        .IsUnique();
+
+                    b.ToTable("Stocks", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Traffic", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<long?>("CostId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<long?>("PriceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<float?>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<long?>("StockId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
@@ -633,9 +820,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CostId")
+                        .IsUnique();
+
                     b.HasIndex("Index");
 
-                    b.ToTable("Offices", "domain");
+                    b.HasIndex("PriceId")
+                        .IsUnique();
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Traffics", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Organization", b =>
@@ -680,20 +875,14 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
-                    b.Property<string>("OrganizatioIdentifier")
-                        .HasColumnType("text");
-
-                    b.Property<int>("OrganizatioIdentifierType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OrganizatioIndustry")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrganizationEmail")
-                        .HasColumnType("text");
-
                     b.Property<string>("OrganizationFullName")
                         .HasColumnType("text");
+
+                    b.Property<string>("OrganizationIdentifier")
+                        .HasColumnType("text");
+
+                    b.Property<int>("OrganizationIdentifierType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("OrganizationImage")
                         .HasColumnType("text");
@@ -701,16 +890,19 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Property<byte[]>("OrganizationImageData")
                         .HasColumnType("bytea");
 
-                    b.Property<string>("OrganizationName")
+                    b.Property<string>("OrganizationIndustry")
                         .HasColumnType("text");
 
-                    b.Property<string>("OrganizationPhoneNumber")
+                    b.Property<string>("OrganizationName")
                         .HasColumnType("text");
 
                     b.Property<int>("OrganizationSize")
                         .HasColumnType("integer");
 
                     b.Property<string>("OrganizationWebsites")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PositionInOrganization")
                         .HasColumnType("text");
 
                     b.Property<long?>("SupplierId")
@@ -839,11 +1031,12 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnOrder(9);
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Gender")
                         .HasColumnType("text");
 
                     b.Property<string>("Identifier")
@@ -851,6 +1044,12 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
                     b.Property<int>("IdentifierType")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("bytea");
 
                     b.Property<int>("Index")
                         .ValueGeneratedOnAdd()
@@ -865,7 +1064,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnOrder(11);
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Modified")
@@ -878,78 +1076,16 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnOrder(7);
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<long?>("PostSymptomId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
+                    b.Property<string>("SecondName")
+                        .HasColumnType("text");
 
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Index");
-
-                    b.ToTable("Personals", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.PostSymptom", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<long?>("PersonalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProcedureId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("TermId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("SocialMedia")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");
@@ -963,25 +1099,14 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(768)")
                         .HasColumnOrder(5);
 
-                    b.Property<long?>("VaccineId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Websites")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Index");
 
-                    b.HasIndex("PersonalId")
-                        .IsUnique();
-
-                    b.HasIndex("ProcedureId")
-                        .IsUnique();
-
-                    b.HasIndex("TermId")
-                        .IsUnique();
-
-                    b.HasIndex("VaccineId");
-
-                    b.ToTable("PostSymptoms", "domain");
+                    b.ToTable("Personals", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Price", b =>
@@ -1058,105 +1183,12 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CampaignId")
+                        .IsUnique();
+
                     b.HasIndex("Index");
 
                     b.ToTable("Prices", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Procedure", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AppointmentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CertificateId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<long?>("CostId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<long?>("PostSymptomId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PriceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("TermId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.Property<long?>("VaccineId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
-
-                    b.HasIndex("CostId")
-                        .IsUnique();
-
-                    b.HasIndex("Index");
-
-                    b.HasIndex("PriceId")
-                        .IsUnique();
-
-                    b.HasIndex("TermId")
-                        .IsUnique();
-
-                    b.HasIndex("VaccineId");
-
-                    b.ToTable("Procedures", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Professional", b =>
@@ -1201,10 +1233,16 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
+                    b.Property<string>("Profession")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionIndustry")
+                        .HasColumnType("text");
+
                     b.Property<string>("ProfessionalEmail")
                         .HasColumnType("text");
 
-                    b.Property<float?>("ProfessionalExperience")
+                    b.Property<float>("ProfessionalExperience")
                         .HasColumnType("real");
 
                     b.Property<string>("ProfessionalImage")
@@ -1223,6 +1261,9 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("text");
 
                     b.Property<string>("ProfessionalPosition")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionalSocialMedia")
                         .HasColumnType("text");
 
                     b.Property<string>("ProfessionalWebsites")
@@ -1248,75 +1289,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .IsUnique();
 
                     b.ToTable("Professionals", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Request", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<float?>("Quentity")
-                        .HasColumnType("real");
-
-                    b.Property<long?>("StockId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Index");
-
-                    b.HasIndex("StockId");
-
-                    b.ToTable("Requests", "domain");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Safety", b =>
@@ -1553,149 +1525,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.ToTable("Specifications", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Stock", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<float?>("Amount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.Property<long?>("VaccineId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Index");
-
-                    b.HasIndex("VaccineId")
-                        .IsUnique();
-
-                    b.ToTable("Stocks", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Supplier", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AddressId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("AddresslId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<long?>("OrganizationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProfessionalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Index");
-
-                    b.ToTable("Suppliers", "domain");
-                });
-
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Term", b =>
                 {
                     b.Property<long>("Id")
@@ -1781,11 +1610,280 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.ToTable("Vaccinations", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Traffic", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
                         .HasColumnOrder(1);
+
+                    b.Property<long?>("CampaignId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("OfficeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PersonalId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProcedureId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ScheduleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("Index");
+
+                    b.HasIndex("OfficeId");
+
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
+                    b.HasIndex("ScheduleId")
+                        .IsUnique();
+
+                    b.ToTable("Appointments", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<long?>("PaymentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("PersonalId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProcedureId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TermId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.Property<long?>("VaccineId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
+
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcedureId")
+                        .IsUnique();
+
+                    b.HasIndex("TermId")
+                        .IsUnique();
+
+                    b.HasIndex("VaccineId");
+
+                    b.ToTable("Certificates");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.PostSymptom", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<long?>("PersonalId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ProcedureId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TermId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.Property<long?>("VaccineId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Index");
+
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
+                    b.HasIndex("ProcedureId")
+                        .IsUnique();
+
+                    b.HasIndex("TermId")
+                        .IsUnique();
+
+                    b.HasIndex("VaccineId");
+
+                    b.ToTable("PostSymptoms", "domain");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AppointmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CertificateId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
@@ -1826,20 +1924,17 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
+                    b.Property<long?>("PostSymptomId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("PriceId")
                         .HasColumnType("bigint");
 
-                    b.Property<float?>("Quantity")
-                        .HasColumnType("real");
-
-                    b.Property<long?>("StockId")
+                    b.Property<long?>("TermId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
 
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
@@ -1850,7 +1945,13 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                         .HasColumnType("character varying(768)")
                         .HasColumnOrder(5);
 
+                    b.Property<long?>("VaccineId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
 
                     b.HasIndex("CostId")
                         .IsUnique();
@@ -1860,100 +1961,22 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.HasIndex("PriceId")
                         .IsUnique();
 
-                    b.HasIndex("StockId");
-
-                    b.ToTable("Traffics", "domain");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccine", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<long?>("ManufacturerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<long?>("SafetyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SpecificationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("StockId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Index");
-
-                    b.HasIndex("ManufacturerId");
-
-                    b.HasIndex("SafetyId")
+                    b.HasIndex("TermId")
                         .IsUnique();
 
-                    b.HasIndex("SpecificationId")
-                        .IsUnique();
+                    b.HasIndex("VaccineId");
 
-                    b.ToTable("Vaccines", "domain");
+                    b.ToTable("Procedures", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Campaign, Undersoft.SVC.Domain.Entities.Vaccine>", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
                 {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Campaign", "LeftEntity")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", "LeftEntity")
                         .WithMany()
                         .HasForeignKey("LeftEntityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "RightEntity")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "RightEntity")
                         .WithMany()
                         .HasForeignKey("RightEntityId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1965,30 +1988,117 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Supplier", "Supplier")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Supplier", "Supplier")
                         .WithOne("Address")
                         .HasForeignKey("Undersoft.SVC.Domain.Entities.Address", "SupplierId");
 
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Appointment", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", b =>
                 {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Campaign", "Campaign")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Manufacturer", "Manufacturer")
+                        .WithMany("Vaccines")
+                        .HasForeignKey("ManufacturerId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Safety", "Safety")
+                        .WithOne("Vaccine")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "SafetyId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Specification", "Specification")
+                        .WithOne("Vaccine")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "SpecificationId");
+
+                    b.Navigation("Manufacturer");
+
+                    b.Navigation("Safety");
+
+                    b.Navigation("Specification");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Request", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Inventory.Stock", "Stock")
+                        .WithMany("Requests")
+                        .HasForeignKey("StockId");
+
+                    b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Stock", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "Vaccine")
+                        .WithOne("Stock")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Inventory.Stock", "VaccineId");
+
+                    b.Navigation("Vaccine");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Traffic", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Cost", "Cost")
+                        .WithOne("Traffic")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Inventory.Traffic", "CostId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
+                        .WithOne("Traffic")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Inventory.Traffic", "PriceId");
+
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Inventory.Stock", "Stock")
+                        .WithMany("Traffics")
+                        .HasForeignKey("StockId");
+
+                    b.Navigation("Cost");
+
+                    b.Navigation("Price");
+
+                    b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Organization", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Supplier", "Supplier")
+                        .WithOne("Organization")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Organization", "SupplierId");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Price", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", "Campaign")
+                        .WithOne("Price")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Price", "CampaignId");
+
+                    b.Navigation("Campaign");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Professional", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Supplier", "Supplier")
+                        .WithOne("Professional")
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Professional", "SupplierId");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", b =>
+                {
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", "Campaign")
                         .WithMany("Appointments")
                         .HasForeignKey("CampaignId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Office", "Office")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Office", "Office")
                         .WithMany("Appointments")
                         .HasForeignKey("OfficeId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
                         .WithOne("Appointment")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Appointment", "PersonalId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", "PersonalId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Schedule", "Schedule")
                         .WithOne("Appointment")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Appointment", "ScheduleId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", "ScheduleId");
 
                     b.Navigation("Campaign");
 
@@ -1999,34 +2109,25 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Schedule");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Campaign", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
-                        .WithOne("Campaign")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Campaign", "PriceId");
-
-                    b.Navigation("Price");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Certificate", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", b =>
                 {
                     b.HasOne("Undersoft.SVC.Domain.Entities.Payment", "Payment")
                         .WithOne("Certificate")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "PaymentId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", "PaymentId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
                         .WithOne("Certificate")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "PersonalId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", "PersonalId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "Procedure")
                         .WithOne("Certificate")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "ProcedureId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", "ProcedureId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
                         .WithOne("Certificate")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Certificate", "TermId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Certificate", "TermId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "Vaccine")
                         .WithMany("Certificates")
                         .HasForeignKey("VaccineId");
 
@@ -2041,30 +2142,21 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Organization", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Supplier", "Supplier")
-                        .WithOne("Organization")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Organization", "SupplierId");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.PostSymptom", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.PostSymptom", b =>
                 {
                     b.HasOne("Undersoft.SVC.Domain.Entities.Personal", "Personal")
                         .WithOne("PostSymptom")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "PersonalId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.PostSymptom", "PersonalId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Procedure", "Procedure")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "Procedure")
                         .WithOne("PostSymptom")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "ProcedureId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.PostSymptom", "ProcedureId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
                         .WithOne("PostSymptom")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.PostSymptom", "TermId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.PostSymptom", "TermId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "Vaccine")
                         .WithMany("PostSymptoms")
                         .HasForeignKey("VaccineId");
 
@@ -2077,25 +2169,25 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Procedure", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", b =>
                 {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Appointment", "Appointment")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", "Appointment")
                         .WithOne("Procedure")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "AppointmentId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "AppointmentId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Cost", "Cost")
                         .WithOne("Procedure")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "CostId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "CostId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
                         .WithOne("Procedure")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "PriceId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "PriceId");
 
                     b.HasOne("Undersoft.SVC.Domain.Entities.Term", "Term")
                         .WithOne("Procedure")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Procedure", "TermId");
+                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", "TermId");
 
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
+                    b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", "Vaccine")
                         .WithMany("Procedures")
                         .HasForeignKey("VaccineId");
 
@@ -2110,83 +2202,41 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Professional", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Supplier", "Supplier")
-                        .WithOne("Professional")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Professional", "SupplierId");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Request", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Stock", "Stock")
-                        .WithMany("Requests")
-                        .HasForeignKey("StockId");
-
-                    b.Navigation("Stock");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Stock", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Vaccine", "Vaccine")
-                        .WithOne("Stock")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Stock", "VaccineId");
-
-                    b.Navigation("Vaccine");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Traffic", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Cost", "Cost")
-                        .WithOne("Traffic")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Traffic", "CostId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Price", "Price")
-                        .WithOne("Traffic")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Traffic", "PriceId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Stock", "Stock")
-                        .WithMany("Traffics")
-                        .HasForeignKey("StockId");
-
-                    b.Navigation("Cost");
-
-                    b.Navigation("Price");
-
-                    b.Navigation("Stock");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccine", b =>
-                {
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Manufacturer", "Manufacturer")
-                        .WithMany("Vaccines")
-                        .HasForeignKey("ManufacturerId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Safety", "Safety")
-                        .WithOne("Vaccine")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccine", "SafetyId");
-
-                    b.HasOne("Undersoft.SVC.Domain.Entities.Specification", "Specification")
-                        .WithOne("Vaccine")
-                        .HasForeignKey("Undersoft.SVC.Domain.Entities.Vaccine", "SpecificationId");
-
-                    b.Navigation("Manufacturer");
-
-                    b.Navigation("Safety");
-
-                    b.Navigation("Specification");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Appointment", b =>
-                {
-                    b.Navigation("Procedure");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Campaign", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("Price");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Manufacturer", b =>
+                {
+                    b.Navigation("Vaccines");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Office", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Supplier", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Professional");
+                });
+
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Catalogs.Vaccine", b =>
+                {
+                    b.Navigation("Certificates");
+
+                    b.Navigation("PostSymptoms");
+
+                    b.Navigation("Procedures");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Cost", b =>
@@ -2196,14 +2246,11 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Traffic");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Manufacturer", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Inventory.Stock", b =>
                 {
-                    b.Navigation("Vaccines");
-                });
+                    b.Navigation("Requests");
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Office", b =>
-                {
-                    b.Navigation("Appointments");
+                    b.Navigation("Traffics");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Payment", b =>
@@ -2222,18 +2269,9 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Price", b =>
                 {
-                    b.Navigation("Campaign");
-
                     b.Navigation("Procedure");
 
                     b.Navigation("Traffic");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Procedure", b =>
-                {
-                    b.Navigation("Certificate");
-
-                    b.Navigation("PostSymptom");
                 });
 
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Safety", b =>
@@ -2251,22 +2289,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Vaccine");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Stock", b =>
-                {
-                    b.Navigation("Requests");
-
-                    b.Navigation("Traffics");
-                });
-
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Supplier", b =>
-                {
-                    b.Navigation("Address");
-
-                    b.Navigation("Organization");
-
-                    b.Navigation("Professional");
-                });
-
             modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Term", b =>
                 {
                     b.Navigation("Certificate");
@@ -2276,15 +2298,16 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Navigation("Procedure");
                 });
 
-            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccine", b =>
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Appointment", b =>
                 {
-                    b.Navigation("Certificates");
+                    b.Navigation("Procedure");
+                });
 
-                    b.Navigation("PostSymptoms");
+            modelBuilder.Entity("Undersoft.SVC.Domain.Entities.Vaccination.Procedure", b =>
+                {
+                    b.Navigation("Certificate");
 
-                    b.Navigation("Procedures");
-
-                    b.Navigation("Stock");
+                    b.Navigation("PostSymptom");
                 });
 #pragma warning restore 612, 618
         }

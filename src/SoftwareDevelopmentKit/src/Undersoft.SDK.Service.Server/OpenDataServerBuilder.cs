@@ -21,7 +21,6 @@ public class OpenDataServerBuilder<TStore> : DataServerBuilder, IDataServerBuild
     protected ODataConventionModelBuilder odataBuilder;
     protected IEdmModel edmModel;
     protected static bool actionSetAdded;
-    //  protected HashSet<string> invocationsAdded = new HashSet<string>();
 
     public OpenDataServerBuilder(IServiceRegistry registry) : base()
     {

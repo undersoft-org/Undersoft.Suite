@@ -4,6 +4,7 @@
     using Undersoft.SDK.Instant.Series;
     using Undersoft.SDK.Rubrics;
     using Undersoft.SDK.Uniques;
+    using Undersoft.SDK.Utilities;
 
     public class ProxySeriesCreator<T> : ProxySeriesCreator
     {

@@ -9,6 +9,7 @@ using Undersoft.SDK.Service.Data.Client;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Data.Store.Repository;
+using Undersoft.SDK.Utilities;
 
 public class RepositoryManager : Registry<IDataStoreContext>, IDisposable, IAsyncDisposable, IRepositoryManager
 {

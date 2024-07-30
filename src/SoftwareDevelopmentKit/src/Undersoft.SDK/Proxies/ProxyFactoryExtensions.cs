@@ -1,5 +1,6 @@
 ﻿namespace Undersoft.SDK.Proxies;
 
+using Undersoft.SDK.Utilities;
 using Uniques;
 
 public static class ProxyFactoryExtensions

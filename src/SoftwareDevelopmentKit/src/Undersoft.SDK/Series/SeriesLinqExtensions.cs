@@ -7,6 +7,7 @@
     using Undersoft.SDK;
     using Undersoft.SDK.Invoking;
     using Undersoft.SDK.Series;
+    using Undersoft.SDK.Utilities;
 
     public static class SeriesLinqExtensions
     {

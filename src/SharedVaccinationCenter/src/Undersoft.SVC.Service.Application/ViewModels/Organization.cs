@@ -7,6 +7,7 @@
 // *************************************************
 
 using Undersoft.SDK.Rubrics.Attributes;
+using Undersoft.SDK.Service.Access.Models;
 using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SVC.Domain.Entities.Enums;
 
@@ -20,7 +21,7 @@ public class Organization : DataObject, IViewModel
     [RubricSize(16)]
     [DisplayRubric("Image")]
     [ViewImage(ViewImageMode.Regular, "30px", "30px")]
-    [FileRubric(FileRubricType.Property, "OrganizationImageData")]
+    [FileRubric(FileRubricType.Property, "CompanyImageData")]
     public string? OrganizationImage { get; set; }
 
     [VisibleRubric]

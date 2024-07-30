@@ -11,6 +11,7 @@ using Undersoft.SDK;
 using Undersoft.SDK.Service.Data.Identifier;
 using Undersoft.SDK.Service.Data.Remote;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Utilities;
 
 public static class OpenDataRegistry
 {
@@ -194,7 +195,10 @@ public static class OpenDataRegistry
         string sn = name.Split('.').Last();
         if (MappedTypes.TryGet(name, out Type t) || MappedTypes.TryGet(sn, out t))
             return t;
-        return Assemblies.FindType(sn);
+        t = AssemblyUtilities.FindTypeByFullName(name);
+        if (t == null)
+            t = AssemblyUtilities.FindType(sn);
+        return t;
     }
 
     public static Type GetMappedType(this OpenDataContext context, string name)
@@ -271,15 +275,15 @@ public static class OpenDataRegistry
             var entityName = remoteName.Replace("Identifier", null);
             if (entityName.Contains("_1Of"))
                 entityName = entityName.Replace("_1Of", null);
-            var argumentType = Assemblies.FindType(entityName);
+            var argumentType = AssemblyUtilities.FindType(entityName);
             if (argumentType != null)
                 localEntityType = typeof(Identifier<>).MakeGenericType(argumentType);
         }
         else
         {
-            localEntityType = Assemblies.FindType(remoteName, entityType.Namespace);
+            localEntityType = AssemblyUtilities.FindType(remoteName, entityType.Namespace);
             if (localEntityType == null)
-                localEntityType = Assemblies.FindType(remoteName);
+                localEntityType = AssemblyUtilities.FindType(remoteName);
         }
 
         if (localEntityType == null)

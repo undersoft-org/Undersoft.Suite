@@ -14,6 +14,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
     using Undersoft.SDK.Service.Data.Store;
     using Undersoft.SDK.Service.Infrastructure.Database;
     using Undersoft.SDK.Service.Infrastructure.Database.Relation;
+    using Undersoft.SVC.Domain.Entities;
     using Undersoft.SVC.Domain.Entities.Catalogs;
     using Undersoft.SVC.Domain.Entities.Vaccination;
 
@@ -38,7 +39,12 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
                     r => r.Appointments,
                     ExpandSite.OnLeft,
                     true
-                ).RelateSetToSet<Campaign, Vaccine>(
+                ).RelateOneToOne<Campaign, Price>(
+                 r => r.Campaign,
+                 r => r.Price,
+                 ExpandSite.OnRight,
+                 true
+             ).RelateSetToSet<Campaign, Vaccine>(
                     r => r.Campaigns,
                     r => r.Vaccines,
                     ExpandSite.OnRight,

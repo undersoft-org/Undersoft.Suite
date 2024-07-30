@@ -26,25 +26,22 @@ public partial class ServerSetup
         Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
         Type[] dtoTypes = assemblies
-            .SelectMany(
-                a =>
-                    a.DefinedTypes.Where(
-                        t =>
-                            t.UnderlyingSystemType.IsAssignableTo(typeof(IContract))
-                            || (
-                                t.UnderlyingSystemType.IsGenericType
-                                && t.UnderlyingSystemType.GetGenericArguments()[0].IsAssignableTo(
-                                    typeof(IContract)
-                                )
-                            )
+            .SelectMany(a =>
+                a.DefinedTypes.Where(t =>
+                    t.UnderlyingSystemType.IsAssignableTo(typeof(IContract))
+                    || (
+                        t.UnderlyingSystemType.IsGenericType
+                        && t.UnderlyingSystemType.GetGenericArguments()[0]
+                            .IsAssignableTo(typeof(IContract))
                     )
+                )
             )
             .Select(t => t.UnderlyingSystemType)
             .ToArray();
 
         Catalog<Type> duplicateCheck = new Catalog<Type>();
-        Type[] storeTypes = DataStoreRegistry.Stores
-            .Where(s => s.IsAssignableTo(typeof(IDataServiceStore)))
+        Type[] storeTypes = DataStoreRegistry
+            .Stores.Where(s => s.IsAssignableTo(typeof(IDataServiceStore)))
             .ToArray();
 
         foreach (ISeries<IEntityType> contextEntityTypes in DataStoreRegistry.EntityTypes)
@@ -80,11 +77,11 @@ public partial class ServerSetup
                         );
 
                         service.AddTransient(
-                           typeof(IRequest<>).MakeGenericType(
-                               typeof(Query<,>).MakeGenericType(entity_t, dto_t)
-                           ),
-                           typeof(Query<,>).MakeGenericType(entity_t, dto_t)
-                       );
+                            typeof(IRequest<>).MakeGenericType(
+                                typeof(Query<,>).MakeGenericType(entity_t, dto_t)
+                            ),
+                            typeof(Query<,>).MakeGenericType(entity_t, dto_t)
+                        );
 
                         service.AddTransient(
                             typeof(CommandValidatorBase<>).MakeGenericType(
@@ -113,7 +110,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Filter<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Filter<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Query<,>).MakeGenericType(entity_t, dto_t)
                                     }
                                 ),
@@ -131,7 +132,11 @@ public partial class ServerSetup
                                         dto_t
                                     }
                                 ),
-                                typeof(GetAsyncHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(GetAsyncHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddTransient(
                                 typeof(IRequestHandler<,>).MakeGenericType(
@@ -151,7 +156,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Create<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Create<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Command<>).MakeGenericType(dto_t)
                                     }
                                 ),
@@ -161,7 +170,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Upsert<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Upsert<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Command<>).MakeGenericType(dto_t)
                                     }
                                 ),
@@ -171,7 +184,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Update<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Update<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Command<>).MakeGenericType(dto_t)
                                     }
                                 ),
@@ -181,7 +198,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Change<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Change<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Command<>).MakeGenericType(dto_t)
                                     }
                                 ),
@@ -191,7 +212,11 @@ public partial class ServerSetup
                                 typeof(IRequestHandler<,>).MakeGenericType(
                                     new[]
                                     {
-                                        typeof(Delete<,,>).MakeGenericType(store_t, entity_t, dto_t),
+                                        typeof(Delete<,,>).MakeGenericType(
+                                            store_t,
+                                            entity_t,
+                                            dto_t
+                                        ),
                                         typeof(Command<>).MakeGenericType(dto_t)
                                     }
                                 ),
@@ -227,7 +252,11 @@ public partial class ServerSetup
                                         typeof(CommandSet<>).MakeGenericType(dto_t)
                                     }
                                 ),
-                                typeof(ChangeSetHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(ChangeSetHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddScoped(
                                 typeof(IRequestHandler<,>).MakeGenericType(
@@ -241,7 +270,11 @@ public partial class ServerSetup
                                         typeof(CommandSet<>).MakeGenericType(dto_t)
                                     }
                                 ),
-                                typeof(UpdateSetHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(UpdateSetHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddScoped(
                                 typeof(IStreamRequestHandler<,>).MakeGenericType(
@@ -273,7 +306,11 @@ public partial class ServerSetup
                                         typeof(CommandSet<>).MakeGenericType(dto_t)
                                     }
                                 ),
-                                typeof(CreateSetHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(CreateSetHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddScoped(
                                 typeof(IStreamRequestHandler<,>).MakeGenericType(
@@ -305,7 +342,11 @@ public partial class ServerSetup
                                         typeof(CommandSet<>).MakeGenericType(dto_t)
                                     }
                                 ),
-                                typeof(UpsertSetHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(UpsertSetHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddScoped(
                                 typeof(IStreamRequestHandler<,>).MakeGenericType(
@@ -337,7 +378,11 @@ public partial class ServerSetup
                                         typeof(CommandSet<>).MakeGenericType(dto_t)
                                     }
                                 ),
-                                typeof(DeleteSetHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(DeleteSetHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddScoped(
                                 typeof(IStreamRequestHandler<,>).MakeGenericType(
@@ -369,7 +414,11 @@ public partial class ServerSetup
                             );
                             service.AddScoped(
                                 typeof(INotificationHandler<>).MakeGenericType(
-                                    typeof(UpsertedSet<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                    typeof(UpsertedSet<,,>).MakeGenericType(
+                                        store_t,
+                                        entity_t,
+                                        dto_t
+                                    )
                                 ),
                                 typeof(UpsertedSetHandler<,,>).MakeGenericType(
                                     store_t,
@@ -429,7 +478,11 @@ public partial class ServerSetup
                                 typeof(INotificationHandler<>).MakeGenericType(
                                     typeof(Upserted<,,>).MakeGenericType(store_t, entity_t, dto_t)
                                 ),
-                                typeof(UpsertedHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
+                                typeof(UpsertedHandler<,,>).MakeGenericType(
+                                    store_t,
+                                    entity_t,
+                                    dto_t
+                                )
                             );
                             service.AddTransient(
                                 typeof(INotificationHandler<>).MakeGenericType(
@@ -438,12 +491,10 @@ public partial class ServerSetup
                                 typeof(UpdatedHandler<,,>).MakeGenericType(store_t, entity_t, dto_t)
                             );
                         }
-                        // mapper.TryCreateMap(entityType, dto);
                     }
                 }
             }
         }
-        //mapper.Build();
         return this;
     }
 }

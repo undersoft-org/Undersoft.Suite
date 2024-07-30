@@ -1,4 +1,5 @@
 ﻿using Undersoft.SDK.Service.Data.Object;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Data.Query
 {

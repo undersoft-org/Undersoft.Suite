@@ -7,6 +7,7 @@ using System.Reflection;
 namespace Undersoft.SDK.Service.Data.Repository;
 
 using Data.Entity;
+using Undersoft.SDK.Utilities;
 
 public class RepositoryExpressionProvider<TEntity> : IAsyncQueryProvider where TEntity : Entity
 {

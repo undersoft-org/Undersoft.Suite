@@ -28,9 +28,9 @@ public partial class SignInBase : ComponentBase
     /// <summary>
     /// Gets or sets the access.
     /// </summary>
-    /// <value>An <see cref="IAccountAccess"/></value>
+    /// <value>An <see cref="IAccess"/></value>
     [Inject]
-    private IAccountAccess _access { get; set; } = default!;
+    private IAccess _access { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the navigation.

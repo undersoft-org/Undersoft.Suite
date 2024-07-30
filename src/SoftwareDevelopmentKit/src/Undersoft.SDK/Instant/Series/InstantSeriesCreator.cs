@@ -3,6 +3,7 @@
     using Rubrics;
     using SDK.Uniques;
     using System.Linq;
+    using Undersoft.SDK.Utilities;
 
     public class InstantSeriesCreator<T> : InstantSeriesCreator
     {

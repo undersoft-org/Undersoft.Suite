@@ -1,5 +1,6 @@
 ﻿namespace Undersoft.SDK.Instant
 {
+    using Undersoft.SDK.Utilities;
     using Uniques;
 
     public static class InstantFactoryExtensions

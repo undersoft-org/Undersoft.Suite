@@ -68,8 +68,14 @@ public class Setup
             .AddDataServer<IAccountStore>(
                 DataServerTypes.All,
                 builder => builder.AddInvocations<Account>()
-                                  .AddInvocations<AccountConsent>()
+                                  .AddInvocations<AccountAddress>()
+                                  .AddInvocations<AccountPersonal>()
+                                  .AddInvocations<AccountProfessional>()
+                                  .AddInvocations<AccountOrganization>()
                                   .AddInvocations<AccountSubscription>()
+                                  .AddInvocations<AccountConsent>()
+                                  .AddInvocations<AccountTenant>()
+                                  .AddInvocations<AccountPayment>()
             );
     }
 

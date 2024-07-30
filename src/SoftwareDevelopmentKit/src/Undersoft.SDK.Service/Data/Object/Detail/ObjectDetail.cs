@@ -47,22 +47,22 @@ public class ObjectDetail<TDetail, TKind> : DataObject, ISerializableJsonDocumen
     [DataMember(Order = 16)]
     public TKind Kind { get; set; }
 
-    public virtual T GetDetail<T>()
+    public virtual T GetStructure<T>()
     {
-        return _serializer.GetDetail<T>();
+        return _serializer.GetStructure<T>();
     }
 
-    public virtual object GetDetail()
+    public virtual object GetStructure()
     {
         return _serializer.GetDetail();
     }
 
-    public virtual void SetGeneral<T>(T structure)
+    public virtual void SetDocument<T>(T structure)
     {
-        _serializer.SetGeneral(structure);
+        _serializer.SetDocument(structure);
     }
 
-    public virtual void SetGeneral(object structure)
+    public virtual void SetDocument(object structure)
     {
         _serializer.SetGeneral(structure);
     }

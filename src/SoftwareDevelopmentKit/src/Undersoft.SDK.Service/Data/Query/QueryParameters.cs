@@ -1,5 +1,6 @@
 ﻿using Microsoft.OData.UriParser;
 using System.Linq.Expressions;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Data.Query
 {

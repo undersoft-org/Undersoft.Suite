@@ -9,11 +9,12 @@ using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Updating;
+using Undersoft.SDK.Utilities;
 using Claim = System.Security.Claims.Claim;
 
 namespace Undersoft.SDK.Service.Application.Access;
 
-public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccountService<TAccount>
+public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessService<TAccount>
     where TAccount : class, IAuthorization
 {
     private readonly IJSRuntime js;
@@ -23,7 +24,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccountSer
     private readonly string EXPIRATIONTOKENKEY = "EXPIRATIONTOKENKEY";
     private readonly string EMAILKEY = "EMAILKEY";
     private TAccount? _account;
-    private AccessState _accessState;
+    private AccessState? _accessState;
 
     private AuthenticationState Anonymous =>
         new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));

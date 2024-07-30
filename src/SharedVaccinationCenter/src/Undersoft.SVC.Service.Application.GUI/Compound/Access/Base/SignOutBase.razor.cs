@@ -25,8 +25,8 @@ namespace Undersoft.SVC.Service.Application.GUI.Compound.Access
         /// <summary>
         /// Gets or sets the access.
         /// </summary>
-        /// <value>An <see cref="IAccountAccess"/></value>
-        [Inject] IAccountAccess _access { get; set; } = default!;
+        /// <value>An <see cref="IAccess"/></value>
+        [Inject] IAccess _access { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the navigation.

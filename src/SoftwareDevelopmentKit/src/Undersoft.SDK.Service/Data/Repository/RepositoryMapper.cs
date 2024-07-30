@@ -60,7 +60,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
 
     public virtual TDto Generalize<TDto>(TDto model)
     {
-        Generalize((IInnerProxy)model);
+        SerializeDocuments((IInnerProxy)model);
         return model;
     }
 
@@ -105,7 +105,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     {
         return model.ForEach(e =>
         {
-            Generalize((IInnerProxy)e);
+            SerializeDocuments((IInnerProxy)e);
             return e.PutTo<TEntity>();
         }).Commit();
     }
@@ -114,7 +114,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
     {
         foreach (var item in model)
         {
-            Generalize((IInnerProxy)item);
+            SerializeDocuments((IInnerProxy)item);
             yield return item;
         }
     }
@@ -171,7 +171,7 @@ public partial class Repository<TEntity> : IRepositoryMapper<TEntity>
                 .ForEach(e =>
                 {
                     var contract = e.PutTo<TDto>();
-                    Detalize((IInnerProxy)contract);
+                    DeserializeDocuments((IInnerProxy)contract);
                     return contract;
                 })
                 .AsQueryable()

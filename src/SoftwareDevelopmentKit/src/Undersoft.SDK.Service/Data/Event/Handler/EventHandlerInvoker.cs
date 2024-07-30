@@ -1,4 +1,6 @@
-﻿namespace Undersoft.SDK.Service.Data.Event.Handler
+﻿using Undersoft.SDK.Utilities;
+
+namespace Undersoft.SDK.Service.Data.Event.Handler
 {
 
     public class EventHandlerInvoker : IEventHandlerInvoker

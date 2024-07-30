@@ -14,7 +14,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
     using Undersoft.SDK.Service.Data.Store;
     using Undersoft.SDK.Service.Infrastructure.Database;
     using Undersoft.SVC.Domain.Entities;
-    using Undersoft.SVC.Domain.Entities.Catalogs;
 
     /// <summary>
     /// The contact mappings.
@@ -30,13 +29,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Mappings
         public override void Configure(EntityTypeBuilder<Price> typeBuilder)
         {
             typeBuilder.ToTable(TABLE_NAME, DataStoreSchema.DomainSchema);
-
-            ModelBuilder.RelateOneToOne<Price, Campaign>(
-                 r => r.Price,
-                 r => r.Campaign,
-                 ExpandSite.OnLeft,
-                 true
-             );
         }
     }
 }

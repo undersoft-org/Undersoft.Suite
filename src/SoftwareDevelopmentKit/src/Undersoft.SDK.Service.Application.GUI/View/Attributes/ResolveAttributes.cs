@@ -8,6 +8,7 @@ using Undersoft.SDK.Service.Data.Query;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Uniques;
 using Undersoft.SDK.Updating;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Attributes
 {

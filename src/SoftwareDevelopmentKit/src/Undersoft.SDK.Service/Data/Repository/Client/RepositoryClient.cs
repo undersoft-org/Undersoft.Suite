@@ -8,6 +8,7 @@ using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Data.Client;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Repository;
+using Undersoft.SDK.Utilities;
 using Uniques;
 
 public class RepositoryClient : Catalog<IRepositoryContext>, IRepositoryClient

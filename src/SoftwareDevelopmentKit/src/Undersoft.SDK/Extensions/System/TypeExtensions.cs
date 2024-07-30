@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Undersoft.SDK.Utilities;
 
 namespace System
 {
@@ -219,12 +220,12 @@ namespace System
 
         public static IList<Type> GetImplementedGenericTypes(this Type seqType)
         {
-            return Assemblies.FindTypes(seqType);
+            return AssemblyUtilities.FindTypes(seqType);
         }
 
         public static IList<Type> GetAssignableTypes(this Type seqType)
         {
-            return Assemblies.FindTypes(new Type[] { seqType });
+            return AssemblyUtilities.FindTypes(new Type[] { seqType });
         }
 
 

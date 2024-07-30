@@ -158,10 +158,10 @@ public static class MauiProgram
                     .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
-                    .AddScoped<IAccountAccess, AccessProvider<Account>>(sp =>
+                    .AddScoped<IAccess, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
-                    .AddScoped<IAccountService<Account>, AccessProvider<Account>>(sp =>
+                    .AddScoped<IAccessService<Account>, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()

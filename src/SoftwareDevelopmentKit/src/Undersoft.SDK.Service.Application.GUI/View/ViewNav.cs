@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Invoking;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Utilities;
 
 namespace FluentUI.Demo.Shared;
 
@@ -23,9 +24,9 @@ public abstract class ViewNav
             if (value != null)
             {
                 _target = value;
-                _type = Assemblies.FindType(value);
+                _type = AssemblyUtilities.FindType(value);
                 if (_type == null)
-                    _type = Assemblies.FindTypeByFullName(value);
+                    _type = AssemblyUtilities.FindTypeByFullName(value);
             }
         }
     }

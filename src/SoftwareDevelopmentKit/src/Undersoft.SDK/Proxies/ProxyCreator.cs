@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Undersoft.SDK.Instant;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Utilities;
 
 public class ProxyCreator<T> : ProxyCreator
 {

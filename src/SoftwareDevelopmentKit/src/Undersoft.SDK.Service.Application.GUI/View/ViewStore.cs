@@ -3,6 +3,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Application.GUI.View
 {

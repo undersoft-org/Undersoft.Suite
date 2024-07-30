@@ -14,6 +14,7 @@ using Undersoft.SDK.Service.Data.Repository;
 using Undersoft.SDK.Service.Data.Repository.Source;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Updating;
+using Undersoft.SDK.Utilities;
 
 public partial class StoreRepository<TEntity> : Repository<TEntity>, IStoreRepository<TEntity>
     where TEntity : class, IOrigin, IInnerProxy

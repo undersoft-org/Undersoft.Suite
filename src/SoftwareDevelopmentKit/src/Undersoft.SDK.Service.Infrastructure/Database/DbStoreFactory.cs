@@ -5,6 +5,7 @@ namespace Undersoft.SDK.Service.Data.Store;
 
 using Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
+using Undersoft.SDK.Utilities;
 
 public class DbStoreFactory<TContext, TSourceProvider> : IDesignTimeDbContextFactory<TContext>, IDbContextFactory<TContext> where TContext : DbContext where TSourceProvider : class, ISourceProviderConfiguration
 {

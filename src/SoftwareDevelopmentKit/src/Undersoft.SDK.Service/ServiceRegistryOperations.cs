@@ -95,8 +95,7 @@ namespace Undersoft.SDK.Service
 
         public IServiceProvider GetProvider()
         {
-            var a = (ServiceObject<IServiceProvider>)(
-                   Get<ServiceObject<IServiceProvider>>()?.ImplementationInstance);
+            var a = (ServiceObject<IServiceProvider>)(Get<ServiceObject<IServiceProvider>>()?.ImplementationInstance);
             return a.Value;
         }
 
@@ -150,7 +149,7 @@ namespace Undersoft.SDK.Service
 
         public T GetKeyedService<T>(object key) where T : class
         {
-            return GetSingleton<IServiceManager>().Provider.GetKeyedService<T>(key.UniqueKey64());
+            return GetSingleton<IServiceManager>().Provider.GetKeyedService<T>(key);
         }
 
         public object GetService(Type type)

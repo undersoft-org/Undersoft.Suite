@@ -2,6 +2,7 @@
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Uniques;
 using Undersoft.SDK.Updating;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Invoking
 {
@@ -141,33 +142,33 @@ namespace Undersoft.SDK.Invoking
         ) : this(targetObject, methodName, null) { }
 
         public Invoker(Type targetType, string methodName)
-            : this(Instances.New(targetType), methodName, null) { }
+            : this(InstanceUtilities.New(targetType), methodName, null) { }
 
         public Invoker(Type targetType, string methodName, params Type[] parameterTypes)
-            : this(Instances.New(targetType), methodName, parameterTypes) { }
+            : this(InstanceUtilities.New(targetType), methodName, parameterTypes) { }
 
         public Invoker(Type targetType, string methodName, params object[] constructorParams)
-            : this(Instances.New(targetType, constructorParams), methodName) { }
+            : this(InstanceUtilities.New(targetType, constructorParams), methodName) { }
 
         public Invoker(
             Type targetType,
             string methodName,
             Type[] parameterTypes,
             params object[] constructorParams
-        ) : this(Instances.New(targetType, constructorParams), methodName, parameterTypes) { }
+        ) : this(InstanceUtilities.New(targetType, constructorParams), methodName, parameterTypes) { }
 
         public Invoker(string targetName, string methodName)
-            : this(Instances.New(targetName), methodName, null) { }
+            : this(InstanceUtilities.New(targetName), methodName, null) { }
 
         public Invoker(string targetName, string methodName, params Type[] parameterTypes)
-            : this(Instances.New(targetName), methodName, parameterTypes) { }
+            : this(InstanceUtilities.New(targetName), methodName, parameterTypes) { }
 
         public Invoker(
             string targetName,
             string methodName,
             Type[] parameterTypes,
             params object[] constructorParams
-        ) : this(Instances.New(targetName, constructorParams), methodName, parameterTypes) { }
+        ) : this(InstanceUtilities.New(targetName, constructorParams), methodName, parameterTypes) { }
 
         public Invoker(MethodInfo methodInvokeInfo)
             : this(methodInvokeInfo.DeclaringType.New(), methodInvokeInfo) { }

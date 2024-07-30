@@ -4,6 +4,7 @@
     using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
     using Undersoft.SDK.Series;
+    using Undersoft.SDK.Utilities;
 
     [DataContract]
     [Serializable]
@@ -18,7 +19,7 @@
 
         public Arguments(string targetName) : base()
         {
-            TargetType = Assemblies.FindTypeByFullName(targetName);
+            TargetType = AssemblyUtilities.FindTypeByFullName(targetName);
         }
 
         public Arguments(string methodName, object argValue, string targetName = null, Type targetType = null)

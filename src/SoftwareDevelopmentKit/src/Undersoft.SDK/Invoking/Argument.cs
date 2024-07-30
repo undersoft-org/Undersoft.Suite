@@ -6,6 +6,7 @@
     using System.Text.Json;
     using System.Text.Json.Serialization;
     using Undersoft.SDK.Uniques;
+    using Undersoft.SDK.Utilities;
 
     [DataContract]
     [Serializable]
@@ -40,7 +41,7 @@
 
         public Argument(string name, string argTypeName, string method, string target = null)
         {
-            Set(name, Assemblies.FindTypeByFullName(argTypeName), method, target);
+            Set(name, AssemblyUtilities.FindTypeByFullName(argTypeName), method, target);
         }
 
         public Argument(ParameterInfo info, string method, string target = null)
@@ -66,7 +67,7 @@
 
         public Type ResolveType()
         {
-            return _type ??= Assemblies.FindTypeByFullName(ArgumentTypeName);
+            return _type ??= AssemblyUtilities.FindTypeByFullName(ArgumentTypeName);
         }
 
         public void Serialize(object value)

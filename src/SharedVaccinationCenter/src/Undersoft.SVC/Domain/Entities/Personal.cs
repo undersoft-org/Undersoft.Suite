@@ -11,21 +11,11 @@ using Undersoft.SVC.Domain.Entities.Vaccination;
 
 namespace Undersoft.SVC.Domain.Entities
 {
-    public class Personal : Entity
+    public class Personal : SDK.Service.Access.Models.Personal, IEntity
     {
         public IdentifierType IdentifierType { get; set; }
 
         public string? Identifier { get; set; } = default!;
-
-        public string FirstName { get; set; } = default!;
-
-        public string LastName { get; set; } = default!;
-
-        public string Email { get; set; } = default!;
-
-        public string PhoneNumber { get; set; } = default!;
-
-        public DateTime Birthdate { get; set; } = DateTime.UtcNow;
 
         public long? AppointmentId { get; set; }
 

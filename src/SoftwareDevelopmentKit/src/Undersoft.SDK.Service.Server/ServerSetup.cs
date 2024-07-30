@@ -21,22 +21,22 @@ using System.Diagnostics.Metrics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Access.MultiTenancy;
 using Undersoft.SDK.Service.Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Utilities;
+using Role = Accounts.Role;
 
 public partial class ServerSetup : ServiceSetup, IServerSetup
 {
     protected IMvcBuilder _mvc;
     protected ITenant _tenant;
 
-    public ServerSetup(IServicer servicer, ITenant tenant)
+    public ServerSetup(ITenant tenant)
         : base(new ServiceCollection())
     {
         _tenant = tenant;
-        servicer.AddKeyedObject<ITenant>(tenant.Id, tenant);
-        servicer.AddKeyedObject<IServiceManager>(tenant.Id, manager);
-        manager.AddKeyedObject<ITenant>(tenant.Id, tenant);
     }
 
     public ServerSetup(IServiceCollection services, IMvcBuilder mvcBuilder = null)
@@ -89,6 +89,16 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         }
 
         registry.MergeServices(true);
+        return this;
+    }
+
+    public IServiceSetup ConfigureTenant(IServicer mainServicer)
+    {
+        mainServicer.AddKeyedObject<ITenant>(_tenant.Id, _tenant);
+        mainServicer.AddKeyedObject<IServiceManager>(_tenant.Id, manager);
+        manager.AddKeyedObject<ITenant>(_tenant.Id, _tenant);
+        ConfigureServer(false);
+        manager.BuildInternalProvider();
         return this;
     }
 
@@ -409,6 +419,12 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         return this;
     }
 
+    public IServiceSetup AddRepositorySources()
+    {
+        var sourceTypes = configuration.Sources().ForEach(c => AssemblyUtilities.FindType(c.Key)).Commit();
+        return AddRepositorySources(sourceTypes);
+    }
+
     public IServiceSetup AddRepositorySources(Type[] storeTypes)
     {
         IServiceConfiguration config = configuration;
@@ -475,17 +491,15 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             );
             Type idataRepoType = typeof(IRepositoryContext<>).MakeGenericType(storeDbType);
 
-            repoSource.PoolSize = poolsize;
+            repoSources.Add(repoSource);
 
-            IRepositorySource globalSource = manager.AddSource(repoSource);
+            AddDatabaseConfiguration(repoSource.Context);
 
-            AddDatabaseConfiguration(globalSource.Context);
+            registry.AddObject(contextType, repoSource.Context);
 
-            registry.AddObject(contextType, globalSource.Context);
-
-            registry.AddObject(iRepoType, globalSource);
-            registry.AddObject(repoType, globalSource);
-            registry.AddObject(repoOptionsType, globalSource.Options);
+            registry.AddObject(iRepoType, repoSource);
+            registry.AddObject(repoType, repoSource);
+            registry.AddObject(repoOptionsType, repoSource.Options);
 
             registry.AddObject(istoreRepoType, storeSource);
             registry.AddObject(ipoolRepoType, storeSource);
@@ -494,7 +508,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             registry.AddObject(storeRepoType, storeSource);
             registry.AddObject(storeOptionsType, storeSource.Options);
 
-            manager.AddSourcePool(globalSource.ContextType, poolsize);
+            repoSource.PoolSize = poolsize;
+            repoSource.CreatePool();
         }
 
         return this;
@@ -534,6 +549,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         if (sourceTypes != null)
             AddRepositorySources(sourceTypes);
+        else
+            AddRepositorySources();
 
         AddDataStoreImplementations();
 

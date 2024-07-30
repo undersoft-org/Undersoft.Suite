@@ -2,6 +2,7 @@
 using Microsoft.OData.Client;
 using System.Linq.Expressions;
 using System.Reflection;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Data.Remote.Repository;
 

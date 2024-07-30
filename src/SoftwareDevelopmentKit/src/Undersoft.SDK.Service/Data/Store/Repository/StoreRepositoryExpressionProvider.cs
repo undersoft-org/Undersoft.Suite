@@ -5,6 +5,7 @@ namespace Undersoft.SDK.Service.Data.Store.Repository;
 
 using Undersoft.SDK;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Utilities;
 
 public class StoreRepositoryExpressionProvider<TEntity> : IQueryProvider
     where TEntity : class, IOrigin

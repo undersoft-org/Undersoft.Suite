@@ -7,6 +7,7 @@ namespace Undersoft.SDK.Service.Access
     [Serializable]
     public enum ServiceSite
     {
+        None,
         Client,
         Server
     }
@@ -20,6 +21,7 @@ namespace Undersoft.SDK.Service.Access
 
     public enum IdentityType
     {
+        None,
         User,
         Server,
         Service

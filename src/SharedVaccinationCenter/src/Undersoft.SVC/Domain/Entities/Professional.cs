@@ -13,7 +13,7 @@ namespace Undersoft.SVC.Domain.Entities
     /// <summary>
     /// The contact professional.
     /// </summary>
-    public class Professional : Entity
+    public class Professional : SDK.Service.Access.Models.Professional, IEntity
     {
         public string? ProfessionalImage { get; set; }
 
@@ -22,14 +22,6 @@ namespace Undersoft.SVC.Domain.Entities
         public string? ProfessionalName { get; set; }
 
         public string? ProfessionalPosition { get; set; }
-
-        public string? ProfessionalEmail { get; set; }
-
-        public string? ProfessionalPhoneNumber { get; set; }
-
-        public string? ProfessionalWebsites { get; set; }
-
-        public float? ProfessionalExperience { get; set; }
 
         public byte[]? ProfessionalImageData { get; set; }
 

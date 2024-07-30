@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Undersoft.SDK.Service.Configuration;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Data.Repository.Source;
 

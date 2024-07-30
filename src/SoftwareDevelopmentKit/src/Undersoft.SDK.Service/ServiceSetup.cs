@@ -21,6 +21,7 @@ using Undersoft.SDK.Service.Data.Repository;
 using Undersoft.SDK.Service.Data.Repository.Client;
 using Undersoft.SDK.Service.Data.Repository.Source;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Utilities;
 
 public partial class ServiceSetup : IServiceSetup
 {
@@ -169,12 +170,8 @@ public partial class ServiceSetup : IServiceSetup
 
     public IServiceSetup AddRepositoryClients()
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-        Type[] serviceTypes = assemblies
-            .SelectMany(a => a.DefinedTypes)
-            .Select(t => t.UnderlyingSystemType)
-            .ToArray();
-        return AddRepositoryClients(serviceTypes);
+        var clientTypes = configuration.Clients().ForEach(c => AssemblyUtilities.FindType(c.Key)).Commit();
+        return AddRepositoryClients(clientTypes);
     }
 
     public IServiceSetup AddRepositoryClients(Type[] serviceTypes)
@@ -184,7 +181,7 @@ public partial class ServiceSetup : IServiceSetup
         IEnumerable<IConfigurationSection> clients = config.Clients();
         RepositoryClients repoClients = new RepositoryClients();
 
-        services.AddSingleton(registry.AddObject<IRepositoryClients>(repoClients).Value);
+        registry.AddSingleton(registry.AddObject<IRepositoryClients>(repoClients).Value);
 
         foreach (IConfigurationSection client in clients)
         {
@@ -238,10 +235,10 @@ public partial class ServiceSetup : IServiceSetup
 
             repoClient.PoolSize = poolsize;
 
-            IRepositoryClient globalClient = manager.AddClient(repoClient);
+            repoClients.Add(repoClient);
 
-            registry.AddObject(iRepoType, globalClient);
-            registry.AddObject(repoType, globalClient);
+            registry.AddObject(iRepoType, repoClient);
+            registry.AddObject(repoType, repoClient);
 
             registry.AddObject(istoreRepoType, storeClient);
             registry.AddObject(ipoolRepoType, storeClient);
@@ -249,7 +246,8 @@ public partial class ServiceSetup : IServiceSetup
             registry.AddObject(idataRepoType, storeClient);
             registry.AddObject(storeRepoType, storeClient);
 
-            manager.AddClientPool(globalClient.ContextType, poolsize);
+            repoClient.PoolSize = poolsize;
+            repoClient.CreatePool();
 
             AddStoreCache(storeType);
         }

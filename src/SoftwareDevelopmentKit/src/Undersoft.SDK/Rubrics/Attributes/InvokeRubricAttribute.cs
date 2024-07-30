@@ -1,4 +1,5 @@
 ﻿using Undersoft.SDK.Invoking;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Rubrics.Attributes
 {
@@ -18,9 +19,9 @@ namespace Undersoft.SDK.Rubrics.Attributes
         public InvokeAttribute(string targetName, string method)
         {
             Target = targetName;
-            Type = Assemblies.FindType(targetName);
+            Type = AssemblyUtilities.FindType(targetName);
             if (Type == null)
-                Type = Assemblies.FindTypeByFullName(targetName);
+                Type = AssemblyUtilities.FindTypeByFullName(targetName);
             Method = method;
             if (Type != null)
                 Invoker = new Invoker(Type, Method);

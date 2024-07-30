@@ -1,4 +1,6 @@
-﻿namespace Undersoft.SDK.Service.Operation
+﻿using Undersoft.SDK.Utilities;
+
+namespace Undersoft.SDK.Service.Operation
 {
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -14,9 +16,9 @@
 
         public ValidatorAttribute(string validatorTypeName)
         {
-            ValidatorType = Assemblies.FindType(validatorTypeName);
+            ValidatorType = AssemblyUtilities.FindType(validatorTypeName);
             if (ValidatorType == null)
-                ValidatorType = Assemblies.FindTypeByFullName(validatorTypeName);
+                ValidatorType = AssemblyUtilities.FindTypeByFullName(validatorTypeName);
             ValidatorTypeName = validatorTypeName;
         }
 

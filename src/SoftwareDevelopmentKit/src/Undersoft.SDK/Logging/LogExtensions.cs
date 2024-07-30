@@ -3,6 +3,7 @@
     using Serilog.Events;
     using System.Threading.Tasks;
     using Undersoft.SDK.Uniques;
+    using Undersoft.SDK.Utilities;
 
     public static partial class Log
     {

@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using Undersoft.SDK.Extracting;
 using Undersoft.SDK.Stocks.MMF;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Stocks
 {
@@ -151,7 +152,7 @@ namespace Undersoft.SDK.Stocks
                 bool exists = false;
                 Mmf = MMFile.CreateNew(
                     Path,
-                    Assemblies.AssemblyCode + "/" + Name,
+                    AssemblyUtilities.AssemblyCode + "/" + Name,
                     SharedMemorySize,
                     out exists,
                     FixSize
@@ -174,7 +175,7 @@ namespace Undersoft.SDK.Stocks
                 try
                 {
                     IsOwnerOfSharedMemory = false;
-                    Mmf = MMFile.OpenExisting(Assemblies.AssemblyCode + "/" + Name);
+                    Mmf = MMFile.OpenExisting(AssemblyUtilities.AssemblyCode + "/" + Name);
                     PreReadHeader();
                     CreateView();
                 }

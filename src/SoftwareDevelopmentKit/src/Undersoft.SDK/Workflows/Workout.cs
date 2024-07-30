@@ -3,6 +3,7 @@
     using Series;
     using System.Linq;
     using Undersoft.SDK.Invoking;
+    using Undersoft.SDK.Utilities;
 
     public class Workout
     {
@@ -17,7 +18,7 @@
             string methodName,
             out object result,
             params object[] input
-        ) : this(1, safeClose, Instances.New(className), methodName, input)
+        ) : this(1, safeClose, InstanceUtilities.New(className), methodName, input)
         {
             result = Work.GetOutput();
         }
@@ -103,7 +104,7 @@
         }
 
         public Workout(string className, string methodName, params object[] input)
-            : this(1, false, Instances.New(className), methodName, input) { }
+            : this(1, false, InstanceUtilities.New(className), methodName, input) { }
 
         public static Workout Run<TClass>()
         {

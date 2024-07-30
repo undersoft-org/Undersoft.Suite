@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
