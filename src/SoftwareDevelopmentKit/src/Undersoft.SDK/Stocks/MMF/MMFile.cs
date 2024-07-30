@@ -74,7 +74,7 @@ namespace Undersoft.SDK.Stocks.MMF
                 capacity, mapName);
 
                 if (safeHandle == null || safeHandle.IsInvalid)
-                    throw new InvalidOperationException("Cannot create file mapping");
+                    throw new InvalidOperationException("Cannot InnerGenerate file mapping");
             }
             catch
             {
@@ -128,7 +128,7 @@ namespace Undersoft.SDK.Stocks.MMF
             }
             catch
             {
-                throw new InvalidOperationException("Cannot create file mapping");
+                throw new InvalidOperationException("Cannot InnerGenerate file mapping");
             }
 
             return new MMFile(safeMemoryMappedFileHandle);

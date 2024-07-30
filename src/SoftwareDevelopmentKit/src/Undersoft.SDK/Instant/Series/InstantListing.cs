@@ -12,7 +12,7 @@
 
     public abstract class InstantListing : ListingBase<IInstant>, IInstantSeries
     {
-        public IInstantCreator Instant { get; set; }
+        public IInstantGenerator Instant { get; set; }
 
         public abstract bool Prime { get; set; }
 

@@ -57,7 +57,7 @@ public class DataCache : TypedCache<IIdentifiable>, IDataCache
         return item;
     }
 
-    public static IRubrics AssignKeyRubrics(ProxyCreator proxy, IOrigin item)
+    public static IRubrics AssignKeyRubrics(ProxyGenerator proxy, IOrigin item)
     {
         if (!proxy.Rubrics.KeyRubrics.Any())
         {

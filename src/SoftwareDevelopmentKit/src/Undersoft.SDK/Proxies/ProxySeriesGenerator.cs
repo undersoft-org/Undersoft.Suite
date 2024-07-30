@@ -6,31 +6,31 @@
     using Undersoft.SDK.Uniques;
     using Undersoft.SDK.Utilities;
 
-    public class ProxySeriesCreator<T> : ProxySeriesCreator
+    public class ProxySeriesGenerator<T> : ProxySeriesGenerator
     {
-        public ProxySeriesCreator() : base(typeof(T)) { }
+        public ProxySeriesGenerator() : base(typeof(T)) { }
 
-        public ProxySeriesCreator(bool threadSafe = true) : base(typeof(T), threadSafe) { }
+        public ProxySeriesGenerator(bool threadSafe = true) : base(typeof(T), threadSafe) { }
 
-        public ProxySeriesCreator(string seriesName) : base(typeof(T), seriesName) { }
+        public ProxySeriesGenerator(string seriesName) : base(typeof(T), seriesName) { }
 
-        public ProxySeriesCreator(string seriesName, bool threadSafe = true)
+        public ProxySeriesGenerator(string seriesName, bool threadSafe = true)
             : base(typeof(T), seriesName, threadSafe) { }
     }
 
-    public class ProxySeriesCreator : InstantSeriesCreator, IProxyCreator
+    public class ProxySeriesGenerator : InstantSeriesGenerator, IProxyGenerator
     {
-        private ProxyCreator proxy;
+        private ProxyGenerator proxy;
 
-        public ProxySeriesCreator(
-            ProxyCreator proxyGenerator,
+        public ProxySeriesGenerator(
+            ProxyGenerator proxyGenerator,
             string seriesTypeName = null,
             bool safeThread = true
         ) : base()
         {
             mode = InstantSeriesMode.proxy;
             if (proxyGenerator.Type == null)
-                proxyGenerator.Create();
+                proxyGenerator.Generate();
             threadSafe = safeThread;
             proxy = proxyGenerator;
             Name =
@@ -39,19 +39,19 @@
                     : proxy.Name + "_Proxy";
         }
 
-        public ProxySeriesCreator(IInstant instant, bool threadSafe = true)
+        public ProxySeriesGenerator(IInstant instant, bool threadSafe = true)
             : this(
-                new ProxyCreator(instant.GetType(), instant.GetType().Name),
+                new ProxyGenerator(instant.GetType(), instant.GetType().Name),
                 null,
                 threadSafe
             )
         { }
 
-        public ProxySeriesCreator(Type proxyModelType, bool threadSafe = true)
-            : this(new ProxyCreator(proxyModelType), null, threadSafe) { }
+        public ProxySeriesGenerator(Type proxyModelType, bool threadSafe = true)
+            : this(new ProxyGenerator(proxyModelType), null, threadSafe) { }
 
-        public ProxySeriesCreator(Type proxyModelType, string seriesName, bool threadSafe = true)
-            : this(new ProxyCreator(proxyModelType), seriesName, threadSafe) { }
+        public ProxySeriesGenerator(Type proxyModelType, string seriesName, bool threadSafe = true)
+            : this(new ProxyGenerator(proxyModelType), seriesName, threadSafe) { }
 
         public virtual Type TargetType => proxy.BaseType;
 
@@ -65,7 +65,7 @@
             get => proxy.Size;
         }
 
-        public override IInstantSeries Create()
+        public override IInstantSeries Generate()
         {
             if (Type == null)
             {
@@ -77,14 +77,14 @@
             return newProxies();
         }
 
-        public virtual ProxyCreator GetProxyCreator()
+        public virtual ProxyGenerator GetProxyGenerator()
         {
             return proxy;
         }
 
-        public virtual IProxy CreateProxy(object target = null)
+        public virtual IProxy GenerateProxy(object target = null)
         {
-            return proxy.Create(target);
+            return proxy.Generate(target);
         }
 
         public override object New()

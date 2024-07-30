@@ -1,88 +1,52 @@
 ﻿namespace Undersoft.SDK.Proxies;
 
-using Undersoft.SDK.Series;
 using Uniques;
 
 public static class ProxyFactory
 {
-    public static ISeries<ProxyCreator> Cache = new Registry<ProxyCreator>();
-
-    public static ProxyCreator GetCreator<T>()
-    {
-        return GetCreator(typeof(T));
-    }
-
-    public static ProxyCreator GetCreator(Type type)
-    {
-        return GetCreator(type, type.UniqueKey32());
-    }
-
-    public static ProxyCreator GetCreator(Type type, long key)
-    {
-        if (!Cache.TryGet(key, out ProxyCreator proxy))
-        {
-            Cache.Add(key, proxy = new ProxyCreator(type));
-        }
-        return proxy;
-    }
-
-    public static ProxyCreator GetCompiledCreator<T>()
-    {
-        var proxy = GetCreator<T>();
-        proxy.Create();
-        return proxy;
-    }
-
-    public static ProxyCreator GetCompiledCreator(Type type)
-    {
-        var proxy = GetCreator(type);
-        proxy.Create();
-        return proxy;
-    }
-
-    public static ProxyCreator GetCompiledCreator(object item)
-    {
-        var proxy = item.GetProxyCreator();
-        proxy.Create(item);
-        return proxy;
-    }
-
-    public static ProxyCreator GetCompiledCreator<T>(T item)
-    {
-        var proxy = item.GetProxyCreator();
-        proxy.Create(item);
-        return proxy;
-    }
-
-    public static IProxy Create(object item)
+    public static IProxy CreateProxy(object item)
     {
         var t = item.GetType();
-        if (!TryGetProxy(item, t, out var proxy))
+        if (!TryGetInnerProxy(item, t, out var proxy))
         {
             var key = t.UniqueKey32();
-            if (!Cache.TryGet(key, out ProxyCreator _proxy))
-                Cache.Add(key, _proxy = new ProxyCreator(t));
+            if (!ProxyGeneratorFactory.Cache.TryGet(key, out ProxyGenerator _proxy))
+                ProxyGeneratorFactory.Cache.Add(key, _proxy = new ProxyGenerator(t));
 
-            return _proxy.Create(item);
+            return _proxy.Generate(item);
         }
         return proxy;
     }
 
-    public static IProxy Create<T>(T item)
+    public static IProxy CreateProxy<T>(T item)
     {
         var t = typeof(T);
-        if (!TryGetProxy(item, t, out var proxy))
+        if (!TryGetInnerProxy(item, t, out var proxy))
         {
             var key = t.UniqueKey32();
-            if (!Cache.TryGet(key, out ProxyCreator _proxy))
-                Cache.Add(key, _proxy = new ProxyCreator<T>());
+            if (!ProxyGeneratorFactory.Cache.TryGet(key, out ProxyGenerator _proxy))
+                ProxyGeneratorFactory.Cache.Add(key, _proxy = new ProxyGenerator<T>());
 
-            return _proxy.Create(item);
+            return _proxy.Generate(item);
         }
         return proxy;
     }
 
-    private static bool TryGetProxy(object item, Type type, out IProxy proxy)
+    public static IProxy CreateProxy<T>(object item)
+    {
+        var t = typeof(T);
+        if (!TryGetInnerProxy(item, t, out var proxy))
+        {
+            var key = t.UniqueKey32();
+            if (!ProxyGeneratorFactory.Cache.TryGet(key, out ProxyGenerator _proxy))
+                ProxyGeneratorFactory.Cache.Add(key, _proxy = new ProxyGenerator<T>());
+
+            return _proxy.Generate(item);
+        }
+        return proxy;
+    }
+
+    private static bool TryGetInnerProxy(object item, Type type, out IProxy proxy)
     {
         var t = type;
         if (t.IsAssignableTo(typeof(IProxy)))

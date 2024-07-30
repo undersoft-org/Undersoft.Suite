@@ -9,7 +9,7 @@
 
     public interface IInstantSeries : ISeries<IInstant>, IInstant
     {
-        IInstantCreator Instant { get; set; }
+        IInstantGenerator Instant { get; set; }
 
         bool Prime { get; set; }
 

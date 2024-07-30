@@ -13,12 +13,12 @@ public abstract class ProxyCompilerBase : InstantCompilerBase
 {
     protected int rubricCount;
     protected InstantType instantType;
-    protected ProxyCreator proxyCreator;
+    protected ProxyGenerator proxyCreator;
     protected MethodBuilder raisePropertyChanged;
 
     public ISeries<MemberBuilder> rubricBuilders;
 
-    public ProxyCompilerBase(ProxyCreator creator, ISeries<MemberBuilder> rubricBuilders)
+    public ProxyCompilerBase(ProxyGenerator creator, ISeries<MemberBuilder> rubricBuilders)
     {
         proxyCreator = creator;
         this.rubricBuilders = rubricBuilders;

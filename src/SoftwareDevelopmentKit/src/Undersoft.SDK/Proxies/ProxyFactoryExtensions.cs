@@ -5,44 +5,44 @@ using Uniques;
 
 public static class ProxyFactoryExtensions
 {
-    public static ProxyCreator GetProxyCreator(this object item)
+    public static ProxyGenerator GetProxyGenerator(this object item)
     {
         var t = item.GetType();
         var key = t.UniqueKey32();
-        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator proxy))
+        if (!ProxyGeneratorFactory.Cache.TryGet(key, out ProxyGenerator proxy))
         {
-            ProxyFactory.Cache.Add(key, proxy = new ProxyCreator(t));
+            ProxyGeneratorFactory.Cache.Add(key, proxy = new ProxyGenerator(t));
         }
         return proxy;
     }
 
-    public static ProxyCreator GetProxyCreator<T>(this T item)
+    public static ProxyGenerator GetProxyGenerator<T>(this T item)
     {
         var t = typeof(T);
         var key = t.UniqueKey32();
-        if (!ProxyFactory.Cache.TryGet(key, out ProxyCreator proxy))
+        if (!ProxyGeneratorFactory.Cache.TryGet(key, out ProxyGenerator proxy))
         {
-            ProxyFactory.Cache.Add(key, proxy = new ProxyCreator(t));
+            ProxyGeneratorFactory.Cache.Add(key, proxy = new ProxyGenerator(t));
         }
         return proxy;
     }
 
     public static IProxy ToProxy(this object item)
     {
-        return ProxyFactory.Create(item);
+        return ProxyFactory.CreateProxy(item);
     }
 
     public static IProxy ToProxy<T>(this T item)
     {
         Type t = typeof(T);
         if (t.IsInterface)
-            return ProxyFactory.Create((object)item);
+            return ProxyFactory.CreateProxy((object)item);
 
-        return ProxyFactory.Create(item);
+        return ProxyFactory.CreateProxy(item);
     }
 
     public static IProxy ToProxy(this Type type)
     {
-        return ProxyFactory.Create(type.New());
+        return ProxyFactory.CreateProxy(type.New());
     }
 }

@@ -47,7 +47,7 @@ public class Updater<T> : Updater, IUpdater<T>
     public new T Clone()
     {
         var clone = typeof(T).New<T>();
-        var _clone = creator.Create(clone);
+        var _clone = creator.Generate(clone);
         _clone.PutFrom(Devisor);
         return clone;
     }

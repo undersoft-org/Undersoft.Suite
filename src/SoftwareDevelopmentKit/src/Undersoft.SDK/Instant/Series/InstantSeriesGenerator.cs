@@ -5,7 +5,7 @@
     using System.Linq;
     using Undersoft.SDK.Utilities;
 
-    public class InstantSeriesCreator<T> : InstantSeriesCreator
+    public class InstantSeriesCreator<T> : InstantSeriesGenerator
     {
         public InstantSeriesCreator(InstantType mode = InstantType.Reference, bool threadSafe = true) : base(typeof(T), mode, threadSafe) { }
 
@@ -13,26 +13,26 @@
             : base(typeof(T), seriesName, mode) { }
     }
 
-    public class InstantSeriesCreator : IInstantCreator
+    public class InstantSeriesGenerator : IInstantGenerator
     {
         protected Type compiledType;
-        private InstantCreator instant;
+        private InstantGenerator instant;
 
         protected long key;
         protected bool threadSafe;
         protected InstantSeriesMode mode;
 
-        public InstantSeriesCreator() { }
+        public InstantSeriesGenerator() { }
 
-        public InstantSeriesCreator(
-            InstantCreator instantGenerator,
+        public InstantSeriesGenerator(
+            InstantGenerator instantGenerator,
             string seriesTypeName = null,
             bool threadSafe = true
         )
         {
             mode = InstantSeriesMode.instant;
             if (instantGenerator.Type == null)
-                instantGenerator.Create();
+                instantGenerator.Generate();
             this.threadSafe = threadSafe;
             this.instant = instantGenerator;
             Name =
@@ -41,9 +41,9 @@
                     : instant.Name + "_Instant";
         }
 
-        public InstantSeriesCreator(IInstant instantObject, bool threadSafe = true)
+        public InstantSeriesGenerator(IInstant instantObject, bool threadSafe = true)
             : this(
-                new InstantCreator(
+                new InstantGenerator(
                     instantObject.GetType(),
                     instantObject.GetType().Name,
                     InstantType.Reference
@@ -53,45 +53,45 @@
             )
         { }
 
-        public InstantSeriesCreator(
+        public InstantSeriesGenerator(
             IInstant instantObject,
             string seriesTypeName,
             InstantType modeType = InstantType.Reference,
             bool threadSafe = true
         )
             : this(
-                new InstantCreator(instantObject.GetType(), instantObject.GetType().Name, modeType),
+                new InstantGenerator(instantObject.GetType(), instantObject.GetType().Name, modeType),
                 seriesTypeName,
                 threadSafe
             )
         { }
 
-        public InstantSeriesCreator(
+        public InstantSeriesGenerator(
             MemberRubrics instantRubrics,
             string seriesTypeName = null,
             string instantTypeName = null,
             InstantType modeType = InstantType.Reference,
             bool safeThread = true
-        ) : this(new InstantCreator(instantRubrics, instantTypeName, modeType), seriesTypeName, safeThread)
+        ) : this(new InstantGenerator(instantRubrics, instantTypeName, modeType), seriesTypeName, safeThread)
         { }
 
-        public InstantSeriesCreator(Type instantModelType, InstantType modeType, bool safeThread = true)
-            : this(new InstantCreator(instantModelType, null, modeType), null, safeThread) { }
+        public InstantSeriesGenerator(Type instantModelType, InstantType modeType, bool safeThread = true)
+            : this(new InstantGenerator(instantModelType, null, modeType), null, safeThread) { }
 
-        public InstantSeriesCreator(
+        public InstantSeriesGenerator(
             Type instantModelType,
             string seriesTypeName,
             InstantType modeType,
             bool safeThread = true
-        ) : this(new InstantCreator(instantModelType, null, modeType), seriesTypeName, safeThread) { }
+        ) : this(new InstantGenerator(instantModelType, null, modeType), seriesTypeName, safeThread) { }
 
-        public InstantSeriesCreator(
+        public InstantSeriesGenerator(
             Type instantModelType,
             string seriesTypeName,
             string instantTypeName,
             InstantType modeType = InstantType.Reference,
             bool safeThread = true
-        ) : this(new InstantCreator(instantModelType, instantTypeName, modeType), seriesTypeName, safeThread)
+        ) : this(new InstantGenerator(instantModelType, instantTypeName, modeType), seriesTypeName, safeThread)
         { }
 
         public Type BaseType { get; set; }
@@ -110,7 +110,7 @@
 
         public Type Type { get; set; }
 
-        public virtual IInstantSeries Create()
+        public virtual IInstantSeries Generate()
         {
             if (this.Type == null)
             {

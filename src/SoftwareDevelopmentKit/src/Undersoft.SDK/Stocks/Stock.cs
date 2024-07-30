@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Stocks;
 
 public class Stock<T> : Stock
 {
-    public Stock() : this(new InstantSeriesCreator<T>().Create()) { }
+    public Stock() : this(new InstantSeriesCreator<T>().Generate()) { }
 
     public Stock(IInstantSeries instantSeries) : base(new StockOptions<T>(instantSeries)) { }
 
@@ -104,7 +104,7 @@ public class Stock : IStock
 
     public Stock(IInstantSeries instantSeries) : this(new StockOptions(instantSeries)) { }
 
-    public Stock(Type type) : this(new InstantSeriesCreator(type, InstantType.Reference).Create()) { }
+    public Stock(Type type) : this(new InstantSeriesGenerator(type, InstantType.Reference).Generate()) { }
 
     public Stock(StockOptions options)
     {

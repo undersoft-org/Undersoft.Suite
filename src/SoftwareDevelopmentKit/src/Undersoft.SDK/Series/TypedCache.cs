@@ -90,8 +90,8 @@ public class TypedCache<V> : TypedRegistryBase<V> where V : IIdentifiable
         int group = GetDataTypeId(typeof(T));
         if (!cache.TryGet(group, out IIdentifiable catalog))
         {
-            ProxyCreator proxy = ProxyFactory.GetCreator(GetDataType(typeof(T)), group);
-            proxy.Create();
+            ProxyGenerator proxy = ProxyGeneratorFactory.GetOrCreateGenerator(GetDataType(typeof(T)), group);
+            proxy.Generate();
 
             IRubrics keyrubrics = proxy.Rubrics.KeyRubrics;
 

@@ -59,7 +59,7 @@ public class InnerProxy : Origin, IInnerProxy
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)this;
 
-        var proxy = ProxyFactory.GetCreator(type, TypeId).Create(this);
+        var proxy = ProxyGeneratorFactory.GetOrCreateGenerator(type, TypeId).Generate(this);
         //proxy.PropertyChanged += OnPropertyChanged;
 
         return proxy;

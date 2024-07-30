@@ -22,7 +22,7 @@ using Undersoft.SDK.Utilities;
 
 public class Updater : IUpdater
 {
-    protected ProxyCreator creator;
+    protected ProxyGenerator creator;
     protected IProxy source;
     protected Type type;
     protected int counter = 0;
@@ -103,16 +103,16 @@ public class Updater : IUpdater
         Combine(proxy);
     }
 
-    protected virtual ProxyCreator GetCreator(Type type)
+    protected virtual ProxyGenerator GetGenerator(Type type)
     {
-        return creator ??= ProxyFactory.GetCreator(type);
+        return creator ??= ProxyGeneratorFactory.CreateGenerator(type);
     }
 
     protected virtual void Combine(IProxy proxy)
     {
         type = proxy.Target.GetType();
         if (proxy.Rubrics == null)
-            proxy.Rubrics = GetCreator(type).Rubrics;
+            proxy.Rubrics = GetGenerator(type).Rubrics;
         source = proxy;
     }
 
@@ -125,7 +125,7 @@ public class Updater : IUpdater
 
     protected virtual void Combine(object item)
     {
-        source = GetCreator(type ??= item.GetType()).Create(item);
+        source = GetGenerator(type ??= item.GetType()).Generate(item);
     }
 
     public object Patch(object item)
@@ -197,7 +197,7 @@ public class Updater : IUpdater
     public object Clone()
     {
         var clone = type.New();
-        var _clone = creator.Create(clone);
+        var _clone = creator.Generate(clone);
         _clone.PutFrom(source);
         return clone;
     }

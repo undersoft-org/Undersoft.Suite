@@ -12,7 +12,7 @@
 
     public abstract class InstantRegistry : RegistryBase<IInstant>, IInstantSeries
     {
-        public IInstantCreator Instant { get; set; }
+        public IInstantGenerator Instant { get; set; }
 
         public abstract bool Prime { get; set; }
 

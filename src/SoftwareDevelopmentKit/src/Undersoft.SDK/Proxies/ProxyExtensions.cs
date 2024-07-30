@@ -4,61 +4,61 @@ public static class ProxyExtensions
 {
     public static R ValueOf<T, R>(this T item, string name) where T : class
     {
-        return (R)ProxyFactory.Create(item)[name];
+        return (R)ProxyFactory.CreateProxy(item)[name];
     }
 
     public static R ValueOf<R>(this object item, string name)
     {
-        return (R)ProxyFactory.Create(item)[name];
+        return (R)ProxyFactory.CreateProxy(item)[name];
     }
 
     public static object ValueOf(this object item, string name)
     {
-        return ProxyFactory.Create(item)[name];
+        return ProxyFactory.CreateProxy(item)[name];
     }
 
     public static R ValueOf<T, R>(this T item, int index) where T : class
     {
-        return (R)ProxyFactory.Create(item)[index];
+        return (R)ProxyFactory.CreateProxy(item)[index];
     }
 
     public static R ValueOf<R>(this object item, int index)
     {
-        return (R)ProxyFactory.Create(item)[index];
+        return (R)ProxyFactory.CreateProxy(item)[index];
     }
 
     public static object ValueOf(this object item, int index)
     {
-        return ProxyFactory.Create(item)[index];
+        return ProxyFactory.CreateProxy(item)[index];
     }
 
     public static R ValueOf<T, R>(this T item, string name, R value) where T : class
     {
-        return (R)(ProxyFactory.Create(item)[name] = value);
+        return (R)(ProxyFactory.CreateProxy(item)[name] = value);
     }
 
     public static R ValueOf<R>(this object item, string name, R value)
     {
-        return (R)(ProxyFactory.Create(item)[name] = value);
+        return (R)(ProxyFactory.CreateProxy(item)[name] = value);
     }
 
     public static object ValueOf(this object item, string name, object value)
     {
-        return ProxyFactory.Create(item)[name] = value;
+        return ProxyFactory.CreateProxy(item)[name] = value;
     }
 
     public static R ValueOf<T, R>(this T item, int index, R value) where T : class
     {
-        return (R)(ProxyFactory.Create(item)[index] = value);
+        return (R)(ProxyFactory.CreateProxy(item)[index] = value);
     }
 
     public static R ValueOf<R>(this object item, int index, R value)
     {
-        return (R)(ProxyFactory.Create(item)[index] = value);
+        return (R)(ProxyFactory.CreateProxy(item)[index] = value);
     }
 
     public static object ValueOf(this object item, int index, object value)
     {
-        return ProxyFactory.Create(item)[index] = value;
+        return ProxyFactory.CreateProxy(item)[index] = value;
     }
 }

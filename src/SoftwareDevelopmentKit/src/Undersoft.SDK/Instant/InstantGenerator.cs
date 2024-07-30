@@ -11,27 +11,27 @@
     using Undersoft.SDK.Uniques;
     using Undersoft.SDK.Utilities;
 
-    public class InstantCreator<T> : InstantCreator
+    public class InstantGenerator<T> : InstantGenerator
     {
-        public InstantCreator(InstantType modeType = InstantType.Reference)
+        public InstantGenerator(InstantType modeType = InstantType.Reference)
             : base(typeof(T), modeType) { }
 
-        public InstantCreator(string createdTypeName, InstantType modeType = InstantType.Reference)
+        public InstantGenerator(string createdTypeName, InstantType modeType = InstantType.Reference)
             : base(typeof(T), createdTypeName, modeType) { }
     }
 
-    public class InstantCreator : IInstantCreator
+    public class InstantGenerator : IInstantGenerator
     {
         protected MemberBuilderCreator memberBuilderCreator = new MemberBuilderCreator();
         protected ISeries<MemberBuilder> memberBuilders = new Registry<MemberBuilder>();
         private Type compiledType;
 
-        public InstantCreator(
+        public InstantGenerator(
             IList<MemberInfo> instantMembers,
             InstantType modeType = InstantType.Reference
         ) : this(instantMembers.ToArray(), null, modeType) { }
 
-        public InstantCreator(
+        public InstantGenerator(
             IList<MemberInfo> instantMembers,
             string createdTypeName,
             InstantType modeType = InstantType.Reference
@@ -54,16 +54,16 @@
             Rubrics.KeyRubrics = new MemberRubrics();
         }
 
-        public InstantCreator(
+        public InstantGenerator(
             MemberRubrics instantRubrics,
             string createdTypeName,
             InstantType modeType = InstantType.Reference
         ) : this(instantRubrics.ToArray(), createdTypeName, modeType) { }
 
-        public InstantCreator(Type baseOnType, InstantType modeType = InstantType.Reference)
+        public InstantGenerator(Type baseOnType, InstantType modeType = InstantType.Reference)
             : this(baseOnType, null, modeType) { }
 
-        public InstantCreator(
+        public InstantGenerator(
             Type baseOnType,
             string createdTypeName,
             InstantType modeType = InstantType.Reference
@@ -102,7 +102,7 @@
         private long? _seed = null;
         private long seed => _seed ??= Type.UniqueKey64();
 
-        public IInstant Create()
+        public IInstant Generate()
         {
             if (this.Type == null)
             {
@@ -111,15 +111,15 @@
                     switch (mode)
                     {
                         case InstantType.Reference:
-                            compileInstantType(
+                            CompileBuildedType(
                                 new InstantCompilerReferenceTypes(this, memberBuilders)
                             );
                             break;
                         case InstantType.ValueType:
-                            compileInstantType(new InstantCompilerValueTypes(this, memberBuilders));
+                            CompileBuildedType(new InstantCompilerValueTypes(this, memberBuilders));
                             break;
                         case InstantType.Derived:
-                            compileDerivedType(
+                            CompileDerivedType(
                                 new InstantCompilerDerivedTypes(this, memberBuilders)
                             );
                             break;
@@ -137,20 +137,20 @@
                     );
                 }
             }
-            return create();
+            return InnerGenerate();
         }
 
         public object New()
         {
             if (this.Type == null)
-                return Create();
+                return Generate();
             return this.Type.New();
         }
 
-        private IInstant create()
+        private IInstant InnerGenerate()
         {
             if (this.Type == null)
-                return Create();
+                return Generate();
 
             var figure = (IInstant)this.Type.New();
             figure.Id = Unique.NewId;
@@ -158,7 +158,7 @@
             return figure;
         }
 
-        private void compileDerivedType(InstantCompiler compiler)
+        private void CompileDerivedType(InstantCompiler compiler)
         {
             var fcdt = compiler;
             compiledType = fcdt.CompileInstantType(Name);
@@ -188,7 +188,7 @@
             }
         }
 
-        private void compileInstantType(InstantCompiler compiler)
+        private void CompileBuildedType(InstantCompiler compiler)
         {
             var fcvt = compiler;
             compiledType = fcvt.CompileInstantType(Name);
@@ -206,7 +206,7 @@
             }
         }
 
-        private MemberRubric[] createMemberRurics(IList<MemberInfo> membersInfo)
+        private MemberRubric[] CreateMemberRurics(IList<MemberInfo> membersInfo)
         {
             return membersInfo
                 .Select(

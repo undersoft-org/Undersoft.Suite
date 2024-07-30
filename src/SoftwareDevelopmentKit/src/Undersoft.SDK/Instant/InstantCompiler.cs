@@ -19,7 +19,7 @@
 
     public abstract class InstantCompiler : InstantCompilerBase
     {
-        protected InstantCreator figure;
+        protected InstantGenerator figure;
         protected int length;
         protected InstantType mode;
         protected FieldInfo scodeField;
@@ -29,7 +29,7 @@
         public ISeries<MemberBuilder> memberBuilders;
 
         public InstantCompiler(
-            InstantCreator instantInstantCreator,
+            InstantGenerator instantInstantCreator,
             ISeries<MemberBuilder> rubricBuilders
         )
         {

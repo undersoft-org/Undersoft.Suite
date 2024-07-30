@@ -19,7 +19,7 @@ public class ProxyCompiler : ProxyCompilerBase
     protected FieldBuilder changesField;
     public bool hasSerialCode;
 
-    public ProxyCompiler(ProxyCreator instantSleeve, ISeries<MemberBuilder> rubricBuilders)
+    public ProxyCompiler(ProxyGenerator instantSleeve, ISeries<MemberBuilder> rubricBuilders)
         : base(instantSleeve, rubricBuilders) { }
 
     public override Type CompileProxyType(string typeName)

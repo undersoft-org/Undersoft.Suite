@@ -2,7 +2,7 @@
 {
     using Rubrics;
 
-    public interface IInstantCreator
+    public interface IInstantGenerator
     {
         Type BaseType { get; set; }
 

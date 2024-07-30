@@ -70,9 +70,9 @@
             else
                 _columns.AddRange(columns);
 
-            InstantCreator rt = new InstantCreator(_columns.ToArray(), "SchemaInstantCreator");
-            InstantSeriesCreator tab = new InstantSeriesCreator(rt, "Schema");
-            IInstantSeries deck = tab.Create();
+            InstantGenerator rt = new InstantGenerator(_columns.ToArray(), "SchemaInstantCreator");
+            InstantSeriesGenerator tab = new InstantSeriesGenerator(rt, "Schema");
+            IInstantSeries deck = tab.Generate();
 
             List<DbTable> dbtabs = DbHand.Schema.DataDbTables.List;
             MemberRubric[] pKeys = columns
@@ -209,9 +209,9 @@
                 }
             }
 
-            InstantCreator rt = new InstantCreator(columns.ToArray(), tableName);
-            InstantSeriesCreator deck = new InstantSeriesCreator(rt, tableName + "_InstantSeriesCreator");
-            IInstantSeries tab = deck.Create();
+            InstantGenerator rt = new InstantGenerator(columns.ToArray(), tableName);
+            InstantSeriesGenerator deck = new InstantSeriesGenerator(rt, tableName + "_InstantSeriesCreator");
+            IInstantSeries tab = deck.Generate();
 
             if (dr.Read())
             {

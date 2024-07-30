@@ -16,14 +16,14 @@
         );
         private FieldBuilder count;
         private Type seriesType = typeof(InstantListing);
-        private InstantSeriesCreator series;
+        private InstantSeriesGenerator series;
         private FieldBuilder rubricsField;
         private FieldBuilder serialCodeField;
         private FieldBuilder structSizeField;
         private FieldBuilder structTypeField;
         private FieldBuilder tableField;
 
-        public InstantSeriesCompiler(InstantSeriesCreator instantInstantSeriesCreator, bool safeThread)
+        public InstantSeriesCompiler(InstantSeriesGenerator instantInstantSeriesCreator, bool safeThread)
         {
             series = instantInstantSeriesCreator;
             if (safeThread)

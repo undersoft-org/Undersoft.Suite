@@ -65,7 +65,7 @@
                             string createTable = "";
                             if (prepareType == BulkPrepareType.Drop)
                                 createTable += "Drop table if exists [" + buforTable + "] \n";
-                            createTable += "Create Table [" + buforTable + "] ( ";
+                            createTable += "Generate Table [" + buforTable + "] ( ";
                             foreach (MemberRubric column in deck.Rubrics.AsValues())
                             {
                                 string sqlTypeString = "varchar(200)";
@@ -156,7 +156,7 @@
                         string createTable = "";
                         if (prepareType == BulkPrepareType.Drop)
                             createTable += "Drop table if exists [" + buforTable + "] \n";
-                        createTable += "Create Table [" + buforTable + "] ( ";
+                        createTable += "Generate Table [" + buforTable + "] ( ";
                         foreach (MemberRubric column in deck.Rubrics.AsValues())
                         {
                             string sqlTypeString = "varchar(200)";

@@ -21,7 +21,7 @@ public class DataObject : InnerProxy, IDataObject
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)this;
 
-        return ProxyFactory.GetCreator(type, TypeId).Create(this);
+        return ProxyGeneratorFactory.GetOrCreateGenerator(type, TypeId).Generate(this);
     }
 
 }

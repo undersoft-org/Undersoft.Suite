@@ -7,22 +7,22 @@ using Undersoft.SDK.Instant;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Utilities;
 
-public class ProxyCreator<T> : ProxyCreator
+public class ProxyGenerator<T> : ProxyGenerator
 {
-    public ProxyCreator() : base(typeof(T)) { }
+    public ProxyGenerator() : base(typeof(T)) { }
 
-    public ProxyCreator(string proxyName) : base(typeof(T), proxyName) { }
+    public ProxyGenerator(string proxyName) : base(typeof(T), proxyName) { }
 }
 
-public class ProxyCreator : IInstantCreator
+public class ProxyGenerator : IInstantGenerator
 {
     private ISeries<MemberBuilder> rubricModels;
     private MemberBuilderCreator rubricBuilder;
     private Type compiledType;
 
-    public ProxyCreator(Type figureModelType) : this(figureModelType, null) { }
+    public ProxyGenerator(Type figureModelType) : this(figureModelType, null) { }
 
-    public ProxyCreator(Type figureModelType, string figureTypeName)
+    public ProxyGenerator(Type figureModelType, string figureTypeName)
     {
         Traceable = figureModelType.IsAssignableTo(typeof(ITracedSeries));
 
@@ -53,19 +53,19 @@ public class ProxyCreator : IInstantCreator
 
     public object New()
     {
-        return Create();
+        return Generate();
     }
 
-    public IProxy Create(object obj = null)
+    public IProxy Generate(object obj = null)
     {
-        var proxy = CreateProxy();
+        var proxy = Compile();
         if (obj == null)
             obj = BaseType.New();
         proxy.Target = obj;
         return proxy;
     }
 
-    public IProxy CreateProxy()
+    protected IProxy Compile()
     {
         if (Type == null)
         {
@@ -78,11 +78,11 @@ public class ProxyCreator : IInstantCreator
             }
             catch (Exception ex)
             {
-                throw new SleeveCompilerException("ProxyCreator compilation at runtime failed see inner exception", ex);
+                throw new SleeveCompilerException("ProxyGenerator compilation at runtime failed see inner exception", ex);
             }
         }
 
-        return Activate();
+        return CreateInstance();
     }
 
     private IProxy Compile(ProxyCompiler compiler)
@@ -107,7 +107,7 @@ public class ProxyCreator : IInstantCreator
         return (IProxy)obj;
     }
 
-    private IProxy Activate()
+    private IProxy CreateInstance()
     {
         var s = (IProxy)Type.New();
         s.Rubrics = Rubrics;

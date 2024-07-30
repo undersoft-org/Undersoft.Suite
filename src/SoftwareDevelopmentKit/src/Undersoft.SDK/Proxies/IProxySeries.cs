@@ -3,12 +3,12 @@ using Undersoft.SDK.Instant.Series;
 
 namespace Undersoft.SDK.Proxies
 {
-    public interface IProxyCreator : IInstantCreator
+    public interface IProxyGenerator : IInstantGenerator
     {
 
         Type TargetType { get; }
-        IInstantSeries Create();
-        IProxy CreateProxy(object target = null);
-        ProxyCreator GetProxyCreator();
+        IInstantSeries Generate();
+        IProxy GenerateProxy(object target = null);
+        ProxyGenerator GetProxyGenerator();
     }
 }

@@ -39,7 +39,7 @@ public class Proxy<T> : Proxy, IProxy<T> where T : class
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)target;
 
-        return proxy ??= ProxyFactory.GetCreator<T>().Create(target);
+        return proxy ??= ProxyFactory.CreateProxy<T>(target);
     }
 }
 
@@ -107,6 +107,6 @@ public class Proxy : InnerProxy, IProxy
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)target;
 
-        return proxy ??= ProxyFactory.GetCreator(type).Create(target);
+        return proxy ??= ProxyFactory.CreateProxy(target);
     }
 }
