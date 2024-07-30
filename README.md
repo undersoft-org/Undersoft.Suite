@@ -1,5 +1,5 @@
 ## Undersoft Suite
-### This is part of portfolio and skills presenting web applications with operational data service tier. Various designs and implementations of generated as single code based hybrid applications. Web api's with remote multi service facades and more...
+### This is part of portfolio and skills presenting web applications with operational data service tier. Various designs and implementations of generated as single code based hybrid applications connected to application server Web API with remote multi service facade. 
 
 ### Landing
 ![SSC_Landing](https://github.com/undersoft-org/Undersoft/assets/82622935/9273f4b7-7c83-42c0-a4af-7f56a7f0dc44)
