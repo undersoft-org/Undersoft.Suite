@@ -123,8 +123,8 @@ public partial class ChangePasswordBase : ComponentBase
         var result = await _access.ChangePassword(new Account() { Credentials = content!.Model });
 
         if (
-            result.Notes.Status != SigningStatus.InvalidEmail
-            && result.Notes.Status == SigningStatus.ResetPasswordNotConfirmed
+            result.Notes.Status != AccessStatus.InvalidEmail
+            && result.Notes.Status == AccessStatus.ResetPasswordNotConfirmed
         )
         {
             _navigation.NavigateTo("");

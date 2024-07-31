@@ -5,10 +5,10 @@
 <div>
     @if (ShowName)
     {
-        <FluentProfileMenu   Name="@Name" Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
+        <FluentProfileMenu FullName="@Name" Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
     }
     else
     {
-        <FluentPersona Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
+        <FluentProfileMenu Initials="@Initials" Image="@Image" ImageSize="@ImageSize" />
     }
 </div>

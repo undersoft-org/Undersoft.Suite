@@ -2,13 +2,14 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Model.Attributes;
 using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SVC.Service.Contracts
 {
+    using Undersoft.SDK.Service.Access;
+    using Undersoft.SDK.Service.Access.Identity;
     using Undersoft.SVC.Service.Contracts.Accounts;
 
     [Validator("AccountValidator")]
@@ -130,12 +131,13 @@ namespace Undersoft.SVC.Service.Contracts
         [Extended]
         public virtual AccountProfessional? Professional { get; set; } = default!;
 
-        public long? ConsentId { get; set; }
+        public long? OrganizationId { get; set; }
 
         [AutoExpand]
         [Extended]
         public virtual AccountOrganization? Organization { get; set; } = default!;
-        public long? OrganizationId { get; set; }
+
+        public long? ConsentId { get; set; }
 
         [AutoExpand]
         [Extended]
@@ -153,6 +155,8 @@ namespace Undersoft.SVC.Service.Contracts
 
         public long? TenantId { get; set; }
 
+        [AutoExpand]
+        [Extended]
         public virtual AccountTenant? Tenant { get; set; } = default!;
     }
 }

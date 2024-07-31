@@ -185,8 +185,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.HasKey("Id");
 
                     b.ToTable("Credentials", "Accounts");
-
-                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Undersoft.SDK.Service.Operation.OperationNotes", b =>
@@ -335,6 +333,9 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.HasIndex("PaymentId")
                         .IsUnique();
 
+                    b.HasIndex("PersonalId")
+                        .IsUnique();
+
                     b.HasIndex("ProfessionalId")
                         .IsUnique();
 
@@ -350,7 +351,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("Accounts", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountAddress", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountAddress", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -433,7 +434,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("AccountAddreses", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountClaim", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -460,98 +461,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("AccountClaims", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountConsent", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<long?>("ConsentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<bool>("MarketingConsent")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("MarketingText")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<bool>("PersonalDataConsent")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PersonalDataText")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TermsConsent")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("TermsText")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("ThirdPartyConsent")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("ThirdPartyText")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("ConsentId");
-
-                    b.ToTable("AccountConsents", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountLogin", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -578,7 +488,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("AccountLogins", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountOrganization", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -669,7 +579,525 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("AccountOrganizations", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountPayment", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountPersonal", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecondName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SocialMedia")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.Property<string>("Websites")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.ToTable("AccountPersonals", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountProfessional", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("Profession")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionIndustry")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionalEmail")
+                        .HasColumnType("text");
+
+                    b.Property<float>("ProfessionalExperience")
+                        .HasColumnType("real");
+
+                    b.Property<string>("ProfessionalPhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionalSocialMedia")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionalWebsites")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.ToTable("AccountProffesionals", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountRole", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AccountRoles", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsLockedOut")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("RegistrationCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AccountUsers", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.Organization", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("OrganizationFullName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrganizationImage")
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("OrganizationImageData")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("OrganizationIndustry")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrganizationName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("OrganizationSize")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("OrganizationWebsites")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PositionInOrganization")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.Role", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("Roles", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.RoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("AccountRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountRoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountConsent", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<long?>("ConsentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<bool>("MarketingConsent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("MarketingText")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<bool>("PersonalDataConsent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PersonalDataText")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TermsConsent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("TermsText")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("ThirdPartyConsent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ThirdPartyText")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("ConsentId");
+
+                    b.ToTable("AccountConsents", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountPayment", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -781,396 +1209,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("AccountPayments", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountPersonal", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Birthdate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecondName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SocialMedia")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.Property<string>("Websites")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.ToTable("AccountPersonals", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Profession")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProfessionIndustry")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProfessionalEmail")
-                        .HasColumnType("text");
-
-                    b.Property<float>("ProfessionalExperience")
-                        .HasColumnType("real");
-
-                    b.Property<string>("ProfessionalPhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProfessionalSocialMedia")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProfessionalWebsites")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.ToTable("AccountProffesionals", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountRole", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AccountRoles", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountTenant", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<long?>("TenantId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("TenantName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TenantPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TenantUrl")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("AccountTenants", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountToken", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<long>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.HasIndex("AccountId");
-
-                    b.ToTable("AccountTokens", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountUser", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsLockedOut")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("RegistrationCompleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AccountUsers", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Consent", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Consent", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1250,87 +1289,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("Consents", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Organization", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(1);
-
-                    b.Property<string>("CodeNo")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Creator")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnOrder(10);
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
-
-                    b.Property<string>("Label")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnOrder(11);
-
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("timestamp")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("Modifier")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("OrganizationFullName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrganizationImage")
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("OrganizationImageData")
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("OrganizationIndustry")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrganizationName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("OrganizationSize")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("OrganizationWebsites")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PositionInOrganization")
-                        .HasColumnType("text");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("TypeName")
-                        .HasMaxLength(768)
-                        .HasColumnType("character varying(768)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Organizations", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Payment", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Payment", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1431,71 +1390,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("Payment", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Role", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("Roles", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.RoleClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<long>("AccountRoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TypeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountRoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleClaims", "Accounts");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Subscription", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Subscription", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1580,7 +1475,83 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Tenant", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.AccountTenant", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CodeNo")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnOrder(4);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(8);
+
+                    b.Property<string>("Creator")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(9);
+
+                    b.Property<int>("Index")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnOrder(10);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Index"));
+
+                    b.Property<string>("Label")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnOrder(11);
+
+                    b.Property<DateTime>("Modified")
+                        .HasColumnType("timestamp")
+                        .HasColumnOrder(6);
+
+                    b.Property<string>("Modifier")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnOrder(7);
+
+                    b.Property<long?>("TenantId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("TenantName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantUrl")
+                        .HasColumnType("text");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("TypeName")
+                        .HasMaxLength(768)
+                        .HasColumnType("character varying(768)")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("AccountTenants", "Accounts");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.Tenant", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -1645,21 +1616,39 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.ToTable("Tenants", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountCredentials", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Tokens.AccountToken", b =>
                 {
-                    b.HasBaseType("Undersoft.SDK.Service.Access.Credentials");
-
-                    b.Property<long?>("AccountId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("AccountCredentials", "Accounts");
+                    b.ToTable("AccountTokens", "Accounts");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountSubscription", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountSubscription", b =>
                 {
-                    b.HasBaseType("Undersoft.SDK.Service.Server.Accounts.Subscription");
+                    b.HasBaseType("Undersoft.SDK.Service.Server.Accounts.Licensing.Subscription");
 
                     b.Property<long?>("AccountId")
                         .HasColumnType("bigint");
@@ -1683,7 +1672,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Role", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1692,11 +1681,11 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
 
             modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Account", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountAddress", "Address")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountAddress", "Address")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "AddressId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountConsent", "Consent")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountConsent", "Consent")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "ConsentId");
 
@@ -1708,27 +1697,31 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         .WithMany()
                         .HasForeignKey("NotesId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", "Organization")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountOrganization", "Organization")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "OrganizationId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountPayment", "Payment")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountPayment", "Payment")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "PaymentId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", "Professional")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountPersonal", "Personal")
+                        .WithOne()
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "PersonalId");
+
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountProfessional", "Professional")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "ProfessionalId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountSubscription", "Subscription")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountSubscription", "Subscription")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "SubscriptionId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountTenant", "Tenant")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.AccountTenant", "Tenant")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "TenantId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountUser", "User")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", "User")
                         .WithOne()
                         .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Account", "UserId");
 
@@ -1744,6 +1737,8 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
 
                     b.Navigation("Payment");
 
+                    b.Navigation("Personal");
+
                     b.Navigation("Professional");
 
                     b.Navigation("Subscription");
@@ -1753,55 +1748,40 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountAddress", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountAddress", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountAddress", "AccountId");
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Identity.AccountAddress", "AccountId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountClaim", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountClaim", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountUser", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountConsent", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountLogin", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountConsent", "AccountId");
-
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Consent", "Consent")
-                        .WithMany("AccountConsents")
-                        .HasForeignKey("ConsentId");
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Consent");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountLogin", b =>
-                {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountUser", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountOrganization", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountOrganization", "AccountId");
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Identity.AccountOrganization", "AccountId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Organization", "Organization")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.Organization", "Organization")
                         .WithMany("AccountOrganizations")
                         .HasForeignKey("OrganizationId");
 
@@ -1810,87 +1790,40 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountPayment", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountPersonal", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountPayment", "AccountId");
-
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Payment", "Payment")
-                        .WithMany("AccountPayments")
-                        .HasForeignKey("PaymentId");
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Payment");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountPersonal", b =>
-                {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithOne("Personal")
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountPersonal", "AccountId");
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Identity.AccountPersonal", "AccountId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountProfessional", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountProfessional", "AccountId");
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Identity.AccountProfessional", "AccountId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountRole", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountRole", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Role", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountUser", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountTenant", b =>
-                {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountTenant", "AccountId");
-
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Tenant", "Tenant")
-                        .WithMany("AccountTenants")
-                        .HasForeignKey("TenantId");
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Tenant");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountToken", b =>
-                {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithMany("Tokens")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.AccountUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountUser", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithMany()
@@ -1899,15 +1832,15 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.RoleClaim", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.RoleClaim", b =>
                 {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Role", "Role")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.Role", "Role")
                         .WithMany("Claims")
                         .HasForeignKey("AccountRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Role", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1916,34 +1849,81 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountCredentials", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountConsent", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
-                    b.HasOne("Undersoft.SDK.Service.Access.Credentials", null)
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountCredentials", "Id")
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountConsent", "AccountId");
+
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.Consent", "Consent")
+                        .WithMany("AccountConsents")
+                        .HasForeignKey("ConsentId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Consent");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountPayment", b =>
+                {
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountPayment", "AccountId");
+
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.Payment", "Payment")
+                        .WithMany("AccountPayments")
+                        .HasForeignKey("PaymentId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.AccountTenant", b =>
+                {
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.AccountTenant", "AccountId");
+
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.Tenant", "Tenant")
+                        .WithMany("AccountTenants")
+                        .HasForeignKey("TenantId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Tokens.AccountToken", b =>
+                {
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
+                        .WithMany("Tokens")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.AccountSubscription", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountSubscription", b =>
                 {
                     b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountSubscription", "AccountId");
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountSubscription", "AccountId");
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Subscription", null)
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.Subscription", null)
                         .WithOne()
-                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.AccountSubscription", "Id")
+                        .HasForeignKey("Undersoft.SDK.Service.Server.Accounts.Licensing.AccountSubscription", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Subscription", "Subscription")
+                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Licensing.Subscription", "Subscription")
                         .WithMany("AccountSubscriptions")
                         .HasForeignKey("SubscriptionId");
 
@@ -1954,37 +1934,35 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
 
             modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Account", b =>
                 {
-                    b.Navigation("Personal");
-
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Consent", b =>
-                {
-                    b.Navigation("AccountConsents");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Organization", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.Organization", b =>
                 {
                     b.Navigation("AccountOrganizations");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Payment", b =>
-                {
-                    b.Navigation("AccountPayments");
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Role", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.Role", b =>
                 {
                     b.Navigation("Claims");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Subscription", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Consent", b =>
+                {
+                    b.Navigation("AccountConsents");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Payment", b =>
+                {
+                    b.Navigation("AccountPayments");
+                });
+
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Licensing.Subscription", b =>
                 {
                     b.Navigation("AccountSubscriptions");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Tenant", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.MultiTenancy.Tenant", b =>
                 {
                     b.Navigation("AccountTenants");
                 });

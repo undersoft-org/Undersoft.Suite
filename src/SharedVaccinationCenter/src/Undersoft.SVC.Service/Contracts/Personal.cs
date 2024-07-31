@@ -11,7 +11,7 @@ using Undersoft.SVC.Domain.Entities.Enums;
 
 namespace Undersoft.SVC.Service.Contracts
 {
-    public class Personal : SDK.Service.Access.Models.Personal, IContract
+    public class Personal : SDK.Service.Access.Identity.Personal, IContract
     {
         public IdentifierType IdentifierType { get; set; }
 

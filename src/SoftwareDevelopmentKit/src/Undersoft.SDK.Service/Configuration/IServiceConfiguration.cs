@@ -35,6 +35,6 @@ public interface IServiceConfiguration : IConfiguration
     string IdentityServiceName();
     string[] IdentityServerScopes();
     string[] IdentityServerRoles();
-    AccessServerOptions GetAccessServerConfiguration();
-    AccessServerOptions AccessOptions { get; }
+    AccessOptions GetAccessServerConfiguration();
+    AccessOptions AccessOptions { get; }
 }

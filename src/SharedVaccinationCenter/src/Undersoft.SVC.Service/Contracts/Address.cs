@@ -8,7 +8,7 @@
 
 namespace Undersoft.SVC.Service.Contracts
 {
-    public class Address : SDK.Service.Access.Models.Address
+    public class Address : SDK.Service.Access.Identity.Address
     {
         public long? SupplierId { get; set; }
     }

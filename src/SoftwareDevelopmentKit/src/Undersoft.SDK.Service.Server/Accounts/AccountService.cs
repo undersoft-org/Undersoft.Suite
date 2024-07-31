@@ -40,7 +40,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Success = "Signed in",
-                Status = SigningStatus.SignedIn
+                Status = AccessStatus.SignedIn
             };
             var _account = await _manager.GetByEmail(account.Credentials.Email);
             var claims = await _manager.User.GetClaimsAsync(_account.User);
@@ -80,7 +80,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             identity.Notes = new OperationNotes()
             {
                 Errors = "Account already exists!!",
-                Status = SigningStatus.Failure
+                Status = AccessStatus.Failure
             };
             return identity;
         }
@@ -102,7 +102,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Success = "Signed out",
-                Status = SigningStatus.SignedOut
+                Status = AccessStatus.SignedOut
             };
         }
         return account;
@@ -121,7 +121,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Success = "Token renewed",
-                    Status = SigningStatus.Succeed
+                    Status = AccessStatus.Succeed
                 };
             }
             else
@@ -130,7 +130,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Errors = "Invalid token ",
-                    Status = SigningStatus.Failure
+                    Status = AccessStatus.Failure
                 };
             }
         }
@@ -152,7 +152,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Errors = "Invalid email",
-                Status = SigningStatus.InvalidEmail
+                Status = AccessStatus.InvalidEmail
             };
             return account;
         }
@@ -175,7 +175,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
 
         var _creds = account?.Credentials;
 
-        if (account.Notes.Status == SigningStatus.InvalidEmail)
+        if (account.Notes.Status == AccessStatus.InvalidEmail)
         {
             _creds.Password = null;
             return account;
@@ -189,7 +189,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Errors = "Invalid password",
-                    Status = SigningStatus.InvalidPassword
+                    Status = AccessStatus.InvalidPassword
                 };
             }
             else
@@ -204,7 +204,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Errors = "Account is locked out",
-                Status = SigningStatus.InvalidPassword
+                Status = AccessStatus.InvalidPassword
             };
         }
         _creds.Password = null;
@@ -235,7 +235,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                         account.Notes = new OperationNotes()
                         {
                             Success = "Email has been confirmed",
-                            Status = SigningStatus.EmailConfirmed
+                            Status = AccessStatus.EmailConfirmed
                         };
                         this.Success<Accesslog>(account.Notes.Success, account);
                     }
@@ -246,7 +246,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                             Errors = result.Errors
                                 .Select(d => d.Description)
                                 .Aggregate((a, b) => a + ". " + b),
-                            Status = SigningStatus.Failure
+                            Status = AccessStatus.Failure
                         };
                         this.Failure<Accesslog>(account.Notes.Errors, account);
                     }
@@ -271,7 +271,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Info = "Please check your email",
-                    Status = SigningStatus.EmailNotConfirmed,
+                    Status = AccessStatus.EmailNotConfirmed,
                 };
                 this.Security<Accesslog>(account.Notes.Info, account);
             }
@@ -312,7 +312,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                     account.Notes = new OperationNotes()
                     {
                         Success = "Password has been reset",
-                        Status = SigningStatus.ResetPasswordConfirmed
+                        Status = AccessStatus.ResetPasswordConfirmed
                     };
                     this.Success<Accesslog>(account.Notes.Success, account);
                     _ = _servicer.Serve<IEmailSender>(
@@ -332,7 +332,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                         Errors = result.Errors
                             .Select(d => d.Description)
                             .Aggregate((a, b) => a + ". " + b),
-                        Status = SigningStatus.Failure
+                        Status = AccessStatus.Failure
                     };
                     this.Failure<Accesslog>(account.Notes.Errors, account);
                 }
@@ -357,7 +357,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Info = "Please check your email to confirm password reset",
-                Status = SigningStatus.ResetPasswordNotConfirmed,
+                Status = AccessStatus.ResetPasswordNotConfirmed,
             };
             account.Credentials.Authenticated = false;
             this.Security<Accesslog>(account.Notes.Info, account);
@@ -383,7 +383,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Success = "Password has been changed",
-                    Status = SigningStatus.Succeed
+                    Status = AccessStatus.Succeed
                 };
                 this.Success<Accesslog>(account.Notes.Success, account);
             }
@@ -395,7 +395,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                     Errors = result.Errors
                         .Select(d => d.Description)
                         .Aggregate((a, b) => a + ". " + b),
-                    Status = SigningStatus.Failure
+                    Status = AccessStatus.Failure
                 };
                 this.Failure<Accesslog>(account.Notes.Errors, account);
             }
@@ -416,7 +416,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Notes = new OperationNotes()
                 {
                     Errors = "Account not found",
-                    Status = SigningStatus.RegistrationNotCompleted
+                    Status = AccessStatus.RegistrationNotCompleted
                 };
                 this.Failure<Accesslog>(account.Notes.Success, account);
                 return account;
@@ -445,7 +445,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                         account.Notes = new OperationNotes()
                         {
                             Success = "Registration completed",
-                            Status = SigningStatus.RegistrationCompleted
+                            Status = AccessStatus.RegistrationCompleted
                         };
                         this.Success<Accesslog>(account.Notes.Success, account);
                     }
@@ -459,7 +459,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                     account.Notes = new OperationNotes()
                     {
                         Errors = "Registration not completed. Invalid verification code",
-                        Status = SigningStatus.RegistrationNotCompleted
+                        Status = AccessStatus.RegistrationNotCompleted
                     };
                     this.Failure<Accesslog>(account.Notes.Success, account);
                 }
@@ -486,7 +486,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Info = "Please confirm registration process",
-                Status = SigningStatus.RegistrationNotConfirmed
+                Status = AccessStatus.RegistrationNotConfirmed
             };
         }
         else
@@ -505,7 +505,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Errors = "Account not found",
-                Status = SigningStatus.RegistrationNotCompleted
+                Status = AccessStatus.RegistrationNotCompleted
             };
             this.Failure<Accesslog>(account.Notes.Success, account);
             return account;
@@ -515,18 +515,18 @@ public class AccountService<TAccount> : IAccessService<TAccount>
 
         var _accountuser = await _manager.User.FindByEmailAsync(_creds.Email);
 
-        if (account.Notes.Status != SigningStatus.RegistrationNotCompleted)
+        if (account.Notes.Status != AccessStatus.RegistrationNotCompleted)
             _accountuser.RegistrationCompleted = true;
 
         if ((await _manager.User.UpdateAsync(_accountuser)).Succeeded)
         {
-            if (account.Notes.Status != SigningStatus.RegistrationNotCompleted)
+            if (account.Notes.Status != AccessStatus.RegistrationNotCompleted)
                 _creds.RegistrationCompleted = true;
             _creds.Authenticated = true;
             _account.Notes = new OperationNotes()
             {
                 Success = "Registration completed",
-                Status = SigningStatus.RegistrationCompleted
+                Status = AccessStatus.RegistrationCompleted
             };
             this.Success<Accesslog>(_account.Notes.Success, account);
         }
@@ -558,7 +558,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Errors = "Account not found",
-                Status = SigningStatus.RegistrationNotCompleted
+                Status = AccessStatus.RegistrationNotCompleted
             };
             this.Failure<Accesslog>(account.Notes.Success, account);
             return account;
@@ -589,7 +589,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             account.Notes = new OperationNotes()
             {
                 Errors = "Account not found",
-                Status = SigningStatus.RegistrationNotCompleted
+                Status = AccessStatus.RegistrationNotCompleted
             };
             this.Failure<Accesslog>(account.Notes.Success, account);
             return account;

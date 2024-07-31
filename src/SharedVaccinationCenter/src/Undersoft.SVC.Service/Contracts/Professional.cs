@@ -10,7 +10,7 @@ using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SVC.Service.Contracts
 {
-    public class Professional : SDK.Service.Access.Models.Professional, IContract
+    public class Professional : SDK.Service.Access.Identity.Professional, IContract
     {
         public string? ProfessionalImage { get; set; }
 

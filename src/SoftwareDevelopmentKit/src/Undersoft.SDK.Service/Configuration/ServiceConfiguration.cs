@@ -14,8 +14,8 @@ public class ServiceConfiguration : IServiceConfiguration
     private IConfiguration config;
     public IServiceCollection Services;
 
-    private AccessServerOptions _accessoptions;
-    public AccessServerOptions AccessOptions => _accessoptions ??= GetAccessServerConfiguration();
+    private AccessOptions _accessoptions;
+    public AccessOptions AccessOptions => _accessoptions ??= GetAccessServerConfiguration();
 
     private RepositoryOptions _repository;
     public RepositoryOptions Repositories => _repository ??= GetRepositoryConfiguration();
@@ -217,16 +217,16 @@ public class ServiceConfiguration : IServiceConfiguration
         return AccessServer()?.GetValue<string[]>("Roles");
     }
 
-    public AccessServerOptions GetAccessServerConfiguration()
+    public AccessOptions GetAccessServerConfiguration()
     {
-        var identity = new AccessServerOptions();
+        var identity = new AccessOptions();
         config.Bind("AccessServer", identity);
         return identity;
     }
 
-    public AccessServerOptions GetOpenApiConfiguration()
+    public AccessOptions GetOpenApiConfiguration()
     {
-        var identity = new AccessServerOptions();
+        var identity = new AccessOptions();
         config.Bind("AccessServer", identity);
         return identity;
     }

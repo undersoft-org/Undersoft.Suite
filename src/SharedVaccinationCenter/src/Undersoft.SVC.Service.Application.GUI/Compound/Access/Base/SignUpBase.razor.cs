@@ -131,7 +131,7 @@ public partial class SignUpBase : ComponentBase
 
         var result = await _access.SignUp(new Account() { Credentials = content.Model });
 
-        if (result.Notes.Status != SigningStatus.Failure && result.Notes.Errors == null)
+        if (result.Notes.Status != AccessStatus.Failure && result.Notes.Errors == null)
         {
             _navigation.NavigateTo($"access/confirm_email/{result.Credentials.Email}");
             return null;

@@ -114,13 +114,13 @@ public partial class RegisterBase : ComponentBase
         }
 
         if (content!.StateFlags.Canceled)
-            content.Model.Notes.Status = SigningStatus.RegistrationNotCompleted;
+            content.Model.Notes.Status = AccessStatus.RegistrationNotCompleted;
 
         var result = await _access.Register(content.Model);
 
         if (
-            result.Notes.Status != SigningStatus.InvalidEmail
-            && result.Notes.Status == SigningStatus.RegistrationCompleted
+            result.Notes.Status != AccessStatus.InvalidEmail
+            && result.Notes.Status == AccessStatus.RegistrationCompleted
         )
         {
             _navigation.NavigateTo("access/sign_in");

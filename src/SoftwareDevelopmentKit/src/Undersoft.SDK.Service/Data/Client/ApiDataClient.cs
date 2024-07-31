@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Service.Data.Client
 {
     public partial class ApiDataClient : HttpClient
     {
-        ISecurityString _securityString;
+        IAccessString _securityString;
 
         public ApiDataClient(Uri serviceUri)
         {
@@ -31,7 +31,7 @@ namespace Undersoft.SDK.Service.Data.Client
             {
                 var strings = securityString.Split(" ");
                 string prefix = strings.Length > 0 ? strings[0] : null;
-                _securityString = new SecurityString(strings.LastOrDefault(), prefix);
+                _securityString = new AccessString(strings.LastOrDefault(), prefix);
                 this.SetBearerToken(_securityString.Encoded);
             }
         }

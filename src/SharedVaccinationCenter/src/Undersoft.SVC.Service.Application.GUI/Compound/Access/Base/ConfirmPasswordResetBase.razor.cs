@@ -132,7 +132,7 @@ public partial class ConfirmPasswordResetBase : ComponentBase
 
         var result = await _access.ResetPassword(new Account() { Credentials = content!.Model });
 
-        if (result.Notes.Status == SigningStatus.ResetPasswordConfirmed)
+        if (result.Notes.Status == AccessStatus.ResetPasswordConfirmed)
         {
             _navigation.NavigateTo("");
             return null;

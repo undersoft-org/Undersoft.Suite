@@ -11,7 +11,7 @@ using Undersoft.SVC.Domain.Entities.Vaccination;
 
 namespace Undersoft.SVC.Domain.Entities
 {
-    public class Personal : SDK.Service.Access.Models.Personal, IEntity
+    public class Personal : SDK.Service.Access.Identity.Personal, IEntity
     {
         public IdentifierType IdentifierType { get; set; }
 

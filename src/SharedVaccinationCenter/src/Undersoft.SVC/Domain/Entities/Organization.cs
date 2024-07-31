@@ -14,7 +14,7 @@ namespace Undersoft.SVC.Domain.Entities
     /// <summary>
     /// The contact organization.
     /// </summary>
-    public class Organization : SDK.Service.Access.Models.Organization, IEntity
+    public class Organization : SDK.Service.Access.Identity.Organization, IEntity
     {
         public IdentifierType OrganizationIdentifierType { get; set; }
 

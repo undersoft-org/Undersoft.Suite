@@ -7,7 +7,7 @@
 // *************************************************
 
 using System.Runtime.Serialization;
-using Undersoft.SDK.Service.Access.Models;
+using Undersoft.SDK.Service.Access.Identity;
 using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SVC.Service.Contracts.Accounts

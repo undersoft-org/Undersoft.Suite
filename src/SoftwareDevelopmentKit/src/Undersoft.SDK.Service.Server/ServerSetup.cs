@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Exporter;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
 
 namespace Undersoft.SDK.Service.Server;
 
@@ -25,8 +26,10 @@ using Undersoft.SDK.Service.Access.MultiTenancy;
 using Undersoft.SDK.Service.Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 using Undersoft.SDK.Utilities;
-using Role = Accounts.Role;
+using Role = Role;
 
 public partial class ServerSetup : ServiceSetup, IServerSetup
 {

@@ -135,7 +135,7 @@ public partial class ConfirmEmailBase : ComponentBase
 
         var result = await _access.ConfirmEmail(new Account() { Credentials = content!.Model });
 
-        if (result.Notes.Status == SigningStatus.EmailConfirmed)
+        if (result.Notes.Status == AccessStatus.EmailConfirmed)
         {
             _navigation.NavigateTo("access/register");
             return null;

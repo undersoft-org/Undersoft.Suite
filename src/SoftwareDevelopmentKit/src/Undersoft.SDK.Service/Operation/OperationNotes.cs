@@ -16,9 +16,9 @@ namespace Undersoft.SDK.Service.Operation
         public string Info { get; set; }
 
         [DataMember(Order = 3)]
-        public SigningStatus Status { get; set; }
+        public AccessStatus Status { get; set; }
 
         [DataMember(Order = 4)]
-        public bool IsSuccess => Errors != null || (Status & SigningStatus.Failure) > 0 ? false : true;
+        public bool IsSuccess => Errors != null || (Status & AccessStatus.Failure) > 0 ? false : true;
     }
 }

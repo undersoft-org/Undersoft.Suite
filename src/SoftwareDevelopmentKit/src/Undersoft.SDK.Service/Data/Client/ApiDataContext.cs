@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Service.Data.Client
     {
         private readonly Registry<Arguments> CommandRegistry;
 
-        private ISecurityString _securityString;
+        private IAccessString _securityString;
 
         public ApiDataContext(Uri serviceUri) : base(serviceUri)
         {

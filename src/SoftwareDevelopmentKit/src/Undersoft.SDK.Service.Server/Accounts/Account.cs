@@ -1,5 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
+using Undersoft.SDK.Service.Server.Accounts.Licensing;
+using Undersoft.SDK.Service.Server.Accounts.MultiTenancy;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 
 namespace Undersoft.SDK.Service.Server.Accounts;
 

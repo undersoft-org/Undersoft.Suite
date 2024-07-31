@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 using Claim = System.Security.Claims.Claim;
 
 namespace Undersoft.SDK.Service.Server.Accounts;
@@ -151,7 +153,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
             account.Notes.Errors = result
                 .Errors.Select(e => e.Description)
                 .Aggregate((a, b) => a + ", " + b);
-            account.Notes.Status = SigningStatus.Failure;
+            account.Notes.Status = AccessStatus.Failure;
             return (Account)account;
         }
         var _account = (Account)account;

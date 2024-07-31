@@ -10,7 +10,7 @@ using Undersoft.SVC.Domain.Entities.Catalogs;
 
 namespace Undersoft.SVC.Domain.Entities
 {
-    public class Address : SDK.Service.Access.Models.Address, IEntity
+    public class Address : SDK.Service.Access.Identity.Address, IEntity
     {
         public long? SupplierId { get; set; }
 

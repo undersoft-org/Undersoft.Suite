@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Service.Data.Client
     {
         protected ApiDataContext ApiContext;
 
-        private ISecurityString _securityString;
+        private IAccessString _securityString;
 
         public OpenDataContext(Uri serviceUri) : base(serviceUri)
         {
@@ -19,7 +19,7 @@ namespace Undersoft.SDK.Service.Data.Client
                 new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
-            MergeOption = MergeOption.AppendOnly;
+            MergeOption = MergeOption.OverwriteChanges;
 
             IgnoreResourceNotFoundException = true;
 
@@ -85,7 +85,7 @@ namespace Undersoft.SDK.Service.Data.Client
             {
                 var strings = securityString.Split(" ");
                 string prefix = strings.Length > 0 ? strings[0] : null;
-                _securityString = new SecurityString(strings.LastOrDefault(), prefix);
+                _securityString = new AccessString(strings.LastOrDefault(), prefix);
             }
         }
 

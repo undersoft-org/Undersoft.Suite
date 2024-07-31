@@ -1,5 +1,4 @@
-﻿
-namespace Undersoft.SDK.Service.Access
+﻿namespace Undersoft.SDK.Service.Access
 {
     public interface IAccessAction
     {

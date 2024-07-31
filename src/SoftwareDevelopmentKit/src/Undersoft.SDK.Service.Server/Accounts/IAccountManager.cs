@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 using Claim = System.Security.Claims.Claim;
 
 namespace Undersoft.SDK.Service.Server.Accounts

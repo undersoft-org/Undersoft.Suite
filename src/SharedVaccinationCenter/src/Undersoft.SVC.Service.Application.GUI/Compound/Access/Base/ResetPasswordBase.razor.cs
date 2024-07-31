@@ -119,8 +119,8 @@ public partial class ResetPasswordBase : ComponentBase
         var result = await _access.ResetPassword(new Account() { Credentials = content!.Model });
 
         if (
-            result.Notes.Status != SigningStatus.InvalidEmail
-            && result.Notes.Status == SigningStatus.ResetPasswordNotConfirmed
+            result.Notes.Status != AccessStatus.InvalidEmail
+            && result.Notes.Status == AccessStatus.ResetPasswordNotConfirmed
         )
         {
             _navigation.NavigateTo($"access/confirm_password_reset/{result.Credentials.Email}");

@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using Undersoft.SDK.Service.Infrastructure.Database;
+using Undersoft.SDK.Service.Server.Accounts.Identity;
+using Undersoft.SDK.Service.Server.Accounts.Licensing;
+using Undersoft.SDK.Service.Server.Accounts.MultiTenancy;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 
 namespace Undersoft.SDK.Service.Server.Accounts;
 
@@ -118,10 +122,6 @@ public partial class AccountStoreContext<TStore>
         builder.Entity<AccountPayment>(entity =>
         {
             entity.ToTable("AccountPayments");
-        });
-        builder.Entity<AccountCredentials>(entity =>
-        {
-            entity.ToTable("AccountCredentials");
         });
         builder.Entity<AccountTenant>(entity =>
         {

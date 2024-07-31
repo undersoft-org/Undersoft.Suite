@@ -5,7 +5,10 @@ namespace Undersoft.SDK.Service.Server.Accounts
 {
     using Undersoft.SDK.Service.Data.Store;
     using Undersoft.SDK.Service.Infrastructure.Database;
-    using Undersoft.SDK.Service.Infrastructure.Database.Relation;
+    using Undersoft.SDK.Service.Server.Accounts.Identity;
+    using Undersoft.SDK.Service.Server.Accounts.Licensing;
+    using Undersoft.SDK.Service.Server.Accounts.MultiTenancy;
+    using Undersoft.SDK.Service.Server.Accounts.Tokens;
 
     public class AccountMappings : EntityTypeMapping<Account>
     {
@@ -22,8 +25,8 @@ namespace Undersoft.SDK.Service.Server.Accounts
             builder.HasOne(c => c.Address).WithOne().HasForeignKey<Account>(c => c.AddressId);
             builder.Navigation(n => n.Address).AutoInclude();
 
-            //builder.HasOne(c => c.Personal).WithOne().HasForeignKey<Account>(c => c.PersonalId);
-            //builder.Navigation(n => n.Personal).AutoInclude();          
+            builder.HasOne(c => c.Personal).WithOne().HasForeignKey<Account>(c => c.PersonalId);
+            builder.Navigation(n => n.Personal).AutoInclude();
 
             builder.HasOne(c => c.Professional).WithOne().HasForeignKey<Account>(c => c.ProfessionalId);
             builder.Navigation(n => n.Professional).AutoInclude();
@@ -57,17 +60,10 @@ namespace Undersoft.SDK.Service.Server.Accounts
     {
         public override void Configure(EntityTypeBuilder<AccountPersonal> builder)
         {
-            //builder
-            //    .HasOne(c => c.Account)
-            //    .WithOne()
-            //    .HasForeignKey<AccountPersonal>(k => k.AccountId);
-
-            ModelBuilder.RelateOneToOne<Account, AccountPersonal>(
-               r => r.Account,
-               r => r.Personal,
-               ExpandSite.OnRight,
-               true
-           );
+            builder
+                .HasOne(c => c.Account)
+                .WithOne()
+                .HasForeignKey<AccountPersonal>(k => k.AccountId);
         }
     }
 

@@ -10,7 +10,7 @@ using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SVC.Service.Contracts.Accounts
 {
-    public class AccountAddress : SDK.Service.Access.Models.Address, IContract
+    public class AccountAddress : SDK.Service.Access.Identity.Address, IContract
     {
         public virtual long? AccountId { get; set; }
     }

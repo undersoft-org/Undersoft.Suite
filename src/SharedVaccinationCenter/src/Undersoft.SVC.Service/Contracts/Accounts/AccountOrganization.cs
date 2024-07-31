@@ -10,7 +10,7 @@ using Undersoft.SDK.Service.Data.Contract;
 
 namespace Undersoft.SVC.Service.Contracts.Accounts
 {
-    public class AccountOrganization : SDK.Service.Access.Models.Organization, IContract
+    public class AccountOrganization : SDK.Service.Access.Identity.Organization, IContract
     {
     }
 }
