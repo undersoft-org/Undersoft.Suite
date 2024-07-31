@@ -1,4 +1,6 @@
-﻿namespace Undersoft.GCC.Infrastructure.Currencies
+﻿using Undersoft.SDK.Utilities;
+
+namespace Undersoft.GCC.Infrastructure.Currencies
 {
     public class CurrenciesContextFactory<T> : ICurrenciesContextFactory<T> where T : CurrenciesContext
     {

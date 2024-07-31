@@ -31,7 +31,7 @@
 
         public int FieldId
         {
-            get => Rubric.InstantCreatorFieldId;
+            get => Rubric.InstantGeneratorFieldId;
         }
 
         public MathSet Formuler { get; set; }

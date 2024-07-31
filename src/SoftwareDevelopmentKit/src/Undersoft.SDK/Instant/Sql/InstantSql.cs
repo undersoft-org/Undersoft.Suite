@@ -13,7 +13,7 @@ namespace Undersoft.SDK.Instant.Sql
             Context = sqlcontext;
         }
 
-        public IInstantSeries InstantSeriesCreator { get; private set; }
+        public IInstantSeries InstantSeriesGenerator { get; private set; }
 
         public InstantSqlContext Context { get; }
     }
@@ -27,7 +27,7 @@ namespace Undersoft.SDK.Instant.Sql
             Context = sqlcontext;
         }
 
-        public IInstantSeries InstantSeriesCreator { get; private set; }
+        public IInstantSeries InstantSeriesGenerator { get; private set; }
 
         public InstantSqlContext Context { get; }
     }

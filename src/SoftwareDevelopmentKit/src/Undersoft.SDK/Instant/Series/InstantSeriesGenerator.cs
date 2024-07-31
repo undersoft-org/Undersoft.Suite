@@ -5,11 +5,11 @@
     using System.Linq;
     using Undersoft.SDK.Utilities;
 
-    public class InstantSeriesCreator<T> : InstantSeriesGenerator
+    public class InstantSeriesGenerator<T> : InstantSeriesGenerator
     {
-        public InstantSeriesCreator(InstantType mode = InstantType.Reference, bool threadSafe = true) : base(typeof(T), mode, threadSafe) { }
+        public InstantSeriesGenerator(InstantType mode = InstantType.Reference, bool threadSafe = true) : base(typeof(T), mode, threadSafe) { }
 
-        public InstantSeriesCreator(string seriesName, InstantType mode = InstantType.Reference, bool threadSafe = true)
+        public InstantSeriesGenerator(string seriesName, InstantType mode = InstantType.Reference, bool threadSafe = true)
             : base(typeof(T), seriesName, mode) { }
     }
 

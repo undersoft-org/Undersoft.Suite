@@ -17,27 +17,27 @@ public class ExtractTest
     internal byte[] sourceBuffer = new byte[ushort.MaxValue];
     internal IInstant? instant = null;
     internal IInstantSeries? instantSeries = null;
-    internal InstantCreator? instantCreator = null;
+    internal InstantGenerator? instantGenerator = null;
     internal byte[]? serializedBytesA = null;
     internal byte[]? serializedBytesB = null;
-    internal InstantSeriesCreator instantSeriesCreator = null;
+    internal InstantSeriesGenerator instantSeriesGenerator = null;
 
     public ExtractTest()
     {
         Random r = new Random();
         r.NextBytes(sourceBuffer);
 
-        instantCreator = new InstantCreator(
+        instantGenerator = new InstantGenerator(
             InstantMocks.Instant_MemberRubric_FieldsAndPropertiesModel(),
             "Instant_MemberRubric_FieldsAndPropertiesModel_ValueType", InstantType.Reference
         );
         FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
-        instantSeriesCreator = new InstantSeriesCreator(instantCreator, "InstantSeries_Compilation_Test");
-        instantSeries = instantSeriesCreator.Create();
+        instantSeriesGenerator = new InstantSeriesGenerator(instantGenerator, "InstantSeries_Compilation_Test");
+        instantSeries = instantSeriesGenerator.Generate();
 
         instant = instantSeries.NewInstant();
 
-        foreach (var rubric in instantCreator.Rubrics.AsValues())
+        foreach (var rubric in instantGenerator.Rubrics.AsValues())
         {
             if (rubric.FieldId > -1)
             {

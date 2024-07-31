@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
+namespace Undersoft.GCC.Infrastructure.Stores.Migrations.Reports
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -21,7 +21,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "TEXT", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
@@ -46,7 +46,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "TEXT", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
@@ -80,7 +80,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "TEXT", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),
@@ -120,7 +120,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false),
                     TypeId = table.Column<long>(type: "INTEGER", nullable: false),
-                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "TEXT", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "TEXT", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "TEXT", maxLength: 128, nullable: true),

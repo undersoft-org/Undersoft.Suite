@@ -28,10 +28,12 @@ namespace Undersoft.GCC.Infrastructure.Currencies
             var mem = new Memory<byte>(data.GetAllBytes());
             try
             {
-                foreach (var size in sizes)
+                foreach (var size in sizes.Where(s => s > 0))
                 {
                     XmlDocument xmlDocument = new XmlDocument();
                     var xml = Encoding.UTF8.GetString(mem.Slice(offset, size).ToArray());
+                    if (string.IsNullOrEmpty(xml))
+                        continue;
                     xmlDocument.LoadXml(xml);
                     xmlDocuments.Add(xmlDocument);
                     offset += size;

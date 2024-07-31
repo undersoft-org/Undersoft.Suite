@@ -12,8 +12,8 @@
 
     public class InstantCompilerDerivedTypes : InstantCompiler
     {
-        public InstantCompilerDerivedTypes(InstantGenerator instantInstantCreator, ISeries<MemberBuilder> memberBuilders)
-            : base(instantInstantCreator, memberBuilders) { }
+        public InstantCompilerDerivedTypes(InstantGenerator instantInstantGenerator, ISeries<MemberBuilder> memberBuilders)
+            : base(instantInstantGenerator, memberBuilders) { }
 
         public override Type CompileInstantType(string typeName)
         {

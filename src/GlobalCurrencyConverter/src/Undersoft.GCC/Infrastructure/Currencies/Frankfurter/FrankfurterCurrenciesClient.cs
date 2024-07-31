@@ -1,5 +1,4 @@
 ﻿using Undersoft.GCC.Domain.Entities;
-using Undersoft.GCC.Infrastructure.Currencies;
 
 namespace Undersoft.GCC.Infrastructure.Currencies.Frankfurter
 {
@@ -10,7 +9,7 @@ namespace Undersoft.GCC.Infrastructure.Currencies.Frankfurter
         public override IEnumerable<int> GetAllRatesStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            Uri route = new Uri($"{_baseUri.AbsoluteUri}/{_provider.HistorySince.ToString("yyyy-MM-dd")}");
+            Uri route = new Uri($"{_baseUri.AbsoluteUri}{_provider.HistorySince.ToString("yyyy-MM-dd")}");
 
             return WriteResponseToStream(route, ref stream).ToEnumerable(); ;
         }
@@ -18,7 +17,7 @@ namespace Undersoft.GCC.Infrastructure.Currencies.Frankfurter
         public override IEnumerable<int> GetCurrenciesStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            Uri route = new Uri($"{_baseUri.AbsoluteUri}/currencies");
+            Uri route = new Uri($"{_baseUri.AbsoluteUri}currencies");
 
             return WriteResponseToStream(route, ref stream).ToEnumerable(); ;
         }
@@ -26,7 +25,7 @@ namespace Undersoft.GCC.Infrastructure.Currencies.Frankfurter
         public override IEnumerable<int> GetLatestRatesStream(out MemoryStream stream)
         {
             stream = new MemoryStream();
-            Uri route = new Uri($"{_baseUri.AbsoluteUri}/latest");
+            Uri route = new Uri($"{_baseUri.AbsoluteUri}latest");
 
             return WriteResponseToStream(route, ref stream).ToEnumerable(); ;
         }
@@ -41,7 +40,7 @@ namespace Undersoft.GCC.Infrastructure.Currencies.Frankfurter
                 return [];
 
             stream = new MemoryStream();
-            Uri route = new Uri($"{_baseUri.AbsoluteUri}/latest");
+            Uri route = new Uri($"{_baseUri.AbsoluteUri}latest");
 
             return WriteResponseToStream(route, ref stream).ToEnumerable();
         }

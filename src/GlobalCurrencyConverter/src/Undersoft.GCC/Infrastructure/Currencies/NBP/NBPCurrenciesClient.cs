@@ -1,5 +1,4 @@
 ﻿using Undersoft.GCC.Domain.Entities;
-using Undersoft.GCC.Infrastructure.Currencies;
 
 namespace Undersoft.GCC.Infrastructure.Currencies.NBP
 {
@@ -38,7 +37,7 @@ namespace Undersoft.GCC.Infrastructure.Currencies.NBP
                 for (int i = 0; i < TABLE_GROUP.Length; i++)
                     listing.Add(WriteResponseToStream(new Uri($"{_baseUri.AbsoluteUri}/tables/{TABLE_GROUP[i]}/{timeRoute}?format=json"), ref stream));
 
-                date.AddDays(-91);
+                date = date.AddDays(-91);
             }
             while (date > _provider.HistorySince);
 

@@ -23,9 +23,9 @@
         private FieldBuilder structTypeField;
         private FieldBuilder tableField;
 
-        public InstantSeriesCompiler(InstantSeriesGenerator instantInstantSeriesCreator, bool safeThread)
+        public InstantSeriesCompiler(InstantSeriesGenerator instantInstantSeriesGenerator, bool safeThread)
         {
-            series = instantInstantSeriesCreator;
+            series = instantInstantSeriesGenerator;
             if (safeThread)
                 seriesType = typeof(InstantRegistry);
             series.BaseType = seriesType;

@@ -7,7 +7,7 @@ using Undersoft.GCC.Infrastructure.Stores;
 
 #nullable disable
 
-namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
+namespace Undersoft.GCC.Infrastructure.Stores.Migrations.Reports
 {
     [DbContext(typeof(ReportStore))]
     partial class ReportStoreModelSnapshot : ModelSnapshot
@@ -16,7 +16,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
@@ -29,7 +29,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -104,7 +103,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -181,7 +179,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -279,7 +276,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Reports
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);

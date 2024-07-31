@@ -25,7 +25,7 @@ namespace Undersoft.SDK.Tests.Instant
                 VersionId = 222
             };
 
-            var Proxy = new ProxyCreator<Agreement>();
+            var Proxy = new ProxyGenerator<Agreement>();
 
             profile.AutoId();
 
@@ -33,7 +33,7 @@ namespace Undersoft.SDK.Tests.Instant
 
             var _Proxy1 = Proxy.Create(_Proxy0);
 
-            var _InstantSeries = new InstantSeriesCreator(_Proxy1);
+            var _InstantSeries = new InstantSeriesGenerator(_Proxy1);
 
             var prop = Proxy.Rubrics;
             List<IProxy> list = new();
@@ -65,7 +65,7 @@ namespace Undersoft.SDK.Tests.Instant
                 VersionId = 222
             };
 
-            var Proxy = new ProxyCreator<Agreement>();
+            var Proxy = new ProxyGenerator<Agreement>();
 
             profile.AutoId();
 

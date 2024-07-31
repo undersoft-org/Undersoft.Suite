@@ -14,9 +14,9 @@
     public class InstantCompilerReferenceTypes : InstantCompiler
     {
         public InstantCompilerReferenceTypes(
-            InstantGenerator instantInstantCreator,
+            InstantGenerator instantInstantGenerator,
             ISeries<MemberBuilder> rubricBuilders
-        ) : base(instantInstantCreator, rubricBuilders) { }
+        ) : base(instantInstantGenerator, rubricBuilders) { }
 
         public override Type CompileInstantType(string typeName)
         {

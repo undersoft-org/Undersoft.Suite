@@ -41,13 +41,14 @@ namespace Undersoft.GCC.Infrastructure.Currencies
                 }
 
             }
-            while ((buf == null || !buf.Wait(3000)) && retryCount > 0);
+            while ((buf == null || !buf.Wait(10000)) && retryCount > 0);
 
             int size = 0;
             if (retryCount > 0)
             {
                 size = buf!.Result.Length;
                 stream.Write(buf.Result, 0, size);
+                this.Info<Netlog>($"Succesfully load currency provider {uri.Host} data from endpoint {uri.AbsolutePath}");
             }
             else
                 this.Failure<Netlog>("Retrying load data from currency data service failed!", _provider);

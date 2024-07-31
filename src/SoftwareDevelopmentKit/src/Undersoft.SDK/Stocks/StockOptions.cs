@@ -6,7 +6,7 @@ namespace Undersoft.SDK.Stocks
 {
     public class StockOptions<T> : StockOptions
     {
-        public StockOptions() : base(new InstantSeriesCreator<T>().Generate()) { }
+        public StockOptions() : base(new InstantSeriesGenerator<T>().Generate()) { }
 
         public StockOptions(IInstantSeries instantSeries) : base(instantSeries) { }
     }
@@ -58,7 +58,7 @@ namespace Undersoft.SDK.Stocks
         protected Type itemtype;
         protected IInstantSeries instantSeries;
 
-        public IInstantSeries InstantSeriesCreator
+        public IInstantSeries InstantSeriesGenerator
         {
             get => instantSeries;
             set => instantSeries = value;

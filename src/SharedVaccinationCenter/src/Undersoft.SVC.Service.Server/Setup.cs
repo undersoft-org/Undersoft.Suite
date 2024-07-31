@@ -34,14 +34,8 @@ public class Setup
         srvc.AddServerSetup()
             .ConfigureServer(
                 true,
-                new[]
-                {
-                    typeof(AccountStore),
-                    typeof(EventStore),
-                    typeof(EntryStore),
-                    typeof(ReportStore)
-                },
-                new[] { typeof(ApplicationClient) }
+                [typeof(AccountStore), typeof(EventStore), typeof(EntryStore), typeof(ReportStore)],
+                [typeof(ApplicationClient)]
             )
             .AddAccessServer<AccountStore, Account>()
             .AddDataServer<IEntityStore>(
@@ -67,15 +61,17 @@ public class Setup
             )
             .AddDataServer<IAccountStore>(
                 DataServerTypes.All,
-                builder => builder.AddInvocations<Account>()
-                                  .AddInvocations<AccountAddress>()
-                                  .AddInvocations<AccountPersonal>()
-                                  .AddInvocations<AccountProfessional>()
-                                  .AddInvocations<AccountOrganization>()
-                                  .AddInvocations<AccountSubscription>()
-                                  .AddInvocations<AccountConsent>()
-                                  .AddInvocations<AccountTenant>()
-                                  .AddInvocations<AccountPayment>()
+                builder =>
+                    builder
+                        .AddInvocations<Account>()
+                        .AddInvocations<AccountAddress>()
+                        .AddInvocations<AccountPersonal>()
+                        .AddInvocations<AccountProfessional>()
+                        .AddInvocations<AccountOrganization>()
+                        .AddInvocations<AccountSubscription>()
+                        .AddInvocations<AccountConsent>()
+                        .AddInvocations<AccountTenant>()
+                        .AddInvocations<AccountPayment>()
             );
     }
 
@@ -87,7 +83,7 @@ public class Setup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseServerSetup(env)
-            .UseServiceServer(new string[] { "v1" })
+            .UseServiceServer(["v1"])
             .UseInternalProvider()
             .UseDataMigrations()
             .UseServiceClients();

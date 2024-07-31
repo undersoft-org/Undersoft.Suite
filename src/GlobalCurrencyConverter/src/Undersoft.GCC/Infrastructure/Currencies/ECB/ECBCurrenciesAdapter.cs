@@ -1,6 +1,6 @@
-﻿using System.Xml;
+﻿using System.Globalization;
+using System.Xml;
 using Undersoft.GCC.Domain.Entities;
-using Undersoft.GCC.Infrastructure.Currencies;
 using Undersoft.SDK.Uniques;
 
 namespace Undersoft.GCC.Infrastructure.Currencies.ECB;
@@ -52,7 +52,7 @@ public class ECBCurrenciesAdapter : CurrenciesXmlAdapter
                         SourceCurrencyId = _provider.BaseCurrencyId,
                         SourceRate = 1.00D,
                         TargetCurrencyId = currencies.Where(c => c.Name == "currency").First().Value.UniqueKey64(),
-                        TargetRate = double.Parse(currencies.Where(c => c.Name == "rate").First().Value),
+                        TargetRate = Double.Parse(currencies.Where(c => c.Name == "rate").First().Value, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture),
                         PublishDate = publishTime,
                         Type = CurrencyRateType.Mid
                     };

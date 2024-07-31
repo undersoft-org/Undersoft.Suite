@@ -10,12 +10,12 @@ public class ConversionArithmetic<T> where T : class, ICurrencyConversion
 {
     InstantMath<T> _math;
     IInstantSeries _series;
-    InstantSeriesCreator<T> _creator;
+    InstantSeriesGenerator<T> _creator;
 
     public ConversionArithmetic(IEnumerable<T> rates)
     {
-        _creator = new InstantSeriesCreator<T>(InstantType.Derived, threadSafe: true);
-        _series = _creator.Create();
+        _creator = new InstantSeriesGenerator<T>(InstantType.Derived, threadSafe: true);
+        _series = _creator.Generate();
         _math = new InstantMath<T>(_series);
     }
 

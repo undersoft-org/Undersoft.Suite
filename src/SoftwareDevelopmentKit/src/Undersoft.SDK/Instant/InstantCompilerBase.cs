@@ -38,8 +38,8 @@
                             {
                                 if (
                                     methodName
-                                        != nameof(this.ResolveInstantCreatorIdentityAttributes)
-                                    && methodName != nameof(this.ResolveInstantCreatorKeyAttributes)
+                                        != nameof(this.ResolveInstantGeneratorIdentityAttributes)
+                                    && methodName != nameof(this.ResolveInstantGeneratorKeyAttributes)
                                 )
                                     invoker.Invoke(fb, mi, mr);
                                 else
@@ -71,7 +71,7 @@
                 if ((o != null) && o.Any())
                 {
                     InstantAsAttribute faa = (InstantAsAttribute)o.First();
-                    CreateInstantCreatorAsAttribute(
+                    CreateInstantGeneratorAsAttribute(
                         field,
                         new InstantAsAttribute(UnmanagedType.ByValArray)
                         {
@@ -84,7 +84,7 @@
                     int size = 64;
                     if (member.RubricSize > 0)
                         size = member.RubricSize;
-                    CreateInstantCreatorAsAttribute(
+                    CreateInstantGeneratorAsAttribute(
                         field,
                         new InstantAsAttribute(UnmanagedType.ByValArray) { SizeConst = size }
                     );
@@ -122,7 +122,7 @@
                 if ((o != null) && o.Any())
                 {
                     InstantAsAttribute maa = (InstantAsAttribute)o.First();
-                    CreateInstantCreatorAsAttribute(
+                    CreateInstantGeneratorAsAttribute(
                         field,
                         new InstantAsAttribute(UnmanagedType.ByValTStr)
                         {
@@ -135,7 +135,7 @@
                     int size = 64;
                     if (member.RubricSize > 0)
                         size = member.RubricSize;
-                    CreateInstantCreatorAsAttribute(
+                    CreateInstantGeneratorAsAttribute(
                         field,
                         new InstantAsAttribute(UnmanagedType.ByValTStr) { SizeConst = size }
                     );
@@ -154,7 +154,7 @@
             }
         }
 
-        public void CreateInstantCreatorAsAttribute(FieldBuilder field, InstantAsAttribute attrib)
+        public void CreateInstantGeneratorAsAttribute(FieldBuilder field, InstantAsAttribute attrib)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(
@@ -166,7 +166,7 @@
             );
         }
 
-        public void CreateInstantCreatorDisplayAttribute(
+        public void CreateInstantGeneratorDisplayAttribute(
             FieldBuilder field,
             DisplayRubricAttribute attrib
         )
@@ -176,7 +176,7 @@
             );
         }
 
-        public void CreateInstantCreatorSizeAttribute(
+        public void CreateInstantGeneratorSizeAttribute(
             FieldBuilder field,
             RubricSizeAttribute attrib
         )
@@ -186,7 +186,7 @@
             );
         }
 
-        public void CreateInstantCreatorIdentityAttribute(
+        public void CreateInstantGeneratorIdentityAttribute(
             FieldBuilder field,
             IdentityRubricAttribute attrib
         )
@@ -205,7 +205,7 @@
             );
         }
 
-        public void CreateInstantCreatorKeyAttribute(FieldBuilder field, KeyRubricAttribute attrib)
+        public void CreateInstantGeneratorKeyAttribute(FieldBuilder field, KeyRubricAttribute attrib)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(
@@ -221,49 +221,49 @@
             );
         }
 
-        public void CreateInstantCreatorRequiredAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorRequiredAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(RequiredRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorDisabledAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorDisabledAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(DisabledRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorVisibleAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorVisibleAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(VisibleRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorExtendedAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorExtendedAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(ExtendedRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorSortableAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorSortableAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(SortableRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorFilterableAttribute(FieldBuilder field)
+        public void CreateInstantGeneratorFilterableAttribute(FieldBuilder field)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(FilterableRubricCtor, Type.EmptyTypes)
             );
         }
 
-        public void CreateInstantCreatorAggregateAttribute(
+        public void CreateInstantGeneratorAggregateAttribute(
             FieldBuilder field,
             AggregateRubricAttribute attrib
         )
@@ -278,7 +278,7 @@
             );
         }
 
-        public void CreateInstantCreatorLinkAttribute(FieldBuilder field, LinkAttribute attrib)
+        public void CreateInstantGeneratorLinkAttribute(FieldBuilder field, LinkAttribute attrib)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(
@@ -294,7 +294,7 @@
             );
         }
 
-        public void CreateInstantCreatorFileAttribute(
+        public void CreateInstantGeneratorFileAttribute(
             FieldBuilder field,
             FileRubricAttribute attrib
         )
@@ -313,7 +313,7 @@
             );
         }
 
-        public void CreateInstantCreatorInvokeAttribute(FieldBuilder field, InvokeAttribute attrib)
+        public void CreateInstantGeneratorInvokeAttribute(FieldBuilder field, InvokeAttribute attrib)
         {
             field.SetCustomAttribute(
                 new CustomAttributeBuilder(
@@ -331,7 +331,7 @@
             );
         }
 
-        public void CreateInstantCreatorIconAttribute(
+        public void CreateInstantGeneratorIconAttribute(
             FieldBuilder field,
             IconRubricAttribute attrib
         )
@@ -362,7 +362,7 @@
             );
         }
 
-        public void ResolveInstantCreatorDisplayAttributes(
+        public void ResolveInstantGeneratorDisplayAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -377,18 +377,18 @@
                 mr.DisplayName = fda.Name;
 
                 if (fb != null)
-                    CreateInstantCreatorDisplayAttribute(fb, fda);
+                    CreateInstantGeneratorDisplayAttribute(fb, fda);
             }
             else if (mr.DisplayName != null)
             {
-                CreateInstantCreatorDisplayAttribute(
+                CreateInstantGeneratorDisplayAttribute(
                     fb,
                     new DisplayRubricAttribute(mr.DisplayName)
                 );
             }
         }
 
-        public void ResolveInstantCreatorSizeAttributes(
+        public void ResolveInstantGeneratorSizeAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -402,15 +402,15 @@
                 mr.RubricSize = fda.SizeConst;
 
                 if (fb != null)
-                    CreateInstantCreatorSizeAttribute(fb, fda);
+                    CreateInstantGeneratorSizeAttribute(fb, fda);
             }
             else if (mr.RubricSize > 0)
             {
-                CreateInstantCreatorSizeAttribute(fb, new RubricSizeAttribute(mr.RubricSize));
+                CreateInstantGeneratorSizeAttribute(fb, new RubricSizeAttribute(mr.RubricSize));
             }
         }
 
-        public void ResolveInstantCreatorIdentityAttributes(
+        public void ResolveInstantGeneratorIdentityAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr,
@@ -431,7 +431,7 @@
                     identities.Add(mr.IdentityOrder, mr);
 
                     if (fb != null)
-                        CreateInstantCreatorIdentityAttribute(fb, fia);
+                        CreateInstantGeneratorIdentityAttribute(fb, fia);
                 }
                 else if (mr.IsIdentity)
                 {
@@ -439,7 +439,7 @@
                     identities.Add(mr.IdentityOrder, mr);
 
                     if (fb != null)
-                        CreateInstantCreatorIdentityAttribute(
+                        CreateInstantGeneratorIdentityAttribute(
                             fb,
                             new IdentityRubricAttribute
                             {
@@ -451,7 +451,7 @@
             }
         }
 
-        public void ResolveInstantCreatorKeyAttributes(
+        public void ResolveInstantGeneratorKeyAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr,
@@ -481,7 +481,7 @@
                 mr.Required = true;
 
                 if (fb != null)
-                    CreateInstantCreatorKeyAttribute(fb, fka);
+                    CreateInstantGeneratorKeyAttribute(fb, fka);
             }
             else if (mr.IsKey)
             {
@@ -492,7 +492,7 @@
                 identities.Add(mr.IdentityOrder, mr);
 
                 if (fb != null)
-                    CreateInstantCreatorKeyAttribute(
+                    CreateInstantGeneratorKeyAttribute(
                         fb,
                         new KeyRubricAttribute
                         {
@@ -503,7 +503,7 @@
             }
         }
 
-        public void ResolveInstantCreatorRquiredAttributes(
+        public void ResolveInstantGeneratorRquiredAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -523,16 +523,16 @@
                 mr.Required = true;
 
                 if (fb != null)
-                    CreateInstantCreatorRequiredAttribute(fb);
+                    CreateInstantGeneratorRequiredAttribute(fb);
             }
             else if (mr.Required)
             {
                 if (fb != null)
-                    CreateInstantCreatorRequiredAttribute(fb);
+                    CreateInstantGeneratorRequiredAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorDisabledAttributes(
+        public void ResolveInstantGeneratorDisabledAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -545,16 +545,16 @@
                 mr.Disabled = true;
 
                 if (fb != null)
-                    CreateInstantCreatorDisabledAttribute(fb);
+                    CreateInstantGeneratorDisabledAttribute(fb);
             }
             else if (mr.Required)
             {
                 if (fb != null)
-                    CreateInstantCreatorDisabledAttribute(fb);
+                    CreateInstantGeneratorDisabledAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorVisibleAttributes(
+        public void ResolveInstantGeneratorVisibleAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -567,16 +567,16 @@
                 mr.Visible = true;
 
                 if (fb != null)
-                    CreateInstantCreatorVisibleAttribute(fb);
+                    CreateInstantGeneratorVisibleAttribute(fb);
             }
             else if (mr.Visible)
             {
                 if (fb != null)
-                    CreateInstantCreatorVisibleAttribute(fb);
+                    CreateInstantGeneratorVisibleAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorExtendedAttributes(
+        public void ResolveInstantGeneratorExtendedAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -588,16 +588,16 @@
                 mr.Extended = true;
 
                 if (fb != null)
-                    CreateInstantCreatorExtendedAttribute(fb);
+                    CreateInstantGeneratorExtendedAttribute(fb);
             }
             else if (mr.Extended)
             {
                 if (fb != null)
-                    CreateInstantCreatorExtendedAttribute(fb);
+                    CreateInstantGeneratorExtendedAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorSortableAttributes(
+        public void ResolveInstantGeneratorSortableAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -609,16 +609,16 @@
                 mr.Sortable = true;
 
                 if (fb != null)
-                    CreateInstantCreatorSortableAttribute(fb);
+                    CreateInstantGeneratorSortableAttribute(fb);
             }
             else if (mr.Sortable)
             {
                 if (fb != null)
-                    CreateInstantCreatorSortableAttribute(fb);
+                    CreateInstantGeneratorSortableAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorFilterableAttributes(
+        public void ResolveInstantGeneratorFilterableAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -630,16 +630,16 @@
                 mr.Filterable = true;
 
                 if (fb != null)
-                    CreateInstantCreatorFilterableAttribute(fb);
+                    CreateInstantGeneratorFilterableAttribute(fb);
             }
             else if (mr.Filterable)
             {
                 if (fb != null)
-                    CreateInstantCreatorFilterableAttribute(fb);
+                    CreateInstantGeneratorFilterableAttribute(fb);
             }
         }
 
-        public void ResolveInstantCreatorAggregateAttributes(
+        public void ResolveInstantGeneratorAggregateAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -655,18 +655,18 @@
                 mr.AggregationOperand = fta.Operand;
 
                 if (fb != null)
-                    CreateInstantCreatorAggregateAttribute(fb, fta);
+                    CreateInstantGeneratorAggregateAttribute(fb, fta);
             }
             else if (mr.AggregationOperand != AggregationOperand.None)
             {
-                CreateInstantCreatorAggregateAttribute(
+                CreateInstantGeneratorAggregateAttribute(
                     fb,
                     new AggregateRubricAttribute { Operand = mr.AggregationOperand }
                 );
             }
         }
 
-        public void ResolveInstantCreatorFileAttributes(
+        public void ResolveInstantGeneratorFileAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -682,18 +682,18 @@
                 mr.DataMember = fta.DataMember;
 
                 if (fb != null)
-                    CreateInstantCreatorFileAttribute(fb, fta);
+                    CreateInstantGeneratorFileAttribute(fb, fta);
             }
             else if (mr.IsFile || mr.FileType != FileRubricType.None)
             {
-                CreateInstantCreatorFileAttribute(
+                CreateInstantGeneratorFileAttribute(
                     fb,
                     new FileRubricAttribute() { Type = mr.FileType, DataMember = mr.DataMember }
                 );
             }
         }
 
-        public void ResolveInstantCreatorLinkAttributes(
+        public void ResolveInstantGeneratorLinkAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -709,18 +709,18 @@
                 mr.IsLink = true;
 
                 if (fb != null)
-                    CreateInstantCreatorLinkAttribute(fb, fta);
+                    CreateInstantGeneratorLinkAttribute(fb, fta);
             }
             else if (mr.LinkValue != null)
             {
-                CreateInstantCreatorLinkAttribute(
+                CreateInstantGeneratorLinkAttribute(
                     fb,
                     new LinkAttribute() { Value = mr.LinkValue, PrefixedLink = mr.PrefixedLink }
                 );
             }
         }
 
-        public void ResolveInstantCreatorIconAttributes(
+        public void ResolveInstantGeneratorIconAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -735,18 +735,18 @@
                 mr.IconSlot = fta.IconSlot;
 
                 if (fb != null)
-                    CreateInstantCreatorIconAttribute(fb, fta);
+                    CreateInstantGeneratorIconAttribute(fb, fta);
             }
             else if (mr.IconMember != null)
             {
-                CreateInstantCreatorIconAttribute(
+                CreateInstantGeneratorIconAttribute(
                     fb,
                     new IconRubricAttribute(mr.IconMember, mr.IconSlot)
                 );
             }
         }
 
-        public void ResolveInstantCreatorInvokeAttributes(
+        public void ResolveInstantGeneratorInvokeAttributes(
             FieldBuilder fb,
             MemberInfo mi,
             MemberRubric mr
@@ -763,18 +763,18 @@
                 mr.Invoker = fta.Invoker;
 
                 if (fb != null)
-                    CreateInstantCreatorInvokeAttribute(fb, fta);
+                    CreateInstantGeneratorInvokeAttribute(fb, fta);
             }
             else if (mr.InvokeMethod != null && mr.InvokeType != null)
             {
-                CreateInstantCreatorInvokeAttribute(
+                CreateInstantGeneratorInvokeAttribute(
                     fb,
                     new InvokeAttribute(mr.InvokeType, mr.InvokeMethod)
                 );
             }
             else if (mr.InvokeMethod != null && mr.InvokeTarget != null)
             {
-                CreateInstantCreatorInvokeAttribute(
+                CreateInstantGeneratorInvokeAttribute(
                     fb,
                     new InvokeAttribute(mr.InvokeTarget, mr.InvokeMethod)
                 );

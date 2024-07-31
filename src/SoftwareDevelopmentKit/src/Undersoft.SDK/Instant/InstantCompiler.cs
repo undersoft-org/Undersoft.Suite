@@ -29,12 +29,12 @@
         public ISeries<MemberBuilder> memberBuilders;
 
         public InstantCompiler(
-            InstantGenerator instantInstantCreator,
+            InstantGenerator instantInstantGenerator,
             ISeries<MemberBuilder> rubricBuilders
         )
         {
             this.memberBuilders = rubricBuilders;
-            figure = instantInstantCreator;
+            figure = instantInstantGenerator;
             length = rubricBuilders.Count;
         }
 

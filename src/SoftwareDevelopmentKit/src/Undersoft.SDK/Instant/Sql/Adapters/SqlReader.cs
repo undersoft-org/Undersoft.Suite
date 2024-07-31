@@ -70,7 +70,7 @@
             else
                 _columns.AddRange(columns);
 
-            InstantGenerator rt = new InstantGenerator(_columns.ToArray(), "SchemaInstantCreator");
+            InstantGenerator rt = new InstantGenerator(_columns.ToArray(), "SchemaInstantGenerator");
             InstantSeriesGenerator tab = new InstantSeriesGenerator(rt, "Schema");
             IInstantSeries deck = tab.Generate();
 
@@ -210,7 +210,7 @@
             }
 
             InstantGenerator rt = new InstantGenerator(columns.ToArray(), tableName);
-            InstantSeriesGenerator deck = new InstantSeriesGenerator(rt, tableName + "_InstantSeriesCreator");
+            InstantSeriesGenerator deck = new InstantSeriesGenerator(rt, tableName + "_InstantSeriesGenerator");
             IInstantSeries tab = deck.Generate();
 
             if (dr.Read())

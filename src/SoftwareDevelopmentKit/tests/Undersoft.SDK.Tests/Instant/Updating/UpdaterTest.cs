@@ -71,7 +71,7 @@ namespace Undersoft.SDK.Tests.Instant.Updating
 
             var updater6 = new Updater<Agreement>(profile);
 
-            var Proxy = new ProxyCreator<Agreement>();
+            var Proxy = new ProxyGenerator<Agreement>();
             var updater0 = new Updater<UserProfile>();
             var updater1 = new Updater<User>();
 

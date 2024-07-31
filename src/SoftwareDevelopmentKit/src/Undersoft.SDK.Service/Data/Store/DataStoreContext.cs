@@ -22,24 +22,29 @@ public class DataStoreContext<TStore> : DataStoreContext, IDataStoreContext<TSto
 
 public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
 {
-    public virtual IServicer servicer { get; }
+    public virtual IServicer Servicer { get; }
+
+    public virtual SourceProvider SourceProvider { get; }
 
     public override IModel Model
     {
         get { return base.Model; }
     }
 
-    public DataStoreContext(DbContextOptions options, IServicer servicer = null) : base(options)
+    public DataStoreContext(DbContextOptions options, IServicer servicer = null)
+        : base(options)
     {
-        this.servicer = servicer;
+        Servicer = servicer;
     }
 
-    public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+    public IQueryable<TEntity> Query<TEntity>()
+        where TEntity : class
     {
         return EntitySet<TEntity>();
     }
 
-    public IQueryable<TEntity> EntitySet<TEntity>() where TEntity : class
+    public IQueryable<TEntity> EntitySet<TEntity>()
+        where TEntity : class
     {
         return base.Set<TEntity>();
     }
@@ -49,7 +54,8 @@ public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
         return (IQueryable)this.GetEntitySet(type);
     }
 
-    public new TEntity Add<TEntity>(TEntity entity) where TEntity : class
+    public new TEntity Add<TEntity>(TEntity entity)
+        where TEntity : class
     {
         return base.Add(entity).Entity;
     }
@@ -77,7 +83,11 @@ public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
         }
     }
 
-    public async new ValueTask<TEntity> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class
+    public new async ValueTask<TEntity> AddAsync<TEntity>(
+        TEntity entity,
+        CancellationToken cancellationToken
+    )
+        where TEntity : class
     {
         return await ValueTask.FromResult((await base.AddAsync(entity)).Entity);
     }
@@ -87,12 +97,14 @@ public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
         return base.Add(entity).Entity;
     }
 
-    public new TEntity Update<TEntity>(TEntity entity) where TEntity : class
+    public new TEntity Update<TEntity>(TEntity entity)
+        where TEntity : class
     {
         return base.Update(entity).Entity;
     }
 
-    public new TEntity Remove<TEntity>(TEntity entity) where TEntity : class
+    public new TEntity Remove<TEntity>(TEntity entity)
+        where TEntity : class
     {
         var _entity = Find<TEntity>(((IIdentifiable)entity).Id);
         return base.Remove(_entity).Entity;
@@ -103,7 +115,8 @@ public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
         return base.Attach(entity).Entity;
     }
 
-    public new TEntity Attach<TEntity>(TEntity entity) where TEntity : class
+    public new TEntity Attach<TEntity>(TEntity entity)
+        where TEntity : class
     {
         return base.Attach(entity).Entity;
     }
@@ -115,14 +128,23 @@ public class DataStoreContext : DbContext, IDataStoreContext, IResettableService
 
     private async Task<int> saveEndpoint(bool asTransaction, CancellationToken token = default)
     {
+        int qty = 0;
         if (ChangeTracker.HasChanges())
         {
             if (asTransaction)
-                return await saveAsTransaction(token);
+                qty = await saveAsTransaction(token);
             else
-                return await saveChanges(token);
+                qty = await saveChanges(token);
         }
-        return 0;
+
+        if (qty > -1)
+        {
+            if (qty > 0)
+                this.Info<Datalog>($"Succesfully saved {qty} tracked changes to data store");
+            else
+                this.Info<Datalog>($"Not any tracked changes to be saved to data store");
+        }
+        return qty;
     }
 
     private async Task<int> saveAsTransaction(CancellationToken token = default)

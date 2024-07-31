@@ -1,4 +1,5 @@
 ﻿using Undersoft.GCC.Domain.Entities;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.GCC.Infrastructure.Currencies;
 
@@ -24,11 +25,11 @@ public abstract class CurrenciesContext : ICurrenciesContext
         {
             var baseName = $"{GetType().Namespace}.{_provider.Name}";
 
-            var adapterType = Assemblies.FindTypeByFullName($"{baseName}{nameof(CurrenciesAdapter)}");
+            var adapterType = AssemblyUtilities.FindTypeByFullName($"{baseName}{nameof(CurrenciesAdapter)}");
             if (adapterType != null)
                 _adapter = adapterType.New<CurrenciesAdapter>(_provider);
 
-            var clientType = Assemblies.FindTypeByFullName($"{baseName}{nameof(CurrenciesClient)}");
+            var clientType = AssemblyUtilities.FindTypeByFullName($"{baseName}{nameof(CurrenciesClient)}");
             var factoryType = typeof(CurrenciesClientFactory<>).MakeGenericType(clientType);
 
             if (clientType != null && factoryType != null)

@@ -15,6 +15,7 @@ using Undersoft.SDK.Utilities;
 
 public class RepositorySource : Registry<IRepositoryContext>, IRepositorySource
 {
+    protected SourceProvider sourceProvider;
     protected DbContextConfigurationSnapshot _configurationSnapshot;
     protected Type contextType;
     protected new bool disposedValue;
@@ -46,6 +47,7 @@ public class RepositorySource : Registry<IRepositoryContext>, IRepositorySource
     public RepositorySource(SourceProvider provider, string connectionString) : this()
     {
         ContextPool = this;
+        sourceProvider = provider;
         optionsBuilder = StoreOptionsBuilder.BuildOptions(provider, connectionString);
         InnerContext = CreateContext(optionsBuilder.Options);
         Context.GetEntityTypes();
@@ -77,6 +79,7 @@ public class RepositorySource : Registry<IRepositoryContext>, IRepositorySource
     ) : this()
     {
         ContextPool = this;
+        sourceProvider = provider;
         optionsBuilder = StoreOptionsBuilder.BuildOptions(provider, connectionString);
         InnerContext = CreateContext(contextType, optionsBuilder.Options);
         Context.GetEntityTypes();

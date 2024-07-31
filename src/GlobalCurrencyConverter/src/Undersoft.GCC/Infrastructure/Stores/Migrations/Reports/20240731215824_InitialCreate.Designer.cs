@@ -8,10 +8,10 @@ using Undersoft.GCC.Infrastructure.Stores;
 
 #nullable disable
 
-namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
+namespace Undersoft.GCC.Infrastructure.Stores.Migrations.Reports
 {
-    [DbContext(typeof(EntryStore))]
-    [Migration("20240529024046_InitialCreate")]
+    [DbContext(typeof(ReportStore))]
+    [Migration("20240731215824_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
@@ -32,7 +32,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -107,7 +106,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -184,7 +182,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);
@@ -282,7 +279,6 @@ namespace Undersoft.GCC.Infrastructure.DataStores.Migrations.Entries
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("TEXT")
                         .HasColumnOrder(4);

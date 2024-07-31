@@ -10,6 +10,7 @@ using Undersoft.GCC.Service.API.Workflows;
 using Undersoft.SDK.Logging;
 using Undersoft.SDK.Series;
 using Undersoft.SDK.Service;
+using Undersoft.SDK.Utilities;
 
 namespace Undersoft.GCC.Service.Extensions
 {
@@ -35,7 +36,7 @@ namespace Undersoft.GCC.Service.Extensions
                 var providerKey = providerEntry.Key;
                 provider.BaseCurrencyId = provider.BaseCurrency!.Id;
                 var contextTypeName = $"{providerKey}.{provider.Name}{nameof(CurrenciesContext)}";
-                var contextType = Assemblies.FindTypeByFullName(contextTypeName);
+                var contextType = AssemblyUtilities.FindTypeByFullName(contextTypeName);
 
                 if (contextType == null)
                 {
@@ -83,14 +84,12 @@ namespace Undersoft.GCC.Service.Extensions
 
                 foreach (var providerEntry in options.Providers!)
                 {
-                    if (providerEntry.Value.Name == "NBP" || providerEntry.Value.Name == "Frankfurter")
-                        continue;
 
                     var triggerSet = new HashSet<ITrigger>();
                     var provider = providerEntry.Value;
                     provider.BaseCurrencyId = provider.BaseCurrency!.Id;
                     var contextTypeName = $"{providerEntry.Key}.{provider.Name}{nameof(CurrenciesContext)}";
-                    var contextType = Assemblies.FindTypeByFullName(contextTypeName);
+                    var contextType = AssemblyUtilities.FindTypeByFullName(contextTypeName);
                     var contextOptionsType = typeof(CurrenciesContextOptions<>).MakeGenericType(contextType);
                     var contextOptions = contextOptionsType.New<CurrenciesContextOptions>(provider);
                     var context = contextType.New<CurrenciesContext>(contextOptions);

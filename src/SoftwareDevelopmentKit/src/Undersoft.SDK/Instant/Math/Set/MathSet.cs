@@ -65,7 +65,7 @@
         }
         public int FieldId
         {
-            get => Rubric.InstantCreatorFieldId;
+            get => Rubric.InstantGeneratorFieldId;
         }
 
         public int rowCount { get; set; }

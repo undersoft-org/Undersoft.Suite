@@ -306,12 +306,12 @@ namespace Undersoft.SDK.Service
 
         public IServiceScope GetSession()
         {
-            return session ??= CreateSession();
+            return CreateSession();
         }
 
         public IServiceScope CreateSession()
         {
-            return CreateScope();
+            return session ??= CreateScope();
         }
 
         public static IServiceScope CreateRootSession()

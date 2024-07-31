@@ -13,9 +13,9 @@ using Undersoft.SDK.Series;
 [TestClass]
 public class InstantMathTest
 {
-    private InstantCreator? instantCreator;
-    private ProxySeriesCreator? instatnProxiesCreator;
-    private InstantSeriesCreator? instatnSeriesCreator;
+    private InstantGenerator? instantCreator;
+    private ProxySeriesGenerator? instatnProxiesCreator;
+    private InstantSeriesGenerator? instatnSeriesCreator;
     private InstantMath? instantMath;
     private IInstantSeries instantValueSeries = default!;
     private IInstantSeries instantSeries = default!;
@@ -57,23 +57,23 @@ public class InstantMathTest
 
     private void createInstantProxies_Test_Helper()
     {
-        instatnProxiesCreator = new ProxySeriesCreator<InstantMathTestDataModel>(false);
+        instatnProxiesCreator = new ProxySeriesGenerator<InstantMathTestDataModel>(false);
 
-        instantProxies = instatnProxiesCreator.Create();
+        instantProxies = instatnProxiesCreator.Generate();
     }
 
     private void createInstantSeries_Test_Helper()
     {
-        instatnSeriesCreator = new InstantSeriesCreator<InstantMathTestDataModel>(InstantType.Derived, false);
+        instatnSeriesCreator = new InstantSeriesGenerator<InstantMathTestDataModel>(InstantType.Derived, false);
 
-        instantSeries = instatnSeriesCreator.Create();
+        instantSeries = instatnSeriesCreator.Generate();
     }
 
     private void createInstantValueSeries_Test_Helper()
     {
-        instatnSeriesCreator = new InstantSeriesCreator<InstantMathTestDataModel>(InstantType.ValueType, false);
+        instatnSeriesCreator = new InstantSeriesGenerator<InstantMathTestDataModel>(InstantType.ValueType, false);
 
-        instantValueSeries = instatnSeriesCreator.Create();
+        instantValueSeries = instatnSeriesCreator.Generate();
     }
 
     [TestMethod]

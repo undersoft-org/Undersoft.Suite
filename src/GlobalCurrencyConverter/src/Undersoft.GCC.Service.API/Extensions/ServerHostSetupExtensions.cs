@@ -13,7 +13,7 @@ namespace Undersoft.GCC.Service.API.Extensions
     {
         public static IServerHostSetup UseCurrenciesFeed(this IServerHostSetup setup)
         {
-            using (IServiceScope scope = setup.Manager.CreateScope())
+            using (IServiceScope scope = setup.Manager.CreateSession())
             {
                 try
                 {
@@ -37,7 +37,6 @@ namespace Undersoft.GCC.Service.API.Extensions
                                 .GroupBy(c => c.CurrencyCode)
                                 .ForEach(h => h.FirstOrDefault())
                                 .Commit();
-                            providerEntries.ForEach(p => p.Value.BaseCurrency = null).Commit();
 
                             servicer
                                 .Send(

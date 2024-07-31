@@ -19,119 +19,119 @@
                 typeof(KeyAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorKeyAttributes
+                    m => m.ResolveInstantGeneratorKeyAttributes
                 )
             );
             Registry.Add(
                 typeof(KeyRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorKeyAttributes
+                    m => m.ResolveInstantGeneratorKeyAttributes
                 )
             );
             Registry.Add(
                 typeof(IdentityRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorIdentityAttributes
+                    m => m.ResolveInstantGeneratorIdentityAttributes
                 )
             );
             Registry.Add(
                 typeof(RequiredRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorRquiredAttributes
+                    m => m.ResolveInstantGeneratorRquiredAttributes
                 )
             );
             Registry.Add(
                 typeof(RequiredAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorRquiredAttributes
+                    m => m.ResolveInstantGeneratorRquiredAttributes
                 )
             );
             Registry.Add(
                 typeof(VisibleRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorVisibleAttributes
+                    m => m.ResolveInstantGeneratorVisibleAttributes
                 )
             );
             Registry.Add(
                 typeof(DisplayRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorDisplayAttributes
+                    m => m.ResolveInstantGeneratorDisplayAttributes
                 )
             );
             Registry.Add(
                 typeof(AggregateRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorAggregateAttributes
+                    m => m.ResolveInstantGeneratorAggregateAttributes
                 )
             );
             Registry.Add(
                 typeof(ExtendedAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorExtendedAttributes
+                    m => m.ResolveInstantGeneratorExtendedAttributes
                 )
             );
             Registry.Add(
                 typeof(FileRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorFileAttributes
+                    m => m.ResolveInstantGeneratorFileAttributes
                 )
             );
             Registry.Add(
                 typeof(LinkAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorLinkAttributes
+                    m => m.ResolveInstantGeneratorLinkAttributes
                 )
             );
             Registry.Add(
                 typeof(InvokeAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorInvokeAttributes
+                    m => m.ResolveInstantGeneratorInvokeAttributes
                 )
             );
             Registry.Add(
                 typeof(IconRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorIconAttributes
+                    m => m.ResolveInstantGeneratorIconAttributes
                 )
             );
             Registry.Add(
                 typeof(DisabledRubricAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorDisabledAttributes
+                    m => m.ResolveInstantGeneratorDisabledAttributes
                 )
             );
             Registry.Add(
                 typeof(RubricSizeAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorSizeAttributes
+                    m => m.ResolveInstantGeneratorSizeAttributes
                 )
             );
             Registry.Add(
                 typeof(SortableAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorSortableAttributes
+                    m => m.ResolveInstantGeneratorSortableAttributes
                 )
             );
             Registry.Add(
                 typeof(FilterableAttribute),
                 new Invoker<InstantCompilerBase>(
                     InstantCompilerBase,
-                    m => m.ResolveInstantCreatorFilterableAttributes
+                    m => m.ResolveInstantGeneratorFilterableAttributes
                 )
             );
         }

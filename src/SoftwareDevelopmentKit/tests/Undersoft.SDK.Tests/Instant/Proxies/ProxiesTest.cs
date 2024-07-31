@@ -15,13 +15,13 @@ namespace Undersoft.SDK.Tests.Proxies
     {
         private IInstant? Instant;
         private IInstantSeries? Proxies;
-        private ProxySeriesCreator? SeriesCreator;
+        private ProxySeriesGenerator? SeriesCreator;
 
         [TestMethod]
         public void Proxies_SelectionFromInstantSeriesMultiNesting_Test()
         {
-            SeriesCreator = new ProxySeriesCreator<FieldsAndPropertiesModel>("InstantSequence_Compilation_Test");
-            Proxies = SeriesCreator.Create();
+            SeriesCreator = new ProxySeriesGenerator<FieldsAndPropertiesModel>("InstantSequence_Compilation_Test");
+            Proxies = SeriesCreator.Generate();
 
             Instant = Proxy_Compilation_Helper_Test(Proxies, new FieldsAndPropertiesModel());
 
@@ -45,8 +45,8 @@ namespace Undersoft.SDK.Tests.Proxies
             Proxies.Add(Proxies.NewProxy());
             Proxies[0, 4] = Instant[4];
 
-            IInstantSeries isel1 = new ProxySeriesCreator(Proxies, true).Create();
-            IInstantSeries isel2 = new ProxySeriesCreator(isel1).Create();
+            IInstantSeries isel1 = new ProxySeriesGenerator(Proxies, true).Generate();
+            IInstantSeries isel2 = new ProxySeriesGenerator(isel1).Generate();
 
             foreach (var card in Proxies)
                 isel2.Add(card);

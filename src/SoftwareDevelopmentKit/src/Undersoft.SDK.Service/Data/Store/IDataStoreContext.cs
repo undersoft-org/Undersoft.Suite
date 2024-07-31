@@ -11,6 +11,8 @@ public interface IDataStoreContext : IResettableService, IDisposable, IAsyncDisp
 {
     DatabaseFacade Database { get; }
 
+    SourceProvider SourceProvider { get; }
+
     IQueryable<TEntity> Query<TEntity>() where TEntity : class;
 
     IModel Model { get; }

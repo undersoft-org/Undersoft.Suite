@@ -23,7 +23,7 @@ public class InstantSeriesSortTerm : IInstantSeriesSortTerm
 
     public InstantSeriesSortTerm(IInstantSeries table)
     {
-        InstantSeriesCreator = table;
+        InstantSeriesGenerator = table;
     }
 
     public InstantSeriesSortTerm(
@@ -48,7 +48,7 @@ public class InstantSeriesSortTerm : IInstantSeriesSortTerm
 
     public SortDirection Direction { get; set; }
 
-    public IInstantSeries InstantSeriesCreator
+    public IInstantSeries InstantSeriesGenerator
     {
         get { return series; }
         set
@@ -87,12 +87,12 @@ public class InstantSeriesSortTerm : IInstantSeriesSortTerm
         set
         {
             rubricName = value;
-            if (InstantSeriesCreator != null)
+            if (InstantSeriesGenerator != null)
             {
-                if (InstantSeriesCreator.Rubrics.ContainsKey(rubricName))
+                if (InstantSeriesGenerator.Rubrics.ContainsKey(rubricName))
                 {
                     if (sortedRubric == null)
-                        SortedRubric = InstantSeriesCreator.Rubrics
+                        SortedRubric = InstantSeriesGenerator.Rubrics
                             .AsValues()
                             .Where(c => c.RubricName == RubricName)
                             .First();

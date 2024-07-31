@@ -26,7 +26,7 @@
             termsReducer = new InstantSeriesFilterTerms(series);
         }
 
-        public IInstantSeries InstantSeriesCreator
+        public IInstantSeries InstantSeriesGenerator
         {
             get { return series; }
             set { series = value; }

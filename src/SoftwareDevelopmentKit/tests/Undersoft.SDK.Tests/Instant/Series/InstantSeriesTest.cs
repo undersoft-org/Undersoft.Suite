@@ -12,13 +12,13 @@ namespace Undersoft.SDK.Tests.Instant
     {
         private IInstant instant;
         private IInstantSeries instantSeries;
-        private InstantSeriesCreator instantSeriesCreator;
-        private InstantCreator instantCreator;
+        private InstantSeriesGenerator instantSeriesCreator;
+        private InstantGenerator instantCreator;
 
         [TestMethod]
         public void InstantSeries_Compile_Test()
         {
-            var Instant2 = new ProxyCreator<FieldsAndPropertiesModel>();
+            var Instant2 = new ProxyGenerator<FieldsAndPropertiesModel>();
 
             FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
 
@@ -26,9 +26,9 @@ namespace Undersoft.SDK.Tests.Instant
 
             var IProxy = new FieldsAndPropertiesModel().ToProxy();
 
-            var InstantSeries2 = new ProxySeriesCreator<FieldsAndPropertiesModel>();
+            var InstantSeries2 = new ProxySeriesGenerator<FieldsAndPropertiesModel>();
 
-            var rttab = InstantSeries2.Create();
+            var rttab = InstantSeries2.Generate();
 
             for (int i = 0; i < 10000; i++)
             {
@@ -44,16 +44,16 @@ namespace Undersoft.SDK.Tests.Instant
         [TestMethod]
         public void InstantSeries_MutatorAndAccessorById_Test()
         {
-            instantCreator = new InstantCreator(typeof(FieldsAndPropertiesModel));
+            instantCreator = new InstantGenerator(typeof(FieldsAndPropertiesModel));
             FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
             instant = Instant_Compilation_Helper_Test(instantCreator, fom);
 
-            instantSeriesCreator = new InstantSeriesCreator(
+            instantSeriesCreator = new InstantSeriesGenerator(
                 instantCreator,
                 "InstantSequence_Compilation_Test"
             );
 
-            instantSeries = instantSeriesCreator.Create();
+            instantSeries = instantSeriesCreator.Generate();
 
             instantSeries.Add(instantSeries.NewInstant());
             instantSeries[0, 4] = instant[4];
@@ -64,16 +64,16 @@ namespace Undersoft.SDK.Tests.Instant
         [TestMethod]
         public void InstantSeries_MutatorAndAccessorByName_Test()
         {
-            instantCreator = new InstantCreator(typeof(FieldsAndPropertiesModel));
+            instantCreator = new InstantGenerator(typeof(FieldsAndPropertiesModel));
             FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
             instant = Instant_Compilation_Helper_Test(instantCreator, fom);
 
-            instantSeriesCreator = new InstantSeriesCreator(
+            instantSeriesCreator = new InstantSeriesGenerator(
                 instantCreator,
                 "InstantSequence_Compilation_Test"
             );
 
-            instantSeries = instantSeriesCreator.Create();
+            instantSeries = instantSeriesCreator.Generate();
 
             instantSeries.Add(instantSeries.NewInstant());
             instantSeries[0, nameof(fom.Name)] = instant[nameof(fom.Name)];
@@ -84,16 +84,16 @@ namespace Undersoft.SDK.Tests.Instant
         [TestMethod]
         public void InstantSeries_NewItem_Test()
         {
-            instantCreator = new InstantCreator(typeof(FieldsAndPropertiesModel));
+            instantCreator = new InstantGenerator(typeof(FieldsAndPropertiesModel));
             FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
             instant = Instant_Compilation_Helper_Test(instantCreator, fom);
 
-            instantSeriesCreator = new InstantSeriesCreator(
+            instantSeriesCreator = new InstantSeriesGenerator(
                 instantCreator,
                 "InstantSequence_Compilation_Test"
             );
 
-            instantSeries = instantSeriesCreator.Create();
+            instantSeries = instantSeriesCreator.Generate();
 
             IInstant rcst = instantSeries.NewInstant();
 
@@ -103,16 +103,16 @@ namespace Undersoft.SDK.Tests.Instant
         [TestMethod]
         public void InstantSeries_SetRubrics_Test()
         {
-            instantCreator = new InstantCreator(typeof(FieldsAndPropertiesModel));
+            instantCreator = new InstantGenerator(typeof(FieldsAndPropertiesModel));
             FieldsAndPropertiesModel fom = new FieldsAndPropertiesModel();
             instant = Instant_Compilation_Helper_Test(instantCreator, fom);
 
-            instantSeriesCreator = new InstantSeriesCreator(
+            instantSeriesCreator = new InstantSeriesGenerator(
                 instantCreator,
                 "InstantSequence_Compilation_Test"
             );
 
-            var rttab = instantSeriesCreator.Create();
+            var rttab = instantSeriesCreator.Generate();
             Assert.IsTrue(rttab.Rubrics.All(
                 r =>
                     r.RubricId == instantSeriesCreator.Rubrics[r.RubricId].RubricId
@@ -122,11 +122,11 @@ namespace Undersoft.SDK.Tests.Instant
         }
 
         private IInstant Instant_Compilation_Helper_Test(
-            InstantCreator Instant,
+            InstantGenerator Instant,
             FieldsAndPropertiesModel fom
         )
         {
-            IInstant rts = Instant.Create();
+            IInstant rts = Instant.Generate();
 
             for (int i = 1; i < Instant.Rubrics.Count; i++)
             {
@@ -148,14 +148,14 @@ namespace Undersoft.SDK.Tests.Instant
         }
 
         private IInstant Proxy_Compilation_Helper_Test(
-            ProxyCreator Instant2,
+            ProxyGenerator Instant2,
             FieldsAndPropertiesModel fom
         )
         {
             List<IProxy> list = new List<IProxy>();
             for (int y = 0; y < 300000; y++)
             {
-                var rts0 = Instant2.Create();
+                var rts0 = Instant2.Generate();
 
                 for (int i = 1; i < Instant2.Rubrics.Count; i++)
                 {

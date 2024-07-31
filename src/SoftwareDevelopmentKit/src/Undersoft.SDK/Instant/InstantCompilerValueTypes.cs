@@ -12,8 +12,8 @@
 
     public class InstantCompilerValueTypes : InstantCompiler
     {
-        public InstantCompilerValueTypes(InstantGenerator instantInstantCreator, ISeries<MemberBuilder> memberBuilders)
-            : base(instantInstantCreator, memberBuilders) { }
+        public InstantCompilerValueTypes(InstantGenerator instantInstantGenerator, ISeries<MemberBuilder> memberBuilders)
+            : base(instantInstantGenerator, memberBuilders) { }
 
         public override Type CompileInstantType(string typeName)
         {

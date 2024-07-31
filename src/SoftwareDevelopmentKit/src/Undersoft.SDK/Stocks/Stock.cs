@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Stocks;
 
 public class Stock<T> : Stock
 {
-    public Stock() : this(new InstantSeriesCreator<T>().Generate()) { }
+    public Stock() : this(new InstantSeriesGenerator<T>().Generate()) { }
 
     public Stock(IInstantSeries instantSeries) : base(new StockOptions<T>(instantSeries)) { }
 
@@ -111,7 +111,7 @@ public class Stock : IStock
         this.options = options;
         clustersize = options.ClusterSize;
         sectorsize = options.SectorSize;
-        instantSeries = options.InstantSeriesCreator;
+        instantSeries = options.InstantSeriesGenerator;
         if (options.Type != null && options.BlockSize == 0)
             options.BlockSize = Marshal.SizeOf(options.ItemType);
     }
@@ -124,13 +124,13 @@ public class Stock : IStock
             _options.BlockSize = Marshal.SizeOf(_options.ItemType);
         clustersize = _options.ClusterSize;
         sectorsize = _options.SectorSize;
-        instantSeries = _options.InstantSeriesCreator;
+        instantSeries = _options.InstantSeriesGenerator;
         this.options = _options;
     }
 
-    public void SetInstantSeriesCreator(IInstantSeries instantSeries)
+    public void SetInstantSeriesGenerator(IInstantSeries instantSeries)
     {
-        options.InstantSeriesCreator = instantSeries;
+        options.InstantSeriesGenerator = instantSeries;
         options.Type = instantSeries.Type;
         options.BlockSize = instantSeries.InstantSize;
     }
