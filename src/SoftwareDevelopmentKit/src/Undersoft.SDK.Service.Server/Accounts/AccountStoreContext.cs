@@ -42,6 +42,8 @@ public partial class AccountStoreContext<TStore>
     public virtual DbSet<AccountSubscription> AccountSubscriptions { get; set; }
     public virtual DbSet<AccountConsent> AccountConsents { get; set; }
 
+    public SourceProvider SourceProvider { get; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
