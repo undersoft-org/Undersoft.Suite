@@ -20,7 +20,6 @@
     <Using Include="Undersoft.SDK.Service.Data.Entity" />
     <Using Include="Undersoft.SDK.Service.Data.Object" />
     <Using Include="Undersoft.SDK.Service.Data.Event" />
-    <Using Include="Undersoft.SDK.Service.Data.Mapper" />
     <Using Include="Undersoft.SDK.Service.Data.Client" />
     <Using Include="Undersoft.SDK.Service.Data.Blob" />
     <Using Include="Undersoft.SDK.Extracting" />

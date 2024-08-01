@@ -5,6 +5,6 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class EventBus : Member, IViewModel
 {
-    public EventBus() { Group = MemberGroup.Servitizer; }
+    public EventBus() {  }
 
 }

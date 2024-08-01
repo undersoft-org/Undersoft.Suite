@@ -48,7 +48,7 @@ namespace Undersoft.SSC.Service.Application.Client
                         .AddSingleton<AppearanceState>()
                         .AddScoped<AccessProvider<Account>>()
                         .AddScoped<AuthenticationStateProvider, AccessProvider<Account>>(sp => sp.GetRequiredService<AccessProvider<Account>>())
-                        .AddScoped<IAccountAccess, AccessProvider<Account>>(sp => sp.GetRequiredService<AccessProvider<Account>>())
+                        .AddScoped<IAccess, AccessProvider<Account>>(sp => sp.GetRequiredService<AccessProvider<Account>>())
                         .AddScoped<IAccountService<Account>, AccessProvider<Account>>(sp => sp.GetRequiredService<AccessProvider<Account>>())
                         .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()
                         .AddScoped<IValidator<IViewData<Account>>, AccountValidator>()

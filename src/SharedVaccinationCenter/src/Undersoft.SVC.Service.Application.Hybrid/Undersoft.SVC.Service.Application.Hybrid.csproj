@@ -70,7 +70,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Undersoft.SVC.Service.Application.GUI\Undersoft.SVC.Service.Application.GUI.csproj" />
-  </ItemGroup> 
+  </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionUndersoftSSCServiceApplicationHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 

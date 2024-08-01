@@ -28,7 +28,6 @@
     <Using Include="Undersoft.SSC.Service.Server.Controllers" />
     <Using Include="Undersoft.SDK.Service.Server.Controller" />
     <Using Include="Undersoft.SDK.Service.Data.Event" />
-    <Using Include="Undersoft.SDK.Service.Data.Mapper" />
     <Using Include="Undersoft.SDK.Service.Infrastructure.Database" />
     <Using Include="Undersoft.SDK.Service.Infrastructure.Database.Relation" />
     <Using Include="Undersoft.SDK.Service.Data.Client" />

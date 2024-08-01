@@ -15,7 +15,6 @@
     <Using Include="Undersoft.SDK.Service.Data.Identifier" />
     <Using Include="Undersoft.SDK.Service.Data.Object" />
     <Using Include="Undersoft.SDK.Service.Data.Event" />
-    <Using Include="Undersoft.SDK.Service.Data.Mapper" />
     <Using Include="Undersoft.SDK.Service.Data.Model" />
     <Using Include="Undersoft.SDK.Service.Data.Client" />
     <Using Include="Undersoft.SDK.Service.Data.Blob" />

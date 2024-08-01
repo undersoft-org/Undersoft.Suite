@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Catalogs
+
+@inherits ManufacturersBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/catalogs/manufacturers"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Catalogs.Manufacturer"
-                 TModel="Manufacturer"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Manufacturers" />
+@{
+    base.BuildRenderTree(__builder);
+}

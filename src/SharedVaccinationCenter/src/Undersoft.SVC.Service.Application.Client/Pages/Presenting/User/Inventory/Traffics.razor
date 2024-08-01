@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Inventory
+
+@inherits TrafficsBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/inventory/traffics"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Inventory.Traffic"
-                 TModel="Traffic"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Traffics" />
+@{
+    base.BuildRenderTree(__builder);
+}

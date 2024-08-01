@@ -5,6 +5,6 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class Request : Member, IViewModel
 {
-    public Request() { Group = MemberGroup.Servitizer; }
+    public Request() {  }
 
 }

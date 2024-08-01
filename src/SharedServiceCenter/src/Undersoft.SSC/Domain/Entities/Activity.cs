@@ -2,10 +2,8 @@ namespace Undersoft.SSC.Domain.Entities;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SDK.Service.Data.Remote.Repository;
-using Undersoft.SSC.Domain.Entities.Enums;
 
-public class Activity : OpenEntity<Activity, Detail, Setting, ActivityGroup>
+public class Activity : OpenEntity<Activity, Detail, Setting, Group>
 {
     public virtual EntitySet<Activity>? RelatedFrom { get; set; }
 

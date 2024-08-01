@@ -1,5 +1,4 @@
 ﻿using Undersoft.SDK.Service.Data.Object.Detail;
-using Undersoft.SSC.Domain.Entities.Enums;
 using Undersoft.SSC.Service.Contracts;
 using Undersoft.SSC.Service.Contracts.Details;
 
@@ -7,7 +6,7 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class Contract : Member, IViewModel
 {
-    public Contract() { Group = MemberGroup.Organization; }
+    public Contract() { }
 
     [Detail]
     public Contracts.Account? Identity { get; set; }

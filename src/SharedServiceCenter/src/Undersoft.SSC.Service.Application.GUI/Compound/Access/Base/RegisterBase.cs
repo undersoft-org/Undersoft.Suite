@@ -14,7 +14,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class RegisterBase : ComponentBase
     {
         [Inject]
-        private IAccountService<Account> _access { get; set; } = default!;
+        private IAccessService<Account> _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;
@@ -76,13 +76,13 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
                 if (content != null)
                 {
                     if (content.StateFlags.Canceled)
-                        content.Model.Notes.Status = SigningStatus.RegistrationNotCompleted;
+                        content.Model.Notes.Status = AccessStatus.RegistrationNotCompleted;
 
                     var result = await _access.Register(content.Model);
 
                     if (
-                        result.Notes.Status != SigningStatus.InvalidEmail
-                        && result.Notes.Status == SigningStatus.RegistrationCompleted
+                        result.Notes.Status != AccessStatus.InvalidEmail
+                        && result.Notes.Status == AccessStatus.RegistrationCompleted
                     )
                     {
                         _navigation.NavigateTo("access/sign_in");

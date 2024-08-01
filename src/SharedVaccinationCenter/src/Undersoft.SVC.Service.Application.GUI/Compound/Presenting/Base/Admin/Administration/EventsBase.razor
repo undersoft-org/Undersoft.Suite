@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Admin.Administration
+
+@attribute [Authorize]
+
+<GenericDataGrid TStore="IEventStore"
+                 TDto="SDK.Service.Data.Event.EventInfo"
+                 TModel="ViewModels.Event"
+                 Resizable="true"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" Title="Events" />

@@ -2,9 +2,8 @@ namespace Undersoft.SSC.Domain.Entities;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SSC.Domain.Entities.Enums;
 
-public class Schedule : OpenEntity<Schedule, Detail, Setting, ScheduleGroup>
+public class Schedule : OpenEntity<Schedule, Detail, Setting, Group>
 {
     public virtual EntitySet<Schedule>? RelatedFrom { get; set; }
 

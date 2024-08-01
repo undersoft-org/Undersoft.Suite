@@ -1,12 +1,9 @@
-﻿@page "/presenting/vaccination/appointments"
+﻿@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Vaccination
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Vaccination.Appointment"
-                 TModel="Appointment"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="false"
-                 Editable="false"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Appointments" />
+@inherits AppointmentsBase
+
+@page "/presenting/vaccination/appointments"
+
+@{
+    base.BuildRenderTree(__builder);
+}

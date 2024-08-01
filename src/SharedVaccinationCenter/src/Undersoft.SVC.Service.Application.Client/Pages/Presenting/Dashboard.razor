@@ -1,2 +1,9 @@
-﻿@page "/presenting/dashboard"
+﻿@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base
 
+@inherits DashboardBase
+
+@page "/presenting/dashboard"
+
+@{
+    base.BuildRenderTree(__builder);
+}

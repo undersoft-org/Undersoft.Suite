@@ -5,6 +5,6 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class Repository : Member, IViewModel
 {
-    public Repository() { Group = MemberGroup.Servitizer; }
+    public Repository() {  }
 
 }

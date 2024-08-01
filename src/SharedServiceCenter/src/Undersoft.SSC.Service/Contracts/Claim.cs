@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Access.Identity;
 
 namespace Undersoft.SSC.Service.Contracts;
 

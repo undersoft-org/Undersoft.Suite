@@ -3,4 +3,4 @@ using Undersoft.SDK.Service.Server;
 
 namespace Undersoft.SSC.Service.Infrastructure.Stores.Factories;
 
-public class AccountStoreFactory : DbStoreContextFactory<AccountStore, ServerSourceProviderConfiguration> { }
+public class AccountStoreFactory : DbStoreFactory<AccountStore, ServerSourceProviderConfiguration> { }

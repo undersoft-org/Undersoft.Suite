@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Catalogs
+
+@attribute [Authorize]
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Catalogs.Campaign"
+                 TModel="Campaign"
+                 Resizable="true"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Campaigns" />

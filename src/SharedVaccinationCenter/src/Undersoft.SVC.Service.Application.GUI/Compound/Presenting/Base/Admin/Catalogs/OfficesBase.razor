@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Admin.Catalogs
+
+@attribute [Authorize]
+
+@page "/presenting/admin/catalogs/offices"
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Catalogs.Office"
+                 TModel="Office"
+                 Resizable="true"
+                 ShowHover="true"
+                 Expandable="true"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Form" 
+                 Title="Offices" />

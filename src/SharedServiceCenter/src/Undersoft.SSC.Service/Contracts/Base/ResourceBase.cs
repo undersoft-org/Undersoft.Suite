@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
-using Undersoft.SSC.Domain.Entities.Enums;
 
 namespace Undersoft.SSC.Service.Contracts.Base;
 
 
 [DataContract]
-public class ResourceBase : ContractBase<ResourceBase, Detail, Setting, ResourceGroup>
+public class ResourceBase : ContractBase<ResourceBase, Detail, Setting, Group>
 {
     [DataMember(Order = 20)]
     public virtual string? Path { get; set; }

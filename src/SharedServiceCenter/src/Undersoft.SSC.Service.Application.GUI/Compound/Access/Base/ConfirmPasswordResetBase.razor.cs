@@ -14,7 +14,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class ConfirmPasswordResetBase : ComponentBase
     {
         [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        private IAccess _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;
@@ -59,7 +59,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
                 {
                     var result = await _access.ResetPassword(new Account() { Credentials = content.Model });
 
-                    if (result.Notes.Status == SigningStatus.ResetPasswordConfirmed)
+                    if (result.Notes.Status == AccessStatus.ResetPasswordConfirmed)
                     {
                         _navigation.NavigateTo($"");
                         return;

@@ -1,9 +1,8 @@
 namespace Undersoft.SSC.Domain.Entities;
 
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SSC.Domain.Entities.Enums;
 
-public class Resource : OpenEntity<Resource, Detail, Setting, ResourceGroup>
+public class Resource : OpenEntity<Resource, Detail, Setting, Group>
 {
     public virtual EntitySet<Resource>? RelatedFrom { get; set; }
 

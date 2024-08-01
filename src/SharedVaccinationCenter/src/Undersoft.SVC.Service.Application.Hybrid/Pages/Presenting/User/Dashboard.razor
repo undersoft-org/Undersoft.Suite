@@ -1,6 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User
+
 @attribute [Authorize]
 
+@inherits DashboardBase
+
 @page "/presenting/user/dashboard"
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
 

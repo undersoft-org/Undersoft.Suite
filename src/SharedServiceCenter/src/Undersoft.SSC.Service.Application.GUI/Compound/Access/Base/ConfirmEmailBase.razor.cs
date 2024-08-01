@@ -13,7 +13,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class ConfirmEmailBase : ComponentBase
     {
         [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        private IAccess _access { get; set; } = default!;
 
         [Inject]
         private IAuthorization _authorization { get; set; } = default!;
@@ -61,7 +61,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
                 {
                     var result = await _access.ConfirmEmail(new Account() { Credentials = content.Model });
 
-                    if (result.Notes.Status == SigningStatus.EmailConfirmed)
+                    if (result.Notes.Status == AccessStatus.EmailConfirmed)
                     {
                         _navigation.NavigateTo("access/register");
                         return;

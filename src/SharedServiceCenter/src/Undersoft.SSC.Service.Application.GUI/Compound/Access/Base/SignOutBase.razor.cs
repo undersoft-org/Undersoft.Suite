@@ -7,7 +7,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
         [Inject]
         private IAuthorization _auth { get; set; } = default!;
 
-        [Inject] IAccountAccess _access { get; set; } = default!;
+        [Inject] IAccess _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;

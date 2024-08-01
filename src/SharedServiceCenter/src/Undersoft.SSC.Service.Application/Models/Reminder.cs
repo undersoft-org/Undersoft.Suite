@@ -5,6 +5,6 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class Reminder : Member, IViewModel
 {
-    public Reminder() { Group = MemberGroup.Servitizer; }
+    public Reminder() {  }
 
 }

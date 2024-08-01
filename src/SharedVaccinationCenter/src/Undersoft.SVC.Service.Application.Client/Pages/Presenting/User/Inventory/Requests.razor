@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Inventory
+
+@inherits RequestsBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/inventory/requests"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Inventory.Request"
-                 TModel="Request"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Requests" />
+@{
+    base.BuildRenderTree(__builder);
+}

@@ -2,7 +2,7 @@
 
 public static class AccountServicerExtensions
 {
-    public static AccountManager GetIdentityManager(this IServicer servicer)
+    public static AccountManager GetAccountManager(this IServicer servicer)
     {
         return servicer.Registry.GetRequiredService<AccountManager>();
     }

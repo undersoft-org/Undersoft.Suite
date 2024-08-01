@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Admin.Vaccination
+
+@inherits CertificatesBase
 
 @attribute [Authorize]
 
 @page "/presenting/admin/vaccination/certificates"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Vaccination.Certificate"
-                 TModel="Certificate"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="true"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Certificates" />
+@{
+    base.BuildRenderTree(__builder);
+}

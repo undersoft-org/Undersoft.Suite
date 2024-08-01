@@ -3,7 +3,7 @@ using Undersoft.SDK.Service.Server;
 
 namespace Undersoft.SSC.Service.Infrastructure.Stores.Factories
 {
-    public class EventStoreFactory : DbStoreContextFactory<EventStore, ServerSourceProviderConfiguration>
+    public class EventStoreFactory : DbStoreFactory<EventStore, ServerSourceProviderConfiguration>
     {
     }
 }

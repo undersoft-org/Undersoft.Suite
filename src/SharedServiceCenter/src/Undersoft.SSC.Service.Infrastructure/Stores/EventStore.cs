@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Store;
-using Undersoft.SDK.Service.Infrastructure.Database;
 
 namespace Undersoft.SSC.Service.Infrastructure.Stores
 {
@@ -11,7 +9,7 @@ namespace Undersoft.SSC.Service.Infrastructure.Stores
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyMapping(new EventDbStoreMapping());
+            modelBuilder.ApplyMapping(new DbEventStoreMappings());
             base.OnModelCreating(modelBuilder);
         }
 

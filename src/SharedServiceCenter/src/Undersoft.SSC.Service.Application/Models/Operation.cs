@@ -5,6 +5,6 @@ namespace Undersoft.SSC.Service.Application.Models;
 
 public class Operation : Member, IViewModel
 {
-    public Operation() { Group = MemberGroup.Servitizer; }
+    public Operation() {  }
 
 }

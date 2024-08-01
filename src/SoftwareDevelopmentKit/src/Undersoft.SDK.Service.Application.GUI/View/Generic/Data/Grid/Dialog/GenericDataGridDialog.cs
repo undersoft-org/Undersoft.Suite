@@ -32,8 +32,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = true,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = Animations.OpeningFromBottom(),
-                OnDialogClosing = Animations.ClosingToTop()
+                OnDialogClosing = Animations.Closing()
             });
 
             await ProcessDialog();
@@ -56,8 +55,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = Animations.OpeningFromBottom(),
-                OnDialogClosing = Animations.ClosingToTop()
+                OnDialogClosing = Animations.Closing()
             });
 
             await ProcessDialog();
@@ -80,8 +78,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogOpened = Animations.OpeningFromBottom(),
-                OnDialogClosing = Animations.ClosingToTop()
+                OnDialogClosing = Animations.Closing()
             });
 
             await ProcessDialog();

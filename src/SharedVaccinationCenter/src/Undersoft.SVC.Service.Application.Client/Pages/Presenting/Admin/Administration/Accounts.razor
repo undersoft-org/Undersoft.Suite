@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Admin.Administration
+
+@inherits AccountsBase
 
 @attribute [Authorize]
 
 @page "/presenting/admin/administration/accounts"
 
-<GenericDataGrid TStore="IAccountStore"
-                 TDto="Contracts.Account"
-                 TModel="Contracts.Account"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="true"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Accounts" />
+@{
+    base.BuildRenderTree(__builder);
+}

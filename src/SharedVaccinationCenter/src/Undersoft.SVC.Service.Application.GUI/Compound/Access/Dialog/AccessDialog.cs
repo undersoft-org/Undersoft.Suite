@@ -47,8 +47,7 @@ public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where T
                 ShowDismiss = false,
                 Modal = false,
                 PreventScroll = true,
-                OnDialogOpened = Animations.OpeningFromLeft(),
-                OnDialogClosing = Animations.ClosingToRight(),
+                OnDialogClosing = Animations.Closing(),
 
             });
             await ProcessDialog();

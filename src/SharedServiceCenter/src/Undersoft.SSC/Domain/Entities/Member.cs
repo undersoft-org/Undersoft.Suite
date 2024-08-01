@@ -2,9 +2,8 @@ namespace Undersoft.SSC.Domain.Entities;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using Undersoft.SDK.Service.Data.Entity;
-using Undersoft.SSC.Domain.Entities.Enums;
 
-public class Member : OpenEntity<Member, Detail, Setting, MemberGroup>
+public class Member : OpenEntity<Member, Detail, Setting, Group>
 {
     public virtual EntitySet<Member>? RelatedFrom { get; set; }
 

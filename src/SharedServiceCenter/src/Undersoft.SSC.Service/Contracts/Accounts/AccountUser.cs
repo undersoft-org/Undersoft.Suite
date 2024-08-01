@@ -1,10 +1,10 @@
 ﻿using System.Runtime.Serialization;
-using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Access.Identity;
 
 namespace Undersoft.SSC.Service.Contracts.Accounts;
 
 [DataContract]
-public class AccountUser : InnerProxy, IAccountUser
+public class AccountUser : InnerProxy, IUser
 {
     [DataMember(Order = 6)]
     public virtual string? UserName { get; set; }

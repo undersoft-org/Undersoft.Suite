@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Catalogs
+
+@inherits OfficesBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/catalogs/offices"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Catalogs.Office"
-                 TModel="Office"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Offices" />
+@{
+    base.BuildRenderTree(__builder);
+}

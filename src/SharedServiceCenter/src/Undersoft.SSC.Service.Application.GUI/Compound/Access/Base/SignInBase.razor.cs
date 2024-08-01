@@ -13,7 +13,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class SignInBase : ComponentBase
     {
         [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        private IAccess _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;

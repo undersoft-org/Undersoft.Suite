@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Catalogs
+
+@inherits VaccinesBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/catalogs/vaccines"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Catalogs.Vaccine"
-                 TModel="Vaccine"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Vaccines" />
+@{
+    base.BuildRenderTree(__builder);
+}

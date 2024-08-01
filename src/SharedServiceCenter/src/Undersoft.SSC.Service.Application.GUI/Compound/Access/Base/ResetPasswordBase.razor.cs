@@ -14,7 +14,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class ResetPasswordBase : ComponentBase
     {
         [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        private IAccess _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;
@@ -56,7 +56,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
                 {
                     var result = await _access.ResetPassword(new Account() { Credentials = content.Model });
 
-                    if (result.Notes.Status != SigningStatus.InvalidEmail && result.Notes.Status == SigningStatus.ResetPasswordNotConfirmed)
+                    if (result.Notes.Status != AccessStatus.InvalidEmail && result.Notes.Status == AccessStatus.ResetPasswordNotConfirmed)
                     {
                         _navigation.NavigateTo($"access/confirm_password_reset/{result.Credentials.Email}");
                         return;

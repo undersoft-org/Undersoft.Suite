@@ -9,7 +9,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access.Dialog;
 
 public class AccessDialog<TDialog, TModel> : ViewDialog<TDialog, TModel> where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
 {
-    public AccessDialog(IDialogService dialogService, IJSRuntime jS) : base(dialogService)
+    public AccessDialog(IDialogService dialogService, IJSRuntime jS, IViewDialogAnimations animations) : base(dialogService, animations)
     {
         JS = jS;
     }

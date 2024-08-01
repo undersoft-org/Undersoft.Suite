@@ -24,7 +24,7 @@ namespace Undersoft.SVC.Service.Application.Client;
 using Undersoft.SDK.Service.Application.GUI;
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SVC.Service.Application.GUI.Compound.Access;
-using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Validators;
+using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.NavMenu.Validators;
 using Undersoft.SVC.Service.Application.ViewModels.Catalogs;
 using Undersoft.SVC.Service.Application.ViewModels.Inventory;
 using Undersoft.SVC.Service.Application.ViewModels.Vaccination;

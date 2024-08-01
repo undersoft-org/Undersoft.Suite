@@ -13,7 +13,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
     public partial class SignUpBase : ComponentBase
     {
         [Inject]
-        private IAccountAccess _access { get; set; } = default!;
+        private IAccess _access { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigation { get; set; } = default!;
@@ -62,7 +62,7 @@ namespace Undersoft.SSC.Service.Application.GUI.Compound.Access
 
                     var result = await _access.SignUp(new Account() { Credentials = content.Model });
 
-                    if (result.Notes.Status != SigningStatus.Failure && result.Notes.Errors == null)
+                    if (result.Notes.Status != AccessStatus.Failure && result.Notes.Errors == null)
                     {
                         _navigation.NavigateTo($"access/confirm_email/{result.Credentials.Email}");
                         return;

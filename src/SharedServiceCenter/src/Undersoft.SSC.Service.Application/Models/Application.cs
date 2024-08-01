@@ -1,12 +1,11 @@
 ﻿using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SSC.Domain.Entities.Enums;
 using Undersoft.SSC.Service.Contracts;
 
 namespace Undersoft.SSC.Service.Application.Models;
 
-public class Application : ModelBase<Application, Detail, Setting, MemberGroup>, IViewModel
+public class Application : ModelBase<Application, Detail, Setting, Group>, IViewModel
 {
-    public Application() { Group = MemberGroup.Application; }
+    public Application() { }
 
     [VisibleRubric]
     public override long Id { get => base.Id; set => base.Id = value; }

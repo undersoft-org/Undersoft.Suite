@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.Admin.Catalogs
+
+@inherits CampaignsBase
 
 @attribute [Authorize]
 
 @page "/presenting/admin/catalogs/campaigns"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Catalogs.Campaign"
-                 TModel="Campaign"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="true"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.FormTabs" 
-                 Title="Campaigns" />
+@{
+    base.BuildRenderTree(__builder);
+}

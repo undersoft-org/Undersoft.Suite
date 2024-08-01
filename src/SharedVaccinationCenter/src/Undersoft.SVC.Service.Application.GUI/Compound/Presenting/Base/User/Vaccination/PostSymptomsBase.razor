@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@namespace Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Vaccination
+
+@attribute [Authorize]
+
+<GenericDataGrid TStore="IDataStore"
+                 TDto="Contracts.Vaccination.PostSymptom"
+                 TModel="PostSymptom"
+                 Resizable="true"
+                 ShowHover="true"
+                 Expandable="false"
+                 Multiselect="true"
+                 Editable="true"
+                 EditMode="EditMode.Dialog"
+                 EntryMode="EntryMode.Tabs" 
+                 Title="Post symptoms" />

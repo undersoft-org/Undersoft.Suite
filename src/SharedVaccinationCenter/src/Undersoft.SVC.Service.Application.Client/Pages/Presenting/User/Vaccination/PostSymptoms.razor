@@ -1,17 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SVC.Service.Application.GUI.Compound.Presenting.Base.User.Vaccination
+
+@inherits PostSymptomsBase
 
 @attribute [Authorize]
 
 @page "/presenting/user/vaccination/post_symptoms"
 
-<GenericDataGrid TStore="IDataStore"
-                 TDto="Contracts.Vaccination.PostSymptom"
-                 TModel="PostSymptom"
-                 Resizable="true"
-                 ShowHover="true"
-                 Expandable="false"
-                 Multiselect="true"
-                 Editable="true"
-                 EditMode="EditMode.Dialog"
-                 EntryMode="EntryMode.Tabs" 
-                 Title="Post symptoms" />
+@{
+    base.BuildRenderTree(__builder);
+}
