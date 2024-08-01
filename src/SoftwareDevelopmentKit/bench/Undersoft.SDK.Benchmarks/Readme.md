@@ -1,4 +1,4 @@
-## Undersoft.SDK Data Structure Algorithms VS .NET System.Collections & Parrellel Undersoft.SDK.Instant.Math VS .NET Standard Math operators using System.Linq on IEnumerables
+## Undersoft.SDK Data Structure Algorithms VS .NET System.Collections & Parrallel Undersoft.SDK.Instant.Math VS .NET Standard Math operators using System.Linq on IEnumerables
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19045
 Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
 .NET SDK=8.0.200
