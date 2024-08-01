@@ -31,7 +31,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                    Type</th><th>                         Method</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
+<thead><tr><th>                         Method</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Catalog_Add</td><td>1,416.55 ms</td><td>236.30 ms</td><td>61.367 ms</td><td>1,424.28 ms</td><td>6</td><td>20000</td><td>10000</td><td>199 MB</td>
 </tr><tr><td>Catalog_AddOrUpdate</td><td>1,224.97 ms</td><td>178.81 ms</td><td>46.437 ms</td><td>1,216.00 ms</td><td>5</td><td>10000</td><td>5000</td><td>118 MB</td>
