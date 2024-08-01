@@ -1,4 +1,4 @@
-# Undersoft SDK ~ 5 times faster with ~ 5 times less RAM usage then .NET Standard Collections and Parallel Math operations on IEnumerables
+# Benchamrks performed and specialized for Undersoft SDK usage and purpose and for them results show that Undersoft SDK is ~ 5 times faster with ~ 5 times less RAM usage then .NET Standard Collections and Parallel Math operations on IEnumerables
 ### Undersoft.SDK Data Structure Algorithms VS .NET System.Collections & Parrallel Undersoft.SDK.Instant.Math VS .NET Standard Math operators using System.Linq on IEnumerables
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19045
 Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
