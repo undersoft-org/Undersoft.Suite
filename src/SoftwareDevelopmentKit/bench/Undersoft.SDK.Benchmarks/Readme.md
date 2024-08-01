@@ -62,7 +62,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>ConcurrentDictionary_TryGetByKey</td><td>200.36 ms</td><td>81.21 ms</td><td>21.089 ms</td><td>200.08 ms</td><td>3</td><td>107000</td><td>-</td><td>351 MB</td>
 </tr></tbody></table>
 <table>
-<thead><tr><th>                 Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
+<thead><tr><th>                 Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Dictionary_Add_Test</td><td>1,749.7 ms</td><td>400.47 ms</td><td>104.00 ms</td><td>5</td><td>128000</td><td>-</td><td>533 MB</td>
 </tr><tr><td>OrderedDictionary_Add_Test</td><td>2,070.1 ms</td><td>269.37 ms</td><td>69.95 ms</td><td>6</td><td>61000</td><td>16000</td><td>529 MB</td>
@@ -74,7 +74,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                      Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
+<thead><tr><th>                      Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Dictionary_GetByKey_Test</td><td>924.9 ms</td><td>73.96 ms</td><td>19.21 ms</td><td>2</td><td>168000</td><td>504 MB</td>
 </tr><tr><td>OrderedDictionary_GetByKey_Test</td><td>675.6 ms</td><td>272.82 ms</td><td>70.85 ms</td><td>1</td><td>96000</td><td>290 MB</td>
@@ -86,7 +86,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                      Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
+<thead><tr><th>                      Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>OrderedDictionary_SetByKey_Test</td><td>4,139.2 ms</td><td>3,754.28 ms</td><td>974.97 ms</td><td>6</td><td>107000</td><td>26000</td><td>675,424,640 B</td>
 </tr><tr><td>Dictionary_SetByKey_Test</td><td>1,024.7 ms</td><td>283.61 ms</td><td>73.65 ms</td><td>4</td><td>168000</td><td>-</td><td>528,012,400 B</td>
@@ -98,7 +98,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                         Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
+<thead><tr><th>                         Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Dictionary_ContainsKey_Test</td><td>957.6 ms</td><td>104.59 ms</td><td>27.16 ms</td><td>3</td><td>168000</td><td>528,012,160 B</td>
 </tr><tr><td>OrderedDictionary_ContainsKey_Test</td><td>678.5 ms</td><td>302.66 ms</td><td>78.60 ms</td><td>2</td><td>96000</td><td>304,006,656 B</td>
@@ -110,7 +110,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                    Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
+<thead><tr><th>                    Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Dictionary_Remove_Test</td><td>1,006.4 ms</td><td>25.72 ms</td><td>6.68 ms</td><td>3</td><td>158000</td><td>1000</td><td>478 MB</td>
 </tr><tr><td>ConcurrentDictionary_Remove_Test</td><td>1,497.5 ms</td><td>817.11 ms</td><td>212.20 ms</td><td>4</td><td>158000</td><td>1000</td><td>478 MB</td>
@@ -121,7 +121,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr></tbody></table>
 
 <table>
-<thead><tr><th>                 Method (5 concurrent tasks each 200K objects)</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Allocated</th>
+<thead><tr><th>                 Method (1 mln  objects)</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Chain_ContainsValue_Test</td><td>631.6 &mu;s</td><td>1,889.6 &mu;s</td><td>490.7 &mu;s</td><td>403.1 &mu;s</td><td>1</td><td>70,160 B</td>
 </tr><tr><td>Catalog_ContainsValue_Test</td><td>837.1 &mu;s</td><td>3,238.9 &mu;s</td><td>841.1 &mu;s</td><td>494.4 &mu;s</td><td>1</td><td>69,872 B</td>
@@ -131,7 +131,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>Dictionary_ContainsValue_Test</td><td>24,653.2 &mu;s</td><td>37,045.9 &mu;s</td><td>9,620.7 &mu;s</td><td>19,812.0 &mu;s</td><td>3</td><td>-</td>
 </tr></tbody></table>
 <table>
-<thead><tr><th>                       Method (5 concurrent tasks each 200K objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
+<thead><tr><th>                       Method (1 mln  objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
 </tr>
 </thead><tbody><tr><td>Chain_Iteration_Test</td><td>94.42 ms</td><td>31.58 ms</td><td>8.201 ms</td><td>2</td><td>-</td><td>-</td>
 </tr><tr><td>Catalog_Iteration_Test</td><td>90.14 ms</td><td>19.59 ms</td><td>5.087 ms</td><td>2</td><td>-</td><td>12,144 B</td>
