@@ -20,7 +20,7 @@
 
         public override string ToString()
         {
-            return $"Route: {From.Value} -> {To.Value}, weight: {Metrics}";
+            return $"Route: {From.Value.Id} -> {To.Value.Id}, weight: {Metrics[0].Value}";
         }
     }
 }

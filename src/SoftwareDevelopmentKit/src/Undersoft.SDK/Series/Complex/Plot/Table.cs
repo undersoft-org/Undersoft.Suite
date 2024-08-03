@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 
 namespace Undersoft.SDK.Series.Complex
 {
-
     public class Table<T> : KeyedCollection<long, T> where T : class, IIdentifiable
     {
         public Table() { }
