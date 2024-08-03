@@ -81,7 +81,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
                 {
                     var _w = w.Trim();
                     searchFilters.Add(
-                        parent.EmptyFilters.ForEach(f => new Filter(
+                        parent.FilterEntries.ForEach(f => new Filter(
                             f.Member,
                             _w,
                             CompareOperand.Contains,

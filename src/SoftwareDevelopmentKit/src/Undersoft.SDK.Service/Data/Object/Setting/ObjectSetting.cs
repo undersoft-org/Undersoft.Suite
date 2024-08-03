@@ -11,7 +11,7 @@ using Undersoft.SDK.Service.Data.Identifier;
 
 [DataContract]
 [StructLayout(LayoutKind.Sequential)]
-public class ObjectSetting<TSetting, TKind> : DataObject, ISerializableJsonDocument, ISetting
+public class ObjectSetting<TSetting, TKind> : DataObject, IJsonDocumentSerializable, ISetting
     where TSetting : class, ISetting
     where TKind : struct, Enum
 {

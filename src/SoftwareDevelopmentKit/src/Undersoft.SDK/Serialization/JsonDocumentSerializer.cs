@@ -6,15 +6,15 @@ using Undersoft.SDK.Updating;
 
 namespace Undersoft.SDK.Serialization;
 
-public class JsonDocumentSerializer : ISerializableJsonDocument, IJsonDocumentSerializer
+public class JsonDocumentSerializer : IJsonDocumentSerializable, IJsonDocumentSerializer
 {
     internal object _structure;
-    internal ISerializableJsonDocument _container;
+    internal IJsonDocumentSerializable _container;
     internal Type _type;
 
     public JsonDocumentSerializer() { }
 
-    public JsonDocumentSerializer(ISerializableJsonDocument container)
+    public JsonDocumentSerializer(IJsonDocumentSerializable container)
     {
         _container = container;
     }
@@ -50,6 +50,7 @@ public class JsonDocumentSerializer : ISerializableJsonDocument, IJsonDocumentSe
     }
 
     public JsonDocument Document { get => _container.Document; set => _container.Document = value; }
+
     public string TypeName { get => _container.TypeName; set => _container.TypeName = value; }
 
     public virtual JsonDocument ToDocument<T>(T detail)

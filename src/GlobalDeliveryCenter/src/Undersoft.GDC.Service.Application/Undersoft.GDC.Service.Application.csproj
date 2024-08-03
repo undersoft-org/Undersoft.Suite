@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SoftwareDevelopmentKit\src\Undersoft.SDK.Service.Application\Undersoft.SDK.Service.Application.csproj" />
+    <ProjectReference Include="..\Undersoft.GDC.Service\Undersoft.GDC.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Undersoft.SDK.Service.Data.Identifier" />
+    <Using Include="Undersoft.SDK.Service.Data.Object" />
+    <Using Include="Undersoft.SDK.Service.Data.Event" />
+    <Using Include="Undersoft.SDK.Service.Data.Model" />
+    <Using Include="Undersoft.SDK.Service.Data.Client" />
+    <Using Include="Undersoft.SDK.Service.Data.Blob" />
+    <Using Include="Undersoft.SDK.Service" />
+    <Using Include="Undersoft.SDK.Extracting" />
+    <Using Include="Undersoft.SDK.Invoking" />
+    <Using Include="Undersoft.SDK.Series" />
+    <Using Include="Undersoft.SDK.Instant" />
+    <Using Include="Undersoft.SDK.Updating" />
+    <Using Include="Undersoft.SDK.Proxies" />
+    <Using Include="Undersoft.SDK.Logging" />
+    <Using Include="Undersoft.SDK.Uniques" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+</Project>

@@ -18,13 +18,13 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
             {
                 Data.SearchMembers.ForEach(m =>
                 {
-                    EmptyFilters.Put(new Filter(m, null, CompareOperand.Contains, LinkOperand.Or));
+                    FilterEntries.Put(new Filter(m, null, CompareOperand.Contains, LinkOperand.Or));
                 });
             }
             base.OnInitialized();
         }
 
-        public ISeries<Filter> EmptyFilters { get; set; } = new Listing<Filter>();
+        public ISeries<Filter> FilterEntries { get; set; } = new Listing<Filter>();
 
         [CascadingParameter]
         public override IViewDataStore DataStore

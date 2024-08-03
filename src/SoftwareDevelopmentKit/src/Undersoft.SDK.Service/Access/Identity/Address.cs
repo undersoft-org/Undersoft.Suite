@@ -45,5 +45,7 @@ namespace Undersoft.SDK.Service.Access.Identity
         public string Apartment { get; set; }
 
         public string Notes { get; set; }
+
+        public virtual Listing<Location> Locations { get; set; }
     }
 }

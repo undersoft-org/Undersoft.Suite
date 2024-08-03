@@ -12,7 +12,7 @@ using Undersoft.SDK.Service.Data.Identifier;
 
 [DataContract]
 [StructLayout(LayoutKind.Sequential)]
-public class ObjectDetail<TDetail, TKind> : DataObject, ISerializableJsonDocument, IDetail
+public class ObjectDetail<TDetail, TKind> : DataObject, IJsonDocumentSerializable, IDetail
     where TDetail : class, IDetail
     where TKind : struct, Enum
 {

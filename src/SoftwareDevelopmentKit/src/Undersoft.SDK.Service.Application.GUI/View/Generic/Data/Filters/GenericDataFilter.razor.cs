@@ -25,11 +25,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
                     var rubricFilters = Filters.Where(f => f.Member == m).Commit();
                     if (rubricFilters.Any())
                     {
-                        EmptyFilters.Put(rubricFilters);
+                        FilterEntries.Put(rubricFilters);
                     }
                     else
                     {
-                        EmptyFilters.Put(new Filter(m, FilteredType.DefaultNotNullable(), CompareOperand.Equal, LinkOperand.And));
+                        FilterEntries.Put(new Filter(m, FilteredType.DefaultNotNullable(), CompareOperand.Equal, LinkOperand.And));
                     }
                 });
             }
@@ -38,27 +38,27 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
 
         public ISeries<Filter> Filters => Rubric.Filters;
 
-        public ISeries<Filter> EmptyFilters { get; set; } = new Listing<Filter>();
+        public ISeries<Filter> FilterEntries { get; set; } = new Listing<Filter>();
 
-        public bool Added => EmptyFilters.Where(f => f.Added).Any();
+        public bool Added => FilterEntries.Where(f => f.Added).Any();
 
         public bool IsAddable => Rubric.FilterMembers!.Length < 2;
 
         public void CloneLastFilter()
         {
-            var lastfilter = EmptyFilters.LastOrDefault();
+            var lastfilter = FilterEntries.LastOrDefault();
             if (lastfilter != null)
-                EmptyFilters.Put(new Filter(lastfilter.Member, FilteredType.DefaultNotNullable(), lastfilter.Operand, lastfilter.Link) { Added = true });
+                FilterEntries.Put(new Filter(lastfilter.Member, FilteredType.DefaultNotNullable(), lastfilter.Operand, lastfilter.Link) { Added = true });
 
             RenderView();
         }
 
         public void RemoveLastFilter()
         {
-            var lastfilter = EmptyFilters.LastOrDefault();
+            var lastfilter = FilterEntries.LastOrDefault();
             if (lastfilter != null)
             {
-                EmptyFilters.Remove(lastfilter);
+                FilterEntries.Remove(lastfilter);
                 Filters.Remove(lastfilter);
             }
 
@@ -78,7 +78,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Filters
 
         public void UpdateFilters()
         {
-            EmptyFilters.ForEach(f =>
+            FilterEntries.ForEach(f =>
             {
                 if (!Filters.Contains(f) && f.Value != FilteredType.DefaultNotNullable())
                     Rubric.Filters.Put(f);

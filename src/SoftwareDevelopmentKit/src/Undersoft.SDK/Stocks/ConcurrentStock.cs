@@ -91,7 +91,7 @@
 #if DEBUG
             else if (!ownsSharedMemory && (nodeCount != 0 || nodeBufferSize > 0))
                 System.Diagnostics.Debug.Write(
-                    "Node count and nodeBufferSize are ignored when opening an existing shared memory circular buffer.",
+                    "Spot count and nodeBufferSize are ignored when opening an existing shared memory circular buffer.",
                     "Warning");
 #endif
 

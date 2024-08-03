@@ -1,0 +1,33 @@
+namespace Undersoft.SDK.Service.Access.Identity
+{
+    [Flags]
+    public enum LocationKind
+    {
+        Unknown,
+        Vehicle,
+        Device,
+        Cloud,
+        Storage,
+        Underground,
+        Restricted,
+        Vessel,
+        Building,
+        Apartment,
+        Wildness,
+        River,
+        Sea,
+        Ocean,
+        Forest,
+        Desert,
+        Jungle,
+        Road,
+        Air,
+        City,
+        Village,
+        Town,
+        Public,
+        Private,
+        Bussines,
+        Asset
+    }
+}

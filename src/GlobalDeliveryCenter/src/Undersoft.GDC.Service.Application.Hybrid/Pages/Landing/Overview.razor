@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SDK.Proxies
+
+@page "/landing/overview"
+
+<FluentGrid Spacing="4" Justify="JustifyContent.Center">
+    <FluentGridItem xs="12" md="12" lg="3" xl="2" Style="text-align:center;">
+        <FluentIcon Value="@(new ViewGraphic.Logo.ColorSquare())" Color="Color.FillInverse" Width="200px"></FluentIcon>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="12" lg="9" xl="10">
+        <FluentStack Orientation="Orientation.Vertical" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Center" VerticalGap="20" Style="margin-top:20px">
+            <div style="text-align:center;">
+                <a href="/presenting/dashboard" role="button">
+                    <FluentIcon Value="@(new ViewGraphic.Title.Shared())" Color="Color.FillInverse" Width="280px"></FluentIcon>
+                </a>
+                <a href="/presenting/dashboard" role="button">
+                    <FluentIcon Value="@(new ViewGraphic.Title.Service())" Color="Color.FillInverse" Width="320px"></FluentIcon>
+                </a>
+                <a href="/presenting/dashboard" role="button">
+                    <FluentIcon Value="@(new ViewGraphic.Title.Center())" Color="Color.FillInverse" Width="280px"></FluentIcon>
+                </a>
+            </div>
+            <FluentLabel Typo="Typography.H5">
+                This is part of portfolio and skills presenting web application with operational data service tier. Provide synchronization for corelated concurrent and parallel
+                hypergraphs with bussines process workflow features for various designs and implementations of generated as single code based hybrid applications.
+            </FluentLabel>
+        </FluentStack>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="6" lg="3">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+            <a href="/presenting/dashboard" role="button">
+                <FluentIcon Value="@(new ViewGraphic.Topic.Dashboard())" Color="Color.FillInverse" Width="240px"></FluentIcon>
+            </a>
+            <ul>
+                <li><FluentLabel Typo="Typography.H5">Overview</FluentLabel></li>
+            </ul>
+        </FluentStack>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="6" lg="3">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+            <a href="/presenting/dashboard" role="button">
+                <FluentIcon Value="@(new ViewGraphic.Topic.Ecosystem())" Color="Color.FillInverse" Width="240px"></FluentIcon>
+            </a>
+            <ul>
+                <li><FluentLabel Typo="Typography.H5">Center</FluentLabel></li>
+                <li><FluentLabel Typo="Typography.H5">Service</FluentLabel></li>
+                <li><FluentLabel Typo="Typography.H5">Application</FluentLabel></li>
+            </ul>
+        </FluentStack>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="6" lg="3">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+            <a href="/presenting/dashboard" role="button">
+                <FluentIcon Value="@(new ViewGraphic.Topic.Downloads())" Color="Color.FillInverse" Width="240px"></FluentIcon>
+            </a>
+            <ul>
+                <li><FluentLabel Typo="Typography.H5">Windows</FluentLabel></li>
+                <li><FluentLabel Typo="Typography.H5">Android</FluentLabel></li>
+            </ul>
+        </FluentStack>
+    </FluentGridItem>
+    <FluentGridItem xs="12" md="6" lg="3">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+            <a href="/presenting/dashboard" role="button">
+                <FluentIcon Value="@(new ViewGraphic.Topic.Contact())" Color="Color.FillInverse" Width="240px"></FluentIcon>
+            </a>
+            <ul>
+                <li><FluentLabel Typo="Typography.H5">Author</FluentLabel></li>
+                <li><FluentLabel Typo="Typography.H5">Invite</FluentLabel></li>
+                <li><FluentLabel Typo="Typography.H5">Donate</FluentLabel></li>
+            </ul>
+        </FluentStack>
+    </FluentGridItem>
+</FluentGrid>

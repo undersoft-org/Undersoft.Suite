@@ -10,25 +10,25 @@
 <CascadingValue Value="@Data">
     <CascadingValue Value="@Root">
         <CascadingValue Value="@OnMenuItemChange">
-                <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" HorizontalThreshold="350" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
-                    <CascadingValue Value="@FilteredType">
-                        <CascadingValue Value="@IsOpen">
-                            @foreach (ISeriesItem<Filter> filterItem in EmptyFilters.AsItems())
+            <GenericFieldMenu @bind-Open="@IsOpen" HorizontalPosition="@Position" HorizontalThreshold="350" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
+                <CascadingValue Value="@FilteredType">
+                    <CascadingValue Value="@IsOpen">
+                        @foreach (ISeriesItem<Filter> filterEntry in FilterEntries.AsItems())
+                        {
+                            @if (filterEntry.Index == 0)
                             {
-                                @if (filterItem.Index == 0)
-                                {
-                                    <GenericDataFilterItem AutoFocus="true" Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
-                                }
-                                else
-                                {
-                                    <GenericDataFilterItem Index="@filterItem.Index" Filter=@filterItem.Value Rubric="@Rubric" Parent="@this" />
-                                }
+                                <GenericDataFilterItem AutoFocus="true" Index="@filterEntry.Index" Filter=@filterEntry.Value Rubric="@Rubric" Parent="@this" />
                             }
-                            <GenericDataFilterButtons Rubric="@Rubric" Parent="@this" />
-                        </CascadingValue>
+                            else
+                            {
+                                <GenericDataFilterItem Index="@filterEntry.Index" Filter=@filterEntry.Value Rubric="@Rubric" Parent="@this" />
+                            }
+                        }
+                        <GenericDataFilterButtons Rubric="@Rubric" Parent="@this" />
                     </CascadingValue>
-                </GenericFieldMenu>
-            </CascadingValue>
+                </CascadingValue>
+            </GenericFieldMenu>
+        </CascadingValue>
     </CascadingValue>
 </CascadingValue>
 
