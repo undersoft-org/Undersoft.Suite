@@ -9,12 +9,12 @@ namespace Undersoft.GDC.Service.Application.Server.Controllers
 {
     [AllowAnonymous]
     public class ScheduleController
-        : OpenCqrsController<
+        : OpenDataRemoteController<
             long,
-            IEntryStore,
-            IReportStore,
-            Domain.Entities.Schedule,
-            Contracts.Schedule, ServiceManager
+            IDataStore,
+            Contracts.Schedule,
+            Contracts.Schedule,
+            ServiceManager
         >
     {
         public ScheduleController(IServicer ultimatr) : base(ultimatr) { }
@@ -24,12 +24,12 @@ namespace Undersoft.GDC.Service.Application.Server.Controllers
     [AllowAnonymous]
     [Route($"{StoreRoutes.ApiDataRoute}/Schedule")]
     public class SchedulesController
-        : ApiCqrsController<
+          : ApiDataRemoteController<
             long,
-            IEntryStore,
-            IReportStore,
-            Domain.Entities.Schedule,
-            Contracts.Schedule, ServiceManager
+            IDataStore,
+            Contracts.Schedule,
+            Contracts.Schedule,
+            ServiceManager
         >
     {
         public SchedulesController(IServicer ultimatr) : base(ultimatr) { }

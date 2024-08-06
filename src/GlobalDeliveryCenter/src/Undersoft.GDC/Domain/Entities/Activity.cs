@@ -5,15 +5,7 @@ using Undersoft.SDK.Service.Data.Entity;
 
 public class Activity : OpenEntity<Activity, Detail, Setting, Group>
 {
-    public virtual EntitySet<Activity>? RelatedFrom { get; set; }
-
-    public virtual EntitySet<Activity>? RelatedTo { get; set; }
-
-    public virtual EntitySet<Member>? Members { get; set; }
-
-    public virtual EntitySet<Resource>? Resources { get; set; }
-
-    public virtual EntitySet<Schedule>? Schedules { get; set; }
+    public virtual EntitySet<Service>? Services { get; set; }
 
     [ForeignKey(nameof(Location))]
     public long? LocationId { get; set; }

@@ -29,11 +29,11 @@ public class Setup
                 DataServerTypes.All,
                 builder =>
                     builder
-                        .AddInvocations<ServiceActivity>()
-                        .AddInvocations<ServiceResource>()
-                        .AddInvocations<ServiceSchedule>()
+                        .AddInvocations<Activity>()
+                        .AddInvocations<Resource>()
+                        .AddInvocations<Schedule>()
                         .AddInvocations<Contracts.Service>()
-                        .AddInvocations<ServiceMember>()
+                        .AddInvocations<Member>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

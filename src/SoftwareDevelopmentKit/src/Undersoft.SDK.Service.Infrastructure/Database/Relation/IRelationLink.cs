@@ -5,7 +5,7 @@ namespace Undersoft.SDK.Service.Infrastructure.Database.Relation;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Object;
 
-public interface IRelatedLink<TLeft, TRight> : IDataObject where TLeft : class, IOrigin, IInnerProxy where TRight : class, IOrigin, IInnerProxy
+public interface IRelationLink<TLeft, TRight> : IDataObject where TLeft : class, IOrigin, IInnerProxy where TRight : class, IOrigin, IInnerProxy
 {
     [JsonIgnore]
     TLeft LeftEntity { get; set; }

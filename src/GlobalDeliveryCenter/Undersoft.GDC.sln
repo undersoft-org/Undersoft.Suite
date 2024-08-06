@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Infra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Server", "..\SoftwareDevelopmentKit\src\Undersoft.SDK.Service.Server\Undersoft.SDK.Service.Server.csproj", "{03710418-8B67-4EB2-B53B-7272B9547335}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Tests", "..\SoftwareDevelopmentKit\tests\Undersoft.SDK.Tests\Undersoft.SDK.Tests.csproj", "{221383BA-EE36-4A53-82A7-F4FD29202B8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{03710418-8B67-4EB2-B53B-7272B9547335}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03710418-8B67-4EB2-B53B-7272B9547335}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03710418-8B67-4EB2-B53B-7272B9547335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221383BA-EE36-4A53-82A7-F4FD29202B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221383BA-EE36-4A53-82A7-F4FD29202B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221383BA-EE36-4A53-82A7-F4FD29202B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221383BA-EE36-4A53-82A7-F4FD29202B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{5BBB9532-77CB-444B-BDDC-946BC869EA1A} = {448A2708-49C1-4CB1-9BA6-90FE8251D4C6}
 		{C20ADD4F-1A36-4941-A285-21AA4C69D478} = {448A2708-49C1-4CB1-9BA6-90FE8251D4C6}
 		{03710418-8B67-4EB2-B53B-7272B9547335} = {448A2708-49C1-4CB1-9BA6-90FE8251D4C6}
+		{221383BA-EE36-4A53-82A7-F4FD29202B8D} = {448A2708-49C1-4CB1-9BA6-90FE8251D4C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F31728AB-97C6-4E0D-B412-898579AA77AD}

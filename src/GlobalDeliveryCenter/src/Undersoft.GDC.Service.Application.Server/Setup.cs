@@ -37,10 +37,6 @@ public class Setup
                         .AddInvocations<Schedule>()
                         .AddInvocations<Activity>()
                         .AddInvocations<Resource>()
-                        .AddInvocations<ServiceMember>()
-                        .AddInvocations<ServiceActivity>()
-                        .AddInvocations<ServiceResource>()
-                        .AddInvocations<ServiceSchedule>()
             )
             .AddDataServer<IEventStore>(
                 DataServerTypes.All,

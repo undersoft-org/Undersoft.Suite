@@ -6,32 +6,28 @@ using Undersoft.SDK.Service.Data.Contract;
 namespace Undersoft.GDC.Service.Contracts;
 
 [DataContract]
-public class Service : ServiceBase, IContract
+public class Service : ContractBase<Service, Detail, Setting, Group>, IContract
 {
     [Sortable]
     [Filterable]
     [VisibleRubric]
-    [DisplayRubric("Id")]
     [DataMember(Order = 1)]
     public override long Id { get => base.Id; set => base.Id = value; }
 
     [Sortable]
     [Filterable]
     [VisibleRubric]
-    [RubricSize(256)]
-    [DisplayRubric("Label")]
     [DataMember(Order = 11)]
     public override string? Label { get => base.Label; set => base.Label = value; }
 
-    [DataMember(Order = 20)]
-    public virtual ObjectSet<ServiceBase>? RelatedFrom { get; set; }
+    [DataMember(Order = 22)]
+    public virtual ObjectSet<Activity>? Activities { get; set; }
 
-    [DataMember(Order = 21)]
-    public virtual ObjectSet<ServiceBase>? RelatedTo { get; set; }
-
-    [Extended]
     [DataMember(Order = 23)]
-    public virtual ObjectSet<ApplicationBase>? Applications { get; set; }
+    public virtual ObjectSet<Resource>? Resources { get; set; }
+
+    [DataMember(Order = 24)]
+    public virtual ObjectSet<Schedule>? Schedules { get; set; }
 
     [DataMember(Order = 19)]
     public virtual Location? Location { get; set; }

@@ -9,17 +9,7 @@ public class Member : OpenEntity<Member, Detail, Setting, Group>
 
     public virtual EntitySet<Member>? RelatedTo { get; set; }
 
-    public virtual EntitySet<Member>? Ancestors { get; set; }
-
-    public virtual EntitySet<Member>? Successors { get; set; }
-
     public virtual EntitySet<Service>? Services { get; set; }
-
-    public virtual EntitySet<Activity>? Activities { get; set; }
-
-    public virtual EntitySet<Resource>? Resources { get; set; }
-
-    public virtual EntitySet<Schedule>? Schedules { get; set; }
 
     [ForeignKey(nameof(Location))]
     public long? LocationId { get; set; }

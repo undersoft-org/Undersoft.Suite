@@ -18,11 +18,6 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Mappings
 
             ModelBuilder
                 .ApplyIdentifiers<Activity>()
-                .RelateSetToSet<Activity, Resource>(
-                    r => r.Activities,
-                    r => r.Resources,
-                    ExpandSite.OnRight
-                )
                 .RelateOneToOne<Activity, Location>(
                     r => r.Activity,
                     r => r.Location,
@@ -33,17 +28,15 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Mappings
                     r => r.Settings,
                     ExpandSite.OnRight
                 )
+                .RelateSetToSet<Activity, Group>(
+                    l => l.Activities,
+                    r => r.Groups,
+                    ExpandSite.OnRight
+                )
                 .RelateSetToSet<Activity, Detail>(
                     l => l.Activities,
                     r => r.Details,
                     ExpandSite.OnRight, true
-                )
-                .RelateSetToSet<Activity, Activity>(
-                    rm => rm.RelatedFrom,
-                    nameof(Activity),
-                    rm => rm.RelatedTo,
-                    nameof(Activity),
-                    ExpandSite.OnRight
                 );
         }
     }

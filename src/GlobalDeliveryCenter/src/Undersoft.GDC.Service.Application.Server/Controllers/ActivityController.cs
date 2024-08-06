@@ -9,12 +9,12 @@ namespace Undersoft.GDC.Service.Application.Server.Controllers
 {
     [AllowAnonymous]
     public class ActivityController
-        : OpenCqrsController<
+        : OpenDataRemoteController<
             long,
-            IEntryStore,
-            IReportStore,
-            Domain.Entities.Activity,
-            Contracts.Activity, ServiceManager
+            IDataStore,
+            Contracts.Activity,
+            Contracts.Activity,
+            ServiceManager
         >
     {
         public ActivityController(IServicer ultimatr) : base(ultimatr) { }
@@ -24,12 +24,12 @@ namespace Undersoft.GDC.Service.Application.Server.Controllers
     [AllowAnonymous]
     [Route($"{StoreRoutes.ApiDataRoute}/Activity")]
     public class ActivitiesController
-        : ApiCqrsController<
+          : ApiDataRemoteController<
             long,
-            IEntryStore,
-            IReportStore,
-            Domain.Entities.Activity,
-            Contracts.Activity, ServiceManager
+            IDataStore,
+            Contracts.Activity,
+            Contracts.Activity,
+            ServiceManager
         >
     {
         public ActivitiesController(IServicer ultimatr) : base(ultimatr) { }

@@ -25,7 +25,7 @@ public class RelatedSetToSet<TLeft, TRight>
     private readonly ModelBuilder _modelBuilder;
     private readonly EntityTypeBuilder<TLeft> _firstBuilder;
     private readonly EntityTypeBuilder<TRight> _secondBuilder;
-    private readonly EntityTypeBuilder<RelatedLink<TLeft, TRight>> _relationBuilder;
+    private readonly EntityTypeBuilder<RelationLink<TLeft, TRight>> _relationBuilder;
 
     public RelatedSetToSet(
         ModelBuilder modelBuilder,
@@ -55,7 +55,7 @@ public class RelatedSetToSet<TLeft, TRight>
         _modelBuilder = modelBuilder;
         _firstBuilder = _modelBuilder.Entity<TLeft>();
         _secondBuilder = _modelBuilder.Entity<TRight>();
-        _relationBuilder = _modelBuilder.Entity<RelatedLink<TLeft, TRight>>();
+        _relationBuilder = _modelBuilder.Entity<RelationLink<TLeft, TRight>>();
         _expandSite = expandSite;
 
         if (leftTableName != null)
@@ -85,7 +85,7 @@ public class RelatedSetToSet<TLeft, TRight>
         _firstBuilder
             .HasMany<TRight>(RIGHT_NAME)
             .WithMany(LEFT_NAME)
-            .UsingEntity<RelatedLink<TLeft, TRight>>(
+            .UsingEntity<RelationLink<TLeft, TRight>>(
                 j =>
                     j.HasOne(a => a.RightEntity)
                         .WithMany()

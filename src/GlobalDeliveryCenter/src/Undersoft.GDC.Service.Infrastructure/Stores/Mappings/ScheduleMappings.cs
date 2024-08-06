@@ -18,7 +18,11 @@ public class ScheduleMappings : EntityTypeMapping<Schedule>
 
         ModelBuilder
             .ApplyIdentifiers<Schedule>()
-            .RelateSetToSet<Schedule, Activity>(r => r.Schedules, r => r.Activities, ExpandSite.OnRight)
+            .RelateSetToSet<Schedule, Detail>(
+                r => r.Schedules,
+                r => r.Details,
+                ExpandSite.OnRight
+            )
             .RelateSetToSet<Schedule, Setting>(
                 r => r.Schedules,
                 r => r.Settings,
@@ -28,14 +32,10 @@ public class ScheduleMappings : EntityTypeMapping<Schedule>
                 r => r.Schedule,
                 r => r.Location,
                 ExpandSite.OnRight
-            )
-            .RelateSetToSet<Schedule, Detail>(r => r.Schedules, r => r.Details, ExpandSite.OnRight)
-            .RelateSetToSet<Schedule, Schedule>(
-                r => r.RelatedFrom,
-                nameof(Schedule),
-                r => r.RelatedTo,
-                nameof(Schedule),
-                ExpandSite.OnRight
+            ).RelateSetToSet<Schedule, Group>(
+                    l => l.Schedules,
+                    r => r.Groups,
+                    ExpandSite.OnRight
             );
     }
 }

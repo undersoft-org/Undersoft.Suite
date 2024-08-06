@@ -21,6 +21,7 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     public virtual DbSet<Schedule>? Schedules { get; set; }
     public virtual DbSet<Detail>? Details { get; set; }
     public virtual DbSet<Setting>? Settings { get; set; }
+    public virtual DbSet<Group>? Groups { get; set; }
     public virtual DbSet<Location>? Locations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +33,7 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
         modelBuilder.ApplyMapping(new ScheduleMappings());
         modelBuilder.ApplyMapping(new DetailMappings());
         modelBuilder.ApplyMapping(new SettingMappings());
+        modelBuilder.ApplyMapping(new GroupMappings());
         modelBuilder.ApplyMapping(new LocationMappings());
         modelBuilder.ApplyMapping(new AddressesMappings());
         modelBuilder.ApplyMapping(new EndpointMappings());

@@ -18,11 +18,6 @@ public class ResourceMappings : EntityTypeMapping<Resource>
 
         ModelBuilder
                  .ApplyIdentifiers<Resource>()
-                 .RelateSetToSet<Resource, Schedule>(
-                     r => r.Resources,
-                     r => r.Schedules,
-                     ExpandSite.OnRight
-                 )
                  .RelateSetToSet<Resource, Setting>(
                      r => r.Resources,
                      r => r.Settings,
@@ -37,13 +32,10 @@ public class ResourceMappings : EntityTypeMapping<Resource>
                      r => r.Resources,
                      r => r.Details,
                      ExpandSite.OnRight
-                 )
-                 .RelateSetToSet<Resource, Resource>(
-                     r => r.RelatedFrom,
-                     nameof(Resource),
-                     r => r.RelatedTo,
-                     nameof(Resource),
-                     ExpandSite.OnRight
-                 );
+                 ).RelateSetToSet<Resource, Group>(
+                    l => l.Resources,
+                    r => r.Groups,
+                    ExpandSite.OnRight
+                );
     }
 }

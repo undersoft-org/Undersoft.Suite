@@ -31,7 +31,7 @@ namespace Undersoft.SDK.Tests.Instant
 
             var _Proxy0 = profile.ToProxy();
 
-            var _Proxy1 = Proxy.Create(_Proxy0);
+            var _Proxy1 = Proxy.Generate(_Proxy0);
 
             var _InstantSeries = new InstantSeriesGenerator(_Proxy1);
 
@@ -69,10 +69,10 @@ namespace Undersoft.SDK.Tests.Instant
 
             profile.AutoId();
 
-            var _Proxy0 = Proxy.Create(profile);
+            var _Proxy0 = Proxy.Generate(profile);
             ((IProxy)_Proxy0)[0] = 1;
 
-            var _Proxy1 = Proxy.Create(_Proxy0);
+            var _Proxy1 = Proxy.Generate(_Proxy0);
 
             var mock = new Agreement()
             {
@@ -87,7 +87,7 @@ namespace Undersoft.SDK.Tests.Instant
             List<IProxy> list = new();
             for (int i = 0; i < 300000; i++)
             {
-                var _Proxy2 = Proxy.Create();
+                var _Proxy2 = Proxy.Generate();
                 for (int j = 0; j < prop.Count; j++)
                 {
                     _Proxy2[j] = _Proxy0[j];

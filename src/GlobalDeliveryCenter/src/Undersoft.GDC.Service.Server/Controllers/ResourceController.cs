@@ -7,31 +7,31 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 namespace Undersoft.GDC.Service.Server.Controllers
 {
     [AllowAnonymous]
-    public class ServiceActivityController
+    public class ResourceController
         : OpenCqrsController<
             long,
             IEntryStore,
             IReportStore,
-            Domain.Entities.Activity,
-            Contracts.ServiceActivity,
+            Domain.Entities.Resource,
+            Contracts.Resource,
             ServiceManager
         >
     {
-        public ServiceActivityController(IServicer ultimatr) : base(ultimatr) { }
+        public ResourceController(IServicer ultimatr) : base(ultimatr) { }
     }
 
     [AllowAnonymous]
-    [Route($"{StoreRoutes.ApiDataRoute}/ServiceActivity")]
-    public class ServiceActivitiesController
+    [Route($"{StoreRoutes.ApiDataRoute}/Resource")]
+    public class ResourcesController
         : ApiCqrsController<
             long,
             IEntryStore,
             IReportStore,
-            Domain.Entities.Activity,
-            Contracts.ServiceActivity,
+            Domain.Entities.Resource,
+            Contracts.Resource,
             ServiceManager
         >
     {
-        public ServiceActivitiesController(IServicer ultimatr) : base(ultimatr) { }
+        public ResourcesController(IServicer ultimatr) : base(ultimatr) { }
     }
 }

@@ -1,8 +1,8 @@
 using System.Runtime.Serialization;
+using Undersoft.GDC.Domain.Entities.Enums;
 using Undersoft.SDK.Serialization;
 using Undersoft.SDK.Service.Data.Contract;
 using Undersoft.SDK.Service.Data.Object.Detail;
-using Undersoft.GDC.Domain.Entities.Enums;
 
 namespace Undersoft.GDC.Service.Contracts;
 
@@ -12,6 +12,4 @@ public class Detail : ObjectDetail<Detail, DetailKind>, IJsonDocumentSerializabl
     public Detail() : base() { }
 
     public Detail(DetailKind kind) : base(kind) { }
-
-
 }

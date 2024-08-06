@@ -1,9 +1,9 @@
 namespace System.Series.Tests
 {
-    using Undersoft.SDK.Uniques;
     using System;
     using System.Collections.Generic;
     using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Uniques;
 
     public static class PrepareTestListings
     {
@@ -20,7 +20,6 @@ namespace System.Series.Tests
             }
             return list;
         }
-
 
         public static IList<KeyValuePair<object, string>> prepareIdentifierKeyTestCollection()
         {

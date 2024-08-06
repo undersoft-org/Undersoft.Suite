@@ -21,7 +21,7 @@ namespace Undersoft.GDC.Service.Application.Server.Controllers
     }
 
     [AllowAnonymous]
-    [Route($"{StoreRoutes.ApiDataRoute}/Ecosystem")]
+    [Route($"{StoreRoutes.ApiDataRoute}/Service")]
     public class ServicesController
         : ApiDataRemoteController<
             long,

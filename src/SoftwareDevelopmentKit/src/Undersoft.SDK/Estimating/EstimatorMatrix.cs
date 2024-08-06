@@ -240,8 +240,6 @@
             return result;
         }
 
-
-
         // --------------------------------------------------
 
         public static double[][] MatrixRandom(int rows, int cols, double minVal, double maxVal, int seed)
@@ -405,7 +403,6 @@
 
             return matrix;
         }
-
 
         // --------------------------------------------------
 

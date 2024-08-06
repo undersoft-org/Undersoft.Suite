@@ -18,19 +18,9 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Mappings
 
             ModelBuilder
                 .ApplyIdentifiers<Member>()
-                .RelateSetToSet<Member, Activity>(
+                .RelateSetToSet<Member, Service>(
                     r => r.Members,
-                    r => r.Activities,
-                    ExpandSite.OnRight
-                )
-                .RelateSetToSet<Member, Resource>(
-                    r => r.Members,
-                    r => r.Resources,
-                    ExpandSite.OnRight
-                )
-                .RelateSetToSet<Member, Schedule>(
-                    r => r.Members,
-                    r => r.Schedules,
+                    r => r.Services,
                     ExpandSite.OnRight
                 )
                 .RelateSetToSet<Member, Setting>(
@@ -49,19 +39,17 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Mappings
                     ExpandSite.OnRight,
                     true
                 )
+                 .RelateSetToSet<Member, Group>(
+                    l => l.Members,
+                    r => r.Groups,
+                    ExpandSite.OnRight
+                )
                 .RelateSetToSet<Member, Member>(
                     r => r.RelatedFrom,
                     $"From{nameof(Member)}",
                     r => r.RelatedTo,
                     nameof(Member),
-                    ExpandSite.OnRight
-                ).RelateSetToSet<Member, Member>(
-                    r => r.Ancestors,
-                    $"Ancestors",
-                    r => r.Successors,
-                    $"Successors",
-                    ExpandSite.OnRight
-                );
+                    ExpandSite.OnRight);
             ;
         }
     }
