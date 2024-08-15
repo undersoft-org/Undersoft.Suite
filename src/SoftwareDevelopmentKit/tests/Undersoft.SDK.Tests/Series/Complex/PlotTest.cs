@@ -20,33 +20,27 @@ namespace Undersoft.SDK.Tests.Series
 
 
         [TestMethod]
-        public void DirectedPlot_Lowest_Vectors_Path_Integrated_Test()
+        public void DirectedPlot_QuickPath_Integrated_Test()
         {
             Plot<Agreement> directedPlot = PrepareTestGraphs.PrepareTestDirectedPlot();
 
-            var minPath = directedPlot.GetLowestVectors(((IList<Place<Agreement>>)directedPlot)[0], ((IList<Place<Agreement>>)directedPlot)[10], MetricKind.Distance);
+            var minPath = directedPlot.GetQuickPath(((IList<Place<Agreement>>)directedPlot)[5], ((IList<Place<Agreement>>)directedPlot)[10], MetricKind.Time);
          
-            var minSum = minPath.Sum(m => m.Metrics.FirstOrDefault().Value);
+            var minSum = minPath.Sum(m => m.Metrics[MetricKind.Time].Value);
 
             Assert.IsTrue(minSum > 0);
         }
 
         [TestMethod]
-        public void UndirectedPlot_Lowest_Vectors_Path_Integrated_Test()
+        public void UndirectedPlot_QuickPath_Integrated_Test()
         {
             Plot<Agreement> undirectedPlot = PrepareTestGraphs.PrepareTestUndirectedPlot();
 
-            var minPath = undirectedPlot.GetLowestVectors(((IList<Place<Agreement>>)undirectedPlot)[0], ((IList<Place<Agreement>>)undirectedPlot)[10], MetricKind.Distance);
-            double minSum = 0;
-            if (minPath.Any())
-            {
-                minSum = minPath.Sum(m => m.Metrics.FirstOrDefault().Value);
-                Assert.IsTrue(minSum > 0);
-            }
-            else
-            {
-                Assert.IsTrue(minSum == 0);
-            }
+            var minPath = undirectedPlot.GetQuickPath(((IList<Place<Agreement>>)undirectedPlot)[5], ((IList<Place<Agreement>>)undirectedPlot)[10], MetricKind.Time);
+
+            var minSum = minPath.Sum(m => m.Metrics[MetricKind.Time].Value);
+
+            Assert.IsTrue(minSum > 0);
         }
     }
 }

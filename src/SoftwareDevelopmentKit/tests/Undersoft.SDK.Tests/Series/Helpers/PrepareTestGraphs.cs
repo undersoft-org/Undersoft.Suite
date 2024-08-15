@@ -13,7 +13,7 @@ namespace System.Series.Tests
 
         public static Plot<Agreement> PrepareTestUndirectedPlot()
         {
-            var plot = new Plot<Agreement>(false, true);
+            var plot = new Plot<Agreement>([new Metric(MetricKind.Time, "Seconds")], false, true);
             return FillPlot(plot);
         }
 
@@ -26,22 +26,24 @@ namespace System.Series.Tests
             Random rand = new Random();
             IList<Place<Agreement>> plotList = plot;
 
-            plot.AddRoute(plotList[5].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[6].Value, plotList[9].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[7].Value, plotList[8].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[0].Value, plotList[4].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));            
-            plot.AddRoute(plotList[4].Value, plotList[5].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));            
-            plot.AddRoute(plotList[5].Value, plotList[3].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[3].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[8].Value, plotList[9].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[8].Value, plotList[10].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[9].Value, plotList[10].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[1].Value, plotList[2].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[3].Value, plotList[4].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[2].Value, plotList[3].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[2].Value, plotList[7].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[2].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
-            plot.AddRoute(plotList[0].Value, plotList[1].Value, new Metrics([new Metric(MetricKind.Distance, "Click", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[2].Value, plotList[5].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[0].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[5].Value, plotList[1].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[6].Value, plotList[9].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[7].Value, plotList[8].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[5].Value, plotList[4].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));            
+            plot.AddRoute(plotList[4].Value, plotList[0].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));            
+            plot.AddRoute(plotList[0].Value, plotList[3].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[3].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[8].Value, plotList[9].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[8].Value, plotList[10].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[9].Value, plotList[10].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[1].Value, plotList[2].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[3].Value, plotList[4].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[2].Value, plotList[3].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[2].Value, plotList[7].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+            plot.AddRoute(plotList[2].Value, plotList[6].Value, new Metrics([new Metric(MetricKind.Time, "Seconds", rand.NextDouble() * 10)]));
+          
 
             return plot;
         }

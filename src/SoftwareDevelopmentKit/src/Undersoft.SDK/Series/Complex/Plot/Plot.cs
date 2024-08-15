@@ -7,11 +7,10 @@ namespace Undersoft.SDK.Series.Complex
     {
         private bool _directed = true;
         private bool _measured = true;
-        private Metrics _metrics;
+        private Metrics _metrics = new Metrics([new Metric(MetricKind.Distance, "Click")]);
 
         public Plot()
         {
-            _metrics = new Metrics([new Metric(MetricKind.Distance, "Click")]);
         }
 
         public Plot(Metrics metrics, bool directed = true, bool measured = true)
@@ -70,6 +69,12 @@ namespace Undersoft.SDK.Series.Complex
         {
             var placeFrom = this[from];
             var placeTo = this[to];
+            AddRoute(placeFrom, placeTo, set);
+        }
+        public void AddRoute(Place<T> from, Place<T> to, Metrics set = null)
+        {
+            var placeFrom = from;
+            var placeTo = to;
             if (set == null)
                 set = new Metrics(_metrics, placeFrom, placeTo);
             else
@@ -131,7 +136,7 @@ namespace Undersoft.SDK.Series.Complex
             return index;
         }
 
-        public IList<Route<T>> GetLowestVectors(
+        public IList<Route<T>> GetQuickPath(
             Place<T> source,
             Place<T> target,
             MetricKind kind = MetricKind.Distance
@@ -141,8 +146,8 @@ namespace Undersoft.SDK.Series.Complex
             Array.Fill(previous, -1);
             double[] neighbourValues = new double[Count];
             Array.Fill(neighbourValues, double.MaxValue);
-
             neighbourValues[source.Index] = 0;
+            
             var neighboursPriority = new PriorityQueue<Place<T>, double>();
             for (int i = 0; i < Count; i++)
             {                
@@ -161,14 +166,11 @@ namespace Undersoft.SDK.Series.Complex
                             ? ((IList<Metrics>)lowestNeighbour.Metrics)[i][kind].Value                                
                             : 0;
                     double total = neighbourValues[lowestNeighbour.Index] + value;
-                    if (neighbourValues[lowestNeighbourNeighbour.Index] > total)
+                    if (neighboursPriority.Count != 0 && neighbourValues[lowestNeighbourNeighbour.Index] > total)
                     {
                         neighbourValues[lowestNeighbourNeighbour.Index] = total;
                         previous[lowestNeighbourNeighbour.Index] = lowestNeighbour.Index;
-                        if (neighboursPriority.Count != 0)
-                        {                            
-                            neighboursPriority.DequeueEnqueue(lowestNeighbourNeighbour, total);
-                        }
+                        neighboursPriority.DequeueEnqueue(lowestNeighbourNeighbour, total);
                     }
                 }
             }
@@ -191,107 +193,7 @@ namespace Undersoft.SDK.Series.Complex
             }
             return result;
         }
-
-        public IList<Route<T>> GetLowestSpanning(MetricKind kind = MetricKind.Distance)
-        {
-            var routes = Routes.OrderBy(a => a.Metrics[kind]);
-            Queue<Route<T>> queue = new Queue<Route<T>>(routes);
-            Rank<T>[] ranking = new Rank<T>[Count];
-            for (int i = 0; i < Count; i++)
-            {
-                ranking[i] = new Rank<T>() { Owner = this[i] };
-            }
-
-            List<Route<T>> result = new List<Route<T>>();
-            while (result.Count < Count - 1)
-            {
-                Route<T> route = queue.Dequeue();
-                Place<T> from = GetRoot(ranking, route.From);
-                Place<T> to = GetRoot(ranking, route.To);
-                if (from != to)
-                {
-                    result.Add(route);
-                    Union(ranking, from, to);
-                }
-            }
-            return result;
-        }
-
-        private Place<T> GetRoot(Rank<T>[] ranking, Place<T> place)
-        {
-            if (ranking[place.Index].Owner != place)
-            {
-                ranking[place.Index].Owner = GetRoot(ranking, ranking[place.Index].Owner);
-            }
-            return ranking[place.Index].Owner;
-        }
-
-        private void Union(Rank<T>[] ranking, Place<T> a, Place<T> b)
-        {
-            if (ranking[a.Index].Value > ranking[b.Index].Value)
-            {
-                ranking[b.Index].Owner = a;
-            }
-            else if (ranking[a.Index].Value < ranking[b.Index].Value)
-            {
-                ranking[a.Index].Owner = b;
-            }
-            else
-            {
-                ranking[b.Index].Owner = a;
-                ranking[a.Index].Value++;
-            }
-        }
-
-        public Table<Route<T>> GetLowestSpanning2(MetricKind kind = MetricKind.Distance)
-        {
-            int[] previous = new int[Count];
-            previous[0] = -1;
-            double[] lowestValues = new double[Count];
-            Array.Fill(lowestValues, int.MaxValue);
-            lowestValues[0] = 0;
-            bool[] routeExist = new bool[Count];
-            Array.Fill(routeExist, false);
-            for (int i = 0; i < Count - 1; i++)
-            {
-                int lowestValueIndex = GetLowestValueIndex(lowestValues, routeExist);
-                routeExist[lowestValueIndex] = true;
-                for (int j = 0; j < Count; j++)
-                {
-                    Route<T> route = this[lowestValueIndex, j];
-                    double value = route != null ? route.Metrics[kind].Value : -1;
-                    if (!routeExist[j] && value > 0 && value < lowestValues[j])
-                    {
-                        previous[j] = lowestValueIndex;
-                        lowestValues[j] = value;
-                        Console.WriteLine(" --> " + route.ToString());
-                    }
-                }
-            }
-            Table<Route<T>> result = new Table<Route<T>>();
-            for (int i = 1; i < Count; i++)
-            {
-                Route<T> route = this[previous[i], i];
-                result.Add(route);
-            }
-            return result;
-        }
-
-        private int GetLowestValueIndex(double[] values, bool[] routeExist)
-        {
-            double minValue = double.MaxValue;
-            int minIndex = 0;
-            for (int i = 0; i < Count; i++)
-            {
-                if (!routeExist[i] && values[i] < minValue)
-                {
-                    minValue = values[i];
-                    minIndex = i;
-                }
-            }
-            return minIndex;
-        }
-
+       
         public int[] Color()
         {
             int[] colors = new int[Count];
