@@ -5,7 +5,7 @@ using Undersoft.SDK;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Object;
 
-public class RelationLink<TLeft, TRight> : RelatedLink, IRelationLink<TLeft, TRight> where TLeft : class, IOrigin, IInnerProxy where TRight : class, IOrigin, IInnerProxy
+public class RelationLink<TLeft, TRight> : RelationLink, IRelationLink<TLeft, TRight> where TLeft : class, IOrigin, IInnerProxy where TRight : class, IOrigin, IInnerProxy
 {
     [JsonIgnore]
     public virtual TRight? RightEntity { get; set; }
@@ -14,7 +14,7 @@ public class RelationLink<TLeft, TRight> : RelatedLink, IRelationLink<TLeft, TRi
     public virtual TLeft? LeftEntity { get; set; }
 }
 
-public class RelatedLink : DataObject
+public class RelationLink : DataObject
 {
     public virtual long? RightEntityId { get; set; }
     public virtual long? LeftEntityId { get; set; }

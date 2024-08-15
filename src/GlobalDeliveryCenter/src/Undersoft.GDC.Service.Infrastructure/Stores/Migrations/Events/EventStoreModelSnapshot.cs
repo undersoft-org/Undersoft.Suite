@@ -17,7 +17,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Events
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -33,7 +33,6 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Events
 
                     b.Property<string>("CodeNo")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnOrder(4);

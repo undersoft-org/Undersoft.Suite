@@ -59,34 +59,13 @@ namespace Undersoft.SDK.Series.Complex
         public int IndexOf(T item)
         {
             int index = -1;
-            index = base[item.Id].Index;
+            index = base.IndexOf(base[item.Id]);
             return index;
         }
 
         public override string ToString()
         {
             return $"Spot with index {Index}: {Value}, neighbors: {Count}";
-        }
-
-        protected override void InsertItem(int index, Place<T> item)
-        {
-            item.Index = index;
-            base.InsertItem(index, item);
-        }
-
-        protected override void RemoveItem(int index)
-        {
-            for (int i = index + 1; i < Count; i++)
-            {
-                this[i].Index = i - 1;
-            }
-            base.RemoveItem(index);
-        }
-
-        protected override void SetItem(int index, Place<T> item)
-        {
-            item.Index = index;
-            base.SetItem(index, item);
         }
     }
 }

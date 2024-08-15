@@ -43,24 +43,6 @@
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
-      <Extensions>
-        <Extension Category="windows.backgroundTasks"  StartPage="index.html">
-          <BackgroundTasks>
-            <Task Type="location"/>
-            <Task Type="timer"/>
-            <Task Type="pushNotification"/>
-            <Task Type="systemEvent"/>
-            <uap:Task Type="mediaProcessing"/>
-            <Task Type="general"/>
-            <Task Type="deviceUse"/>
-            <Task Type="deviceServicing"/>
-            <Task Type="deviceConnectionChange"/>
-            <Task Type="controlChannel"/>
-            <uap:Task Type="chatMessageNotification"/>
-            <Task Type="bluetooth"/>
-          </BackgroundTasks>
-        </Extension>
-      </Extensions>
       <uap:ApplicationContentUriRules>
         <uap:Rule Type="include" Match="https://*" WindowsRuntimeAccess="all"/>
       </uap:ApplicationContentUriRules>
@@ -69,34 +51,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <Capability Name="codeGeneration"/>
-    <uap:Capability Name="userAccountInformation"/>
-    <iot:Capability Name="systemManagement"/>
-    <Capability Name="privateNetworkClientServer"/>
-    <Capability Name="internetClientServer"/>
-    <uap3:Capability Name="userNotificationListener"/>
-    <uap4:Capability Name="userDataTasks"/>
-    <uap:Capability Name="removableStorage"/>
-    <uap3:Capability Name="remoteSystem"/>
-    <uap:Capability Name="contacts"/>
-    <uap6:Capability Name="graphicsCapture"/>
-    <uap:Capability Name="chat"/>
-    <uap4:Capability Name="offlineMapsManagement"/>
-    <uap2:Capability Name="phoneCallHistoryPublic"/>
-    <uap:Capability Name="sharedUserCertificates"/>
-    <iot:Capability Name="lowLevelDevices"/>
-    <uap:Capability Name="phoneCall"/>
-    <uap:Capability Name="videosLibrary"/>
-    <uap:Capability Name="picturesLibrary"/>
-    <uap:Capability Name="musicLibrary"/>
-    <uap:Capability Name="enterpriseAuthentication"/>
-    <uap:Capability Name="appointments"/>
-    <DeviceCapability Name="proximity"/>
-    <DeviceCapability Name="microphone"/>
-    <DeviceCapability Name="webcam"/>
-    <DeviceCapability Name="bluetooth"/>
-    <DeviceCapability Name="location"/>
-    <DeviceCapability Name="lowLevel"/>
   </Capabilities>
 
 </Package>

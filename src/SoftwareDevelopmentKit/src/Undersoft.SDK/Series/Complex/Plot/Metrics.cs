@@ -8,22 +8,21 @@ namespace Undersoft.SDK.Series.Complex
 
         public Metrics(IEnumerable<Metric> metrics)
         {
-            foreach (var metric in metrics)
-                this.Add(metric);
+            if (metrics != null)
+                foreach (var metric in metrics)
+                    this.Add(metric);
         }
 
-        public Metrics(IIdentifiable from, IIdentifiable to)
+        public Metrics(IIdentifiable from, IIdentifiable to) : this([new Metric(MetricKind.Distance, "Click")])
         {
-            Add(new Metric(MetricKind.Distance, "Click"));
             Id = $"{from.Id}{to.Id}".GetHashCode();
             TypeId = from.TypeId;
         }
 
-        public Metrics(IEnumerable<Metric> metrics, IIdentifiable from, IIdentifiable to)
-            : this(from, to)
+        public Metrics(IEnumerable<Metric> metrics, IIdentifiable from, IIdentifiable to) : this(metrics)
         {
-            foreach (var metric in metrics)
-                this.Add(metric);
+            Id = $"{from.Id}{to.Id}".GetHashCode();
+            TypeId = from.TypeId;
         }
 
         public long Id { get; set; }

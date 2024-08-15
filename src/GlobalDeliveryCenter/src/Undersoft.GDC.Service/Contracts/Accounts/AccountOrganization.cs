@@ -1,34 +1,16 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountOrganization : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    [DisplayRubric("Industry")]
-    public string? OrganizationIndustry { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Short name")]
-    public string? OrganizationName { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Full name")]
-    public string? OrganizationFullName { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Position")]
-    public string? PositionInOrganization { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Websites")]
-    public string? OrganizationWebsites { get; set; }
-
-    [VisibleRubric]
-    [FileRubric(FileRubricType.Path, "OrganizationImageData")]
-    public string? OrganizationImage { get; set; }
-
-    public byte[]? OrganizationImageData { get; set; }
-
-    public long? AccountId { get; set; }
+    public class AccountOrganization : SDK.Service.Access.Identity.Organization, IContract
+    {
+    }
 }

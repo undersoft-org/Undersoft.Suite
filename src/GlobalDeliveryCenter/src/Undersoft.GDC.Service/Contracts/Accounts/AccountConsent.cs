@@ -1,32 +1,17 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Access.Licensing;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountConsent : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    public string? TermsText { get; set; }
-
-    [VisibleRubric]
-    public bool TermsConsent { get; set; }
-
-    [VisibleRubric]
-    public string? PersonalDataText { get; set; }
-
-    [VisibleRubric]
-    public bool PersonalDataConsent { get; set; }
-
-    [VisibleRubric]
-    public string? MarketingText { get; set; }
-
-    [VisibleRubric]
-    public bool MarketingConsent { get; set; }
-
-    [VisibleRubric]
-    public string? ThirdPartyText { get; set; }
-
-    [VisibleRubric]
-    public bool ThirdPartyConsent { get; set; }
-
-    public long? AccountId { get; set; }
+    public class AccountConsent : Consent, IContract
+    {
+    }
 }

@@ -1,39 +1,17 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountPersonal : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    [RequiredRubric]
-    [DisplayRubric("First name")]
-    public string FirstName { get; set; } = default!;
-
-    [VisibleRubric]
-    [RequiredRubric]
-    [DisplayRubric("Last name")]
-    public string LastName { get; set; } = default!;
-
-    [VisibleRubric]
-    [RequiredRubric]
-    public string Email { get; set; } = default!;
-
-    [VisibleRubric]
-    [RequiredRubric]
-    [DisplayRubric("Phone number")]
-    public string PhoneNumber { get; set; } = default!;
-
-    [VisibleRubric]
-    [RequiredRubric]
-    [DisplayRubric("Day of birth")]
-    public DateTime Birthdate { get; set; } = DateTime.Parse("01.01.1990");
-
-    [VisibleRubric]
-    [DisplayRubric("Upload image")]
-    [FileRubric(FileRubricType.Path, "ImageData")]
-    public string Image { get; set; } = default!;
-
-    public byte[] ImageData { get; set; } = default!;
-
-    public long? AccountId { get; set; }
+    public class AccountPersonal : SDK.Service.Access.Identity.Personal, IContract
+    {
+        public virtual long? AccountId { get; set; }
+    }
 }

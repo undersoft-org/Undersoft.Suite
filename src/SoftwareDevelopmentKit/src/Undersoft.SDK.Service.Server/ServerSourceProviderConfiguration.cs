@@ -25,7 +25,7 @@ namespace Undersoft.SDK.Service.Server
                     case SourceProvider.PostgreSql:
                         _registry.AddEntityFrameworkNpgsql();
                         break;
-                    case SourceProvider.SqlLite:
+                    case SourceProvider.Sqlite:
                         _registry.AddEntityFrameworkSqlite();
                         break;
                     case SourceProvider.MariaDb:
@@ -76,7 +76,7 @@ namespace Undersoft.SDK.Service.Server
                         .UseNpgsql(connectionString)
                         .UseLazyLoadingProxies();
 
-                case SourceProvider.SqlLite:
+                case SourceProvider.Sqlite:
                     return builder
                         .UseSqlite(connectionString)
                         .UseLazyLoadingProxies();

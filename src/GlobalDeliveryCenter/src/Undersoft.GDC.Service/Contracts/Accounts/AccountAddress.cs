@@ -1,30 +1,17 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountAddress : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    public string Country { get; set; } = default!;
-
-    [VisibleRubric]
-    public string State { get; set; } = default!;
-
-    [VisibleRubric]
-    public string City { get; set; } = default!;
-
-    [VisibleRubric]
-    public string Postcode { get; set; } = default!;
-
-    [VisibleRubric]
-    public string Street { get; set; } = default!;
-
-    [VisibleRubric]
-    public string Building { get; set; } = default!;
-
-    [VisibleRubric]
-    [RequiredRubric]
-    public string Apartment { get; set; } = default!;
-
-    public long? AccountId { get; set; }
+    public class AccountAddress : SDK.Service.Access.Identity.Address, IContract
+    {
+        public virtual long? AccountId { get; set; }
+    }
 }

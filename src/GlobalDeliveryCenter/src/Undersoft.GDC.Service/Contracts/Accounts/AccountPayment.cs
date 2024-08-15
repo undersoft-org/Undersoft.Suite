@@ -1,46 +1,16 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountPayment : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    public string? CardTitle { get; set; }
-
-    [VisibleRubric]
-    public string? CardNumber { get; set; }
-
-    [VisibleRubric]
-    public string? CardType { get; set; }
-
-    [VisibleRubric]
-    public string? CardExpirationDate { get; set; }
-
-    [VisibleRubric]
-    public string? CardCSV { get; set; }
-
-    [VisibleRubric]
-    public string? PaymentFirstName { get; set; }
-
-    [VisibleRubric]
-    public string? PaymentLastName { get; set; }
-
-    public bool PaymentTermsConsent { get; set; }
-
-    [VisibleRubric]
-    public string? PaymentType { get; set; }
-
-    public string? PaymentPhoneNumber { get; set; }
-
-    public string? PaymentImage { get; set; }
-
-    public byte[]? PaymentImageData { get; set; }
-
-    public string? PaymentStatus { get; set; }
-
-    public string? PaymentProvider { get; set; }
-
-    public string? PaymentWebsites { get; set; }
-
-    public long? AccountId { get; set; }
+    public class AccountPayment : SDK.Service.Access.Licensing.Payment, IContract
+    {
+    }
 }

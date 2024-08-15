@@ -16,6 +16,174 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "Accounts");
 
             migrationBuilder.CreateTable(
+                name: "Consents",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    TermsText = table.Column<string>(type: "text", nullable: true),
+                    TermsConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    PersonalDataText = table.Column<string>(type: "text", nullable: true),
+                    PersonalDataConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    MarketingText = table.Column<string>(type: "text", nullable: true),
+                    MarketingConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    ThirdPartyText = table.Column<string>(type: "text", nullable: true),
+                    ThirdPartyConsent = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Credentials",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Site = table.Column<int>(type: "integer", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    OldPassword = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    RegistrationCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    SessionToken = table.Column<string>(type: "text", nullable: true),
+                    PasswordResetToken = table.Column<string>(type: "text", nullable: true),
+                    EmailConfirmationToken = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmationToken = table.Column<string>(type: "text", nullable: true),
+                    RegistrationCompleteToken = table.Column<string>(type: "text", nullable: true),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false),
+                    SaveAccountInCookies = table.Column<bool>(type: "boolean", nullable: false),
+                    Authenticated = table.Column<bool>(type: "boolean", nullable: false),
+                    IsLockedOut = table.Column<bool>(type: "boolean", nullable: false),
+                    ReturnPath = table.Column<string>(type: "text", nullable: true),
+                    RetypedPassword = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    TermsConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    CookiesConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    OptionalConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    NewPassword = table.Column<string>(type: "text", nullable: true),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "bytea", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credentials", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OperationNotes",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Errors = table.Column<string>(type: "text", nullable: true),
+                    Success = table.Column<string>(type: "text", nullable: true),
+                    Info = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OperationNotes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Organizations",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    OrganizationImage = table.Column<string>(type: "text", nullable: true),
+                    OrganizationIndustry = table.Column<string>(type: "text", nullable: true),
+                    OrganizationName = table.Column<string>(type: "text", nullable: true),
+                    OrganizationFullName = table.Column<string>(type: "text", nullable: true),
+                    PositionInOrganization = table.Column<string>(type: "text", nullable: true),
+                    OrganizationWebsites = table.Column<string>(type: "text", nullable: true),
+                    OrganizationImageData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    OrganizationSize = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Organizations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payment",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    CardTitle = table.Column<string>(type: "text", nullable: true),
+                    CardNumber = table.Column<string>(type: "text", nullable: true),
+                    CardType = table.Column<string>(type: "text", nullable: true),
+                    CardExpirationDate = table.Column<string>(type: "text", nullable: true),
+                    CardCSV = table.Column<string>(type: "text", nullable: true),
+                    PaymentFirstName = table.Column<string>(type: "text", nullable: true),
+                    PaymentLastName = table.Column<string>(type: "text", nullable: true),
+                    PaymentTermsConsent = table.Column<bool>(type: "boolean", nullable: false),
+                    PaymentType = table.Column<string>(type: "text", nullable: true),
+                    PaymentPhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PaymentImage = table.Column<string>(type: "text", nullable: true),
+                    PaymentImageData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    PaymentStatus = table.Column<string>(type: "text", nullable: true),
+                    PaymentProvider = table.Column<string>(type: "text", nullable: true),
+                    PaymentWebsites = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 schema: "Accounts",
                 columns: table => new
@@ -30,6 +198,62 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subscriptions",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    SubscriptionName = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionDescription = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionPeriod = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionExpireDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    SubscriptionQuantity = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionValue = table.Column<double>(type: "double precision", nullable: false),
+                    SubscriptionCurrency = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionStatus = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionToken = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscriptions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tenants",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    TenantName = table.Column<string>(type: "text", nullable: true),
+                    TenantUrl = table.Column<string>(type: "text", nullable: true),
+                    TenantPath = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,13 +289,13 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountAddress",
+                name: "AccountAddreses",
                 schema: "Accounts",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -91,7 +315,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountAddress", x => x.Id);
+                    table.PrimaryKey("PK_AccountAddreses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -118,7 +342,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -127,6 +351,8 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConsentId = table.Column<long>(type: "bigint", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
                     TermsText = table.Column<string>(type: "text", nullable: true),
                     TermsConsent = table.Column<bool>(type: "boolean", nullable: false),
                     PersonalDataText = table.Column<string>(type: "text", nullable: true),
@@ -134,12 +360,17 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     MarketingText = table.Column<string>(type: "text", nullable: true),
                     MarketingConsent = table.Column<bool>(type: "boolean", nullable: false),
                     ThirdPartyText = table.Column<string>(type: "text", nullable: true),
-                    ThirdPartyConsent = table.Column<bool>(type: "boolean", nullable: false),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
+                    ThirdPartyConsent = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountConsents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountConsents_Consents_ConsentId",
+                        column: x => x.ConsentId,
+                        principalSchema: "Accounts",
+                        principalTable: "Consents",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -166,7 +397,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -175,18 +406,26 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    OrganizationId = table.Column<long>(type: "bigint", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
+                    OrganizationImage = table.Column<string>(type: "text", nullable: true),
                     OrganizationIndustry = table.Column<string>(type: "text", nullable: true),
                     OrganizationName = table.Column<string>(type: "text", nullable: true),
                     OrganizationFullName = table.Column<string>(type: "text", nullable: true),
-                    OrganizationWebsites = table.Column<string>(type: "text", nullable: true),
                     PositionInOrganization = table.Column<string>(type: "text", nullable: true),
-                    OrganizationImage = table.Column<string>(type: "text", nullable: true),
+                    OrganizationWebsites = table.Column<string>(type: "text", nullable: true),
                     OrganizationImageData = table.Column<byte[]>(type: "bytea", nullable: true),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
+                    OrganizationSize = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountOrganizations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountOrganizations_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalSchema: "Accounts",
+                        principalTable: "Organizations",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +435,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -205,6 +444,8 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    PaymentId = table.Column<long>(type: "bigint", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
                     CardTitle = table.Column<string>(type: "text", nullable: true),
                     CardNumber = table.Column<string>(type: "text", nullable: true),
                     CardType = table.Column<string>(type: "text", nullable: true),
@@ -219,12 +460,17 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     PaymentImageData = table.Column<byte[]>(type: "bytea", nullable: true),
                     PaymentStatus = table.Column<string>(type: "text", nullable: true),
                     PaymentProvider = table.Column<string>(type: "text", nullable: true),
-                    PaymentWebsites = table.Column<string>(type: "text", nullable: true),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
+                    PaymentWebsites = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountPayments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountPayments_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalSchema: "Accounts",
+                        principalTable: "Payment",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +480,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -243,19 +489,19 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Title = table.Column<string>(type: "text", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    FirstName = table.Column<string>(type: "text", nullable: true),
-                    SecondName = table.Column<string>(type: "text", nullable: true),
-                    LastName = table.Column<string>(type: "text", nullable: true),
                     Birthdate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "bytea", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    SecondName = table.Column<string>(type: "text", nullable: true),
                     SocialMedia = table.Column<string>(type: "text", nullable: true),
                     Websites = table.Column<string>(type: "text", nullable: true),
-                    Gender = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true),
-                    ImageData = table.Column<byte[]>(type: "bytea", nullable: true),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
+                    Gender = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -269,7 +515,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -278,14 +524,14 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
+                    ProfessionIndustry = table.Column<string>(type: "text", nullable: true),
+                    Profession = table.Column<string>(type: "text", nullable: true),
                     ProfessionalEmail = table.Column<string>(type: "text", nullable: true),
                     ProfessionalPhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Profession = table.Column<string>(type: "text", nullable: true),
-                    ProfessionIndustry = table.Column<string>(type: "text", nullable: true),
                     ProfessionalSocialMedia = table.Column<string>(type: "text", nullable: true),
                     ProfessionalWebsites = table.Column<string>(type: "text", nullable: true),
-                    ProfessionalExperience = table.Column<float>(type: "real", nullable: false),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true)
+                    ProfessionalExperience = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -341,7 +587,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -350,7 +596,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: true),
                     PersonalId = table.Column<long>(type: "bigint", nullable: true),
                     AddressId = table.Column<long>(type: "bigint", nullable: true),
                     ProfessionalId = table.Column<long>(type: "bigint", nullable: true),
@@ -358,6 +604,9 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                     ConsentId = table.Column<long>(type: "bigint", nullable: true),
                     SubscriptionId = table.Column<long>(type: "bigint", nullable: true),
                     PaymentId = table.Column<long>(type: "bigint", nullable: true),
+                    TenantId = table.Column<long>(type: "bigint", nullable: true),
+                    CredentialsId = table.Column<long>(type: "bigint", nullable: true),
+                    NotesId = table.Column<long>(type: "bigint", nullable: true),
                     IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
                     Authenticated = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -365,10 +614,10 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 {
                     table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Accounts_AccountAddress_AddressId",
+                        name: "FK_Accounts_AccountAddreses_AddressId",
                         column: x => x.AddressId,
                         principalSchema: "Accounts",
-                        principalTable: "AccountAddress",
+                        principalTable: "AccountAddreses",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Accounts_AccountConsents_ConsentId",
@@ -400,6 +649,18 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                         principalSchema: "Accounts",
                         principalTable: "AccountProffesionals",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Accounts_Credentials_CredentialsId",
+                        column: x => x.CredentialsId,
+                        principalSchema: "Accounts",
+                        principalTable: "Credentials",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Accounts_OperationNotes_NotesId",
+                        column: x => x.NotesId,
+                        principalSchema: "Accounts",
+                        principalTable: "OperationNotes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -408,25 +669,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
-                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
-                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
-                    Index = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    SubscriptionName = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionDescription = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionExpireDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    SubscriptionQuantity = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionValue = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionPeriod = table.Column<double>(type: "double precision", nullable: false),
-                    SubscriptionCurrency = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionStatus = table.Column<string>(type: "text", nullable: true),
-                    SubscriptionToken = table.Column<string>(type: "text", nullable: true),
+                    SubscriptionId = table.Column<long>(type: "bigint", nullable: true),
                     AccountId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
@@ -437,6 +680,58 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                         column: x => x.AccountId,
                         principalSchema: "Accounts",
                         principalTable: "Accounts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AccountSubscriptions_Subscriptions_Id",
+                        column: x => x.Id,
+                        principalSchema: "Accounts",
+                        principalTable: "Subscriptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountSubscriptions_Subscriptions_SubscriptionId",
+                        column: x => x.SubscriptionId,
+                        principalSchema: "Accounts",
+                        principalTable: "Subscriptions",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountTenants",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
+                    Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    Creator = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Index = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    TenantId = table.Column<long>(type: "bigint", nullable: true),
+                    AccountId = table.Column<long>(type: "bigint", nullable: true),
+                    TenantName = table.Column<string>(type: "text", nullable: true),
+                    TenantUrl = table.Column<string>(type: "text", nullable: true),
+                    TenantPath = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountTenants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountTenants_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalSchema: "Accounts",
+                        principalTable: "Accounts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AccountTenants_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalSchema: "Accounts",
+                        principalTable: "Tenants",
                         principalColumn: "Id");
                 });
 
@@ -510,10 +805,11 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountAddress_AccountId",
+                name: "IX_AccountAddreses_AccountId",
                 schema: "Accounts",
-                table: "AccountAddress",
-                column: "AccountId");
+                table: "AccountAddreses",
+                column: "AccountId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountClaims_UserId",
@@ -529,6 +825,12 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountConsents_ConsentId",
+                schema: "Accounts",
+                table: "AccountConsents",
+                column: "ConsentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AccountLogins_UserId",
                 schema: "Accounts",
                 table: "AccountLogins",
@@ -542,11 +844,23 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountOrganizations_OrganizationId",
+                schema: "Accounts",
+                table: "AccountOrganizations",
+                column: "OrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AccountPayments_AccountId",
                 schema: "Accounts",
                 table: "AccountPayments",
                 column: "AccountId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountPayments_PaymentId",
+                schema: "Accounts",
+                table: "AccountPayments",
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountPersonals_AccountId",
@@ -589,6 +903,18 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Accounts_CredentialsId",
+                schema: "Accounts",
+                table: "Accounts",
+                column: "CredentialsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_NotesId",
+                schema: "Accounts",
+                table: "Accounts",
+                column: "NotesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Accounts_OrganizationId",
                 schema: "Accounts",
                 table: "Accounts",
@@ -624,6 +950,13 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Accounts_TenantId",
+                schema: "Accounts",
+                table: "Accounts",
+                column: "TenantId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",
                 schema: "Accounts",
                 table: "Accounts",
@@ -636,6 +969,25 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 table: "AccountSubscriptions",
                 column: "AccountId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountSubscriptions_SubscriptionId",
+                schema: "Accounts",
+                table: "AccountSubscriptions",
+                column: "SubscriptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountTenants_AccountId",
+                schema: "Accounts",
+                table: "AccountTenants",
+                column: "AccountId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountTenants_TenantId",
+                schema: "Accounts",
+                table: "AccountTenants",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountTokens_AccountId",
@@ -682,9 +1034,9 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AccountAddress_Accounts_AccountId",
+                name: "FK_AccountAddreses_Accounts_AccountId",
                 schema: "Accounts",
-                table: "AccountAddress",
+                table: "AccountAddreses",
                 column: "AccountId",
                 principalSchema: "Accounts",
                 principalTable: "Accounts",
@@ -785,23 +1137,31 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Accounts_AccountTenants_TenantId",
+                schema: "Accounts",
+                table: "Accounts",
+                column: "TenantId",
+                principalSchema: "Accounts",
+                principalTable: "AccountTenants",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Accounts_AccountUsers_UserId",
                 schema: "Accounts",
                 table: "Accounts",
                 column: "UserId",
                 principalSchema: "Accounts",
                 principalTable: "AccountUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_AccountAddress_Accounts_AccountId",
+                name: "FK_AccountAddreses_Accounts_AccountId",
                 schema: "Accounts",
-                table: "AccountAddress");
+                table: "AccountAddreses");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_AccountConsents_Accounts_AccountId",
@@ -832,6 +1192,11 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "FK_AccountSubscriptions_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountSubscriptions");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_AccountTenants_Accounts_AccountId",
+                schema: "Accounts",
+                table: "AccountTenants");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_AccountUsers_Accounts_AccountId",
@@ -871,7 +1236,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 schema: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "AccountAddress",
+                name: "AccountAddreses",
                 schema: "Accounts");
 
             migrationBuilder.DropTable(
@@ -899,7 +1264,39 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Accounts
                 schema: "Accounts");
 
             migrationBuilder.DropTable(
+                name: "AccountTenants",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
                 name: "AccountUsers",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Credentials",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "OperationNotes",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Consents",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Organizations",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Payment",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions",
+                schema: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Tenants",
                 schema: "Accounts");
         }
     }

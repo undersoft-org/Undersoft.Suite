@@ -7,7 +7,7 @@
         MemoryDb,
         AzureSql,
         PostgreSql,
-        SqlLite,
+        Sqlite,
         MySql,
         MariaDb,
         Oracle,

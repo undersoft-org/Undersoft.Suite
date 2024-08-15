@@ -2,7 +2,7 @@ using Undersoft.GDC.Domain.Entities.Enums;
 
 namespace Undersoft.GDC.Domain.Entities
 {
-    public class Location : SDK.Service.Access.Identity.Location
+    public class Location : SDK.Service.Access.Identity.Location, IEntity
     {
         public virtual LocaleType LocaleType { get; set; }
 
@@ -28,5 +28,9 @@ namespace Undersoft.GDC.Domain.Entities
 
         public virtual long? ServiceId { get; set; }
         public virtual Service? Service { get; set; }
+
+        public virtual Listing<Address>? Addresses { get; set; }
+
+        public virtual Listing<Place>? Places { get; set; }
     }
 }

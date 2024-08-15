@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Undersoft.GDC.Service.Infrastructure.Stores.Mappings.Locations;
 
-using Undersoft.SDK.Service.Access.Identity;
+using Undersoft.GDC.Domain.Entities;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Infrastructure.Database;
 

@@ -23,6 +23,9 @@ public class StoreBase<TStore, TContext> : DbStore<TStore, TContext>
     public virtual DbSet<Setting>? Settings { get; set; }
     public virtual DbSet<Group>? Groups { get; set; }
     public virtual DbSet<Location>? Locations { get; set; }
+    public virtual DbSet<Address>? Addresses { get; set; }
+    public virtual DbSet<Endpoint>? Endpoints { get; set; }
+    public virtual DbSet<Place>? Places { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

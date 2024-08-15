@@ -28,7 +28,10 @@ namespace Undersoft.SDK.Series.Complex
 
         public Route<T> this[int indexFrom, int indexTo]
         {
-            get { return this[this[indexFrom], this[indexTo]]; }
+            get
+            {
+                return this[((IList<Place<T>>)this)[indexFrom], ((IList<Place<T>>)this)[indexTo]];
+            }
         }
 
         public Route<T> this[T from, T to]
@@ -128,59 +131,49 @@ namespace Undersoft.SDK.Series.Complex
             return index;
         }
 
-        public IList<Route<T>> GetExtremePath(
+        public IList<Route<T>> GetLowestVectors(
             Place<T> source,
             Place<T> target,
-            MetricKind kind = MetricKind.Distance,
-            ExtremeType type = ExtremeType.Minimum
+            MetricKind kind = MetricKind.Distance
         )
         {
             int[] previous = new int[Count];
             Array.Fill(previous, -1);
-            double signSetFactor = 1;
             double[] neighbourValues = new double[Count];
-            switch (type)
-            {
-                case ExtremeType.Minimum:
-                    Array.Fill(neighbourValues, double.MaxValue);
-                    break;
-                case ExtremeType.Maximum:
-                    Array.Fill(neighbourValues, 1);
-                    signSetFactor = -1;
-                    break;
-                default:
-                    Array.Fill(neighbourValues, double.MaxValue);
-                    break;
-            }
+            Array.Fill(neighbourValues, double.MaxValue);
 
-            neighbourValues[source.Id] = 0;
+            neighbourValues[source.Index] = 0;
             var neighboursPriority = new PriorityQueue<Place<T>, double>();
-            for (int i = 0; i < Routes.Count; i++)
-            {
-                neighboursPriority.Enqueue(this[i], neighbourValues[i]);
+            for (int i = 0; i < Count; i++)
+            {                
+                neighboursPriority.Enqueue(((IList<Place<T>>)this)[i], neighbourValues[i]);
             }
+           
             while (neighboursPriority.Count != 0)
             {
                 Place<T> lowestNeighbour = neighboursPriority.Dequeue();
+
                 for (int i = 0; i < lowestNeighbour.Count; i++)
                 {
-                    Place<T> lowestNeighbourNeighbour = lowestNeighbour[i];
+                    Place<T> lowestNeighbourNeighbour = ((IList<Place<T>>)lowestNeighbour)[i];
                     double value =
                         i < lowestNeighbour.Metrics.Count
-                            ? lowestNeighbour.Metrics[i][kind].Value * signSetFactor
+                            ? ((IList<Metrics>)lowestNeighbour.Metrics)[i][kind].Value                                
                             : 0;
                     double total = neighbourValues[lowestNeighbour.Index] + value;
                     if (neighbourValues[lowestNeighbourNeighbour.Index] > total)
                     {
                         neighbourValues[lowestNeighbourNeighbour.Index] = total;
                         previous[lowestNeighbourNeighbour.Index] = lowestNeighbour.Index;
-                        neighboursPriority.DequeueEnqueue(
-                            lowestNeighbourNeighbour,
-                            neighbourValues[lowestNeighbourNeighbour.Index]
-                        );
+                        if (neighboursPriority.Count != 0)
+                        {                            
+                            neighboursPriority.DequeueEnqueue(lowestNeighbourNeighbour, total);
+                        }
                     }
                 }
             }
+           
+
             IList<int> indices = new List<int>();
             int index = target.Index;
             while (index >= 0)
@@ -188,7 +181,8 @@ namespace Undersoft.SDK.Series.Complex
                 indices.Add(index);
                 index = previous[index];
             }
-            indices.Reverse();
+
+            indices = indices.Reverse().ToList();
             Table<Route<T>> result = new Table<Route<T>>();
             for (int i = 0; i < indices.Count - 1; i++)
             {

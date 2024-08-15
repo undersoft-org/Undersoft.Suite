@@ -25,7 +25,7 @@ namespace Undersoft.SDK.Service
                     case SourceProvider.MemoryDb:
                         _registry.AddEntityFrameworkInMemoryDatabase();
                         break;
-                    case SourceProvider.SqlLite:
+                    case SourceProvider.Sqlite:
                         _registry.AddEntityFrameworkSqlite();
                         break;
                     default:
@@ -54,7 +54,7 @@ namespace Undersoft.SDK.Service
                             w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning)
                         );
 
-                case SourceProvider.SqlLite:
+                case SourceProvider.Sqlite:
                     return builder.UseSqlite(connectionString).UseLazyLoadingProxies();
 
                 default:

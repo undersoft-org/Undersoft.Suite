@@ -1,48 +1,16 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountProfessional : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    [DisplayRubric("Industry")]
-    public string? ProfessionIndustry { get; set; }
-
-    [VisibleRubric]
-    public string? Profession { get; set; } = default!;
-
-    [VisibleRubric]
-    [DisplayRubric("Email")]
-    public string? ProfessionalEmail { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Phone number")]
-    public string? ProfessionalPhoneNumber { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Social media")]
-    public string? ProfessionalSocialMedia { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Websites")]
-    public string? ProfessionalWebsites { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Experience in years")]
-    public float ProfessionalExperience { get; set; }
-
-    public long? AccountId { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public class AccountProfessional : SDK.Service.Access.Identity.Professional, IContract
+    {
+    }
 }

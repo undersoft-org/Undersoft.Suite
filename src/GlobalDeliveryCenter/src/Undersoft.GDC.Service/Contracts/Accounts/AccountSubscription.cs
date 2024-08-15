@@ -1,40 +1,17 @@
-﻿using Undersoft.SDK.Rubrics.Attributes;
+﻿// *************************************************
+//   Copyright (c) Undersoft. All Rights Reserved.
+//   Licensed under the MIT License. 
+//   author: Dariusz Hanc
+//   email: dh@undersoft.pl
+//   library: Undersoft.GDC.Service
+// *************************************************
 
-namespace Undersoft.GDC.Service.Contracts.Accounts;
+using Undersoft.SDK.Service.Access.Licensing;
+using Undersoft.SDK.Service.Data.Contract;
 
-public class AccountSubscription : DataObject
+namespace Undersoft.GDC.Service.Contracts.Accounts
 {
-    [VisibleRubric]
-    [DisplayRubric("Name")]
-    public string? SubscriptionName { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Description")]
-    public string? SubscriptionDescription { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Expiration date")]
-    public DateTime SubscriptionExpireDate { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Number of accounts")]
-    public double SubscriptionQuantity { get; set; }
-
-    public double SubscriptionValue { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Period type")]
-    public double SubscriptionPeriod { get; set; }
-
-    public string? SubscriptionCurrency { get; set; }
-
-    [VisibleRubric]
-    [DisplayRubric("Status")]
-    public string? SubscriptionStatus { get; set; }
-
-    public string? SubscriptionToken { get; set; }
-
-    public long? AccountId { get; set; }
+    public class AccountSubscription : Subscription, IContract
+    {
+    }
 }
-
-

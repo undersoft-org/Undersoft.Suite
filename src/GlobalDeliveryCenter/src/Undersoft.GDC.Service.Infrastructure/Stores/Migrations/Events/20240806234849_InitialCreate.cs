@@ -22,7 +22,7 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Events
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    CodeNo = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     TypeName = table.Column<string>(type: "character varying(768)", maxLength: 768, nullable: true),
                     Modified = table.Column<DateTime>(type: "timestamp", nullable: false),
                     Modifier = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -31,11 +31,11 @@ namespace Undersoft.GDC.Service.Infrastructure.Stores.Migrations.Events
                     Index = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Label = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Data = table.Column<byte[]>(type: "bytea", nullable: true),
                     Version = table.Column<long>(type: "bigint", nullable: false),
                     EventType = table.Column<string>(type: "text", nullable: true),
                     EntityId = table.Column<long>(type: "bigint", nullable: false),
                     EntityTypeName = table.Column<string>(type: "text", nullable: true),
-                    Data = table.Column<byte[]>(type: "bytea", nullable: true),
                     PublishTime = table.Column<DateTime>(type: "timestamp", nullable: false),
                     PublishStatus = table.Column<int>(type: "integer", nullable: false)
                 },

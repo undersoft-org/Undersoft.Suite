@@ -1,79 +1,162 @@
-﻿using System.Runtime.Serialization;
-using Undersoft.GDC.Service.Contracts.Accounts;
+﻿using Microsoft.OData.ModelBuilder;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Undersoft.SDK.Rubrics.Attributes;
-using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Data.Contract;
+using Undersoft.SDK.Service.Data.Model.Attributes;
+using Undersoft.SDK.Service.Operation;
 
-namespace Undersoft.GDC.Service.Contracts;
-
-[DataContract]
-public class Account : Authorization, IContract
+namespace Undersoft.GDC.Service.Contracts
 {
-    public Account() { }
+    using Undersoft.SDK.Service.Access;
+    using Undersoft.SDK.Service.Access.Identity;
+    using Undersoft.GDC.Service.Contracts.Accounts;
 
-    public Account(string email) { Id = email.UniqueKey64(); }
+    [Validator("AccountValidator")]
+    [ViewSize("380px", "650px")]
+    public class Account : Authorization, IContract
+    {
+        private string? _name;
 
-    [VisibleRubric]
-    [DisplayRubric("Id")]
-    [DataMember(Order = 1)]
-    public override long Id { get => base.Id; set => base.Id = value; }
+        private string? _roleString;
 
-    [VisibleRubric]
-    [RubricSize(256)]
-    [DisplayRubric("Label")]
-    [DataMember(Order = 11)]
-    public override string? Label { get => base.Label; set => base.Label = value; }
+        public Account() { }
 
-    [DataMember(Order = 12)]
-    public AccountUser? User { get; set; } = default!;
+        public Account(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentNullException("email to account must be provided");
+            Id = email.UniqueKey64();
+            Email = email;
+        }
 
-    [DataMember(Order = 14)]
-    public Listing<Claim>? Claims { get; set; } = default!;
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(8)]
+        [DisplayRubric("Image")]
+        [ViewImage(ViewImageMode.Persona, "30px", "30px")]
+        [FileRubric(FileRubricType.Property, "ImageData")]
+        public string? Image
+        {
+            get => Personal?.Image;
+            set => (Personal ??= new AccountPersonal()).Image = value!;
+        }
 
-    [DataMember(Order = 16)]
-    public long? PersonalId { get; set; }
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(32)]
+        [DisplayRubric("Name")]
+        public virtual string? Name
+        {
+            get => _name ??= $"{Personal?.FirstName} {Personal?.LastName}";
+            set => _name = value;
+        }
 
-    [Extended]
-    [DataMember(Order = 17)]
-    public virtual AccountPersonal Personal { get; set; } = default!;
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(64)]
+        [DisplayRubric("Email")]
+        public virtual string? Email
+        {
+            get => Personal?.Email;
+            set => (Personal ??= new AccountPersonal()).Email = value!;
+        }
 
-    [Extended]
-    [DataMember(Order = 18)]
-    public long? AddressId { get; set; }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(32)]
+        [DisplayRubric("Phone")]
+        public virtual string? PhoneNumber
+        {
+            get => Personal?.PhoneNumber;
+            set => (Personal ??= new AccountPersonal()).PhoneNumber = value!;
+        }
 
-    [Extended]
-    [DataMember(Order = 19)]
-    public virtual AccountAddress Address { get; set; } = default!;
+        [IgnoreDataMember]
+        [JsonIgnore]
+        [VisibleRubric]
+        [RubricSize(64)]
+        [DisplayRubric("Roles")]
+        public virtual string? RoleString
+        {
+            get
+            {
+                if (_roleString != null)
+                    return _roleString;
+                if (Roles != null && Roles.Any())
+                    return _roleString = Roles
+                        .Select(g => g.Name)
+                        .Aggregate((a, b) => a + ", " + b);
+                return null;
+            }
+            set => _roleString = value;
+        }
 
-    [DataMember(Order = 20)]
-    public long? ProfessionalId { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public byte[]? ImageData
+        {
+            get => Personal?.ImageData;
+            set => (Personal ??= new AccountPersonal()).ImageData = value!;
+        }
 
-    [Extended]
-    [DataMember(Order = 21)]
-    public virtual AccountProfessional Professional { get; set; } = default!;
+        public long? UserId { get; set; }
 
-    [DataMember(Order = 22)]
-    public long? OrganizationId { get; set; }
+        public AccountUser? User { get; set; } = default!;
 
-    [Extended]
-    [DataMember(Order = 23)]
-    public virtual AccountOrganization Organization { get; set; } = default!;
+        [AutoExpand]
+        public Listing<Role>? Roles { get; set; } = default!;
 
-    [DataMember(Order = 24)]
-    public long? SubscriptionId { get; set; }
+        [AutoExpand]
+        public Listing<Claim>? Claims { get; set; } = default!;
 
-    [DataMember(Order = 25)]
-    public virtual AccountSubscription Subscription { get; set; } = default!;
+        public long? PersonalId { get; set; }
 
-    [DataMember(Order = 26)]
-    public long? PaymentId { get; set; }
+        [AutoExpand]
+        [Extended]
+        public virtual AccountPersonal? Personal { get; set; } = default!;
 
-    [DataMember(Order = 27)]
-    public virtual AccountPayment Payment { get; set; } = default!;
+        public long? AddressId { get; set; }
 
-    [DataMember(Order = 28)]
-    public long? ConsentId { get; set; }
+        [AutoExpand]
+        [Extended]
+        public virtual AccountAddress? Address { get; set; } = default!;
 
-    [DataMember(Order = 29)]
-    public virtual AccountConsent Consent { get; set; } = default!;
+        public long? ProfessionalId { get; set; }
+
+        [AutoExpand]
+        [Extended]
+        public virtual AccountProfessional? Professional { get; set; } = default!;
+
+        public long? OrganizationId { get; set; }
+
+        [AutoExpand]
+        [Extended]
+        public virtual AccountOrganization? Organization { get; set; } = default!;
+
+        public long? ConsentId { get; set; }
+
+        [AutoExpand]
+        [Extended]
+        public virtual AccountConsent? Consent { get; set; } = default!;
+
+        public long? SubscriptionId { get; set; }
+
+        [AutoExpand]
+        [Extended]
+        public virtual AccountSubscription? Subscription { get; set; } = default!;
+
+        public long? PaymentId { get; set; }
+
+        public virtual AccountPayment? Payment { get; set; } = default!;
+
+        public long? TenantId { get; set; }
+
+        [AutoExpand]
+        [Extended]
+        public virtual AccountTenant? Tenant { get; set; } = default!;
+    }
 }

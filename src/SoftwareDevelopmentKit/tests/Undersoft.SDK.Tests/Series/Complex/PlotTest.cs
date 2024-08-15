@@ -1,52 +1,52 @@
-using Undersoft.SDK.Series;
-
 namespace Undersoft.SDK.Tests.Series
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Diagnostics;
-    using System.Linq;
     using System.Series.Tests;
-    using System.Threading.Tasks;
+    using Undersoft.SDK.Series.Complex;
+    using Undersoft.SDK.Tests.Instant;
 
     [TestClass]
-    public class PlotTest : RegistryTestHelper
+    public class PlotTest
     {
-        public static object holder = new object();
-        public static int threadCount = 0;
-        public Task[] s1 = new Task[10];
-
         public PlotTest() : base()
         {
-            registry = new Listing<string>();
             DefaultTraceListener Logfile = new DefaultTraceListener();
             Logfile.Name = "Logfile";
             Trace.Listeners.Add(Logfile);
             Logfile.LogFileName = $"Lsting__{DateTime.Now.ToFileTime().ToString()}_Test.log";
         }
 
+
         [TestMethod]
-        public void Listing_Identifiable_Sync_Integrated_Test()
+        public void DirectedPlot_Lowest_Vectors_Path_Integrated_Test()
         {
-            Registry_Sync_Integrated_Test_Helper(identifierKeyTestCollection.Take(100000).ToArray());
+            Plot<Agreement> directedPlot = PrepareTestGraphs.PrepareTestDirectedPlot();
+
+            var minPath = directedPlot.GetLowestVectors(((IList<Place<Agreement>>)directedPlot)[0], ((IList<Place<Agreement>>)directedPlot)[10], MetricKind.Distance);
+         
+            var minSum = minPath.Sum(m => m.Metrics.FirstOrDefault().Value);
+
+            Assert.IsTrue(minSum > 0);
         }
 
         [TestMethod]
-        public void Listing_Integer_Keys__Sync_Integrated_Test()
+        public void UndirectedPlot_Lowest_Vectors_Path_Integrated_Test()
         {
-            Registry_Sync_Integrated_Test_Helper(intKeyTestCollection.Take(100000).ToArray());
-        }
+            Plot<Agreement> undirectedPlot = PrepareTestGraphs.PrepareTestUndirectedPlot();
 
-        [TestMethod]
-        public void Listing_Long_Keys__Sync_Integrated_Test()
-        {
-            Registry_Sync_Integrated_Test_Helper(longKeyTestCollection.Take(100000).ToArray());
-        }
-
-        [TestMethod]
-        public void Listing_String_Keys__Sync_Integrated_Test()
-        {
-            Registry_Sync_Integrated_Test_Helper(stringKeyTestCollection.Take(100000).ToArray());
+            var minPath = undirectedPlot.GetLowestVectors(((IList<Place<Agreement>>)undirectedPlot)[0], ((IList<Place<Agreement>>)undirectedPlot)[10], MetricKind.Distance);
+            double minSum = 0;
+            if (minPath.Any())
+            {
+                minSum = minPath.Sum(m => m.Metrics.FirstOrDefault().Value);
+                Assert.IsTrue(minSum > 0);
+            }
+            else
+            {
+                Assert.IsTrue(minSum == 0);
+            }
         }
     }
 }

@@ -2,7 +2,6 @@
 {
     using System.Linq;
 
-    [Serializable]
     public class HashCode32Comparer : IComparer<int>
     {
         public int Compare(int x, int y)
@@ -16,7 +15,6 @@
         }
     }
 
-    [Serializable]
     public class HashCode32Equality : IEqualityComparer<int>
     {
         public bool Equals(int x, int y)
@@ -30,7 +28,6 @@
         }
     }
 
-    [Serializable]
     public class HashCode64Equality : IEqualityComparer<long>
     {
         public bool Equals(long x, long y)
@@ -48,7 +45,40 @@
         }
     }
 
-    [Serializable]
+    public class DoubleComparer : IComparer<double>
+    {
+        public int Compare(double x, double y)
+        {
+            return (int)((x - y) * 10000);
+        }
+
+        public unsafe int GetHashCode(double obj)
+        {
+            unchecked
+            {
+                byte* pkey = ((byte*)&obj);
+                return (((17 + *(int*)(pkey + 4)) * 23) + *(int*)(pkey)) * 23;
+            }
+        }
+    }
+
+    public class DoubleEquality : IEqualityComparer<double>
+    {
+        public bool Equals(double x, double y)
+        {
+            return x == y;
+        }
+
+        public unsafe int GetHashCode(double obj)
+        {
+            unchecked
+            {
+                byte* pkey = ((byte*)&obj);
+                return (((17 + *(int*)(pkey + 4)) * 23) + *(int*)(pkey)) * 23;
+            }
+        }
+    }
+
     public class IntArrayEquality : IEqualityComparer<int[]>
     {
         public bool Equals(int[] x, int[] y)
@@ -66,7 +96,6 @@
         }
     }
 
-    [Serializable]
     public class ParellelHashCode32Equality : IEqualityComparer<ParallelQuery<IEnumerable<int>>>
     {
         public bool Equals(ParallelQuery<IEnumerable<int>> x, ParallelQuery<IEnumerable<int>> y)
@@ -84,7 +113,6 @@
         }
     }
 
-    [Serializable]
     public class ParellelHashCode64Equality : IEqualityComparer<ParallelQuery<IEnumerable<long>>>
     {
         public bool Equals(ParallelQuery<IEnumerable<long>> x, ParallelQuery<IEnumerable<long>> y)

@@ -1,6 +1,3 @@
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-
 using Undersoft.SDK.Service.Data.Object;
 
 namespace Undersoft.SDK.Service.Access.Identity;
@@ -42,12 +39,4 @@ public class Place : DataObject
     public int Cluster { get; set; }
 
     public int Level { get; set; }
-
-    public virtual Listing<Endpoint>? Endpoints { get; set; }
-
-    public long? LocationId { get; set; }
-
-    [JsonIgnore]
-    [IgnoreDataMember]
-    public virtual Location? Location { get; set; }
 }
