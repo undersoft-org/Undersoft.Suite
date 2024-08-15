@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models
 {
     public class User : Origin
     {

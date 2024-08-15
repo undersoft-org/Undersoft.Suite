@@ -5,7 +5,7 @@ namespace System.Series.Tests
     using System.Diagnostics;
     using System.Linq;
     using Undersoft.SDK.Series;
-    using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
     public class RegistryTestHelper
     {

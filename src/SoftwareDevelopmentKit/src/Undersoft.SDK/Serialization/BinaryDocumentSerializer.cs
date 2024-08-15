@@ -10,7 +10,7 @@ public class BinaryDocumentSerializer : IBinaryDocumentSerializable
 {
     internal object _structure;
     internal IBinaryDocumentSerializable _container;
-    internal IBinaryDocumentSerializable _surrogate;
+    internal IBinarySerializable _surrogate;
     internal Type _type;
 
     public BinaryDocumentSerializer() { }

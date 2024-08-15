@@ -2,7 +2,7 @@ namespace System.Series.Tests
 {
     using System;
     using System.Collections.Generic;
-    using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
     using Undersoft.SDK.Uniques;
 
     public static class PrepareTestListings

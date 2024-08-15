@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 using Undersoft.SDK.Instant.Series;
 using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
 namespace Undersoft.SDK.Tests.Instant
 {

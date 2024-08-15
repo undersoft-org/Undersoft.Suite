@@ -1,7 +1,7 @@
 namespace System.Series.Tests
 {
     using Undersoft.SDK.Series.Complex;
-    using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
     public static class PrepareTestGraphs
     {

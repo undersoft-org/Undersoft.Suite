@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models.Origins
 {
     public class OriginAgreementType : Identifiable
     {
@@ -13,7 +14,7 @@ namespace Undersoft.SDK.Tests.Instant
     {
         protected override long GetKeyForItem(OriginAgreementType item)
         {
-            return (item.Id == 0) ? (long)item.AutoId() : item.Id;
+            return item.Id == 0 ? item.AutoId() : item.Id;
         }
     }
 }

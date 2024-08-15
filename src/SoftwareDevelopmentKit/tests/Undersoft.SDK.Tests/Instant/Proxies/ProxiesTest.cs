@@ -1,5 +1,3 @@
-using Undersoft.SDK.Tests.Instant;
-
 namespace Undersoft.SDK.Tests.Proxies
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +6,7 @@ namespace Undersoft.SDK.Tests.Proxies
     using Undersoft.SDK.Instant;
     using Undersoft.SDK.Instant.Series;
     using Undersoft.SDK.Proxies;
+    using Undersoft.SDK.Tests.Mocks;
     using Undersoft.SDK.Uniques;
 
     [TestClass]

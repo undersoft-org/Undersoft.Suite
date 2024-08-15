@@ -1,4 +1,4 @@
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks
 {
     using System;
     using System.Runtime.InteropServices;

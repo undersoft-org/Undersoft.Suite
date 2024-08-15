@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models
 {
     [Description("Tabela przechowująca zdarzenia związane ze datasetami użytkownika")]
     [Table("UserDataSets", Schema = "Events")]

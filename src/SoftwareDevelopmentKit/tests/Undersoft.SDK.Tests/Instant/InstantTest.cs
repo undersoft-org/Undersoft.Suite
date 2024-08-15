@@ -3,6 +3,8 @@ namespace Undersoft.SDK.Tests.Instant
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Reflection;
     using Undersoft.SDK.Instant;
+    using Undersoft.SDK.Tests.Mocks;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
     using Undersoft.SDK.Uniques;
 
     [TestClass]

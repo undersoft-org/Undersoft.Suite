@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Tests.Mocks.Models;
+using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 using Undersoft.SDK.Uniques;
 using Undersoft.SDK.Updating;
 

@@ -8,10 +8,11 @@
         Distance,
         Time,
         Cost,
-        Velocity,
+        LightTime,
         Power,
-        Pallete,
+        Cubic,
         Fuel,
-        Weight
+        Weight,
+        Scrap
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models.Agreements
 {
     public class AgreementText : Identifiable
     {

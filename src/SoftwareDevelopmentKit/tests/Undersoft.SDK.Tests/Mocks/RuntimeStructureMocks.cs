@@ -1,4 +1,4 @@
-namespace Undersoft.SDK.Tests.Instant;
+namespace Undersoft.SDK.Tests.Mocks;
 
 using System.Linq;
 using System.Reflection;
@@ -6,7 +6,7 @@ using Undersoft.SDK.Rubrics;
 
 public static class InstantMocks
 {
-    public static MemberInfo?[] Instant_Memberinfo_FieldsAndPropertiesModel()
+    public static MemberInfo[] Instant_Memberinfo_FieldsAndPropertiesModel()
     {
         return typeof(FieldsAndPropertiesModel)
             .GetMembers()
@@ -30,7 +30,7 @@ public static class InstantMocks
             .ToArray();
     }
 
-    public static MemberInfo?[] Instant_Memberinfo_PropertiesOnlyModel()
+    public static MemberInfo[] Instant_Memberinfo_PropertiesOnlyModel()
     {
         return typeof(PropertiesOnlyModel)
             .GetMembers()
@@ -46,7 +46,7 @@ public static class InstantMocks
             .ToArray();
     }
 
-    public static MemberInfo?[] Instant_MemberRubric_FieldsAndPropertiesModel()
+    public static MemberInfo[] Instant_MemberRubric_FieldsAndPropertiesModel()
     {
         return typeof(FieldsAndPropertiesModel)
             .GetMembers()
@@ -62,7 +62,7 @@ public static class InstantMocks
             .ToArray();
     }
 
-    public static MemberInfo?[] Instant_MemberRubric_FieldsOnlyModel()
+    public static MemberInfo[] Instant_MemberRubric_FieldsOnlyModel()
     {
         return typeof(FieldsOnlyModel)
             .GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public)
@@ -71,7 +71,7 @@ public static class InstantMocks
             .ToArray();
     }
 
-    public static MemberInfo?[] Instant_MemberRubric_PropertiesOnlyModel()
+    public static MemberInfo[] Instant_MemberRubric_PropertiesOnlyModel()
     {
         return typeof(PropertiesOnlyModel)
             .GetMembers()

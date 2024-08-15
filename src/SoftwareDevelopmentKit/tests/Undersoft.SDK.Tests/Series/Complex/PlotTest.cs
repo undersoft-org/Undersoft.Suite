@@ -5,7 +5,7 @@ namespace Undersoft.SDK.Tests.Series
     using System.Diagnostics;
     using System.Series.Tests;
     using Undersoft.SDK.Series.Complex;
-    using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
     [TestClass]
     public class PlotTest

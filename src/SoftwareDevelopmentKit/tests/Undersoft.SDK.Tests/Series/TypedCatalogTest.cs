@@ -9,7 +9,7 @@ namespace Undersoft.SDK.Tests.Series
     using System.Linq;
     using System.Threading.Tasks;
     using Undersoft.SDK.Series;
-    using Undersoft.SDK.Tests.Instant;
+    using Undersoft.SDK.Tests.Mocks.Models.Agreements;
 
     [TestClass]
     public class TypedCatalogTest : TypedCatalogTestHelper

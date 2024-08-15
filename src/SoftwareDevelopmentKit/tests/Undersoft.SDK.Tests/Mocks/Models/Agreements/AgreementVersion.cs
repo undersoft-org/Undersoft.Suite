@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using Undersoft.SDK.Series;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models.Agreements
 {
     public class AgreementVersion : Identifiable
     {
@@ -19,7 +19,7 @@ namespace Undersoft.SDK.Tests.Instant
     {
         protected override long GetKeyForItem(AgreementVersion item)
         {
-            return (item.Id == 0) ? (long)item.AutoId() : item.Id;
+            return item.Id == 0 ? item.AutoId() : item.Id;
         }
     }
 }

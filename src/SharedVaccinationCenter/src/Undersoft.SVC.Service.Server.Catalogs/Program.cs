@@ -8,7 +8,7 @@
 
 using Undersoft.SDK.Service.Server.Hosting;
 
-namespace Undersoft.SVC.Service.Server.Catalogs.Catalogs;
+namespace Undersoft.SVC.Service.Server.Catalogs;
 
 /// <summary>
 /// The program.

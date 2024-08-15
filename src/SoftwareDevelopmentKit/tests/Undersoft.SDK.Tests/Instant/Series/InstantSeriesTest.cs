@@ -6,6 +6,7 @@ namespace Undersoft.SDK.Tests.Instant
     using Undersoft.SDK.Instant;
     using Undersoft.SDK.Instant.Series;
     using Undersoft.SDK.Proxies;
+    using Undersoft.SDK.Tests.Mocks;
 
     [TestClass]
     public class InstantSeriesTest

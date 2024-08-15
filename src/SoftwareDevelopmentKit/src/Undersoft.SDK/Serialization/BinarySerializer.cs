@@ -6,7 +6,7 @@ namespace Undersoft.SDK.Serialization
     public static class BinarySerializer
     {
         private static Dictionary<string, Type> _typeMappings;
-        private static Dictionary<string, IBinaryDocumentSerializable> _cache;
+        private static Dictionary<string, IBinarySerializable> _cache;
         private static int _intHandleCounter = 0;
         private static BinarySerializable _default = null;
         public static Dictionary<string, Type> TypeMappings
@@ -17,7 +17,7 @@ namespace Undersoft.SDK.Serialization
         static BinarySerializer()
         {
             if (_cache == null)
-                _cache = new Dictionary<string, IBinaryDocumentSerializable>();
+                _cache = new Dictionary<string, IBinarySerializable>();
 
             if (_typeMappings == null)
                 _typeMappings = new Dictionary<string, Type>();
@@ -92,22 +92,22 @@ namespace Undersoft.SDK.Serialization
             return serAttrFound;
         }
 
-        private static IBinaryDocumentSerializable Generate(Type type)
+        private static IBinarySerializable Generate(Type type)
         {
-            IBinaryDocumentSerializable binarySerializable = null;
+            IBinarySerializable binarySerializable = null;
             Type binarySerializableType = null;
 
             if (!type.IsAbstract && !IsSerializable(type.GetCustomAttributes(true)))
             {
                 binarySerializableType =
-                    BinarySerializableGenerator.Generate<IBinaryDocumentSerializable>(
+                    BinarySerializableGenerator.Generate<IBinarySerializable>(
                         type
                     );
             }
 
             if (binarySerializableType != null)
             {
-                binarySerializable = (IBinaryDocumentSerializable)
+                binarySerializable = (IBinarySerializable)
                     Activator.CreateInstance(binarySerializableType);
             }
             binarySerializable.SetTypeHandle(_intHandleCounter);
@@ -121,9 +121,9 @@ namespace Undersoft.SDK.Serialization
             return binarySerializable;
         }
 
-        public static IBinaryDocumentSerializable EnsureGet(Type type)
+        public static IBinarySerializable EnsureGet(Type type)
         {
-            IBinaryDocumentSerializable sr = null;
+            IBinarySerializable sr = null;
 
             string n = type.Name;
 
@@ -212,7 +212,7 @@ namespace Undersoft.SDK.Serialization
 
         public static void Serialize(Stream serializationStream, object graph, Type type)
         {
-            IBinaryDocumentSerializable binarySerializable = EnsureGet(type);
+            IBinarySerializable binarySerializable = EnsureGet(type);
             var binaryWriter = new BinaryWriter(serializationStream);
             binaryWriter.Write(type.FullName);
             binarySerializable.Serialize(binaryWriter, graph);

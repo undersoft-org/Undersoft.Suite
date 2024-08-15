@@ -1,4 +1,6 @@
-namespace Undersoft.SDK.Tests.Instant
+using Undersoft.SDK.Tests.Mocks.Models.Origins;
+
+namespace Undersoft.SDK.Tests.Mocks.Models.Agreements
 {
     public class AgreementType : Identifiable
     {

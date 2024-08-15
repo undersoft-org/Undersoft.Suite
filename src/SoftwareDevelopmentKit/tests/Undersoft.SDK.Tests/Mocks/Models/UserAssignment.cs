@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Undersoft.SDK.Tests.Instant
+namespace Undersoft.SDK.Tests.Mocks.Models
 {
     [Description(
         "Tabela przechowuj¹ca dane o typach u¿ytkowników, w stosunku z encjami systemu operacyjnego"
