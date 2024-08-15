@@ -7,7 +7,7 @@ namespace Undersoft.SDK.Series.Complex
     {
         private bool _directed = true;
         private bool _measured = true;
-        private Metrics _metrics = new Metrics([new Metric(MetricKind.Distance, "Click")]);
+        private Metrics _metrics = new Metrics([new Metric(MetricKind.Time, "Seconds")]);
 
         public Plot()
         {
@@ -139,7 +139,7 @@ namespace Undersoft.SDK.Series.Complex
         public IList<Route<T>> GetQuickPath(
             Place<T> source,
             Place<T> target,
-            MetricKind kind = MetricKind.Distance
+            MetricKind kind = MetricKind.Time
         )
         {
             int[] previous = new int[Count];

@@ -7,6 +7,11 @@
         Price,
         Distance,
         Time,
-        Cost
+        Cost,
+        Velocity,
+        Power,
+        Pallete,
+        Fuel,
+        Weight
     }
 }
