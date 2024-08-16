@@ -4,18 +4,18 @@
 
 Open source conceptual resources to develop distributed, scalable, multi tenant web application in N-Tier architecture. Front tier with single code base hybrid web assembly, android, windows clients. Application tier with application server. Service tier with administration server and operational data services. Data tier with database stores (available: npgsql, mysql, mariadb, sqlserver, oracle, mongo, sqlite, cosmodb, azuresql, inmemorydb) and blob/file storages.       
 
-Latest Add:
-Plot: 
-Specific type of graph where node is connected to to all neighbors arround polygon with values creates surface 2 or 3 dimensional.  
-Plot.QuickPath: 
-ShortestPathDijkstra algorithm modification by replacing UpdatePriority to DequeueEnqueue. UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139)
+#### Latest Add:
+#### Plot: 
+Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place assing subplaces.      
+#### Plot.QuickPath: 
+ShortestPathDijkstra algorithm modification by replacing UpdatePriority to DequeueEnqueue operation to get lower complexity for Plot  . UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139
 First Tests: 
 [https://github.com/undersoft-org/Undersoft.Suite/blob/5053c6de6b45cdc8b7f502e8f2acdd5f6618e689/src/SoftwareDevelopmentKit/tests/Undersoft.SDK.Tests/Series/Complex/PlotTest.cs](https://github.com/undersoft-org/Undersoft.Suite/blob/5053c6de6b45cdc8b7f502e8f2acdd5f6618e689/src/SoftwareDevelopmentKit/tests/Undersoft.SDK.Tests/Series/Complex/PlotTest.cs)
 
-SDK Benchmarks: 
+#### SDK Benchmarks: 
 [https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SoftwareDevelopmentKit/bench/Undersoft.SDK.Benchmarks](https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SoftwareDevelopmentKit/bench/Undersoft.SDK.Benchmarks)
 
-Design overview screenshots: 
+#### Design overview screenshots: 
 [https://github.com/undersoft-org/undersoft-org/Undersoft.Suite/src/SharedVaccinationCenter/docs/design/vaccination_software_design_album](https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SharedVaccinationCenter/docs/design/vaccination_software_design_album/solution)
 
 
