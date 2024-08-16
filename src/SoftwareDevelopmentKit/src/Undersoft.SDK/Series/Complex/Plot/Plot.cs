@@ -144,33 +144,33 @@ namespace Undersoft.SDK.Series.Complex
         {
             int[] previous = new int[Count];
             Array.Fill(previous, -1);
-            double[] neighbourValues = new double[Count];
-            Array.Fill(neighbourValues, double.MaxValue);
-            neighbourValues[source.Index] = 0;
+            double[] neighborValues = new double[Count];
+            Array.Fill(neighborValues, double.MaxValue);
+            neighborValues[source.Index] = 0;
             
-            var neighboursPriority = new PriorityQueue<Place<T>, double>();
+            var neighborsPriority = new PriorityQueue<Place<T>, double>();
             for (int i = 0; i < Count; i++)
             {                
-                neighboursPriority.Enqueue(((IList<Place<T>>)this)[i], neighbourValues[i]);
+                neighborsPriority.Enqueue(((IList<Place<T>>)this)[i], neighborValues[i]);
             }
            
-            while (neighboursPriority.Count != 0)
+            while (neighborsPriority.Count != 0)
             {
-                Place<T> lowestNeighbour = neighboursPriority.Dequeue();
+                Place<T> lowestNeighbor = neighborsPriority.Dequeue();
 
-                for (int i = 0; i < lowestNeighbour.Count; i++)
+                for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
-                    Place<T> lowestNeighbourNeighbour = ((IList<Place<T>>)lowestNeighbour)[i];
+                    Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
                     double value =
-                        i < lowestNeighbour.Metrics.Count
-                            ? ((IList<Metrics>)lowestNeighbour.Metrics)[i][kind].Value                                
+                        i < lowestNeighbor.Metrics.Count
+                            ? ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value                                
                             : 0;
-                    double total = neighbourValues[lowestNeighbour.Index] + value;
-                    if (neighboursPriority.Count != 0 && neighbourValues[lowestNeighbourNeighbour.Index] > total)
+                    double total = neighborValues[lowestNeighbor.Index] + value;
+                    if (neighborsPriority.Count != 0 && neighborValues[lowestNeighborNeighbor.Index] > total)
                     {
-                        neighbourValues[lowestNeighbourNeighbour.Index] = total;
-                        previous[lowestNeighbourNeighbour.Index] = lowestNeighbour.Index;
-                        neighboursPriority.DequeueEnqueue(lowestNeighbourNeighbour, total);
+                        neighborValues[lowestNeighborNeighbor.Index] = total;
+                        previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
+                        neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);
                     }
                 }
             }

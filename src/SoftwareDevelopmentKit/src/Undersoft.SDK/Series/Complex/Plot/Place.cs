@@ -30,10 +30,10 @@ namespace Undersoft.SDK.Series.Complex
                 value.Id = DateTime.UtcNow.Ticks.ToString().GetHashCode();
         }
 
-        public Place<T> this[T neighbour]
+        public Place<T> this[T neighbor]
         {
-            get { return this[neighbour.Id]; }
-            set { Dictionary[neighbour.Id] = value; }
+            get { return this[neighbor.Id]; }
+            set { Dictionary[neighbor.Id] = value; }
         }
 
         public int Index { get; set; } = -1;
