@@ -6,18 +6,18 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place and one way from -> to subplaces.
-
-88888888888888888888888888888888888888888888888888820288888
-33333333333333333333333333333333333333333333333333820288888
-22222222222222222222222222222222222222222222222222821222222
-000000000000000000000000000000000000000000000000001<V<0000
-22222222222222222222222222222222222222222222222222820222222
-88888888888888888888888888888888888888888888888888820288888
-22222222222222222222222222222222222222222222222222821222222
-000000000000000000000000000000000000000000000000000>V>1000
-11111111111111111111111111111111111111111111111111820222222
-88888888888888888888888888888888888888888888888888820288888
+Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed have equal value like below 0 starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place and one way from -> to subplaces. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
++ABCDEFGHIJKLMNOPRSTUW
+A88888888888882V288888
+B333333333333820288888
+C222222222222821222222
+D2000000000000<V<00000
+E222222222222820222222
+F888888888888820288888
+G222222222222821222222
+H0000000000000>V>00002
+I111111111111820222222
+J888888888888820288888
 
 
 #### Plot.QuickPath: 
