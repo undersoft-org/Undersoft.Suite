@@ -5,6 +5,7 @@
 Open source conceptual resources to develop distributed, scalable, multi tenant web application in N-Tier architecture. Front tier with single code base hybrid web assembly, android, windows clients. Application tier with application server. Service tier with administration server and operational data services. Data tier with database stores (available: npgsql, mysql, mariadb, sqlserver, oracle, mongo, sqlite, cosmodb, azuresql, inmemorydb) and blob/file storages.       
 
 Latest Add:
+Plot: Specific type of graph where node is connected to to all neighbors arround polygon with values creates surface 2 or 3 dimensional.  
 Plot.QuickPath: 
 ShortestPathDijkstra algorithm modification by replacing UpdatePriority to DequeueEnqueue. UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139)
 First Tests: 
