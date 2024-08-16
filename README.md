@@ -6,7 +6,7 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph where node is connected to all neighbors arround polygon. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
+Specific type of graph. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
 
 <code> 
 + ABCDEFGHIJKLMNOPRSTUW
