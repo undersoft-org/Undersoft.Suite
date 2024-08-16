@@ -164,7 +164,7 @@ namespace Undersoft.SDK.Series.Complex
                     double value =
                         i < lowestNeighbor.Metrics.Count
                             ? ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value                                
-                            : double.MaxValue;
+                            : double.MaxValue - neighborValues[lowestNeighbor.Index];
                     double total = neighborValues[lowestNeighbor.Index] + value;
                     if (neighborsPriority.Count != 0 && neighborValues[lowestNeighborNeighbor.Index] > total)
                     {

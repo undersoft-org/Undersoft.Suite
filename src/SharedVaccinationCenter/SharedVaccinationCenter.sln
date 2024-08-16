@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SVC.Service.Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SVC.Service.Server.Vaccination", "src\Undersoft.SVC.Service.Server.Vaccination\Undersoft.SVC.Service.Server.Vaccination.csproj", "{28BB558C-EEDA-4658-8984-3E7C0EDEA028}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Tests", "..\SoftwareDevelopmentKit\tests\Undersoft.SDK.Tests\Undersoft.SDK.Tests.csproj", "{89454AE2-068A-4AAA-BA72-5F56D7244E13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{28BB558C-EEDA-4658-8984-3E7C0EDEA028}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28BB558C-EEDA-4658-8984-3E7C0EDEA028}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28BB558C-EEDA-4658-8984-3E7C0EDEA028}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89454AE2-068A-4AAA-BA72-5F56D7244E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89454AE2-068A-4AAA-BA72-5F56D7244E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89454AE2-068A-4AAA-BA72-5F56D7244E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89454AE2-068A-4AAA-BA72-5F56D7244E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +159,7 @@ Global
 		{03D278FE-EB3D-46C6-8E54-C7889ED0BC23} = {33914348-8B86-4972-9F34-FE91FB407E38}
 		{24B023ED-CBE5-4CA6-A8DB-E7601FB05AA0} = {33914348-8B86-4972-9F34-FE91FB407E38}
 		{28BB558C-EEDA-4658-8984-3E7C0EDEA028} = {33914348-8B86-4972-9F34-FE91FB407E38}
+		{89454AE2-068A-4AAA-BA72-5F56D7244E13} = {4F8A0F4D-634D-4D1D-8847-EC96B8D0B382}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D6779D5-72B4-405D-90CD-095181C23A63}
