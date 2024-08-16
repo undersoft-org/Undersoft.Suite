@@ -6,7 +6,7 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place assing subplaces.      
+Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place and one way from -> to subplaces.      
 #### Plot.QuickPath: 
 ShortestPathDijkstra algorithm modification by replacing UpdatePriority to DequeueEnqueue operation to get lower complexity for Plot  . UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139
 First Tests: 
