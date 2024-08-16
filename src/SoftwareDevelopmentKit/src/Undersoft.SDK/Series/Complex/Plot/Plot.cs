@@ -136,7 +136,7 @@ namespace Undersoft.SDK.Series.Complex
             return index;
         }
 
-        public IList<Route<T>> GetQuickPath(
+        public IList<Route<T>> QuickPath(
             Place<T> source,
             Place<T> target,
             MetricKind kind = MetricKind.Time

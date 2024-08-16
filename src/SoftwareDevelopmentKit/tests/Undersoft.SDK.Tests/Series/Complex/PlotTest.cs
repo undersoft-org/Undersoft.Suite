@@ -24,7 +24,7 @@ namespace Undersoft.SDK.Tests.Series
         {
             Plot<Agreement> directedPlot = PrepareTestGraphs.PrepareTestDirectedPlot();
 
-            var minPath = directedPlot.GetQuickPath(((IList<Place<Agreement>>)directedPlot)[5], ((IList<Place<Agreement>>)directedPlot)[10], MetricKind.Time);
+            var minPath = directedPlot.QuickPath(((IList<Place<Agreement>>)directedPlot)[5], ((IList<Place<Agreement>>)directedPlot)[10], MetricKind.Time);
          
             var minSum = minPath.Sum(m => m.Metrics[MetricKind.Time].Value);
 
@@ -36,7 +36,7 @@ namespace Undersoft.SDK.Tests.Series
         {
             Plot<Agreement> undirectedPlot = PrepareTestGraphs.PrepareTestUndirectedPlot();
 
-            var minPath = undirectedPlot.GetQuickPath(((IList<Place<Agreement>>)undirectedPlot)[5], ((IList<Place<Agreement>>)undirectedPlot)[10], MetricKind.Time);
+            var minPath = undirectedPlot.QuickPath(((IList<Place<Agreement>>)undirectedPlot)[5], ((IList<Place<Agreement>>)undirectedPlot)[10], MetricKind.Time);
 
             var minSum = minPath.Sum(m => m.Metrics[MetricKind.Time].Value);
 
