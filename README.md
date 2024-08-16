@@ -6,19 +6,21 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph where node is connected to all neighbors arround polygon with values but only one edge specify proper direction of plot defined path line from source to target. Plot can contain many path lines crossed have equal value like below 0 starting from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place and one way from -> to subplaces. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
-#### +ABCDEFGHIJKLMNOPRSTUW
-#### A88888888888882V288888
-#### B333333333333820288888
-#### C222222222222821222222
-#### D2000000000000<V<00000
-#### E222222222222820222222
-#### F888888888888820288888
-#### G222222222222821222222
-#### H0000000000000>V>00002
-#### I111111111111820222222
-#### J888888888888820288888
+Specific type of graph where node is connected to all neighbors arround polygon. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
 
+<code> 
++ ABCDEFGHIJKLMNOPRSTUW
+A 888888888888821288888
+B 333333333333821288888
+C 222222222222821222222
+D 211111111111111111111
+E 222222222222821222222
+F 888888888888821288888
+G 222222222222821222222
+H 111111111111111111112
+I 222222222222821222222
+J 888888888888821288888
+</code>
 
 #### Plot.QuickPath: 
 ShortestPathDijkstra algorithm modification by replacing UpdatePriority to DequeueEnqueue operation to get lower complexity for Plot  . UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139
