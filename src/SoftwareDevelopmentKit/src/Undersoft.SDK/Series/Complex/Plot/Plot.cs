@@ -184,7 +184,7 @@ namespace Undersoft.SDK.Series.Complex
                 index = previous[index];
             }
 
-            indices = indices.Reverse().ToList();
+            indices = indices.Reverse().ToArray();
             Table<Route<T>> result = new Table<Route<T>>();
             for (int i = 0; i < indices.Count - 1; i++)
             {
