@@ -157,25 +157,27 @@ namespace Undersoft.SDK.Series.Complex
             while (neighborsPriority.Count != 0)
             {
                 Place<T> lowestNeighbor = neighborsPriority.Dequeue();
-
+                double previousTotal = double.MaxValue;
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
                     Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
-                    double value =
-                        i < lowestNeighbor.Metrics.Count
-                            ? ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value                                
-                            : double.MaxValue - neighborValues[lowestNeighbor.Index];
+                    double value = ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value;
                     double total = neighborValues[lowestNeighbor.Index] + value;
                     if (neighborValues[lowestNeighborNeighbor.Index] > total && neighborsPriority.Count != 0)
                     {
                         neighborValues[lowestNeighborNeighbor.Index] = total;
                         previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
-                        neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);
+                        if (previousTotal > total)
+                        {
+                            neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);
+                        }
+                        else
+                            neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
                     }
+                    previousTotal = total;
                 }
             }
            
-
             IList<int> indices = new List<int>();
             int index = target.Index;
             while (index >= 0)
