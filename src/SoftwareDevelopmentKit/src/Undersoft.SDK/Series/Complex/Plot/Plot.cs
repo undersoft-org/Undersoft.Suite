@@ -153,11 +153,12 @@ namespace Undersoft.SDK.Series.Complex
             {                
                 neighborsPriority.Enqueue(((IList<Place<T>>)this)[i], neighborValues[i]);
             }
-           
+
+            double minTotal = double.MaxValue;
             while (neighborsPriority.Count != 0)
             {
                 Place<T> lowestNeighbor = neighborsPriority.Dequeue();
-                double previousTotal = double.MaxValue;
+                
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
                     Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
@@ -167,14 +168,14 @@ namespace Undersoft.SDK.Series.Complex
                     {
                         neighborValues[lowestNeighborNeighbor.Index] = total;
                         previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
-                        if (previousTotal > total)
+                        if (minTotal > total)
                         {
                             neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);
+                            minTotal = total;
                         }
                         else
                             neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
-                    }
-                    previousTotal = total;
+                    }                    
                 }
             }
            
