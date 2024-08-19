@@ -169,8 +169,6 @@ namespace Undersoft.SDK.Series.Complex
                         neighborValues[lowestNeighborNeighbor.Index] = total;
                         previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
                         if (minTotal + value >= total)
-                            minTotal = total;                        
-                        if(minTotal > total)
                             neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);                                                   
                         else
                             neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
