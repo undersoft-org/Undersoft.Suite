@@ -149,19 +149,21 @@ namespace Undersoft.SDK.Series.Complex
             neighborValues[source.Index] = 0;
             
             var neighborsPriority = new PriorityQueue<Place<T>, double>();        
-            neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], neighborValues[source.Index]);            
+            neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], 0);            
 
             while (neighborsPriority.TryDequeue(out var lowestNeighbor, out var priority))
             {
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
-                    Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
+                    int lowestNeighborIndex = lowestNeighbor.Index;
                     double value = ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value;
-                    double total = neighborValues[lowestNeighbor.Index] + value;
-                    if (neighborValues[lowestNeighborNeighbor.Index] > total)
+                    double total = neighborValues[lowestNeighborIndex] + value;
+                    Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
+                    int lowestNeighborNeughborIndex = lowestNeighborNeighbor.Index;
+                    if (neighborValues[lowestNeighborNeughborIndex] > total)
                     {
-                        neighborValues[lowestNeighborNeighbor.Index] = total;
-                        previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
+                        neighborValues[lowestNeighborNeughborIndex] = total;
+                        previous[lowestNeighborNeughborIndex] = lowestNeighborIndex;
                         neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
                     }
                 }
