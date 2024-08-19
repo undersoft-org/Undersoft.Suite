@@ -148,31 +148,25 @@ namespace Undersoft.SDK.Series.Complex
             Array.Fill(neighborValues, double.MaxValue);
             neighborValues[source.Index] = 0;
             
-            var neighborsPriority = new PriorityQueue<Place<T>, double>();
-            for (int i = 0; i < Count; i++)
-            {                
-                neighborsPriority.Enqueue(((IList<Place<T>>)this)[i], neighborValues[i]);
-            }
+            var neighborsPriority = new PriorityQueue<Place<T>, double>();        
+            neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], neighborValues[source.Index]);            
 
-            double minTotal = 0;
             while (neighborsPriority.Count != 0)
             {
-                Place<T> lowestNeighbor = neighborsPriority.Dequeue();
-                
+                if (!neighborsPriority.TryDequeue(out var lowestNeighbor, out var priority) || priority == double.MaxValue)
+                    break;
+
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
                     Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
                     double value = ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value;
                     double total = neighborValues[lowestNeighbor.Index] + value;
-                    if (neighborValues[lowestNeighborNeighbor.Index] > total && neighborsPriority.Count != 0)
+                    if (neighborValues[lowestNeighborNeighbor.Index] > total)
                     {
                         neighborValues[lowestNeighborNeighbor.Index] = total;
                         previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
-                        if (minTotal + value >= total)
-                            neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);                                                   
-                        else
-                            neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
-                    }                    
+                        neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
+                    }
                 }
             }
            
