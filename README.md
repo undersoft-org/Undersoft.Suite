@@ -6,7 +6,7 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Below simple example {start:[x,y], end:[x,y]} first path (start:[3,W], end:[3,B]}. Second {start:[0,A], end:[7,U]}. Third {start:[3,W], end:[7,U]}.
+Specific type of graph. Plot can contain many path lines crossed with equal value like below 1. Paths can start from same or different source and ends on same or different target. Below simple example {start:[x,y], end:[x,y]} first path (start:[3,W], end:[3,B]}. Second {start:[0,A], end:[7,U]}. Third {start:[3,W], end:[7,U]}.
 
 <code> 
 xy ABCDEFGHIJKLMNOPRSTUWVXY
