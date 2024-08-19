@@ -154,7 +154,7 @@ namespace Undersoft.SDK.Series.Complex
                 neighborsPriority.Enqueue(((IList<Place<T>>)this)[i], neighborValues[i]);
             }
 
-            double minTotal = double.MaxValue;
+            double minTotal = 0;
             while (neighborsPriority.Count != 0)
             {
                 Place<T> lowestNeighbor = neighborsPriority.Dequeue();
@@ -168,7 +168,7 @@ namespace Undersoft.SDK.Series.Complex
                     {
                         neighborValues[lowestNeighborNeighbor.Index] = total;
                         previous[lowestNeighborNeighbor.Index] = lowestNeighbor.Index;
-                        if (minTotal > total)
+                        if (minTotal + value >= total)
                         {
                             neighborsPriority.DequeueEnqueue(lowestNeighborNeighbor, total);
                             minTotal = total;
