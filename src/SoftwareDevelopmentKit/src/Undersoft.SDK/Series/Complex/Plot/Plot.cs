@@ -151,11 +151,8 @@ namespace Undersoft.SDK.Series.Complex
             var neighborsPriority = new PriorityQueue<Place<T>, double>();        
             neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], neighborValues[source.Index]);            
 
-            while (neighborsPriority.Count != 0)
+            while (neighborsPriority.TryDequeue(out var lowestNeighbor, out var priority))
             {
-                if (!neighborsPriority.TryDequeue(out var lowestNeighbor, out var priority) || priority == double.MaxValue)
-                    break;
-
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
                     Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
