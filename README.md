@@ -6,20 +6,20 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Primary condition is that path lines exists and have some start place and some end place. Below simple example first path from col W row D to col B row D second col O row A to col U row H third col W row D to col U row H.
+Specific type of graph. Plot can contain many path lines crossed with equal value like below 1. Path can start from same or different source and ends on same or different target. Below simple example {start:[x,y], end:[x,y]} first path (start:[3,W], end:[3,B]}. Second {start:[0,A], end:[7,U]}. Third {start:[3,W], end:[7,U]}.
 
 <code> 
-+ ABCDEFGHIJKLMNOPRSTUW
-A 888888888888821288888
-B 333333333333821288888
-C 222222222222821222222
-D 211111111111111111111
-E 222222222222821222222
-F 888888888888821288888
-G 222222222222821222222
-H 111111111111111111112
-I 222222222222821222222
-J 888888888888821288888
+xy ABCDEFGHIJKLMNOPRSTUWVXY
+0  888888888888821111288888
+1  333333333333821111288888
+2  222222222222821111222222
+3  211111111111111111111111
+4  222222222222821111222222
+5  888888888888821111288888
+6  222222222222821111222222
+7  111111111111111111111112
+8  222222222222821111222222
+9  888888888888821111288888
 </code>
 
 #### Plot.QuickPath: 
