@@ -139,9 +139,15 @@ namespace Undersoft.SDK.Series.Complex
         public IList<Route<T>> QuickPath(
             Place<T> source,
             Place<T> target,
-            MetricKind kind = MetricKind.Time
+            MetricKind kind = MetricKind.Time,
+            params MetricRange[] ranges
         )
         {
+            if (ranges.Any())
+                _metrics[kind].Ranges = ranges;
+            else
+                ranges = _metrics[kind].Ranges;
+
             int[] previous = new int[Count];
             Array.Fill(previous, -1);
             double[] neighborValues = new double[Count];
@@ -157,21 +163,32 @@ namespace Undersoft.SDK.Series.Complex
                 {
                     int lowestNeighborIndex = lowestNeighbor.Index;
                     double value = ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value;
-                    double total = neighborValues[lowestNeighborIndex] + value;
-                    Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
-                    int lowestNeighborNeughborIndex = lowestNeighborNeighbor.Index;
-                    if (neighborValues[lowestNeighborNeughborIndex] > total)
+                    bool inRange = false;
+                    foreach(var range in ranges)  
+                        if (range.Minimum <= value && range.Maximum >= value)
+                        {
+                            inRange = true;
+                            break;
+                        }             
+                    
+                    if (inRange)
                     {
-                        neighborValues[lowestNeighborNeughborIndex] = total;
-                        previous[lowestNeighborNeughborIndex] = lowestNeighborIndex;
-                        neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
+                        double total = neighborValues[lowestNeighborIndex] + value;
+                        Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
+                        int lowestNeighborNeughborIndex = lowestNeighborNeighbor.Index;
+                        if (neighborValues[lowestNeighborNeughborIndex] > total)
+                        {
+                            neighborValues[lowestNeighborNeughborIndex] = total;
+                            previous[lowestNeighborNeughborIndex] = lowestNeighborIndex;
+                            neighborsPriority.Enqueue(lowestNeighborNeighbor, total);
+                        }
                     }
                 }
             }
            
             IList<int> indices = new List<int>();
             int index = target.Index;
-            while (index >= 0)
+            while (index > -1)
             {
                 indices.Add(index);
                 index = previous[index];
