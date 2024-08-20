@@ -6,19 +6,19 @@ Open source conceptual resources to develop distributed, scalable, multi tenant 
 
 #### Latest Add:
 #### Plot: 
-Specific type of graph. Plot can contain many crossed path lines. Paths can start from same or different source and ends on same or different target. Time is set as default kind of metric value. Below simple example where diagonal value is presented as max value from x, y correlated to time of movement on x and y started at the same time where distance of x, y is constant and can equal for example 1 meter for road map plot or 100 micrometers for high precision plot. By defining metric ranges, nodes can be excluded from computing and decrease complexity. For example ranges (from 0 to 1) will take only 0 (let's name it pedestrian crossing) and 1 (let's name it road) this ranges will compute path for cars on road. When ranges (from 2 to 2) where 2 (let's name it walk) and (from 0 to 0) will be defined. Then computed path will represent walk road. Example source-target pairs {source:[x,y], target:[x,y]} first path (source:[Y,3], target:[B,3]}. Second {source:[P,0], target:[X,7]}. Third {source:[Y,3], target:[X,7]}.
+Specific type of graph. Plot can contain many crossed path lines. Paths can start from same or different source and ends on same or different target. Time is set as default kind of metric value. Below simple example where diagonal value is presented as max value from x, y correlated to time of movement on x and y started at the same time where distance of x, y is constant and can equal for example 1 meter for road map plot or 100 micrometers for high precision plot. By defining metric ranges, nodes can be excluded from computing and decrease complexity. For example ranges (from 4 to 4) will take only 4 (let's name it pedestrian crossing) and (from 1 to 1) and 1 (let's name it road). Those ranges will compute path for cars on road with some average time to wait on pedestrian crossing. When ranges (from 2 to 2) where 2 (let's name it walk) and (from 4 to 4) will be defined. Then computed path will represent walk road with crossing the street. Example source-target pairs {source:[x,y], target:[x,y]} first path (source:[Y,3], target:[B,3]}. Second {source:[P,0], target:[X,7]}. Third {source:[Y,3], target:[X,7]}.
 
 <code> 
 yx ABCDEFGHIJKLMNOPRSTUWVXY
 0  888888888888821111288888
-1  333333333333320000288888
-2  222222222222220000222222
-3  211111111111101111011111
-4  222222222222220000222222
+1  888888888888821111288888
+2  222222222222224444222222
+3  211111111111141111411111
+4  222222222222224444222222
 5  888888888888821111288888
-6  222222222222220000222222
-7  111111111111101111011112
-8  222222222222220000222222
+6  222222222222224444222222
+7  111111111111141111411112
+8  222222222222224444222222
 9  888888888888821111288888
 </code>
 
