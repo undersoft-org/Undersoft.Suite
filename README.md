@@ -23,7 +23,8 @@ yx ABCDEFGHIJKLMNOPRSTUWVXY
 </code>
 
 #### Plot.QuickPath: 
-ShortestPathDijkstra algorithm modification by replacing UpdatePriority to TryDequeue and Enqueue operation. UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. [https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/07c9d385d8d969374991094c972859fa7c5d1b2d/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139
+ShortestPathDijkstra algorithm modification by replacing UpdatePriority to TryDequeue and Enqueue operation. UpdatePriority is not available in .NET 8, System.Collections.Generic.PriorityQueue. 
+[https://github.com/undersoft-org/Undersoft.Suite/blob/9c77c85d12d36536fe21f9d0df78e09e0fc8bf08/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139](https://github.com/undersoft-org/Undersoft.Suite/blob/9c77c85d12d36536fe21f9d0df78e09e0fc8bf08/src/SoftwareDevelopmentKit/src/Undersoft.SDK/Series/Complex/Plot/Plot.cs#L139
 First Tests: 
 [https://github.com/undersoft-org/Undersoft.Suite/blob/5053c6de6b45cdc8b7f502e8f2acdd5f6618e689/src/SoftwareDevelopmentKit/tests/Undersoft.SDK.Tests/Series/Complex/PlotTest.cs](https://github.com/undersoft-org/Undersoft.Suite/blob/5053c6de6b45cdc8b7f502e8f2acdd5f6618e689/src/SoftwareDevelopmentKit/tests/Undersoft.SDK.Tests/Series/Complex/PlotTest.cs)
 
