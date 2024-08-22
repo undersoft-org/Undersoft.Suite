@@ -5,8 +5,6 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 .NET SDK=8.0.200
   [Host]     : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT  [AttachedDebugger]
   DefaultJob : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT
-</code></pre>
-<pre><code></code></pre>
 
 <table>
 <thead><tr><th>                                                                                                                                                                       Method (10 mln objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
@@ -17,6 +15,17 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>Instant_Proxies_DotNet_Math_AsParellel</td><td>2,490.4 ms</td><td>21.73 ms</td><td>18.14 ms</td><td>2</td><td>535000</td><td>1,602 MB</td>
 </tr></tbody></table>
 
+Undersoft.SDK data structures:
+- Chain (ordered, not-thread-safe, not-indexed, queued, keyed, repeatable)
+- Catalog (ordered, thread-safe, not-indexed, queued, keyed, repeatable)
+- Listing (ordered, not-thread-safe, indexed, queued, keyed, repeatable)
+- Registry (ordered, thread-safe, indexed, queued, keyed, repeatable)
+  
+System.Collections.Generic data structures:
+- ConcurrentDictionary (not-ordered, thread-safe, not-indexed, not-queued, keyed, not-repeatable)
+- OrderedDictionary (ordered, not-thread-safe, indexed, not-queued, keyed, not-repeatable)
+- Dictionary (not-ordered, not-thread-safe, not-indexed, not-queued, keyed, not-repeatable)
+  
 <table>
 <thead><tr><th>                         Method (10 concurrent tasks each 100K objects)</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
