@@ -8,17 +8,19 @@ namespace Undersoft.SDK.Service.Server.Hosting.Middlewares;
 public class MultiTenancyMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly IAuthorization _authorization;
     private readonly IServicer _servicer;
 
-    public MultiTenancyMiddleware(RequestDelegate next, IServicer servicer)
+    public MultiTenancyMiddleware(RequestDelegate next, IServicer servicer, IAuthorization authorization)
     {
         _next = next;
         _servicer = servicer;
+        _authorization = authorization;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
-        var auth = _servicer.GetService<IAuthorization>();
+        
         if (
             context.User.Identity.IsAuthenticated
             && long.TryParse(

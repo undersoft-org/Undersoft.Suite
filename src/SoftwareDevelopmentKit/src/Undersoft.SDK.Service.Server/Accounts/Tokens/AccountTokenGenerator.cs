@@ -56,13 +56,13 @@ public class AccountTokenGenerator
     {
         var token = handler.CreateJwtSecurityToken(
             issuer: options.Issuer,
+            notBefore: new DateTime?(),
             audience: options.Audience,
             subject: claimsIdentity,
-            expires: DateTime.UtcNow.AddMinutes(options.MinutesToExpire),
+            expires: DateTime.Now.AddMinutes(options.MinutesToExpire),
             signingCredentials: new SigningCredentials(
                 securitykey,
-                SecurityAlgorithms.HmacSha512Signature,
-                SecurityAlgorithms.Sha512Digest
+                SecurityAlgorithms.HmacSha256Signature
             )
         );
 

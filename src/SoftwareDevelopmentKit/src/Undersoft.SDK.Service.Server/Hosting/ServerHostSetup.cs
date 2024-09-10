@@ -145,8 +145,6 @@ public class ServerHostSetup : IServerHostSetup
 
     public IServerHostSetup UseServiceServer(string[] apiVersions = null)
     {
-        UseMultitenancy();
-
         UseHeaderForwarding();
 
         if (_environment.IsDevelopment())
@@ -164,8 +162,10 @@ public class ServerHostSetup : IServerHostSetup
             UseSwaggerSetup(apiVersions);
 
         _builder.UseAuthentication()
-            .UseAuthorization();       
+            .UseAuthorization();
 
+        UseJwtMiddleware();
+        UseMultitenancy();
         UseEndpoints();
 
         return this;

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Service.Server.Accounts.Email;
@@ -213,7 +213,11 @@ public class AccountService<TAccount> : IAccessService<TAccount>
 
     public async Task<IAuthorization> ConfirmEmail(IAuthorization account)
     {
-        if (account != null && !account.Credentials.IsLockedOut && account.Credentials.Authenticated)
+        if (
+            account != null
+            && !account.Credentials.IsLockedOut
+            && account.Credentials.Authenticated
+        )
         {
             var _creds = account.Credentials;
             if (!_creds.EmailConfirmed)
@@ -243,8 +247,8 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                     {
                         account.Notes = new OperationNotes()
                         {
-                            Errors = result.Errors
-                                .Select(d => d.Description)
+                            Errors = result
+                                .Errors.Select(d => d.Description)
                                 .Aggregate((a, b) => a + ". " + b),
                             Status = AccessStatus.Failure
                         };
@@ -259,13 +263,12 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 );
                 var code = Math.Abs(token.UniqueKey32());
                 TokenRegistry.Add(code, token);
-                await _servicer.Serve<IEmailSender>(
-                    e =>
-                        e.SendEmailAsync(
-                            _creds.Email,
-                            "Verfication code to confirm your email address and proceed with account registration process",
-                            EmailTemplate.GetVerificationCodeMessage(code.ToString())
-                        )
+                await _servicer.Serve<IEmailSender>(e =>
+                    e.SendEmailAsync(
+                        _creds.Email,
+                        "Verfication code to confirm your email address and proceed with account registration process",
+                        EmailTemplate.GetVerificationCodeMessage(code.ToString())
+                    )
                 );
 
                 account.Notes = new OperationNotes()
@@ -315,13 +318,12 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                         Status = AccessStatus.ResetPasswordConfirmed
                     };
                     this.Success<Accesslog>(account.Notes.Success, account);
-                    _ = _servicer.Serve<IEmailSender>(
-                        e =>
-                            e.SendEmailAsync(
-                                _creds.Email,
-                                "Password reset succeed. Now You can sign in, using generated password inside this message. Then change it from the profile settings",
-                                EmailTemplate.GetResetPasswordMessage(newpassword)
-                            )
+                    _ = _servicer.Serve<IEmailSender>(e =>
+                        e.SendEmailAsync(
+                            _creds.Email,
+                            "Password reset succeed. Now You can sign in, using generated password inside this message. Then change it from the profile settings",
+                            EmailTemplate.GetResetPasswordMessage(newpassword)
+                        )
                     );
                 }
                 else
@@ -329,8 +331,8 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                     account.Credentials.Authenticated = false;
                     account.Notes = new OperationNotes()
                     {
-                        Errors = result.Errors
-                            .Select(d => d.Description)
+                        Errors = result
+                            .Errors.Select(d => d.Description)
                             .Aggregate((a, b) => a + ". " + b),
                         Status = AccessStatus.Failure
                     };
@@ -345,13 +347,12 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             );
             var code = Math.Abs(token.UniqueKey32());
             TokenRegistry.Add(code, token);
-            _ = _servicer.Serve<IEmailSender>(
-                e =>
-                    e.SendEmailAsync(
-                        _creds.Email,
-                        "Verfication code to confirm your decision about resetting the password and sending generated one to your email",
-                        EmailTemplate.GetVerificationCodeMessage(code.ToString())
-                    )
+            _ = _servicer.Serve<IEmailSender>(e =>
+                e.SendEmailAsync(
+                    _creds.Email,
+                    "Verfication code to confirm your decision about resetting the password and sending generated one to your email",
+                    EmailTemplate.GetVerificationCodeMessage(code.ToString())
+                )
             );
 
             account.Notes = new OperationNotes()
@@ -392,8 +393,8 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 account.Credentials.Authenticated = false;
                 account.Notes = new OperationNotes()
                 {
-                    Errors = result.Errors
-                        .Select(d => d.Description)
+                    Errors = result
+                        .Errors.Select(d => d.Description)
                         .Aggregate((a, b) => a + ". " + b),
                     Status = AccessStatus.Failure
                 };
@@ -475,13 +476,12 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             );
             var code = Math.Abs(token.UniqueKey32());
             TokenRegistry.Add(code, token);
-            _ = _servicer.Serve<IEmailSender>(
-                e =>
-                    e.SendEmailAsync(
-                        _creds.Email,
-                        "Verfication code to confirm your email address and proceed with account registration process",
-                        EmailTemplate.GetVerificationCodeMessage(code.ToString())
-                    )
+            _ = _servicer.Serve<IEmailSender>(e =>
+                e.SendEmailAsync(
+                    _creds.Email,
+                    "Verfication code to confirm your email address and proceed with account registration process",
+                    EmailTemplate.GetVerificationCodeMessage(code.ToString())
+                )
             );
             account.Notes = new OperationNotes()
             {
@@ -521,7 +521,17 @@ public class AccountService<TAccount> : IAccessService<TAccount>
         if ((await _manager.User.UpdateAsync(_accountuser)).Succeeded)
         {
             if (account.Notes.Status != AccessStatus.RegistrationNotCompleted)
+            {
                 _creds.RegistrationCompleted = true;
+                await _manager.User.AddClaimsAsync(
+                    _accountuser,
+                    [
+                        new Claim("client_id", _account.OrganizationId.ToString()),
+                        new Claim("organization_id", _account.OrganizationId.ToString()),
+                        new Claim("tenant_id", _account.TenantId.ToString())
+                    ]
+                );
+            }
             _creds.Authenticated = true;
             _account.Notes = new OperationNotes()
             {
@@ -602,10 +612,10 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 new object[] { _accountuser.Id },
                 new Expression<Func<Account, object>>[]
                 {
-                e => e.Address,
-                e => e.Personal,
-                e => e.Professional,
-                e => e.Organization
+                    e => e.Address,
+                    e => e.Personal,
+                    e => e.Professional,
+                    e => e.Organization
                 }
             );
             if (_account != null)

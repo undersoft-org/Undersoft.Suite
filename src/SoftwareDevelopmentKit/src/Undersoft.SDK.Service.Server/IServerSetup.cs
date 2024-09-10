@@ -17,7 +17,6 @@ namespace Undersoft.SDK.Service.Server
         IServerSetup AddAuthentication();
         IServerSetup AddAuthorization();
         IServerSetup UseServiceClients();
-        IServerSetup AddAccessClient();
         IServerSetup AddApiVersions(string[] apiVersions);
         IServerSetup ConfigureServer(bool includeSwagger, Type[] sourceTypes = null, Type[] clientTypes = null);
     }

@@ -44,6 +44,8 @@ public class ApplicationServerHostSetup : ServerHostSetup, IApplicationServerHos
             .UseAuthorization();
 
         UseJwtMiddleware();
+        UseMultitenancy();
+
         UseEndpoints(true);
 
         return this;

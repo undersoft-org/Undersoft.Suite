@@ -83,8 +83,7 @@ namespace Undersoft.SDK.Service.Data.Client
             if (securityString != null)
             {
                 var strings = securityString.Split(" ");
-                string prefix = strings.Length > 0 ? strings[0] : null;
-                _securityString = new AccessString(strings.LastOrDefault(), prefix);
+                _securityString = new AccessString(strings.LastOrDefault());
             }
         }
 

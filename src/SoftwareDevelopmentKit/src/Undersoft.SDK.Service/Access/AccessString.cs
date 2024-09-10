@@ -11,11 +11,10 @@ namespace Undersoft.SDK.Service.Access
 
         public AccessString() { }
 
-        public AccessString(string value, string prefix = null, string type = null)
+        public AccessString(string value, string type = null)
         {
             _value = value;
             _type = type;
-            _prefix = prefix;
         }
 
         private void Set(string value)
@@ -32,7 +31,7 @@ namespace Undersoft.SDK.Service.Access
 
         public string Decoded { get => Get(_value); set => Set(value); }
 
-        public string Encoded { get => _prefix + _value; set => _value = value; }
+        public string Encoded { get => _value; set => _value = value; }
 
     }
 }

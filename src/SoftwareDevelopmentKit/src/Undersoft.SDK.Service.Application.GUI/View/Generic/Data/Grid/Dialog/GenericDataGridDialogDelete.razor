@@ -28,7 +28,7 @@
         var proxy = model.Proxy;
         if (proxy.Rubrics.ContainsKey("Name"))
         {
-            Content.Model.Label = proxy["Name"].ToString();
+            Content.Model.Label = proxy["Name"]?.ToString();
         }
         base.OnInitialized();
 

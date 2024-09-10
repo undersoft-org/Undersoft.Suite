@@ -130,20 +130,17 @@ public class AccountManager : Registry<IAccount>, IAccountManager
             {
                 new Claim("id", account.Id.ToString()),
                 new Claim("user_id", account.UserId.ToString()),
-                new Claim("client_id", ""),
-                new Claim("organization_id", account.OrganizationId.ToString()),
-                new Claim("tenant_id", account.TenantId.ToString()),
                 new Claim("email", account.User.Email),
                 new Claim("name", account.User.UserName),
                 new Claim("code_no", account.CodeNo)
             };
             if (roles != null)
                 basicClaims = basicClaims
-                    .Concat(roles?.Select(r => new Claim(JwtClaimTypes.Role, r)))
+                    .Concat(roles?.Select(r => new Claim("role", r)))
                     .ToArray();
             if (scopes != null)
                 basicClaims = basicClaims
-                    .Concat(scopes?.Select(r => new Claim(JwtClaimTypes.Scope, r)))
+                    .Concat(scopes?.Select(r => new Claim("scope", r)))
                     .ToArray();
 
             result = await User.AddClaimsAsync(account.User, basicClaims);
@@ -280,8 +277,13 @@ public class AccountManager : Registry<IAccount>, IAccountManager
     {
         if (TryGet(email, out IAccount account))
             return (Account)account;
-        var _account = new Account();
-        _account.User = await User.FindByEmailAsync(email);
+        var _account = new Account();               
+        var user = await User.FindByEmailAsync(email);
+        var registeredAccount = await Accounts.Find(user.Id);
+        if (registeredAccount != null)
+            registeredAccount.ShallowPatchTo(_account);
+        _account.User = user;
+        _account.User.IsLockedOut = await User.IsLockedOutAsync(_account.User);
         if ((await MapAccount(_account)).User != null)
         {
             Put(_account?.User?.Email, _account);
@@ -295,8 +297,12 @@ public class AccountManager : Registry<IAccount>, IAccountManager
     {
         if (TryGet(id, out IAccount account))
             return (Account)account;
-        var _account = new Account();
-        _account.User = await User.FindByIdAsync(_account.Id.ToString());
+        var _account = new Account();      
+        var user = await User.FindByIdAsync(id.ToString());
+        var registeredAccount = await Accounts.Find(user.Id);
+        if (registeredAccount != null)
+            registeredAccount.ShallowPatchTo(_account);
+        _account.User = user;
         _account.User.IsLockedOut = await User.IsLockedOutAsync(_account.User);
         if ((await MapAccount(_account)).User != null)
         {
@@ -339,8 +345,8 @@ public class AccountManager : Registry<IAccount>, IAccountManager
                     ClaimValue = c.Value,
                     UserId = account.Id
                 })
-            );
-        }
+            );                      
+        }   
         return account;
     }
 }

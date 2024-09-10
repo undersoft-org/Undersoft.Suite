@@ -1,23 +1,28 @@
 using Microsoft.AspNetCore.Http;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Server.Accounts.Tokens;
 
 namespace Undersoft.SDK.Service.Server.Hosting.Middlewares;
 
 public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IServicer _servicer;
+    private readonly IAuthorization _authorization;
 
-    public JwtMiddleware(RequestDelegate next, IServicer servicer)
+    public JwtMiddleware(RequestDelegate next, IAuthorization authorization)
     {
         _next = next;
-        _servicer = servicer;
+        _authorization = authorization;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
-        var auth = _servicer.GetService<IAuthorization>();
-        auth.Credentials.SessionToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
+        _authorization.Credentials.SessionToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
+        if (_authorization.Credentials.SessionToken != null)
+        {
+            var generator = new AccountTokenGenerator();
+            var result = await generator.Validate(_authorization.Credentials.SessionToken);
+        }
         await _next(context);
     }
 }

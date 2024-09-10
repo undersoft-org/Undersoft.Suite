@@ -289,17 +289,12 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<TContext>();
-        registry.Configure<DataProtectionTokenProviderOptions>(o =>
-            o.TokenLifespan = TimeSpan.FromHours(1)
-        );
+      
 
         registry.AddTransient<AccountEmailConfirmationTokenProvider<AccountUser>>();
         registry.AddTransient<AccountPasswordResetTokenProvider<AccountUser>>();
         registry.AddTransient<AccountChangeEmailTokenProvider<AccountUser>>();
         registry.AddTransient<AccountRegistrationProcessTokenProvider<AccountUser>>();
-
-        AddAuthentication();
-        AddAuthorization();
 
         registry.AddTransient<IAccountManager, AccountManager>();
         registry.AddTransient<AccountService<TAccount>>();
@@ -309,40 +304,31 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         return this;
     }
 
-    public IServerSetup AddAccessClient()    
-    {       
-
-        AddAuthentication();
-        AddAuthorization();
-
-        return this;
-    }
-
     public IServerSetup AddAuthentication()
     {
         var jwtOptions = new AccountTokenOptions();
         var jwtFactory = new AccountTokenGenerator(30, jwtOptions);
+        registry.Configure<DataProtectionTokenProviderOptions>(o =>
+        o.TokenLifespan = TimeSpan.FromHours(1)
+        );
 
         registry.AddObject(jwtFactory);
 
-        registry
-            .Services.AddAuthentication(x =>
-            {
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(
-                JwtBearerDefaults.AuthenticationScheme,
                 x =>
                 {
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
+                        RoleClaimType = "role",
+                        NameClaimType = "email",                        
+                        ValidateIssuerSigningKey = false,
+                        ValidIssuer = jwtOptions.Issuer,
+                        ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
-                        ValidateIssuer = true,
-                        ValidateAudience = true
+                        ValidateAudience = true,                        
                     };
                 }
             );
@@ -353,7 +339,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
     {
         var ic = configuration.AccessOptions;
 
-        registry.Services.AddAuthorization(options =>
+        services.AddAuthorization(options =>
         {
             options.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
@@ -581,6 +567,9 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         if (includeSwagger)
             AddSwagger();
+
+        AddAuthentication();
+        AddAuthorization();
 
         Services.MergeServices(true);
 
