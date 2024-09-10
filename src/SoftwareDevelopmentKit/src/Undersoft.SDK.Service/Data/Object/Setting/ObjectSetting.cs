@@ -52,7 +52,7 @@ public class ObjectSetting<TSetting, TKind> : DataObject, IJsonDocumentSerializa
 
     public virtual object GetStructure()
     {
-        return _serializer.GetDetail();
+        return _serializer.GetStructure();
     }
 
     public virtual void SetDocument<T>(T structure)
@@ -62,6 +62,6 @@ public class ObjectSetting<TSetting, TKind> : DataObject, IJsonDocumentSerializa
 
     public virtual void SetDocument(object structure)
     {
-        _serializer.SetGeneral(structure);
+        _serializer.SetDocument(structure);
     }
 }

@@ -14,8 +14,7 @@ using Claim = System.Security.Claims.Claim;
 
 namespace Undersoft.SDK.Service.Application.Access;
 
-public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessService<TAccount>
-    where TAccount : class, IAuthorization
+public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessService<TAccount>, IAccessProvider where TAccount : class, IAuthorization
 {
     private readonly IJSRuntime js;
     private IAuthorization _authorization;
@@ -39,6 +38,8 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         _repository = repository;
         _authorization = authorization;
     }
+
+    public IAuthorization Authorization => _authorization;
 
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -85,9 +86,9 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
 
     public async Task<ClaimsPrincipal?> CurrentState()
     {
-        if (_accessState != null)
+        if (_accessState == null)
             return (await GetAuthenticationStateAsync()).User;
-        return null;
+        return _accessState.User;
     }
 
     public AccessState GetAccessState(string token)

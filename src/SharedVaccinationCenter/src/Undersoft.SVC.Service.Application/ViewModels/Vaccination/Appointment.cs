@@ -18,7 +18,7 @@ using Undersoft.SVC.Service.Application.ViewModels.Catalogs;
 namespace Undersoft.SVC.Service.Application.ViewModels.Vaccination
 {
     [Validator("AppointmentValidator")]
-    [ViewSize("380px", "750px")]
+    [ViewSize("380px", "550px")]
     [OpenSearch("Campaign.Name", "Personal.LastName", "Personal.FirstName", "Personal.PhoneNumber")]
     public class Appointment : DataObject, IViewModel
     {

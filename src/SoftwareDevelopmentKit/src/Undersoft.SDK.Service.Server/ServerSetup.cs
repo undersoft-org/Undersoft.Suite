@@ -309,6 +309,15 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         return this;
     }
 
+    public IServerSetup AddAccessClient()    
+    {       
+
+        AddAuthentication();
+        AddAuthorization();
+
+        return this;
+    }
+
     public IServerSetup AddAuthentication()
     {
         var jwtOptions = new AccountTokenOptions();
@@ -321,9 +330,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             {
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(
                 JwtBearerDefaults.AuthenticationScheme,
@@ -335,8 +341,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateIssuer = true,
+                        ValidateAudience = true
                     };
                 }
             );
@@ -441,6 +447,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         foreach (IConfigurationSection source in sources)
         {
             string connectionString = config.SourceConnectionString(source);
+            if (_tenant != null)
+                connectionString = connectionString.Replace("-db;", $"-{_tenant.Id.ToString()}-db;");
             SourceProvider provider = config.SourceProvider(source);
             int poolsize = config.SourcePoolSize(source);
             Type contextType = storeTypes.Where(t => t.FullName == source.Key).FirstOrDefault();

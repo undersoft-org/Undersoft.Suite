@@ -12,7 +12,7 @@
         <CascadingValue Value="@OnMenuItemChange">
             <CascadingValue Value="@NavigationManager">
 
-                <FluentMenu @bind-Open="@IsOpen"  HorizontalPosition="@Position" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
+                <FluentMenu UseMenuService="false" @bind-Open="@IsOpen"  HorizontalPosition="@Position" VerticalPosition="@VerticalPosition" Style="@Style" Anchor="@AnchorId" Trigger="@Trigger" Anchored="@Anchored" @ref="@Reference">
                     <CascadingValue Value="@ShowIcons">
                         <CascadingValue Value="@IsOpen">
                             @foreach (var rubric in Data.ExtendedRubrics)

@@ -9,14 +9,14 @@
 
 <FluentDialogBody>
     <GenericFormSet TValidator="TValidator" TModel="TModel" Content="@Content">
-        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" HorizontalGap="5" VerticalGap="5">
+        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" HorizontalGap="5" VerticalGap="5" Style="height:100%;">
             @if (Content.RubricsEnabled && _rubrics.Any())
             {
                 <GenericFormItem Data="@Content" HorizontalAlignment="HorizontalAlignment.Center" Orientation="Orientation.Horizontal" />
             }
             @if (Content.ExtendedRubricsEnabled && _extendedRubrics.Any())
             {
-                <FluentTabs @bind-ActiveTabId="@ActiveId" Orientation="@TabOrientation">
+                <FluentTabs @bind-ActiveTabId="@ActiveId" Orientation="@TabOrientation" Style="height:100%;">
                     @foreach (var _rubric in _extendedRubrics)
                     {
                         @if (ContainsTabData(_rubric))

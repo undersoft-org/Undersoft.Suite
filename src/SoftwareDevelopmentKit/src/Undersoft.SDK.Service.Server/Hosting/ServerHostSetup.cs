@@ -145,14 +145,16 @@ public class ServerHostSetup : IServerHostSetup
 
     public IServerHostSetup UseServiceServer(string[] apiVersions = null)
     {
+        UseMultitenancy();
+
         UseHeaderForwarding();
 
         if (_environment.IsDevelopment())
             _builder.UseDeveloperExceptionPage();
 
-        _builder
-            .UseODataBatching()
+        _builder        
             .UseODataQueryRequest()
+            .UseODataBatching()
             .UseDefaultFiles()
             .UseStaticFiles()
             .UseRouting()
@@ -161,7 +163,8 @@ public class ServerHostSetup : IServerHostSetup
         if (apiVersions != null)
             UseSwaggerSetup(apiVersions);
 
-        _builder.UseAuthentication().UseAuthorization();
+        _builder.UseAuthentication()
+            .UseAuthorization();       
 
         UseEndpoints();
 

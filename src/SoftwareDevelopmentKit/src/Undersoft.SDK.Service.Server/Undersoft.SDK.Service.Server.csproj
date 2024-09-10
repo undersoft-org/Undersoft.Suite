@@ -16,6 +16,7 @@
     <AssemblyVersion>2.6.2.1</AssemblyVersion>
     <FileVersion>2.6.2.1</FileVersion>
     <RepositoryType>git</RepositoryType>
+    <UserSecretsId>cecb4cc3-3d50-4aed-bd78-db9a08c22841</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -259,7 +259,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 );
                 var code = Math.Abs(token.UniqueKey32());
                 TokenRegistry.Add(code, token);
-                _ = _servicer.Serve<IEmailSender>(
+                await _servicer.Serve<IEmailSender>(
                     e =>
                         e.SendEmailAsync(
                             _creds.Email,
@@ -611,7 +611,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             if (_account != null)
             {
                 _account.User = _accountuser;
-                _account.PatchTo(account);
+                _account.PutTo(account);
                 _accountuser.PatchTo(account.Credentials);
                 _account.Personal.PatchTo(account.Credentials);
             }

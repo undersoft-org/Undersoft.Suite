@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: undersoft-ssc-service-server
+spec:
+  selector:
+    matchLabels:
+      name: undersoft-ssc-service-server
+  template:
+    metadata:
+      labels:
+        name: undersoft-ssc-service-server
+    spec:
+      containers:
+      - name: undersoft-ssc-service-server
+        image: de.icr.io/undersoft/undersoftsscserviceserver:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: undersoft-ssc-service-server
+spec:
+  selector:
+    name: undersoft-ssc-service-server
+  ports:
+  - port: 443
+    targetPort: 25025
+    name: public-https
+  - port: 80
+    targetPort: 26026
+    name: public-http
+  - port: 25025
+    targetPort: 25025
+    name: private-https
+  - port: 26026
+    targetPort: 26026
+    name: private-http

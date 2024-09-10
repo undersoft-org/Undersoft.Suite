@@ -97,7 +97,7 @@
                 if (BufferSize % _elementSize != 0)
                     throw new ArgumentOutOfRangeException(
                         "name",
-                        "BufferSize is not evenly divisible by the size of " + _type.Name
+                        "Size is not evenly divisible by the size of " + _type.Name
                     );
 
                 Length = (int)(BufferSize / _elementSize);

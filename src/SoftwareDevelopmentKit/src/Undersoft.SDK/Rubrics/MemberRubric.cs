@@ -226,7 +226,7 @@
             set { if (VirtualInfo != null) VirtualInfo.RubricAttributes = value; }
         }
 
-        public int RubricId { get => OriginId; set => OriginId = value; }
+        public int RubricId { get => (int)OriginId; set => OriginId = value; }
 
         public int RubricOrdinal { get; set; }
 
@@ -278,6 +278,8 @@
 
         public string CodeNo { get => code.CodeNo; set => code.CodeNo = value; }
 
+        public long OriginId { get => code.OriginId; set => code.OriginId = value; }
+
         public DateTime Created { get; set; }
 
         public string Creator { get; set; }
@@ -289,8 +291,6 @@
         public DateTime Modified { get; set; }
 
         public string Modifier { get; set; }
-
-        public int OriginId { get => (int)code.OriginId; set => code.OriginId = (uint)value; }
 
         public int Index { get => (int)code.OriginId; set => code.OriginId = (uint)value; }
 

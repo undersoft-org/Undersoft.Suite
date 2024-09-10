@@ -13,24 +13,22 @@
         {
             <a href="" style="height:30px">
                 <FluentIcon Value="@Logo" Color="Color.Accent" Width="150px" />
-            </a>            
+            </a>
         }
         <FluentSpacer />
 
         <div class="top-bar-tools" style="height:30px">
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" HorizontalGap="12">
-                <div id="genericdatasearch" class="generic-data-search" style="height:20px" role="button">                   
-                        <div>
-                            <FluentIcon Value="@(new Icons.Regular.Size20.Search())" Width="20" Color="Color.FillInverse" OnClick="OnSearchClick" />
-                        </div>                   
+                <div id="genericdatasearch" class="generic-data-search" style="height:20px" role="button">
+                    <div>
+                        <FluentIcon Value="@(new Icons.Regular.Size20.Search())" Width="20" Color="Color.FillInverse" OnClick="OnSearchClick" />
+                    </div>
                 </div>
-                <div class="github" style="height:20px">
-                    <FluentAnchor Appearance="Appearance.Hypertext" Href="https://github.com/undersoft-org/Undersoft.Suite" Target="_blank" Rel="noreferrer noopener" title="Undersoft source on GitHub" aria-label="SSC Repository">
-                        <div>
-                            <FluentIcon Value="@(new ViewGraphic.Logo.GitHub())" Width="18" Color="Color.FillInverse" />
-                        </div>
-                    </FluentAnchor>
-                </div>
+                <a class="gihub" style="height:20px;" href="https://github.com/undersoft-org/Undersoft.Suite" Target="_blank" Rel="noreferrer noopener" title="Undersoft source on GitHub" aria-label="SSC Repository">
+                    <div>
+                        <FluentIcon Value="@(new ViewGraphic.Logo.GitHub())" Width="18" Color="Color.FillInverse" />
+                    </div>
+                </a>
                 <div class="notification" style="height:20px">
                     <GenericNotificationPanelButton />
                 </div>

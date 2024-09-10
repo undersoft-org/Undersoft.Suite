@@ -47,6 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SVC.Service.Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Tests", "..\SoftwareDevelopmentKit\tests\Undersoft.SDK.Tests\Undersoft.SDK.Tests.csproj", "{89454AE2-068A-4AAA-BA72-5F56D7244E13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0C373D0-818C-4C9E-BA38-07E4B85D445E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

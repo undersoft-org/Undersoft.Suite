@@ -22,7 +22,7 @@ namespace Undersoft.SDK.Service.Server
         public abstract void Build();
 
         protected virtual string GetRoutes()
-        {
+        {        
             if (StoreType == typeof(IEventStore))
             {
                 return StoreRoutes.EventStoreRoute + RoutePrefix;

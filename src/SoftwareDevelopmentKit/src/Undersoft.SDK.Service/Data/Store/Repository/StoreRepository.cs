@@ -176,7 +176,7 @@ public partial class StoreRepository<TEntity> : Repository<TEntity>, IStoreRepos
 
     public override TEntity Patch(TEntity entity)
     {
-        return StoreContext.Update(entity);
+        return StoreContext.Update(Stamp(entity));
     }
 
     public override TEntity Delete(TEntity entity)

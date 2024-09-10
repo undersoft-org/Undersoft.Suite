@@ -32,7 +32,7 @@ public class JsonDocumentSerializer : IJsonDocumentSerializable, IJsonDocumentSe
                 {
                     if (_structure == null)
                     {
-                        GetDetail();
+                        GetStructure();
                     }
                     else
                     {
@@ -168,7 +168,7 @@ public class JsonDocumentSerializer : IJsonDocumentSerializable, IJsonDocumentSe
         return default(T);
     }
 
-    public virtual object GetDetail()
+    public virtual object GetStructure()
     {
         if (Document != null)
             return _structure ??= FromDocument(Document);
@@ -195,7 +195,7 @@ public class JsonDocumentSerializer : IJsonDocumentSerializable, IJsonDocumentSe
         Document = ToDocument<T>(structure);
     }
 
-    public virtual void SetGeneral(object structure)
+    public virtual void SetDocument(object structure)
     {
         _structure = structure;
         Document = ToDocument(structure);

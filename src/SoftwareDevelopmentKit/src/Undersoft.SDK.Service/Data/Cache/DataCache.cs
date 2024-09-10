@@ -6,6 +6,7 @@ using Rubrics;
 using Undersoft.SDK;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Utilities;
 
 public class DataCache : TypedCache<IIdentifiable>, IDataCache
 {
@@ -33,18 +34,28 @@ public class DataCache : TypedCache<IIdentifiable>, IDataCache
 
             cache.Add(group, deck);
 
-            ((ITypedSeries<IIdentifiable>)deck).Put(item, group);
+            var itemCopy = typeof(T).New<T>();
+            item.PutTo(itemCopy);
 
-            cache.Add(item, group);
+            ((ITypedSeries<IIdentifiable>)deck).Put(itemCopy, group);
+
+            cache.Add(itemCopy, group);
 
             return item;
         }
 
-        if (!cache.ContainsKey(item, group))
+        if (!cache.TryGet(item, out var seriesItem))
         {
-            ((ITypedSeries<IIdentifiable>)deck).Put(item, group);
+            var itemCopy = typeof(T).New<T>();
+            item.PutTo(itemCopy);
 
-            cache.Add(item, group);
+            ((ITypedSeries<IIdentifiable>)deck).Put(itemCopy, group);
+
+            cache.Add(itemCopy, group);
+        }
+        else
+        {
+            item.PatchTo(seriesItem.Value);
         }
 
         return item;

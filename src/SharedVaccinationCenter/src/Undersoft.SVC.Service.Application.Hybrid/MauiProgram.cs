@@ -38,10 +38,10 @@ using Undersoft.SVC.Service.Contracts.Vaccination;
 public static class MauiProgram
 {
     /// <summary>
-    /// There is not any async MAUI entry point type to run application. That's why client started
-    /// in the same time with servers will throw exception ones or twice to logs
-    /// http client cannot connect and get metadata before servers starts and provide them
-    /// Creates maui app.
+    /// There is not any async MAUI entry point type to run application. That's
+    /// why client started in the same time with servers will throw exception
+    /// ones or twice to logs http client cannot connect and get metadata before
+    /// servers starts and provide them Creates maui app.
     /// </summary>
     /// <returns>A <see cref="MauiApp"/></returns>
     public static MauiApp CreateMauiApp()
@@ -159,6 +159,9 @@ public static class MauiProgram
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IAccess, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
+                    )
+                    .AddScoped<IAccessProvider, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IAccessService<Account>, AccessProvider<Account>>(sp =>

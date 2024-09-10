@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Undersoft.SDK.Instant.Attributes;
 using Undersoft.SDK.Logging;
+using Undersoft.SDK.Rubrics.Attributes;
 using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK
@@ -17,6 +18,21 @@ namespace Undersoft.SDK
         }
 
         public Origin(bool autoId) : base(autoId) { }
+
+        [IdentityRubric(Order = 2)]
+        [DataMember(Order = 3)]
+        [Column(Order = 3)]
+        public virtual long OriginId
+        {
+            get
+            {
+                return GetOriginId();
+            }
+            set
+            {
+                SetOriginId(value);
+            }
+        }
 
         [Column(TypeName = "timestamp", Order = 6)]
         [DataMember(Order = 6)]

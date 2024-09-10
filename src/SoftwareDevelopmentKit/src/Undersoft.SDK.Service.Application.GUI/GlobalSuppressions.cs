@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "Undersoft.SDK.Service.Application.GUI.View.Generic.Data")]
+[assembly: SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "Undersoft.SDK.Service.Application.GUI")]

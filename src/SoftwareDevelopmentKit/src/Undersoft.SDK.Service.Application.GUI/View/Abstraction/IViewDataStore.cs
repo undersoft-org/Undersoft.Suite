@@ -1,5 +1,6 @@
 ﻿using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Data.Query;
 
@@ -26,6 +27,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
     public interface IViewDataStore : IViewData
     {
+        IAuthorization? Authorization { get; set; }
+
         IViewStore? ViewStore { get; }
 
         ISeries<IViewData>? Items { get; set; }

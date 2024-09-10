@@ -54,7 +54,7 @@ public class ObjectDetail<TDetail, TKind> : DataObject, IJsonDocumentSerializabl
 
     public virtual object GetStructure()
     {
-        return _serializer.GetDetail();
+        return _serializer.GetStructure();
     }
 
     public virtual void SetDocument<T>(T structure)
@@ -64,6 +64,6 @@ public class ObjectDetail<TDetail, TKind> : DataObject, IJsonDocumentSerializabl
 
     public virtual void SetDocument(object structure)
     {
-        _serializer.SetGeneral(structure);
+        _serializer.SetDocument(structure);
     }
 }

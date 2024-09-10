@@ -14,6 +14,8 @@ public interface IRemoteRepository<TEntity> : IRepository<TEntity> where TEntity
     string FullName { get; }
     string Name { get; }
 
+    void SetAuthorization(string securityString);
+
     Task<IEnumerable<TEntity>> FindMany(params object[] keys);
     IQueryable<TEntity> FindQuery(params object[] keys);
     DataServiceQuerySingle<TEntity> FindQuerySingle(params object[] keys);

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>cc55021e-9d8d-4419-b19e-b4c4bf0fcc34</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
+    <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+    <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*-*" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.*-*" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.*-* " />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.19.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.0-Preview.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SoftwareDevelopmentKit\src\Undersoft.SDK.Service.Application.Server\Undersoft.SDK.Service.Application.Server.csproj" />
+    <ProjectReference Include="..\Undersoft.SBC.Service.Application.Client\Undersoft.SBC.Service.Application.Client.csproj" />
+    <ProjectReference Include="..\Undersoft.SBC.Service.Infrastructure\Undersoft.SBC.Service.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\localhost.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\pem.crt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\pem.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

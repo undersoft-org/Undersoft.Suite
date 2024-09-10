@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Access.MultiTenancy;
 
 namespace Undersoft.SDK.Service.Server.Hosting.Middlewares;
@@ -17,6 +18,7 @@ public class MultiTenancyMiddleware
 
     public async Task Invoke(HttpContext context)
     {
+        var auth = _servicer.GetService<IAuthorization>();
         if (
             context.User.Identity.IsAuthenticated
             && long.TryParse(
@@ -28,7 +30,9 @@ public class MultiTenancyMiddleware
             var tenant = _servicer.GetKeyedObject<ITenant>(tenantId);
             if (tenant == null)
             {
-
+                tenant = new Tenant() { Id = tenantId };
+                var setup = new ServerSetup(tenant);
+                setup.ConfigureTenant(_servicer);
             }
             if (tenant != null)
             {

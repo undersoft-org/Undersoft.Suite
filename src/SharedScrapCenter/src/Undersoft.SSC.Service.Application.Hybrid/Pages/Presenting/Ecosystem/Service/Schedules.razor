@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SDK.Proxies
+
+@attribute [Authorize]
+
+@page "/presenting/ecosystem/service/schedules"
+
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.ServiceSchedule" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Row" Title="Service schedules" />

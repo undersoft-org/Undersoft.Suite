@@ -10,11 +10,11 @@
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 @typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
 
-<div class="generics generic-form-set forms">
+<div class="generics generic-form-set forms" style="height:100%;">
     <CascadingValue Value="@FormContext">
         <CascadingValue Value="@Content">
             <CascadingValue Value="@Data">
-                <EditForm EditContext="@FormContext" FormName="generic_form" @ref="@Reference">
+                <EditForm EditContext="@FormContext" FormName="generic_form" @ref="@Reference" style="height:100%">
                     <GenericValidator TValidator="TValidator" TModel="TModel" />
                     @ChildContent
                 </EditForm>

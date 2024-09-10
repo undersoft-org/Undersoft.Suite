@@ -2,6 +2,8 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Application.Access;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Utilities;
 
@@ -21,7 +23,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         [Parameter]
         public virtual Action<ViewDataStore<TStore, TDto, TModel>> Setup { get; set; } = default!;
 
-
         public virtual ISeries<TModel>? Models => Contents.Models;
 
         [Parameter]
@@ -37,6 +38,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             DataStore = typeof(ViewDataStore<,,>)
                 .MakeGenericType(typeof(TStore), contractType, typeof(TModel))
                 .New<IViewDataStore>(this, Setup);
+            await SetAuthorization();
             await DataStore.LoadAsync();
             ProgressVisible = false;
         }
@@ -47,6 +49,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             {
                 ProgressVisible = true;
                 DataStore = new ViewDataStore<TStore, T, TModel>(this);
+                await SetAuthorization();
                 await DataStore.LoadAsync();
                 ProgressVisible = true;
             }
@@ -58,6 +61,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             {
                 ProgressVisible = true;
                 DataStore = new ViewDataStore<TStore, TDto, TModel>(this, Setup);
+                await SetAuthorization();
                 await DataStore.LoadAsync();
                 ProgressVisible = false;
             }
@@ -80,6 +84,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         [Parameter]
         public virtual IDialogService? DialogService { get; set; }
 
+        [Parameter]
+        public virtual IAccessProvider? Access { get; set; }
+
         public virtual IEnumerable<IViewData>? Items => DataStore.Items;
 
         [Parameter]
@@ -87,6 +94,15 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             get => (IViewDataStore)base.Data;
             set => base.Data = value;
+        }
+
+        public async Task SetAuthorization()
+        {
+            if (Access != null)
+            {
+                await Access.CurrentState();
+                DataStore.Authorization = Access.Authorization;
+            }
         }
 
         public bool ProgressVisible { get; set; }

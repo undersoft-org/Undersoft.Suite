@@ -6,6 +6,7 @@ namespace Undersoft.SDK.Tests.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mocks;
 using System;
+using System.Collections;
 using Undersoft.SDK.Extracting;
 using Undersoft.SDK.Instant;
 using Undersoft.SDK.Instant.Series;

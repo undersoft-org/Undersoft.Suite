@@ -42,7 +42,8 @@ public class RemoteRepository<TStore, TEntity>
         IAuthorization authorization
     ) : base(pool.ContextPool)
     {
-        RemoteContext.SetAuthorization(authorization.Credentials.SessionToken);
+        if(authorization.Credentials.SessionToken != null)
+            SetAuthorization(authorization.Credentials.SessionToken);
         this.cache = cache;
     }
 
@@ -97,6 +98,12 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         Provider = provider;
         Expression = expression;
     }
+
+    public void SetAuthorization(string securityString)
+    {
+        RemoteContext.SetAuthorization(securityString);
+    }
+
 
     public override TEntity this[params object[] keys]
     {

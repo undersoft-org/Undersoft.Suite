@@ -21,7 +21,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
             if (_dialog != null)
             {
                 item.Title = $"{item.ModelType.Name} details";
-                item.Height = "auto";
 
                 await _dialog.ShowPreview(item);
             }
@@ -37,7 +36,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
                     .MakeGenericType(modelType)
                     .New<IViewData>(modelType.New(), item);
                 data.Title = $"Add {modelType.Name.ToLower()}";
-                data.Height = "auto";
+                data.Height = item.Height;
+                data.Width = item.Width;
                 data.EntryMode = item.EntryMode;
 
                 await _dialog.ShowEdit(data);
@@ -66,8 +66,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Dialog
                     .MakeGenericType(modelType)
                     .New<IViewData>(tempModel, item);
                 item.Model.PutTo(tempData.Model);
+                tempData.Model.Id = item.Model.Id;               
                 tempData.Title = $"Edit {modelType.Name.ToLower()}";
-                tempData.Height = "auto";
+                tempData.Height = item.Height;
+                tempData.Width = item.Width;
                 tempData.EntryMode = item.EntryMode;
 
                 await _dialog.ShowEdit(tempData);

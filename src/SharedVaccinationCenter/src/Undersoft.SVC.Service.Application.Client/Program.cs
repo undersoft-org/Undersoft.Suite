@@ -76,6 +76,9 @@ public class Program
                     .AddScoped<IAccess, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
+                    .AddScoped<IAccessProvider, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
+                    )
                     .AddScoped<IAccessService<Account>, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )

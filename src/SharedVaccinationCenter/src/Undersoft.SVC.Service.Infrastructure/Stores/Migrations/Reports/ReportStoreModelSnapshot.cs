@@ -17,7 +17,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -25,7 +25,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelationLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
                 {
                     b.Property<long>("Id")
                         .HasColumnType("bigint")
@@ -35,7 +35,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -69,6 +69,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("RightEntityId")
                         .HasColumnType("bigint");
@@ -113,7 +117,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<string>("Country")
                         .HasColumnType("text");
@@ -150,6 +154,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Postcode")
                         .HasColumnType("text");
@@ -192,7 +200,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -227,6 +235,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long?>("PriceId")
                         .HasColumnType("bigint");
 
@@ -256,7 +268,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -300,6 +312,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(2);
@@ -326,7 +342,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -364,6 +380,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(2);
@@ -396,7 +416,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -434,6 +454,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long?>("ProfessionalId")
                         .HasColumnType("bigint");
 
@@ -463,7 +487,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -500,6 +524,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("SafetyId")
                         .HasColumnType("bigint");
@@ -547,7 +575,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -581,6 +609,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("ProcedureId")
                         .HasColumnType("bigint");
@@ -620,7 +652,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -654,6 +686,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<float?>("Quentity")
                         .HasColumnType("real");
@@ -692,7 +728,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -727,6 +763,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(2);
@@ -759,7 +799,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<long?>("CostId")
                         .HasColumnType("bigint");
@@ -796,6 +836,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("PriceId")
                         .HasColumnType("bigint");
@@ -843,7 +887,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -902,6 +946,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("OrganizationWebsites")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<string>("PositionInOrganization")
                         .HasColumnType("text");
 
@@ -943,7 +991,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -977,6 +1025,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<double?>("Tax")
                         .HasColumnType("double precision");
@@ -1019,7 +1071,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1075,6 +1127,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
@@ -1125,7 +1181,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1159,6 +1215,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("ProcedureId")
                         .HasColumnType("bigint");
@@ -1201,7 +1261,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1232,6 +1292,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Profession")
                         .HasColumnType("text");
@@ -1301,7 +1365,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1339,6 +1403,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<float?>("Temperature")
                         .HasColumnType("real");
 
@@ -1374,7 +1442,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1418,6 +1486,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -1453,7 +1525,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1497,6 +1569,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long>("TypeId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(2);
@@ -1538,7 +1614,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1588,6 +1664,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
+
                     b.Property<long?>("PostSymptomId")
                         .HasColumnType("bigint");
 
@@ -1623,7 +1703,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1660,6 +1740,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
 
                     b.Property<long?>("OfficeId")
                         .HasColumnType("bigint");
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("PersonalId")
                         .HasColumnType("bigint");
@@ -1709,7 +1793,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1740,6 +1824,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("PaymentId")
                         .HasColumnType("bigint");
@@ -1799,7 +1887,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -1830,6 +1918,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("PersonalId")
                         .HasColumnType("bigint");
@@ -1889,7 +1981,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<long?>("CostId")
                         .HasColumnType("bigint");
@@ -1923,6 +2015,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<long?>("PostSymptomId")
                         .HasColumnType("bigint");
@@ -1969,7 +2065,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Reports
                     b.ToTable("Procedures", "domain");
                 });
 
-            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelatedLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
+            modelBuilder.Entity("Undersoft.SDK.Service.Infrastructure.Database.Relation.RelationLink<Undersoft.SVC.Domain.Entities.Catalogs.Campaign, Undersoft.SVC.Domain.Entities.Catalogs.Vaccine>", b =>
                 {
                     b.HasOne("Undersoft.SVC.Domain.Entities.Catalogs.Campaign", "LeftEntity")
                         .WithMany()

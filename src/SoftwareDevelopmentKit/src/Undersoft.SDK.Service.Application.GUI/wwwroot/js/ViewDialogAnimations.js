@@ -102,7 +102,7 @@ export async function dialogClosing(id) {
         { opacity: "0", transform: "" }
     ],
         {
-            duration: 650
+            duration: 350
         }
 
     );

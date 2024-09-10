@@ -43,7 +43,7 @@ public class Setup
                     typeof(AccessClient)
                 }
             )
-            .AddAccessServer<AccountStore, Account>()
+            .AddAccessClient()
             .AddDataServer<IEntityStore>(
                 DataServerTypes.Rest | DataServerTypes.OData,
                 builder =>

@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Undersoft.SDK.Proxies
+
+@attribute [Authorize]
+
+@page "/presenting/ecosystem/application/resources"
+
+
+<GenericDataGrid TStore="IDataStore" TModel="Contracts.Resource" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Row" Title="Application resources" />

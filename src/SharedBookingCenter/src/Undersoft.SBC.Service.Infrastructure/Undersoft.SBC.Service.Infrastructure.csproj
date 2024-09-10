@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.*-*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SoftwareDevelopmentKit\src\Undersoft.SDK.Service.Server\Undersoft.SDK.Service.Server.csproj" />
+    <ProjectReference Include="..\Undersoft.SBC.Service\Undersoft.SBC.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Undersoft.SDK.Service.Data.Entity" />
+    <Using Include="Undersoft.SDK.Service.Data.Object" />
+    <Using Include="Undersoft.SDK.Service.Data.Event" />
+    <Using Include="Undersoft.SDK.Service.Infrastructure.Database" />
+    <Using Include="Undersoft.SDK.Service.Infrastructure.Database.Relation" />
+    <Using Include="Undersoft.SDK.Service.Data.Client" />
+    <Using Include="Undersoft.SDK.Extracting" />
+    <Using Include="Undersoft.SDK.Invoking" />
+    <Using Include="Undersoft.SDK.Series" />
+    <Using Include="Undersoft.SDK.Instant" />
+    <Using Include="Undersoft.SDK.Updating" />
+    <Using Include="Undersoft.SDK.Proxies" />
+    <Using Include="Undersoft.SDK.Logging" />
+    <Using Include="Undersoft.SDK.Uniques" />
+  </ItemGroup>
+
+</Project>

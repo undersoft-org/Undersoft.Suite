@@ -194,6 +194,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             }
         }
 
+        public long OriginId 
+        { 
+            get => code.OriginId; 
+            set => code.OriginId = value; 
+        }
+
         public DateTime Created
         {
             get => origin.Created;

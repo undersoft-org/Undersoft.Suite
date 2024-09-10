@@ -30,6 +30,22 @@ namespace Undersoft.SDK
         [IgnoreDataMember]
         private Uscn code;
 
+        [IdentityRubric(Order = 3)]
+        [StringLength(32)]
+        [ConcurrencyCheck]
+        [DataMember(Order = 0)]
+        [Column(Order = 0)]
+        [InstantAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public virtual string CodeNo
+        {
+            get => code;
+            set
+            {
+                if (value != null)
+                    code.FromTetrahex(value.ToCharArray());
+            }
+        }
+
         [Key]
         [KeyRubric(Order = 0)]
         [DataMember(Order = 1)]
@@ -78,22 +94,6 @@ namespace Undersoft.SDK
         [InstantAs(UnmanagedType.ByValTStr, SizeConst = 768)]
         public virtual string TypeName { get; set; }
 
-        [IdentityRubric(Order = 2)]
-        [StringLength(32)]
-        [ConcurrencyCheck]
-        [DataMember(Order = 4)]
-        [Column(Order = 4)]
-        [InstantAs(UnmanagedType.ByValArray, SizeConst = 32)]
-        public virtual string CodeNo
-        {
-            get => code;
-            set
-            {
-                if (value != null)
-                    code.FromTetrahex(value.ToCharArray());
-            }
-        }
-
         [NotMapped]
         [JsonIgnore]
         [IgnoreDataMember]
@@ -107,6 +107,16 @@ namespace Undersoft.SDK
         [JsonIgnore]
         [IgnoreDataMember]
         private bool IsNew { get; set; }
+
+        public virtual void SetOriginId(long originId)
+        {
+            code.SetOriginId(originId);
+        }
+
+        public virtual long GetOriginId()
+        {
+            return code.OriginId;
+        }
 
         public virtual long AutoId()
         {

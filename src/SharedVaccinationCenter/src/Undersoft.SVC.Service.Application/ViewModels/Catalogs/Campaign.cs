@@ -28,7 +28,6 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Catalogs
         [Sortable]
         [OpenQuery("Name")]
         [DisplayRubric("Name")]
-        [ViewSize("220px")]
         public virtual string? Name { get; set; }
 
         [IgnoreDataMember]
@@ -38,7 +37,6 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Catalogs
         [DisplayRubric("Price")]
         [Filterable]
         [Sortable]
-        [ViewSize("80px")]
         [OpenQuery("Price.Amount")]
         public virtual double? PriceAmount
         {
@@ -52,7 +50,6 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Catalogs
         [RubricSize(128)]
         [Filterable]
         [Sortable]
-        [ViewSize("300px")]
         [OpenQuery("Vaccines.Specification.Name")]
         [DisplayRubric("Vaccines")]
         public virtual string? AssignedVaccines

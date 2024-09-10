@@ -19,29 +19,28 @@ namespace Undersoft.SDK.Service.Data.Client
                 new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
-            MergeOption = MergeOption.OverwriteChanges;
+            MergeOption = MergeOption.AppendOnly;
 
             IgnoreResourceNotFoundException = true;
 
             AutoNullPropagation = true;
             HttpRequestTransportMode = HttpRequestTransportMode.HttpClient;
             DisableInstanceAnnotationMaterialization = true;
-            EnableWritingODataAnnotationWithoutPrefix = true;
-
-            AddAndUpdateResponsePreference = DataServiceResponsePreference.None;
-            SaveChangesDefaultOptions = SaveChangesOptions.BatchWithSingleChangeset;
+            EnableWritingODataAnnotationWithoutPrefix = true;        
+            AddAndUpdateResponsePreference = DataServiceResponsePreference.NoContent;
+            SaveChangesDefaultOptions = SaveChangesOptions.ContinueOnError;
             ResolveName = (t) => this.GetMappedName(t);
-            ResolveType = (n) => this.GetMappedType(n);
-            SendingRequest2 += RequestAuthorization;
+            ResolveType = (n) => this.GetMappedType(n);            
+            BuildingRequest += RequestAuthorization;
             Format.LoadServiceModel = GetServiceModel;
         }
 
         public Registry<RemoteRelation> Remotes { get; set; } = new Registry<RemoteRelation>(true);
 
-        private void RequestAuthorization(object sender, SendingRequest2EventArgs e)
-        {
+        private void RequestAuthorization(object sender, BuildingRequestEventArgs e)
+        {  
             if (_securityString != null)
-                e.RequestMessage.SetHeader("Authorization", _securityString.Encoded);
+                e.Headers.Add("Authorization", $"Bearer {_securityString.Encoded}");
         }
 
         public async Task<IEdmModel> CreateServiceModel()

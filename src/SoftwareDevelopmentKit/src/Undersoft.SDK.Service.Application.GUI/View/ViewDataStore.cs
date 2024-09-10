@@ -1,8 +1,9 @@
+using System.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OData.Client;
-using System.Collections;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Series;
+using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Service.Data.Query;
@@ -24,22 +25,28 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
     protected IViewStore? _store;
 
-    public ViewDataStore() : base()
+    public IAuthorization? Authorization { get; set; }
+
+    public ViewDataStore()
+        : base()
     {
         Pagination = new Pagination();
     }
 
-    public ViewDataStore(TModel model) : base(model)
+    public ViewDataStore(TModel model)
+        : base(model)
     {
         Pagination = new Pagination();
     }
 
-    public ViewDataStore(IList<TModel> models) : this()
+    public ViewDataStore(IList<TModel> models)
+        : this()
     {
         Load(models);
     }
 
-    public ViewDataStore(IViewStore? store) : this()
+    public ViewDataStore(IViewStore? store)
+        : this()
     {
         if (store != null)
         {
@@ -76,7 +83,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         return Query;
     }
 
-    public virtual IRemoteRepository<TStore, T> RemoteSet<T>() where T : class, IOrigin, IInnerProxy
+    public virtual IRemoteRepository<TStore, T> RemoteSet<T>()
+        where T : class, IOrigin, IInnerProxy
     {
         return _session!.ServiceProvider.GetRequiredService<IRemoteRepository<TStore, T>>();
     }
@@ -100,6 +108,15 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                 throw new Exception("Session already opened");
             _session = _servicer.CreateScope();
             _repository = RemoteSet<TDto>();
+            SetAuthorization();
+        }
+    }
+
+    public void SetAuthorization()
+    {
+        if (Authorization != null && _repository != null)
+        {
+            _repository.SetAuthorization(Authorization.Credentials.SessionToken);
         }
     }
 
@@ -176,6 +193,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
         _repository = RemoteStore();
 
+        SetAuthorization();
+
         var predicate = Query!.GetFilter<TDto>();
         var sort = Query.GetSort<TDto>();
         var expands = Query.GetExpanders<TDto>();
@@ -193,7 +212,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     public virtual async Task LoadAsync()
     {
         IEnumerable<IViewData> loadedData;
-        if (_repository != null)
+        if (_session != null)
         {
             bool includeCount = false;
             if (Pagination!.TotalCount < 0 || Pagination.CountChanged)
@@ -257,7 +276,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         Pagination!.DecreaseTotalCount(models.Count);
 
         if (
-            _repository != null
+            _session != null
             && (Pagination.TotalCount + models.Count) > (Pagination.Offset + Pagination.PageSize)
         )
         {
@@ -298,6 +317,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                     Root.Where(d => d.StateFlags.Added)
                         .ForEach(m =>
                         {
+                            m.StateFlags.Added = false;
                             var model = (TModel)m.Model;
                             append.AddBy(model);
                             return model;
@@ -311,6 +331,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                         Root.Where(d => d.StateFlags.Changed)
                             .ForEach(async m =>
                             {
+                                m.StateFlags.Changed = false;
                                 var model = (TModel)m.Model;
                                 await append.PatchBy(model);
                                 return model;
@@ -326,6 +347,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                         Root.Where(d => d.StateFlags.Updated)
                             .ForEach(async m =>
                             {
+                                m.StateFlags.Updated = false;
                                 var model = (TModel)m.Model;
                                 await append.SetBy(model);
                                 return model;
@@ -341,6 +363,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                         Root.Where(d => d.StateFlags.Deleted)
                             .ForEach(async m =>
                             {
+                                m.StateFlags.Deleted = false;
                                 var model = (TModel)m.Model;
                                 await append.DeleteBy(model);
                                 return model;
@@ -357,24 +380,47 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         {
             if (Root.Any(m => m.StateFlags.Added))
                 await LoadAsync(
-                    Root.Where(d => d.StateFlags.Added).Select(m => (TModel)m.Model).Commit()
+                    Root.Where(d => d.StateFlags.Added)
+                        .ForEach(m =>
+                        {
+                            m.StateFlags.Added = false;
+                            return (TModel)m.Model;
+                        })
+                        .Commit()
                 );
 
             if (Root.Any(m => m.StateFlags.Changed))
                 await LoadAsync(
-                    Root.Where(d => d.StateFlags.Changed).Select(m => (TModel)m.Model).Commit(),
+                    Root.Where(d => d.StateFlags.Changed)
+                        .ForEach(m =>
+                        {
+                            m.StateFlags.Changed = false;
+                            return (TModel)m.Model;
+                        })
+                        .Commit(),
                     true
                 );
 
             if (Root.Any(m => m.StateFlags.Updated))
                 await LoadAsync(
-                    Root.Where(d => d.StateFlags.Updated).Select(m => (TModel)m.Model).Commit(),
+                    Root.Where(d => d.StateFlags.Updated)
+                        .ForEach(m =>
+                        {
+                            m.StateFlags.Updated = false;
+                            return (TModel)m.Model;
+                        })
+                        .Commit(),
                     true
                 );
 
             if (Root.Any(m => m.StateFlags.Deleted))
                 await UnloadAsync(
-                    Root.Where(d => d.StateFlags.Deleted).Select(m => (TModel)m.Model).Commit()
+                    Root.Where(d => d.StateFlags.Deleted)
+                        .ForEach(m =>
+                        {
+                            m.StateFlags.Deleted = false;
+                            return (TModel)m.Model;
+                        })
                 );
         }
     }
@@ -430,9 +476,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                     }
                     else
                     {
-                        return typeof(ViewData<>)
-                          .MakeGenericType(type)
-                          .New<IViewData>(value);
+                        return typeof(ViewData<>).MakeGenericType(type).New<IViewData>(value);
                     }
                 })
                 .Commit();
@@ -442,7 +486,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
             this.Add(data);
         }
-        else if (patch && model.Modified != ((TModel)data.Model).Modified)
+        else if (patch)
         {
             model.PatchTo(data.Model);
         }
@@ -547,7 +591,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
         var loadedData = LoadLocal(patch);
 
-        Pagination!.IncreaseTotalCount(models.Count);
+        if(!patch)
+            Pagination!.IncreaseTotalCount(models.Count);
 
         if (LoadCompleted != null)
             LoadCompleted.Invoke(this, loadedData);
@@ -601,16 +646,20 @@ public class ViewDataStore<TStore, TModel> : ViewDataStore<TStore, TModel, TMode
     where TModel : class, IOrigin, IInnerProxy
     where TStore : IDataServiceStore
 {
-    public ViewDataStore() : base()
+    public ViewDataStore()
+        : base()
     {
         MapRubrics(t => t.Rubrics, p => p.Visible);
     }
 
-    public ViewDataStore(TModel model) : base(model) { }
+    public ViewDataStore(TModel model)
+        : base(model) { }
 
-    public ViewDataStore(IList<TModel> models) : base(models) { }
+    public ViewDataStore(IList<TModel> models)
+        : base(models) { }
 
-    public ViewDataStore(IViewStore? store) : base(store) { }
+    public ViewDataStore(IViewStore? store)
+        : base(store) { }
 
     public ViewDataStore(IViewStore store, Action<ViewDataStore<TStore, TModel>>? setup)
         : base(store)

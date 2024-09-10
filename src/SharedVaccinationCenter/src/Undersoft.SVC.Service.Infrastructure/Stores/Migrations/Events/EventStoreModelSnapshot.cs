@@ -17,7 +17,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Events
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -35,7 +35,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Events
                         .IsConcurrencyToken()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(0);
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp")
@@ -78,6 +78,10 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Events
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnOrder(7);
+
+                    b.Property<long>("OriginId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(3);
 
                     b.Property<int>("PublishStatus")
                         .HasColumnType("integer");

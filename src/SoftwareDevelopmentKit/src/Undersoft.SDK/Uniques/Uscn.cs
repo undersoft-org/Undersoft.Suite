@@ -452,7 +452,7 @@
             return TypeId = seed;
         }
 
-        public long SetOriginId(int key)
+        public long SetOriginId(long key)
         {
             return OriginId = key;
         }

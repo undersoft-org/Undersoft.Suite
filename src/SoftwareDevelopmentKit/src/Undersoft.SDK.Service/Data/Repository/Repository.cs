@@ -9,6 +9,7 @@ using Data.Object;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service.Data.Repository.Client;
 using Undersoft.SDK.Service.Data.Repository.Source;
+using Undersoft.SDK.Utilities;
 
 public abstract partial class Repository<TEntity> : Repository, IRepository<TEntity> where TEntity : class, IOrigin, IInnerProxy
 {

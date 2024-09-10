@@ -45,7 +45,7 @@ public class Setup
                     typeof(InventoryClient),
                     typeof(VaccinationClient)
                 }
-            )
+            )        
             .AddDataServer<ICenterStore>(
                 DataServerTypes.All,
                 builder =>
@@ -79,7 +79,7 @@ public class Setup
                                   .AddInvocations<AccountConsent>()
                                   .AddInvocations<AccountTenant>()
                                   .AddInvocations<AccountPayment>()
-            );
+            ).AddAccessClient();
     }
 
     /// <summary>
