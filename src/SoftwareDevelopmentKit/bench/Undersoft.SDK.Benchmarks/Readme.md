@@ -5,8 +5,6 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 .NET SDK=8.0.200
   [Host]     : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT  [AttachedDebugger]
   DefaultJob : .NET 8.0.2 (8.0.224.6711), X64 RyuJIT
-</code></pre>
-<pre><code></code></pre>
 
 <table>
 <thead><tr><th>                                                                                                                                                                       Method (10 mln objects)</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Rank</th><th>Gen 0</th><th>Allocated</th>
@@ -17,6 +15,17 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>Instant_Proxies_DotNet_Math_AsParellel</td><td>2,490.4 ms</td><td>21.73 ms</td><td>18.14 ms</td><td>2</td><td>535000</td><td>1,602 MB</td>
 </tr></tbody></table>
 
+Undersoft.SDK data structures:
+- Chain (ordered, not-thread-safe, not-indexed, queued, keyed, repeatable)
+- Catalog (ordered, thread-safe, not-indexed, queued, keyed, repeatable)
+- Listing (ordered, not-thread-safe, indexed, queued, keyed, repeatable)
+- Registry (ordered, thread-safe, indexed, queued, keyed, repeatable)
+  
+System.Collections.Generic data structures:
+- ConcurrentDictionary (not-ordered, thread-safe, not-indexed, not-queued, keyed, not-repeatable)
+- OrderedDictionary (ordered, not-thread-safe, indexed, not-queued, keyed, not-repeatable)
+- Dictionary (not-ordered, not-thread-safe, not-indexed, not-queued, keyed, not-repeatable)
+  
 <table>
 <thead><tr><th>                         Method (10 concurrent tasks each 100K objects)</th><th> Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
 </tr>
@@ -25,7 +34,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>Catalog_ContainsKey</td><td>60.65 ms</td><td>19.14 ms</td><td>4.971 ms</td><td>58.67 ms</td><td>1</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Catalog_GetByKey</td><td>195.04 ms</td><td>39.81 ms</td><td>10.339 ms</td><td>191.40 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Catalog_GetOrAdd</td><td>1,045.72 ms</td><td>190.98 ms</td><td>49.598 ms</td><td>1,025.00 ms</td><td>4</td><td>10000</td><td>5000</td><td>118 MB</td>
-</tr><tr><td>Catalog_Itertion</td><td>191.60 ms</td><td>398.34 ms</td><td>103.448 ms</td><td>142.97 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
+</tr><tr><td>Catalog_Iteration</td><td>191.60 ms</td><td>398.34 ms</td><td>103.448 ms</td><td>142.97 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Catalog_Remove</td><td>122.05 ms</td><td>22.19 ms</td><td>5.763 ms</td><td>119.63 ms</td><td>2</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Catalog_SetByKey</td><td>215.20 ms</td><td>36.67 ms</td><td>9.523 ms</td><td>210.73 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Catalog_TryGetByKey</td><td>197.87 ms</td><td>50.83 ms</td><td>13.200 ms</td><td>190.54 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
@@ -34,7 +43,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>Registry_ContainsKey</td><td>60.74 ms</td><td>21.25 ms</td><td>5.519 ms</td><td>57.64 ms</td><td>1</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Registry_GetByKey</td><td>210.57 ms</td><td>72.67 ms</td><td>18.873 ms</td><td>208.03 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Registry_GetOrAdd</td><td>997.04 ms</td><td>105.59 ms</td><td>27.421 ms</td><td>991.91 ms</td><td>4</td><td>10000</td><td>5000</td><td>128 MB</td>
-</tr><tr><td>Registry_Itertion</td><td>162.31 ms</td><td>106.05 ms</td><td>27.541 ms</td><td>146.92 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
+</tr><tr><td>Registry_Iteration</td><td>162.31 ms</td><td>106.05 ms</td><td>27.541 ms</td><td>146.92 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Registry_Remove</td><td>123.73 ms</td><td>25.34 ms</td><td>6.580 ms</td><td>124.04 ms</td><td>2</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Registry_SetByKey</td><td>208.29 ms</td><td>60.35 ms</td><td>15.672 ms</td><td>203.98 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>Registry_TryGetByKey</td><td>190.18 ms</td><td>29.59 ms</td><td>7.684 ms</td><td>188.66 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
@@ -43,7 +52,7 @@ Intel Core i7-4700MQ CPU 2.40GHz (Haswell), 1 CPU, 8 logical and 4 physical core
 </tr><tr><td>ConcurrentDictionary_ContainsKey</td><td>203.32 ms</td><td>48.06 ms</td><td>12.482 ms</td><td>201.00 ms</td><td>3</td><td>107000</td><td>-</td><td>351 MB</td>
 </tr><tr><td>ConcurrentDictionary_GetByKey</td><td>214.59 ms</td><td>99.61 ms</td><td>25.868 ms</td><td>220.30 ms</td><td>3</td><td>107000</td><td>-</td><td>351 MB</td>
 </tr><tr><td>ConcurrentDictionary_GetOrAdd</td><td>1,082.26 ms</td><td>174.55 ms</td><td>45.330 ms</td><td>1,075.29 ms</td><td>4</td><td>69000</td><td>22000</td><td>465 MB</td>
-</tr><tr><td>ConcurrentDictionary_Itertion</td><td>242.47 ms</td><td>396.37 ms</td><td>102.937 ms</td><td>181.28 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
+</tr><tr><td>ConcurrentDictionary_Iteration</td><td>242.47 ms</td><td>396.37 ms</td><td>102.937 ms</td><td>181.28 ms</td><td>3</td><td>-</td><td>-</td><td>31 MB</td>
 </tr><tr><td>ConcurrentDictionary_Remove</td><td>160.96 ms</td><td>73.52 ms</td><td>19.093 ms</td><td>152.38 ms</td><td>3</td><td>52000</td><td>1000</td><td>191 MB</td>
 </tr><tr><td>ConcurrentDictionary_SetByKey</td><td>236.14 ms</td><td>98.28 ms</td><td>25.524 ms</td><td>222.56 ms</td><td>3</td><td>107000</td><td>-</td><td>351 MB</td>
 </tr><tr><td>ConcurrentDictionary_TryGetByKey</td><td>200.36 ms</td><td>81.21 ms</td><td>21.089 ms</td><td>200.08 ms</td><td>3</td><td>107000</td><td>-</td><td>351 MB</td>
