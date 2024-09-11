@@ -18,11 +18,6 @@ public class JwtMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         _authorization.Credentials.SessionToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
-        if (_authorization.Credentials.SessionToken != null)
-        {
-            var generator = new AccountTokenGenerator();
-            var result = await generator.Validate(_authorization.Credentials.SessionToken);
-        }
         await _next(context);
     }
 }

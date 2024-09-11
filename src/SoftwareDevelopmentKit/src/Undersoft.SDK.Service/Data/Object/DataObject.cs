@@ -14,9 +14,8 @@ public class DataObject : InnerProxy, IDataObject
     protected override IProxy CreateProxy()
     {
         Type type = this.GetDataType();
-
-        if (TypeId == 0)
-            TypeId = type.UniqueKey32();
+  
+        TypeId = type.UniqueKey32();
 
         if (type.IsAssignableTo(typeof(IProxy)))
             return (IProxy)this;

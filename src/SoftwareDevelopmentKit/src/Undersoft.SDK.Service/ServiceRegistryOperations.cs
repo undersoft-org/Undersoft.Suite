@@ -119,7 +119,7 @@ namespace Undersoft.SDK.Service
 
         public T GetKeyedSingleton<T>(object key) where T : class
         {
-            return (T)Get(key.UniqueKey64(typeof(T).UniqueKey64()))?.ImplementationInstance;
+            return (T)Get(key.UniqueKey64(typeof(T).UniqueKey64()))?.KeyedImplementationInstance;
         }
 
         public object GetSingleton(Type type)

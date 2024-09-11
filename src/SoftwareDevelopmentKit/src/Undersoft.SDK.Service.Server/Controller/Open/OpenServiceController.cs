@@ -5,8 +5,11 @@ namespace Undersoft.SDK.Service.Server.Controller.Open;
 
 using System.Linq;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Undersoft.SDK.Proxies;
 using Undersoft.SDK.Service;
+using Undersoft.SDK.Service.Access.MultiTenancy;
 using Undersoft.SDK.Service.Data.Client.Attributes;
 using Undersoft.SDK.Service.Data.Store;
 using Undersoft.SDK.Service.Operation.Invocation;
@@ -25,7 +28,11 @@ public abstract class OpenServiceController<TStore, TService, TModel>
 
     public OpenServiceController(IServicer servicer)
     {
-        _servicer = servicer;
+        var accessor = servicer.GetService<IHttpContextAccessor>();
+        _servicer =
+            (accessor != null)
+                ? servicer.GetTenantServicer(accessor.HttpContext.User)
+                : servicer;
     }
 
     [HttpPost]
@@ -70,10 +77,7 @@ public abstract class OpenServiceController<TStore, TService, TModel>
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = Invoke(
-            args,
-            (arg) => new Setup<TStore, TService, TModel>(arg.Key, arg.Value)
-        );
+        var result = Invoke(args, (arg) => new Setup<TStore, TService, TModel>(arg.Key, arg.Value));
 
         Task.WaitAll(result);
 
@@ -94,9 +98,10 @@ public abstract class OpenServiceController<TStore, TService, TModel>
                 if (preresult.GetType().IsArray)
                     return new Arguments(
                         a.Key,
-                        ((object[])preresult.Output).ForEach(
-                            o => new Argument(o, a.Key) { IsValid = preresult.IsValid }
-                        )
+                        ((object[])preresult.Output).ForEach(o => new Argument(o, a.Key)
+                        {
+                            IsValid = preresult.IsValid
+                        })
                     );
                 return new Arguments(
                     a.Key,

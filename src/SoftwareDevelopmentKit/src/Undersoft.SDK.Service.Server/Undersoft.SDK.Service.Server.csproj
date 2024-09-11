@@ -171,5 +171,9 @@
     <Using Include="Undersoft.SDK.Serialization" />
     <Using Include="Undersoft.SDK.Extracting" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controller\Api\NewFolder\" />
+  </ItemGroup>
   
 </Project>

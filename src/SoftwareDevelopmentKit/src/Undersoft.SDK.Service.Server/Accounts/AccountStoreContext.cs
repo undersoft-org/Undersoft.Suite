@@ -192,12 +192,18 @@ public partial class AccountStoreContext<TStore>
 
     public new object Attach(object entity)
     {
-        return base.Attach(entity).Entity;
+        var tracked = ChangeTracker.Entries().Where(e => ((IIdentifiable)e.Entity).Id == ((IIdentifiable)entity).Id && e.Entity.GetType().Equals(entity.GetType()));
+        if (!tracked.Any())
+            return base.Attach(entity).Entity;
+        return tracked.FirstOrDefault().Entity;
     }
 
     public new TEntity Attach<TEntity>(TEntity entity) where TEntity : class
     {
-        return base.Attach(entity).Entity;
+        var tracked = ChangeTracker.Entries().Where(e => ((IIdentifiable)e.Entity).Id == ((IIdentifiable)entity).Id && e.Entity.GetType().Equals(typeof(TEntity)));
+        if (!tracked.Any())
+            return base.Attach(entity).Entity;
+        return (TEntity)tracked.FirstOrDefault().Entity;
     }
 
     public object AttachProperty(object entity, string propertyName, Type type = null)

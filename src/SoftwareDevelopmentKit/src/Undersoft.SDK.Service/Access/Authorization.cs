@@ -1,10 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using Undersoft.SDK.Service.Data.Object;
 using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SDK.Service.Access
 {
     [DataContract]
+    [StructLayout(LayoutKind.Sequential)]
     public class Authorization : DataObject, IAuthorization
     {
         [DataMember(Order = 16)]

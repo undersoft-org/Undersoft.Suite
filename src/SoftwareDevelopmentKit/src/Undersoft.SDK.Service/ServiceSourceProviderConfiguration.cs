@@ -20,6 +20,14 @@ namespace Undersoft.SDK.Service
         {
             if (!DataStoreRegistry.SourceProviders.ContainsKey((int)provider))
             {
+                RegisterSourceProvider(provider);
+                DataStoreRegistry.SourceProviders.Add((int)provider, provider);
+            }
+            return _registry;
+        }
+
+        public virtual IServiceRegistry RegisterSourceProvider(SourceProvider provider)
+        {
                 switch (provider)
                 {
                     case SourceProvider.MemoryDb:
@@ -32,8 +40,6 @@ namespace Undersoft.SDK.Service
                         break;
                 }
                 //_registry.AddEntityFrameworkProxies();
-                DataStoreRegistry.SourceProviders.Add((int)provider, provider);
-            }
             return _registry;
         }
 

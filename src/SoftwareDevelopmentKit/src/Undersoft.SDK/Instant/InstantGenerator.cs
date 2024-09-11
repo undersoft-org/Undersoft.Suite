@@ -38,9 +38,9 @@
         )
         {
             Name =
-                (createdTypeName != null && createdTypeName != "")
+                string.IsNullOrEmpty(createdTypeName)
                     ? createdTypeName
-                    : DateTime.Now.ToBinary().ToString();
+                    : "Runtime" + DateTime.Now.ToBinary().ToString();
 
             Name += "Instant";
 
@@ -74,7 +74,7 @@
             if (modeType == InstantType.Derived)
                 IsDerived = true;
 
-            Name = createdTypeName == null ? baseOnType.Name : createdTypeName;
+            Name = string.IsNullOrEmpty(createdTypeName) ? baseOnType.FullName : createdTypeName;
             Name += "Instant";
             mode = modeType;
 

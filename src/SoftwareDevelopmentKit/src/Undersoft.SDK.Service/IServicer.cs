@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.Security.Claims;
 using Undersoft.SDK.Service.Data.Repository;
 using Undersoft.SDK.Service.Data.Repository.Client;
 using Undersoft.SDK.Service.Data.Repository.Source;
@@ -7,6 +8,7 @@ namespace Undersoft.SDK.Service
 {
     public interface IServicer : IServiceManager, IRepositoryManager, IDisposable
     {
+        IServicer GetTenantServicer(ClaimsPrincipal tenantUser);
         IAsyncEnumerable<object> CreateStream(object request, CancellationToken cancellationToken = default);
         IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default);
         Lazy<R> LazyServe<T, R>(Func<T, R> function)

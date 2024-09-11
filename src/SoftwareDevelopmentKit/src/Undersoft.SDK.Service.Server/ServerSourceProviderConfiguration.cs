@@ -14,6 +14,14 @@ namespace Undersoft.SDK.Service.Server
         {
             if (!DataStoreRegistry.SourceProviders.ContainsKey((int)provider))
             {
+                RegisterSourceProvider(provider);
+                DataStoreRegistry.SourceProviders.Add((int)provider, provider);
+            }
+            return _registry;
+        }
+
+        public virtual IServiceRegistry RegisterSourceProvider(SourceProvider provider)
+        {
                 switch (provider)
                 {
                     case SourceProvider.SqlServer:
@@ -47,8 +55,7 @@ namespace Undersoft.SDK.Service.Server
                         break;
                 }
                 _registry.AddEntityFrameworkProxies();
-                DataStoreRegistry.SourceProviders.Add((int)provider, provider);
-            }
+
             return _registry;
         }
 

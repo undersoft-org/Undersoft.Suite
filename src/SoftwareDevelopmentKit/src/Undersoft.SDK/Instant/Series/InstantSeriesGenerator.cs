@@ -36,9 +36,9 @@
             this.threadSafe = threadSafe;
             this.instant = instantGenerator;
             Name =
-                (seriesTypeName != null && seriesTypeName != "")
+                (!string.IsNullOrEmpty(seriesTypeName))
                     ? seriesTypeName
-                    : instant.Name + "_Instant";
+                    : instant.Name + "Series";
         }
 
         public InstantSeriesGenerator(IInstant instantObject, bool threadSafe = true)

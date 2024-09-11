@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 namespace Undersoft.SDK.Service.Server.Controller.Open;
 
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Client.Attributes;
 using Undersoft.SDK.Service.Data.Store;
@@ -23,7 +24,11 @@ public abstract class OpenServiceRemoteController<TStore, TService, TDto>
 
     public OpenServiceRemoteController(IServicer servicer)
     {
-        _servicer = servicer;
+        var accessor = servicer.GetService<IHttpContextAccessor>();
+        _servicer =
+            (accessor != null)
+                ? servicer.GetTenantServicer(accessor.HttpContext.User)
+                : servicer;
     }
 
     [HttpPost]
@@ -81,9 +86,9 @@ public abstract class OpenServiceRemoteController<TStore, TService, TDto>
     }
 
     public virtual Task<Arguments>[] Invoke(
-       IDictionary<string, Arguments> args,
-       Func<KeyValuePair<string, Arguments>, Invocation<TDto>> invocation
-   )
+        IDictionary<string, Arguments> args,
+        Func<KeyValuePair<string, Arguments>, Invocation<TDto>> invocation
+    )
     {
         return args.ForEach(async a =>
             {

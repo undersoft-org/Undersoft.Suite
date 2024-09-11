@@ -4,6 +4,7 @@ namespace Undersoft.SDK.Service;
 
 using Invoking;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Undersoft.SDK.Service.Data.Repository.Client;
 using Undersoft.SDK.Service.Data.Repository.Source;
@@ -18,6 +19,22 @@ public class Servicer : ServiceManager, IServicer, IMediator
     public Servicer(IServiceManager serviceManager) : base(serviceManager) { }
 
     protected IMediator Mediator => mediator ??= Session.ServiceProvider.GetService<IMediator>();
+
+    public IServicer GetTenantServicer(ClaimsPrincipal tenantUser)
+    {
+        if (
+          tenantUser.Identity.IsAuthenticated
+            && long.TryParse(
+                tenantUser.Claims.FirstOrDefault(c => c.Type == "tenant_id")?.Value,
+                out var tenantId
+            )
+        )
+        {
+            return this.GetKeyedObject<IServiceManager>(tenantId).GetService<IServicer>();
+        }
+        else
+            return this;
+    }
 
     public IAsyncEnumerable<TResponse> CreateStream<TResponse>(
         IStreamRequest<TResponse> request,

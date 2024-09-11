@@ -277,13 +277,8 @@ public class AccountManager : Registry<IAccount>, IAccountManager
     {
         if (TryGet(email, out IAccount account))
             return (Account)account;
-        var _account = new Account();               
-        var user = await User.FindByEmailAsync(email);
-        var registeredAccount = await Accounts.Find(user.Id);
-        if (registeredAccount != null)
-            registeredAccount.ShallowPatchTo(_account);
-        _account.User = user;
-        _account.User.IsLockedOut = await User.IsLockedOutAsync(_account.User);
+        var _account = new Account();        
+        _account.User = await User.FindByEmailAsync(email);
         if ((await MapAccount(_account)).User != null)
         {
             Put(_account?.User?.Email, _account);
@@ -297,13 +292,8 @@ public class AccountManager : Registry<IAccount>, IAccountManager
     {
         if (TryGet(id, out IAccount account))
             return (Account)account;
-        var _account = new Account();      
-        var user = await User.FindByIdAsync(id.ToString());
-        var registeredAccount = await Accounts.Find(user.Id);
-        if (registeredAccount != null)
-            registeredAccount.ShallowPatchTo(_account);
-        _account.User = user;
-        _account.User.IsLockedOut = await User.IsLockedOutAsync(_account.User);
+        var _account = new Account();
+        _account.User = await User.FindByIdAsync(id.ToString());
         if ((await MapAccount(_account)).User != null)
         {
             Put(_account?.User?.Email, _account);
@@ -319,14 +309,14 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         {
             account.Credentials.PatchFrom(account.User);
             account.User.IsLockedOut = await User.IsLockedOutAsync(account.User);
-            account.Roles = new ObjectSet<Role>(
+            account.Roles = new Listing<Role>(
                 (await User.GetRolesAsync(account.User))
                     .Select(async r => await Role.FindByNameAsync(r))
                     .Select(t => t.Result)
                     .ToList()
                     .Select(async r => new Role(r.Name)
                     {
-                        Claims = new ObjectSet<RoleClaim>((await Role.GetClaimsAsync(r))
+                        Claims = new Listing<RoleClaim>((await Role.GetClaimsAsync(r))
                             .Select(c => new RoleClaim()
                             {
                                 ClaimType = c.Type,
@@ -338,7 +328,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
                     .Select(r => r.Result)
             );
 
-            account.Claims = new ObjectSet<AccountClaim>(
+            account.Claims = new Listing<AccountClaim>(
                 (await User.GetClaimsAsync(account.User)).Select(c => new AccountClaim()
                 {
                     ClaimType = c.Type,

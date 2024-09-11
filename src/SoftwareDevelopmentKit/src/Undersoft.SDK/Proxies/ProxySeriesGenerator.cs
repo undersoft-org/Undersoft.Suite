@@ -34,9 +34,9 @@
             threadSafe = safeThread;
             proxy = proxyGenerator;
             Name =
-                seriesTypeName != null && seriesTypeName != ""
+                string.IsNullOrEmpty(seriesTypeName)
                     ? seriesTypeName
-                    : proxy.Name + "_Proxy";
+                    : proxy.Name + "Series";
         }
 
         public ProxySeriesGenerator(IInstant instant, bool threadSafe = true)

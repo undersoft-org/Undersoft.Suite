@@ -8,17 +8,17 @@ using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SVC.Service.Contracts
 {
+    using System.Runtime.InteropServices;
     using Undersoft.SDK.Service.Access;
     using Undersoft.SDK.Service.Access.Identity;
     using Undersoft.SVC.Service.Contracts.Accounts;
 
     [Validator("AccountValidator")]
     [ViewSize("380px", "650px")]
+    [StructLayout(LayoutKind.Sequential)]
     public class Account : Authorization, IContract
     {
         private string? _name;
-
-        private string? _roleString;
 
         public Account() { }
 
@@ -40,7 +40,7 @@ namespace Undersoft.SVC.Service.Contracts
         public string? Image
         {
             get => Personal?.Image;
-            set => (Personal ??= new AccountPersonal()).Image = value!;
+            set => Personal.Image = value!;
         }
 
         [JsonIgnore]
@@ -61,7 +61,7 @@ namespace Undersoft.SVC.Service.Contracts
         public virtual string? Email
         {
             get => Personal?.Email;
-            set => (Personal ??= new AccountPersonal()).Email = value!;
+            set => Personal.Email = value!;
         }
 
         [IgnoreDataMember]
@@ -72,27 +72,7 @@ namespace Undersoft.SVC.Service.Contracts
         public virtual string? PhoneNumber
         {
             get => Personal?.PhoneNumber;
-            set => (Personal ??= new AccountPersonal()).PhoneNumber = value!;
-        }
-
-        [IgnoreDataMember]
-        [JsonIgnore]
-        [VisibleRubric]
-        [RubricSize(64)]
-        [DisplayRubric("Roles")]
-        public virtual string? RoleString
-        {
-            get
-            {
-                if (_roleString != null)
-                    return _roleString;
-                if (Roles != null && Roles.Any())
-                    return _roleString = Roles
-                        .Select(g => g.Name)
-                        .Aggregate((a, b) => a + ", " + b);
-                return null;
-            }
-            set => _roleString = value;
+            set => Personal.PhoneNumber = value!;
         }
 
         [JsonIgnore]
@@ -100,63 +80,62 @@ namespace Undersoft.SVC.Service.Contracts
         public byte[]? ImageData
         {
             get => Personal?.ImageData;
-            set => (Personal ??= new AccountPersonal()).ImageData = value!;
+            set => Personal.ImageData = value!;
         }
 
         public long? UserId { get; set; }
 
-        public AccountUser? User { get; set; } = default!;
+        public AccountUser? User { get; set; }
 
         [AutoExpand]
-        public Listing<Role>? Roles { get; set; } = default!;
+        public Listing<Role>? Roles { get; set; } 
 
-        [AutoExpand]
-        public Listing<Claim>? Claims { get; set; } = default!;
+        public Listing<Claim>? Claims { get; set; }
 
         public long? PersonalId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountPersonal? Personal { get; set; } = default!;
+        public virtual AccountPersonal Personal { get; set; } = new AccountPersonal();
 
         public long? AddressId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountAddress? Address { get; set; } = default!;
+        public virtual AccountAddress? Address { get; set; } 
 
         public long? ProfessionalId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountProfessional? Professional { get; set; } = default!;
+        public virtual AccountProfessional? Professional { get; set; } 
 
         public long? OrganizationId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountOrganization? Organization { get; set; } = default!;
+        public virtual AccountOrganization? Organization { get; set; }
 
         public long? ConsentId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountConsent? Consent { get; set; } = default!;
+        public virtual AccountConsent? Consent { get; set; } 
 
         public long? SubscriptionId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountSubscription? Subscription { get; set; } = default!;
+        public virtual AccountSubscription? Subscription { get; set; }
 
         public long? PaymentId { get; set; }
 
-        public virtual AccountPayment? Payment { get; set; } = default!;
+        public virtual AccountPayment? Payment { get; set; }
 
         public long? TenantId { get; set; }
 
         [AutoExpand]
         [Extended]
-        public virtual AccountTenant? Tenant { get; set; } = default!;
+        public virtual AccountTenant? Tenant { get; set; }
     }
 }

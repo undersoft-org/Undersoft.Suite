@@ -16,6 +16,36 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "Accounts");
 
             migrationBuilder.CreateTable(
+                name: "AccountUsers",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RegistrationCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsLockedOut = table.Column<bool>(type: "boolean", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Consents",
                 schema: "Accounts",
                 columns: table => new
@@ -263,6 +293,83 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateTable(
+                name: "AccountClaims",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountClaims_AccountUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Accounts",
+                        principalTable: "AccountUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountLogins",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AccountLogins_AccountUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Accounts",
+                        principalTable: "AccountUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountRoles",
+                schema: "Accounts",
+                columns: table => new
+                {
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    RoleId = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    TypeId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_AccountUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Accounts",
+                        principalTable: "AccountUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "Accounts",
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 schema: "Accounts",
                 columns: table => new
@@ -326,23 +433,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountClaims",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountClaims", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AccountConsents",
                 schema: "Accounts",
                 columns: table => new
@@ -379,23 +469,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         principalSchema: "Accounts",
                         principalTable: "Consents",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountLogins",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountLogins", x => new { x.LoginProvider, x.ProviderKey });
                 });
 
             migrationBuilder.CreateTable(
@@ -571,28 +644,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountRoles",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    RoleId = table.Column<long>(type: "bigint", nullable: false),
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AccountRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalSchema: "Accounts",
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Accounts",
                 schema: "Accounts",
                 columns: table => new
@@ -661,6 +712,12 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         column: x => x.ProfessionalId,
                         principalSchema: "Accounts",
                         principalTable: "AccountProffesionals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Accounts_AccountUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "Accounts",
+                        principalTable: "AccountUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Accounts_Credentials_CredentialsId",
@@ -746,43 +803,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         column: x => x.TenantId,
                         principalSchema: "Accounts",
                         principalTable: "Tenants",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AccountUsers",
-                schema: "Accounts",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RegistrationCompleted = table.Column<bool>(type: "boolean", nullable: false),
-                    IsLockedOut = table.Column<bool>(type: "boolean", nullable: false),
-                    TypeId = table.Column<long>(type: "bigint", nullable: false),
-                    AccountId = table.Column<long>(type: "bigint", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AccountUsers_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalSchema: "Accounts",
-                        principalTable: "Accounts",
                         principalColumn: "Id");
                 });
 
@@ -1016,12 +1036,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AccountUsers_AccountId",
-                schema: "Accounts",
-                table: "AccountUsers",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 schema: "Accounts",
                 table: "AccountUsers",
@@ -1057,16 +1071,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AccountClaims_AccountUsers_UserId",
-                schema: "Accounts",
-                table: "AccountClaims",
-                column: "UserId",
-                principalSchema: "Accounts",
-                principalTable: "AccountUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_AccountConsents_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountConsents",
@@ -1074,16 +1078,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 principalSchema: "Accounts",
                 principalTable: "Accounts",
                 principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AccountLogins_AccountUsers_UserId",
-                schema: "Accounts",
-                table: "AccountLogins",
-                column: "UserId",
-                principalSchema: "Accounts",
-                principalTable: "AccountUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AccountOrganizations_Accounts_AccountId",
@@ -1132,16 +1126,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AccountRoles_AccountUsers_UserId",
-                schema: "Accounts",
-                table: "AccountRoles",
-                column: "UserId",
-                principalSchema: "Accounts",
-                principalTable: "AccountUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Accounts_AccountSubscriptions_SubscriptionId",
                 schema: "Accounts",
                 table: "Accounts",
@@ -1157,15 +1141,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 column: "TenantId",
                 principalSchema: "Accounts",
                 principalTable: "AccountTenants",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Accounts_AccountUsers_UserId",
-                schema: "Accounts",
-                table: "Accounts",
-                column: "UserId",
-                principalSchema: "Accounts",
-                principalTable: "AccountUsers",
                 principalColumn: "Id");
         }
 
@@ -1211,11 +1186,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                 name: "FK_AccountTenants_Accounts_AccountId",
                 schema: "Accounts",
                 table: "AccountTenants");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_AccountUsers_Accounts_AccountId",
-                schema: "Accounts",
-                table: "AccountUsers");
 
             migrationBuilder.DropTable(
                 name: "AccountClaims",

@@ -24,7 +24,7 @@ public class ProxyCompiler : ProxyCompilerBase
 
     public override Type CompileProxyType(string typeName)
     {
-        TypeBuilder tb = GetTypeBuilder(typeName + "Proxy");
+        TypeBuilder tb = GetTypeBuilder(typeName);
 
         CreateTargetProperty(tb, typeof(object), "Target");
 

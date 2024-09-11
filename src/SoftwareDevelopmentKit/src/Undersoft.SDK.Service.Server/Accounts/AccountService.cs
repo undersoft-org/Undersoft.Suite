@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Service.Server.Accounts.Email;
@@ -263,12 +264,11 @@ public class AccountService<TAccount> : IAccessService<TAccount>
                 );
                 var code = Math.Abs(token.UniqueKey32());
                 TokenRegistry.Add(code, token);
-                await _servicer.Serve<IEmailSender>(e =>
-                    e.SendEmailAsync(
-                        _creds.Email,
-                        "Verfication code to confirm your email address and proceed with account registration process",
-                        EmailTemplate.GetVerificationCodeMessage(code.ToString())
-                    )
+                var sender = _servicer.GetService<IEmailSender>();
+                await sender.SendEmailAsync(
+                    _creds.Email,
+                    "Verfication code to confirm your email address and proceed with account registration process",
+                    EmailTemplate.GetVerificationCodeMessage(code.ToString())
                 );
 
                 account.Notes = new OperationNotes()
@@ -516,21 +516,23 @@ public class AccountService<TAccount> : IAccessService<TAccount>
         var _accountuser = await _manager.User.FindByEmailAsync(_creds.Email);
 
         if (account.Notes.Status != AccessStatus.RegistrationNotCompleted)
+        {
             _accountuser.RegistrationCompleted = true;
+            var claims = _manager.User.AddClaimsAsync(
+                    _accountuser, new[] {
 
+                        new Claim("tenant_id", _account.Tenant.Id.ToString()),
+                        new Claim("organization_id", _account.Organization.Id.ToString())
+                    }
+                );
+            claims.Wait();
+
+        }
         if ((await _manager.User.UpdateAsync(_accountuser)).Succeeded)
         {
             if (account.Notes.Status != AccessStatus.RegistrationNotCompleted)
-            {
+            {                
                 _creds.RegistrationCompleted = true;
-                await _manager.User.AddClaimsAsync(
-                    _accountuser,
-                    [
-                        new Claim("client_id", _account.OrganizationId.ToString()),
-                        new Claim("organization_id", _account.OrganizationId.ToString()),
-                        new Claim("tenant_id", _account.TenantId.ToString())
-                    ]
-                );
             }
             _creds.Authenticated = true;
             _account.Notes = new OperationNotes()
@@ -545,11 +547,9 @@ public class AccountService<TAccount> : IAccessService<TAccount>
             this.Failure<Accesslog>(_account.Notes.Errors, account);
         }
 
-        _account.User = null;
-
         _account = await _manager.Accounts.Put(_account, null);
 
-        await _manager.Accounts.Save(true);
+        var count = await _manager.Accounts.Save(true);
 
         _account.PatchTo(account);
         _accountuser.PatchTo(account.Credentials);
@@ -608,20 +608,11 @@ public class AccountService<TAccount> : IAccessService<TAccount>
         var _accountuser = await _manager.User.FindByEmailAsync(_creds.Email);
         if (_accountuser != null)
         {
-            _account = await _manager.Accounts.Find(
-                new object[] { _accountuser.Id },
-                new Expression<Func<Account, object>>[]
-                {
-                    e => e.Address,
-                    e => e.Personal,
-                    e => e.Professional,
-                    e => e.Organization
-                }
-            );
+            _account = _manager.Accounts.Query.Where(a => a.Id == _accountuser.Id).FirstOrDefault();
             if (_account != null)
             {
                 _account.User = _accountuser;
-                _account.PutTo(account);
+                _account.PutTo(account);               
                 _accountuser.PatchTo(account.Credentials);
                 _account.Personal.PatchTo(account.Credentials);
             }

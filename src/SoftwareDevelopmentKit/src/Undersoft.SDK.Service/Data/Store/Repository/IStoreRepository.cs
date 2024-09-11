@@ -13,5 +13,6 @@ namespace Undersoft.SDK.Service.Data.Store.Repository
         Task<IDbContextTransaction> BeginTransactionAsync();
         void CommitTransaction(IDbContextTransaction transaction);
         Task CommitTransaction(Task<IDbContextTransaction> transaction);
+        void ClearTracker();
     }
 }

@@ -1,13 +1,5 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 
-// ********************************************************
-//   Copyright (c) Undersoft. All Rights Reserved.
-//   Licensed under the MIT License.
-//   author: Dariusz Hanc
-//   email: dh@undersoft.pl
-//   library: Undersoft.SVC.Service.Application.GUI
-// ********************************************************
-
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Access;
@@ -124,7 +116,8 @@ public partial class ConfirmEmailBase : ComponentBase
     /// Handle the dialog.
     /// </summary>
     /// <param name="content">The content.</param>
-    /// <returns>A <see cref="Task"/> of type <see cref="IAuthorization"/></returns>
+    /// <returns>A <see cref="Task"/> of type <see cref="IAuthorization"/>
+    ///     </returns>
     private async Task<IAuthorization?> HandleDialog(IViewData<Credentials>? content)
     {
         if (content == null)

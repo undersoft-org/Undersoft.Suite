@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Access.MultiTenancy;
 
@@ -9,9 +11,13 @@ public class MultiTenancyMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IAuthorization _authorization;
-    private readonly IServicer _servicer;
+    private IServicer _servicer;
 
-    public MultiTenancyMiddleware(RequestDelegate next, IServicer servicer, IAuthorization authorization)
+    public MultiTenancyMiddleware(
+        RequestDelegate next,
+        IServicer servicer,
+        IAuthorization authorization
+    )
     {
         _next = next;
         _servicer = servicer;
@@ -20,11 +26,10 @@ public class MultiTenancyMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        
         if (
             context.User.Identity.IsAuthenticated
             && long.TryParse(
-                context.User.Claims.FirstOrDefault(c => c.ValueType == "tenant_id")?.Value,
+                context.User.Claims.FirstOrDefault(c => c.Type == "tenant_id")?.Value,
                 out var tenantId
             )
         )
@@ -35,20 +40,44 @@ public class MultiTenancyMiddleware
                 tenant = new Tenant() { Id = tenantId };
                 var setup = new ServerSetup(tenant);
                 setup.ConfigureTenant(_servicer);
-            }
-            if (tenant != null)
-            {
-                KeyValuePair<Type, object>? requestServiceProvider = context.Features.FirstOrDefault(kvp =>
-                    kvp.Key == typeof(IServiceProvidersFeature)
-                );
-                if (requestServiceProvider != null)
-                {
-                    var services = (
-                        (IServiceProvidersFeature)requestServiceProvider.Value.Value
-                    ).RequestServices;
-                }
+                _servicer = _servicer.GetManager().GetService<IServicer>();
+                DataMigrations(_servicer.GetKeyedObject<IServiceManager>(tenantId));
             }
         }
         await _next(context);
+    }
+
+    private void ReplaceRequestProvider(HttpContext context, long tenantId)
+    {
+        KeyValuePair<Type, object>? requestServiceProvider = context.Features.FirstOrDefault(kvp =>
+            kvp.Key == typeof(IServiceProvidersFeature)
+        );
+        if (requestServiceProvider != null)
+        {
+            ((IServiceProvidersFeature)requestServiceProvider.Value.Value).RequestServices =
+                _servicer.GetKeyedObject<IServiceManager>(tenantId).CreateScope().ServiceProvider;
+        }
+    }
+
+    private void DataMigrations(IServiceManager manager)
+    {
+        using (IServiceScope scope = manager.CreateScope())
+        {
+            try
+            {
+                scope
+                    .ServiceProvider.GetRequiredService<IServicer>()
+                    .GetSources()
+                    .ForEach(e => e.Context.Database.Migrate());
+            }
+            catch (Exception ex)
+            {
+                this.Error<Applog>(
+                    "DataServer migration initial create - unable to connect the database engine",
+                    null,
+                    ex
+                );
+            }
+        }
     }
 }

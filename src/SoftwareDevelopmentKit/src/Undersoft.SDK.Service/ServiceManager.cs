@@ -411,7 +411,7 @@ namespace Undersoft.SDK.Service
 
         public T GetKeyedSingleton<T>(object key) where T : class
         {
-            return registry.GetKeyedSingleton<T>(key);
+            return registry.GetKeyedSingleton<ServiceObject<T>>(key)?.Value;
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IAccountRole : IIdentifiable
     {
-        ObjectSet<RoleClaim> Claims { get; set; }
+        Listing<RoleClaim> Claims { get; set; }
     }
 }

@@ -212,6 +212,11 @@ public partial class StoreRepository<TEntity> : Repository<TEntity>, IStoreRepos
         }
     }
 
+    public void ClearTracker()
+    {
+        StoreContext.ChangeTracker.Clear();
+    }
+
     public virtual async Task CommitTransaction(Task<IDbContextTransaction> transaction)
     {
         await (await transaction).CommitAsync(Cancellation);

@@ -136,7 +136,7 @@ public partial class ServiceSetup : IServiceSetup
 
     public IServiceSetup AddValidators(Assembly[] assemblies = null)
     {
-        registry.AddValidatorsFromAssemblies(assemblies ??= AppDomain.CurrentDomain.GetAssemblies());
+        registry.AddValidatorsFromAssemblies(assemblies ??= [ Assembly.GetExecutingAssembly() ]);
 
         return this;
     }
@@ -163,7 +163,7 @@ public partial class ServiceSetup : IServiceSetup
             typeof(RemoteCommandValidationBehaviour<,>)
         );
 
-        registry.AddMediatR(assemblies ??= AppDomain.CurrentDomain.GetAssemblies());
+        registry.AddMediatR(assemblies ??= [ Assembly.GetExecutingAssembly() ]);
 
         return this;
     }

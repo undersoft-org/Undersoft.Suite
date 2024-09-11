@@ -125,11 +125,13 @@ public partial class ServiceRegistry
     {
         if (!ContainsKey(key))
         {
-            this.Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.KeyedSingleton<ServiceObject>(key, accessor));
-            this.Put(key.UniqueKey64(typeof(T).UniqueKey64()), ServiceDescriptor.KeyedSingleton<IServiceObject>(key, accessor));
+            this.Put(ServiceDescriptor.KeyedSingleton<ServiceObject<T>>(key, accessor));
+            this.Put(ServiceDescriptor.KeyedSingleton<IServiceObject<T>>(key, accessor));
         }
+        if (accessor.Value != null)
+            this.AddKeyedSingleton<T>(key, accessor.Value);
 
-        return AddObject<T>(accessor);
+        return accessor;
     }
 
     public object GetObject(Type type)

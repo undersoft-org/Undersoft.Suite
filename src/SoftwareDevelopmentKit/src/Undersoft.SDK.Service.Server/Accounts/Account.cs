@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.InteropServices;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Server.Accounts.Identity;
 using Undersoft.SDK.Service.Server.Accounts.Licensing;
@@ -7,6 +8,7 @@ using Undersoft.SDK.Service.Server.Accounts.Tokens;
 
 namespace Undersoft.SDK.Service.Server.Accounts;
 
+[StructLayout(LayoutKind.Sequential)]
 public class Account : Authorization, IEntity, IAccount
 {
     public Account() { }
@@ -14,7 +16,7 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string email)
     {
         User = new AccountUser(email);
-        Roles = new ObjectSet<Role>();
+        Roles = new Listing<Role>();
         Roles.Add(new Role("guest"));
         UserId = User.Id;
         Id = User.Id;
@@ -23,7 +25,7 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string email, string role)
     {
         User = new AccountUser(email);
-        Roles = new ObjectSet<Role>();
+        Roles = new Listing<Role>();
         Roles.Add(new Role(role));
         UserId = User.Id;
         Id = User.Id;
@@ -32,21 +34,23 @@ public class Account : Authorization, IEntity, IAccount
     public Account(string userName, string email, IEnumerable<string> roles)
     {
         User = new AccountUser(userName, email);
-        Roles = new ObjectSet<Role>();
+        Roles = new Listing<Role>();
         roles.ForEach(r => Roles.Add(new Role(r)));
         UserId = User.Id;
         Id = User.Id;
     }
 
     public long? UserId { get; set; }
-    public virtual AccountUser User { get; set; }
-
-    public virtual ObjectSet<Role> Roles { get; set; }
 
     [NotMapped]
-    public ObjectSet<AccountClaim> Claims { get; set; }
+    public virtual AccountUser User { get; set; }
 
-    public virtual ObjectSet<AccountToken> Tokens { get; set; }
+    public virtual Listing<Role> Roles { get; set; }
+
+    [NotMapped]
+    public Listing<AccountClaim> Claims { get; set; }
+
+    public virtual Listing<AccountToken> Tokens { get; set; }
 
     public long? PersonalId { get; set; }
     public virtual AccountPersonal Personal { get; set; }

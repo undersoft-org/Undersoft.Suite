@@ -77,24 +77,29 @@ namespace Undersoft.SDK.Service
 
         protected override bool InnerAdd(ServiceDescriptor value)
         {
-            var temp = base.InnerAdd(GetKey(value.ServiceType), value);
+            var temp = base.InnerAdd(value.ServiceKey != null ? GetKey(value.ServiceKey, value.ServiceType) : GetKey(value.ServiceType), value);
             return temp;
         }
 
         protected override ISeriesItem<ServiceDescriptor> InnerPut(ServiceDescriptor value)
         {
-            var temp = base.InnerPut(GetKey(value.ServiceType), value);
+            var temp = base.InnerPut(value.ServiceKey != null ? GetKey(value.ServiceKey, value.ServiceType) :  GetKey(value.ServiceType), value);
             return temp;
         }
 
         public override ISeriesItem<ServiceDescriptor> Set(ServiceDescriptor descriptor)
         {
-            return base.Set(GetKey(descriptor.ServiceType), descriptor);
+            return base.Set(descriptor.ServiceKey != null ? GetKey(descriptor.ServiceKey, descriptor.ServiceType) : GetKey(descriptor.ServiceType), descriptor);
         }
 
         public override void Add(ServiceDescriptor item)
         {
             base.Add(item);
+        }
+
+        public long GetKey(object key, Type type)
+        {
+            return key.UniqueKey64(type.UniqueKey64());
         }
 
         public long GetKey(ServiceDescriptor item)

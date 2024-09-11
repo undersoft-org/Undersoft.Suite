@@ -28,9 +28,11 @@ public class ProxyGenerator : IInstantGenerator
 
         BaseType = figureModelType;
 
-        Name = figureTypeName == null
-            ? figureModelType.Name
+        Name = string.IsNullOrEmpty(figureTypeName)
+            ? figureModelType.FullName
             : figureTypeName;
+
+        Name += "Proxy";
 
         rubricBuilder = new MemberBuilderCreator();
         rubricModels = rubricBuilder.Create(figureModelType);

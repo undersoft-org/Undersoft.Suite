@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Undersoft.SDK.Service.Server.Controller.Api;
+
+using Microsoft.AspNetCore.Http;
 using Undersoft.SDK;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Client.Attributes;
@@ -21,7 +23,11 @@ public abstract class ApiServiceRemoteController<TStore, TService, TModel>
 
     protected ApiServiceRemoteController(IServicer servicer)
     {
-        _servicer = servicer;
+        var accessor = servicer.GetService<IHttpContextAccessor>();
+        _servicer =
+            (accessor != null)
+                ? servicer.GetTenantServicer(accessor.HttpContext.User)
+                : servicer;
     }
 
     [HttpPost("Action/{method}")]

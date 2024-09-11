@@ -816,9 +816,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<long?>("AccountId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -873,8 +870,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1877,15 +1872,6 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.AccountUser", b =>
-                {
-                    b.HasOne("Undersoft.SDK.Service.Server.Accounts.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId");
-
-                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Undersoft.SDK.Service.Server.Accounts.Identity.RoleClaim", b =>

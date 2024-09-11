@@ -28,6 +28,13 @@ namespace Undersoft.SDK.Service.Data.Store
             return sourceConfiguration;
         }
 
+        public static ISourceProviderConfiguration RegisterEntityFrameworkSourceProvider(this IServiceRegistry registry, SourceProvider provider)
+        {
+            var sourceConfiguration = registry.GetObject<ISourceProviderConfiguration>();
+            sourceConfiguration.RegisterSourceProvider(provider);
+            return sourceConfiguration;
+        }
+
         public static DbContextOptionsBuilder<TContext> BuildOptions<TContext>(
             SourceProvider provider,
             string connectionString)

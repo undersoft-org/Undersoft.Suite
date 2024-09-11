@@ -22,6 +22,7 @@ using System.Diagnostics.Metrics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Undersoft.SDK.Service.Access;
+using Undersoft.SDK.Service.Hosting;
 using Undersoft.SDK.Service.Access.MultiTenancy;
 using Undersoft.SDK.Service.Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
@@ -97,11 +98,39 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
     public IServiceSetup ConfigureTenant(IServicer mainServicer)
     {
-        mainServicer.AddKeyedObject<ITenant>(_tenant.Id, _tenant);
-        mainServicer.AddKeyedObject<IServiceManager>(_tenant.Id, manager);
+        var mainManager = mainServicer.GetManager();
+        mainManager.AddKeyedObject<ITenant>(_tenant.Id, _tenant);
+        mainManager.AddKeyedObject<IServiceManager>(_tenant.Id, manager);
         manager.AddKeyedObject<ITenant>(_tenant.Id, _tenant);
-        ConfigureServer(false);
+
+        AddSourceProviderConfiguration();
+
+        AddRepositorySources();
+
+        AddDataStoreImplementations();       
+
+        base.ConfigureServices(null);
+
+        AddValidators(null);
+
+        AddMediator(null);
+
+        AddServerSetupCqrsImplementations();
+
+        AddServerSetupInvocationImplementations();
+
+        AddServerSetupRemoteCqrsImplementations();
+
+        AddServerSetupRemoteInvocationImplementations();
+
+        Services.AddOpenDataRemoteImplementations();
+
+        Services.MergeServices(true);
         manager.BuildInternalProvider();
+
+        mainManager.Registry.MergeServices(true);
+        mainManager.BuildInternalProvider();
+
         return this;
     }
 
@@ -450,7 +479,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
             if (providerNotExists.Add(provider.ToString()))
             {
-                registry.AddEntityFrameworkSourceProvider(provider);
+                registry.RegisterEntityFrameworkSourceProvider(provider);
                 registry.MergeServices(true);
             }
 
@@ -543,6 +572,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         AddJsonOptions();
 
         AddSourceProviderConfiguration();
+
+        Services.AddHttpContextAccessor();
 
         if (sourceTypes != null)
             AddRepositorySources(sourceTypes);

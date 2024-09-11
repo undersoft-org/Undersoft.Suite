@@ -17,7 +17,7 @@ public class ApplicationServerHostSetup : ServerHostSetup, IApplicationServerHos
 
     public IApplicationServerHostSetup UseServiceApplication()
     {
-        UseHeaderForwarding();
+        UseHeaderForwarding();       
 
         if (LocalEnvironment.IsDevelopment())
         {
@@ -45,6 +45,8 @@ public class ApplicationServerHostSetup : ServerHostSetup, IApplicationServerHos
 
         UseJwtMiddleware();
         UseMultitenancy();
+
+        _builder.UseApplicationTracking();
 
         UseEndpoints(true);
 
