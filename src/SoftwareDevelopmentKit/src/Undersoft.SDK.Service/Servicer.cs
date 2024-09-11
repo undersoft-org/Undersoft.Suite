@@ -29,7 +29,7 @@ public class Servicer : ServiceManager, IServicer, IMediator
                 out var tenantId
             )
         )
-        {
+        {           
             return this.GetKeyedObject<IServiceManager>(tenantId).GetService<IServicer>();
         }
         else

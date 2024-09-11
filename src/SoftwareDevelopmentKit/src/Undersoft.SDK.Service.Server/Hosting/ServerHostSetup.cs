@@ -163,9 +163,10 @@ public class ServerHostSetup : IServerHostSetup
 
         _builder.UseAuthentication()
             .UseAuthorization();
-
+        
+        UseMultitenancy();        
         UseJwtMiddleware();
-        UseMultitenancy();
+
         UseEndpoints();
 
         return this;

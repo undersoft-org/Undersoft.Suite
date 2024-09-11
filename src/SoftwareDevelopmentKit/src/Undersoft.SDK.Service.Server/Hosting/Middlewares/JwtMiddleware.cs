@@ -7,17 +7,24 @@ namespace Undersoft.SDK.Service.Server.Hosting.Middlewares;
 public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IAuthorization _authorization;
+    private readonly IServicer _servicer;
 
-    public JwtMiddleware(RequestDelegate next, IAuthorization authorization)
+    public JwtMiddleware(RequestDelegate next, IServicer servicer)
     {
         _next = next;
-        _authorization = authorization;
+        _servicer = servicer;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        _authorization.Credentials.SessionToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").LastOrDefault();
+        if (context.Request.Headers.ContainsKey("Authorization"))
+        {
+            var token = context.Request.Headers["Authorization"].FirstOrDefault();
+            var servicer = _servicer.GetTenantServicer(context.User);
+            servicer.
+            var auth = servicer.GetService<IAuthorization>();
+            auth.Credentials.SessionToken = token.Split(" ").LastOrDefault();
+        }
         await _next(context);
     }
 }
