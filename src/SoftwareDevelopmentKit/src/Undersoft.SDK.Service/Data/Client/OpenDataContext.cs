@@ -19,7 +19,7 @@ namespace Undersoft.SDK.Service.Data.Client
                 new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
-            MergeOption = MergeOption.AppendOnly;
+            MergeOption = MergeOption.OverwriteChanges;
 
             IgnoreResourceNotFoundException = true;
 
@@ -27,7 +27,7 @@ namespace Undersoft.SDK.Service.Data.Client
             HttpRequestTransportMode = HttpRequestTransportMode.HttpClient;
             DisableInstanceAnnotationMaterialization = true;
             EnableWritingODataAnnotationWithoutPrefix = true;        
-            AddAndUpdateResponsePreference = DataServiceResponsePreference.NoContent;
+            AddAndUpdateResponsePreference = DataServiceResponsePreference.None;
             SaveChangesDefaultOptions = SaveChangesOptions.ContinueOnError;
             ResolveName = (t) => this.GetMappedName(t);
             ResolveType = (n) => this.GetMappedType(n);            
@@ -82,8 +82,9 @@ namespace Undersoft.SDK.Service.Data.Client
 
             if (securityString != null)
             {
-                var strings = securityString.Split(" ");
-                _securityString = new AccessString(strings.LastOrDefault());
+                var token = securityString.Split(" ").LastOrDefault();
+                _securityString = new AccessString(token);
+                ApiContext.SetAuthorization(token);
             }
         }
 

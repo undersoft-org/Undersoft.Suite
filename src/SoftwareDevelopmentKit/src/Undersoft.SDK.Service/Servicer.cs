@@ -29,8 +29,12 @@ public class Servicer : ServiceManager, IServicer, IMediator
                 out var tenantId
             )
         )
-        {           
-            return this.GetKeyedObject<IServiceManager>(tenantId).GetService<IServicer>();
+        {
+            var manager = this.GetKeyedObject<IServiceManager>(tenantId);
+            if (manager != null)
+                return manager.GetService<IServicer>();
+            else
+                return this;
         }
         else
             return this;

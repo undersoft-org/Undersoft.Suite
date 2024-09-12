@@ -20,9 +20,8 @@ public class JwtMiddleware
         if (context.Request.Headers.ContainsKey("Authorization"))
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault();
-            var servicer = _servicer.GetTenantServicer(context.User);
-            servicer.
-            var auth = servicer.GetService<IAuthorization>();
+            var servicer = _servicer.GetTenantServicer(context.User);        
+            var auth = servicer.GetManager().GetService<IAuthorization>();
             auth.Credentials.SessionToken = token.Split(" ").LastOrDefault();
         }
         await _next(context);

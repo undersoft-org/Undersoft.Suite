@@ -8,8 +8,6 @@ namespace Undersoft.SDK.Service.Data.Client
     {
         private readonly Registry<Arguments> CommandRegistry;
 
-        private IAccessString _securityString;
-
         public ApiDataContext(Uri serviceUri) : base(serviceUri)
         {
             CommandRegistry = new Registry<Arguments>(true);
@@ -139,9 +137,6 @@ namespace Undersoft.SDK.Service.Data.Client
             DataContent content
         )
         {
-            if (_securityString != null)
-                this.SetBearerToken(_securityString.Encoded);
-
             if (Enum.TryParse<CommandType>(command, out CommandType commandEnum))
             {
                 switch (commandEnum)

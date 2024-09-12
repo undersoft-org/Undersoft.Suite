@@ -61,7 +61,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
 
     public virtual IQueryable<TModel> Get(ODataQueryOptions<TModel> options)
     {
-        var query = _servicer.Report(new RemoteGet<TStore, TDto, TModel>()).Result.Result;
+        var query = _servicer.Send(new RemoteGet<TStore, TDto, TModel>()).Result.Result;
         var result = options.ApplyTo(query, _settings);
         return (IQueryable<TModel>)result;
     }
@@ -69,7 +69,7 @@ public abstract class OpenDataRemoteController<TKey, TStore, TDto, TModel, TServ
     public virtual SingleResult<TModel> Get([FromRoute] TKey key, ODataQueryOptions<TModel> options)
     {
         var query = (
-            _servicer.Report(
+            _servicer.Send(
                 new RemoteFind<TStore, TDto, TModel>(
                     new QueryParameters<TDto>() { Filter = _keymatcher(key) }
                 )

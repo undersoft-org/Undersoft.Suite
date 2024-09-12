@@ -30,17 +30,30 @@
 
     public class InvalidJsonException : Exception
     {
-        public InvalidJsonException(string message) : base(message) { }
+        public InvalidJsonException(string message)
+            : base(message) { }
     }
 
     public class JsonParser
     {
         private static readonly char[] _base16 = new[]
         {
-            '0',            '1',            '2',            '3',
-            '4',            '5',            '6',            '7',
-            '8',            '9',            'A',            'B',
-            'C',            'D',            'E',            'F'
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F'
         };
         private static readonly IDictionary<string, IDictionary<Type, PropertyInfo[]>> _cache;
         private static readonly string[][] _unichar = new string[][]
@@ -90,7 +103,6 @@
             object instance
         )
         {
-
             IProxy sleeve = instance.ToProxy();
             int i = 0;
             foreach (PropertyInfo info in map)
@@ -117,7 +129,6 @@
 
                 if (value != null)
                 {
-
                     if (info.PropertyType == typeof(byte[]))
                         if (value.GetType() == typeof(List<object>))
                             value = ((List<object>)value)
@@ -955,7 +966,6 @@
 
     public static class JsonParserProperties
     {
-       
         public static NumberFormatInfo JsonNumberInfo()
         {
             System.Globalization.NumberFormatInfo nfi = new System.Globalization.NumberFormatInfo();

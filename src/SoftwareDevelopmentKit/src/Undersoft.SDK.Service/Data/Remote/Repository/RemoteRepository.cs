@@ -39,9 +39,10 @@ public class RemoteRepository<TStore, TEntity>
     public RemoteRepository(
         IRepositoryContextPool<OpenDataClient<TStore>> pool,
         IEntityCache<TStore, TEntity> cache,
-        IAuthorization authorization
+        IServiceManager manager
     ) : base(pool.ContextPool)
     {
+        var authorization = manager.GetService<IAuthorization>();
         if(authorization.Credentials.SessionToken != null)
             SetAuthorization(authorization.Credentials.SessionToken);
         this.cache = cache;

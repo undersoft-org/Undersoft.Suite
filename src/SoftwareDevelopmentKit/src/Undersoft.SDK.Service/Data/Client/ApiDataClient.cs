@@ -1,5 +1,6 @@
 using IdentityModel.Client;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Undersoft.SDK.Service.Access;
@@ -8,7 +9,6 @@ namespace Undersoft.SDK.Service.Data.Client
 {
     public partial class ApiDataClient : HttpClient
     {
-        IAccessString _securityString;
 
         public ApiDataClient(Uri serviceUri)
         {
@@ -21,18 +21,15 @@ namespace Undersoft.SDK.Service.Data.Client
             Timeout = TimeSpan.FromMinutes(5);
             this.DefaultRequestHeaders.Add("page", "0");
             this.DefaultRequestHeaders.Add("limit", "0");
+            this.DefaultRequestHeaders.Remove(@"Accept");
+            this.DefaultRequestHeaders.Add(@"Accept", @"application/json");
         }
 
-        public void SetAuthorization(string securityString)
+        public void SetAuthorization(string token)
         {
-            _securityString = null;
-
-            if (securityString != null)
-            {
-                var strings = securityString.Split(" ");
-                string prefix = strings.Length > 0 ? strings[0] : null;
-                _securityString = new AccessString(strings.LastOrDefault(), prefix);
-                this.SetBearerToken(_securityString.Encoded);
+            if (token != null)
+            {               
+                this.SetBearerToken(token);
             }
         }
 
