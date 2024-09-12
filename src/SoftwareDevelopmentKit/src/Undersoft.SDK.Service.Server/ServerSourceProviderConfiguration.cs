@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Undersoft.SDK.Service.Server
@@ -80,8 +81,8 @@ namespace Undersoft.SDK.Service.Server
                     AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
                     return builder.UseInternalServiceProvider(
                          _registry.Manager)
-                        .UseNpgsql(connectionString)
-                        .UseLazyLoadingProxies();
+                        .UseNpgsql(connectionString);
+                        //.UseLazyLoadingProxies();
 
                 case SourceProvider.Sqlite:
                     return builder
@@ -116,7 +117,7 @@ namespace Undersoft.SDK.Service.Server
                         .UseLazyLoadingProxies();
 
                 case SourceProvider.MemoryDb:
-                    return builder.UseInternalServiceProvider(new ServiceManager())
+                    return builder.UseInternalServiceProvider(_registry.Manager)
                         .UseInMemoryDatabase(connectionString)
                         .UseLazyLoadingProxies()
                         .ConfigureWarnings(

@@ -6,6 +6,10 @@ namespace Undersoft.SDK.Service.Access
     {
         IAuthorization Authorization { get; }
 
+        DateTime? AccessExpiration { get; }
+
         Task<ClaimsPrincipal> CurrentState();
+
+        Task<ClaimsPrincipal> RefreshState();
     }
 }

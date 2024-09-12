@@ -100,12 +100,6 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         Expression = expression;
     }
 
-    public void SetAuthorization(string securityString)
-    {
-        RemoteContext.SetAuthorization(securityString);
-    }
-
-
     public override TEntity this[params object[] keys]
     {
         get => lookup(keys);
@@ -435,7 +429,7 @@ public partial class RemoteRepository<TEntity> : Repository<TEntity>, IRemoteRep
         }
     }
 
-    public void SetAuthorizationToken(string token)
+    public void SetAuthorization(string token)
     {
         RemoteContext.SetAuthorization(token);
     }

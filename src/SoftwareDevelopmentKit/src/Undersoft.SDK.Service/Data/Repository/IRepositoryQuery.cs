@@ -12,6 +12,7 @@ namespace Undersoft.SDK.Service.Data.Repository
         Task<bool> Exist<TException>(object instance, string message) where TException : Exception;
 
         Task<IQueryable<TDto>> FilterQueryAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
+        Task<IQueryable<TDto>> FilterNoTrackedQueryAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         IQueryable<TDto> FilterQuery<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         IAsyncEnumerable<TDto> FilterStreamAsync<TDto>(int skip, int take, Expression<Func<TEntity, bool>> predicate, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         IAsyncEnumerable<TDto> FilterStreamAsync<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
@@ -41,6 +42,7 @@ namespace Undersoft.SDK.Service.Data.Repository
         IQueryable<TDto> GetQuery<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         Task<IQueryable<TDto>> GetQueryAsync<TDto>(int skip, int take, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
         Task<IQueryable<TDto>> GetQueryAsync<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
+        Task<IQueryable<TDto>> GetNoTrackedQueryAsync<TDto>(int skip, int take, SortExpression<TEntity> sortTerms, params Expression<Func<TEntity, object>>[] expanders) where TDto : class;
 
         Task<bool> NotExist(Expression<Func<TEntity, bool>> predicate);
         Task<bool> NotExist(TEntity entity, Func<TEntity, Expression<Func<TEntity, bool>>> predicate);

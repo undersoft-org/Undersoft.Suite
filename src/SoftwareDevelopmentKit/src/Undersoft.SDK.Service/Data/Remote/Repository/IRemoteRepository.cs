@@ -21,7 +21,6 @@ public interface IRemoteRepository<TEntity> : IRepository<TEntity> where TEntity
     DataServiceQuerySingle<TEntity> FindQuerySingle(params object[] keys);
 
     string KeyString(params object[] keys);
-    void SetAuthorizationToken(string token);
 
     object TracePatching(object source, string propertyName, object target, Type type = null);
     object TraceAdding(object source, string propertyName, object target, Type type = null);

@@ -22,7 +22,7 @@ public class RemoteFilterHandler<TStore, TDto, TModel>
     )
     {
         request.Result = await _repository
-            .FilterQueryAsync<TModel>(
+            .FilterNoTrackedQueryAsync<TModel>(
                 request.Offset,
                 request.Limit,
                 request.Parameters.Filter,

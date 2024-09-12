@@ -113,7 +113,7 @@ public class AccountService<TAccount> : IAccessService<TAccount>
     {
         var account = await SignedUp(identity);
 
-        if (account.Credentials.IsLockedOut)
+        if (!account.Credentials.IsLockedOut)
         {
             var token = await _manager.RenewToken(identity.Credentials.SessionToken);
             if (token != null)

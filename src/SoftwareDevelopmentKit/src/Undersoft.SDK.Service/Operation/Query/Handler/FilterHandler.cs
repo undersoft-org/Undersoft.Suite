@@ -26,7 +26,7 @@ public class FilterHandler<TStore, TEntity, TDto>
     {
         if (typeof(TEntity) != typeof(TDto))
             request.Result = await _repository
-                .FilterQueryAsync<TDto>(
+                .FilterNoTrackedQueryAsync<TDto>(
                     request.Offset,
                     request.Limit,
                     request.Parameters.Filter,

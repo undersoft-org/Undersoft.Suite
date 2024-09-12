@@ -6,6 +6,7 @@ using System.Text.Json;
 using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Updating;
+using Undersoft.SDK.Service.Access;
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Generic;
 
@@ -71,6 +72,9 @@ public partial class GenericLayout : LayoutComponentBase
 
     [Inject]
     public IJSRuntime JS { get; set; } = default!;
+
+    [Inject]
+    public IAccessProvider Access { get; set; } = default!;
 
     [Inject]
     private AppearanceState AppearanceState { get; set; } = default!;
@@ -147,6 +151,17 @@ public partial class GenericLayout : LayoutComponentBase
             && new Uri(_prevUri!).AbsolutePath != new Uri(e.Location).AbsolutePath
         )
         {
+            if (Access.AccessExpiration != null)
+            {
+                if(DateTime.Now.AddMinutes(5) > Access.AccessExpiration)
+                {
+                    if (DateTime.Now.AddSeconds(30) > Access.AccessExpiration)
+                        NavigationManager.NavigateTo("", true);
+                    else
+                        Access.RefreshState();
+                }
+            }
+
             _prevUri = e.Location;
             if (_mobile && _menuChecked == true)
             {

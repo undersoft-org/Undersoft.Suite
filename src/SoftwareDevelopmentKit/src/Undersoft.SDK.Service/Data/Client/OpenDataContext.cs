@@ -19,7 +19,7 @@ namespace Undersoft.SDK.Service.Data.Client
                 new Uri(serviceUri.OriginalString.Replace("open", "api"))
             );
 
-            MergeOption = MergeOption.OverwriteChanges;
+            MergeOption = MergeOption.NoTracking;
 
             IgnoreResourceNotFoundException = true;
 

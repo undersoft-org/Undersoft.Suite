@@ -31,6 +31,7 @@ using Undersoft.SDK.Service.Server.Accounts.Identity;
 using Undersoft.SDK.Service.Server.Accounts.Tokens;
 using Undersoft.SDK.Utilities;
 using Role = Role;
+using IdentityModel;
 
 public partial class ServerSetup : ServiceSetup, IServerSetup
 {
@@ -115,6 +116,11 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         AddMediator(null);
 
+        registry.Configure<DataProtectionTokenProviderOptions>(o =>
+        o.TokenLifespan = TimeSpan.FromHours(1)
+        );
+        registry.AddTransient<IAccountManager, AccountManager>();
+       
         AddServerSetupCqrsImplementations();
 
         AddServerSetupInvocationImplementations();
@@ -351,8 +357,8 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                     x.SaveToken = true;
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
-                        RoleClaimType = "role",
-                        NameClaimType = "email",                        
+                        RoleClaimType = JwtClaimTypes.Role,
+                        NameClaimType = JwtClaimTypes.Email,                        
                         ValidateIssuerSigningKey = false,
                         ValidIssuer = jwtOptions.Issuer,
                         ValidAudience = jwtOptions.Audience,

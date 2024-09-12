@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Undersoft.SDK.Service.Data.Repository;
 
@@ -36,6 +37,23 @@ public partial class Repository<TEntity>
             return MapQueryAsync<TDto>(this[skip, take, this[predicate, sortTerms, expanders]]);
         else
             return Task.FromResult((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]]);
+    }
+
+    public virtual Task<IQueryable<TDto>> FilterNoTrackedQueryAsync<TDto>(
+        int skip,
+        int take,
+        Expression<Func<TEntity, bool>> predicate,
+        SortExpression<TEntity> sortTerms,
+        params Expression<Func<TEntity, object>>[] expanders
+    ) where TDto : class
+    {
+        if (predicate == null)
+            return GetNoTrackedQueryAsync<TDto>(skip, take, sortTerms, expanders);
+
+        if (typeof(TEntity) != typeof(TDto))
+            return MapQueryAsync<TDto>(this[skip, take, this[predicate, sortTerms, expanders]].AsNoTracking());
+        else
+            return Task.FromResult((IQueryable<TDto>)this[skip, take, this[predicate, sortTerms, expanders]].AsNoTracking());
     }
 
     public virtual IQueryable<TDto> FilterQuery<TDto>(
@@ -210,6 +228,18 @@ public partial class Repository<TEntity>
         else
             return Task.FromResult((IQueryable<TDto>)this[skip, take, this[sortTerms, expanders]]);
     }
+
+    public virtual Task<IQueryable<TDto>> GetNoTrackedQueryAsync<TDto>(int skip, int take,
+       SortExpression<TEntity> sortTerms,
+       params Expression<Func<TEntity, object>>[] expanders
+   ) where TDto : class
+    {
+        if (typeof(TEntity) != typeof(TDto))
+            return MapQueryAsync<TDto>(this[skip, take, this[sortTerms, expanders]].AsNoTracking());
+        else
+            return Task.FromResult((IQueryable<TDto>)this[skip, take, this[sortTerms, expanders]].AsNoTracking());
+    }
+
 
     public virtual Task<IQueryable<TDto>> DetalizedGetQueryAsync<TDto>(int skip, int take,
        SortExpression<TEntity> sortTerms,

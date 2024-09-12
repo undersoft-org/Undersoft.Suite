@@ -136,11 +136,11 @@ public class AccountManager : Registry<IAccount>, IAccountManager
             };
             if (roles != null)
                 basicClaims = basicClaims
-                    .Concat(roles?.Select(r => new Claim("role", r)))
+                    .Concat(roles?.Select(r => new Claim(JwtClaimTypes.Role, r)))
                     .ToArray();
             if (scopes != null)
                 basicClaims = basicClaims
-                    .Concat(scopes?.Select(r => new Claim("scope", r)))
+                    .Concat(scopes?.Select(r => new Claim(JwtClaimTypes.Scope, r)))
                     .ToArray();
 
             result = await User.AddClaimsAsync(account.User, basicClaims);

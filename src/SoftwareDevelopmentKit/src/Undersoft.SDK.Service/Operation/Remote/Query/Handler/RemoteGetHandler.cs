@@ -22,7 +22,7 @@ public class RemoteGetHandler<TStore, TDto, TModel>
     )
     {
         request.Result = await _repository
-            .GetQueryAsync<TModel>(
+            .GetNoTrackedQueryAsync<TModel>(
                 request.Offset,
                 request.Limit,
                 request.Parameters.Sort,

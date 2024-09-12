@@ -8,6 +8,7 @@ using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.Extensions;
 using Undersoft.SDK.Service.Data.Remote.Repository;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Service.Operation;
 using Undersoft.SDK.Updating;
 using Undersoft.SDK.Utilities;
 using Claim = System.Security.Claims.Claim;
@@ -24,6 +25,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
     private readonly string EMAILKEY = "EMAILKEY";
     private TAccount? _account;
     private AccessState? _accessState;
+    private DateTime? accessExpiration;
 
     private AuthenticationState Anonymous =>
         new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
@@ -41,6 +43,8 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
 
     public IAuthorization Authorization => _authorization;
 
+    public DateTime? AccessExpiration => accessExpiration;
+
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var token = await js.GetFromLocalStorage(TOKENKEY);
@@ -50,18 +54,18 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         {
             return Anonymous;
         }
-
+               
         var expirationTimeString = await js.GetFromLocalStorage(EXPIRATIONTOKENKEY);
-        DateTime expirationTime;
-
-        if (DateTime.TryParse(expirationTimeString, out expirationTime))
+        if (expirationTimeString != null)
         {
-            if (IsTokenExpired(expirationTime))
+            DateTimeOffset expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationTimeString));
+
+            if (IsTokenExpired(expirationTime.LocalDateTime))
             {
                 await CleanUp();
                 return Anonymous;
             }
-            if (IsTokenExpired(expirationTime.AddMinutes(-5)))
+            if (IsTokenExpired(expirationTime.LocalDateTime.AddMinutes(-5)))
             {
                 var auth = await SignedIn(
                     new Authorization()
@@ -80,6 +84,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
                     return Anonymous;
             }
         }
+
         _authorization.Credentials.Email = email;
         return await GetAccessStateAsync(token);
     }
@@ -91,6 +96,11 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         return _accessState.User;
     }
 
+    public async Task<ClaimsPrincipal?> RefreshState()
+    {
+        return (await GetAuthenticationStateAsync()).User;
+    }
+
     public AccessState GetAccessState(string token)
     {
         _authorization.Credentials.SessionToken = token;
@@ -99,6 +109,8 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         );
         if (_accessState.User.Identity != null)
             _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
+        if (_authorization.Credentials.Authenticated)
+            _repository.Context.SetAuthorization(token);
         return _accessState;
     }
 
@@ -111,6 +123,8 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         );
         if (_accessState.User.Identity != null)
             _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
+        if (_authorization.Credentials.Authenticated)
+            _repository.Context.SetAuthorization(token);
         return _accessState;
     }
 
@@ -128,7 +142,10 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
             });
 
         if (claims.TryGet(JwtClaimTypes.Expiration, out Claim expiration))
+        {
+            accessExpiration = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiration.Value)).LocalDateTime;
             js.SetInLocalStorage(EXPIRATIONTOKENKEY, expiration.Value);
+        }
 
         return claims;
     }
@@ -149,7 +166,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
 
     private bool IsTokenExpired(DateTime expirationTime)
     {
-        return expirationTime <= DateTime.UtcNow;
+        return expirationTime <= DateTime.Now;
     }
 
     public async Task<IAuthorization?> SignIn(IAuthorization auth)
@@ -318,9 +335,8 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         await js.RemoveItem(TOKENKEY);
         await js.RemoveItem(EXPIRATIONTOKENKEY);
         await js.RemoveItem(EMAILKEY);
-        auth.Notes = null;
-        auth.Credentials.SessionToken = null;
-        auth.Credentials = null;
+        auth.Notes = new OperationNotes();
+        auth.Credentials = new Credentials();
         _repository.Context.SetAuthorization(null);
     }
 }
