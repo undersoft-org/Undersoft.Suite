@@ -1,0 +1,57 @@
+﻿@inherits ViewItem<TModel>
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+@typeparam TValidator where TValidator : class, IValidator<IViewData<TModel>>
+
+@implements IDialogContentComponent<IViewData<TModel>>
+@implements IView
+
+<CascadingValue Value="@Content">
+        <!-- Header -->
+        <GenericFormDialogHeader TModel="TModel" />
+
+        <!-- Body -->
+        <GenericFormDialogBody TValidator="TValidator" TModel="TModel" />
+    
+</CascadingValue>
+
+<!-- Footer -->
+<FluentDialogFooter>
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+        <FluentButton OnClick="@SendAgain" Appearance="Appearance.Lightweight">
+            Send again
+        </FluentButton>
+    <FluentSpacer />
+    <FluentButton Appearance="Appearance.Accent"                
+                  OnClick="@SaveAsync">
+        Confirm
+    </FluentButton>
+    </FluentStack>
+</FluentDialogFooter>
+
+@code
+{
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    [Inject]
+    public override IJSRuntime? JSRuntime { get => base.JSRuntime; set => base.JSRuntime = value; }
+
+    protected override void OnInitialized()
+    {
+        Content.View = this;
+    }
+
+    private async Task SaveAsync()
+    {
+        if ((await Content.Validator!.ValidateAsync()).IsValid)
+        {
+            await Dialog.CloseAsync(Content);
+        }
+    }
+
+    private async Task SendAgain(MouseEventArgs e)
+    {
+        await Dialog.CancelAsync();
+    }
+}

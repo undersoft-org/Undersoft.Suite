@@ -20,8 +20,6 @@ namespace Undersoft.SDK.Service.Server.Accounts
 
             builder.HasMany(c => c.Tokens).WithOne(c => c.Account).HasForeignKey(c => c.AccountId);
 
-            builder.HasOne(c => c.User).WithOne().HasForeignKey<Account>(u => u.UserId);
-
             builder.HasOne(c => c.Address).WithOne().HasForeignKey<Account>(c => c.AddressId);
             builder.Navigation(n => n.Address).AutoInclude();
 

@@ -105,7 +105,6 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
                     .ToList()
                 : null;
 
-
         protected override void OnInitialized()
         {
             if (Data != null)
@@ -144,7 +143,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic
         }
 
         [Parameter]
-        public bool AutoFocus { get; set; }
+        public bool AutoFocus { get; set; } = false;
 
         [Parameter]
         public FluentInputAppearance Appearance { get; set; } = FluentInputAppearance.Outline;

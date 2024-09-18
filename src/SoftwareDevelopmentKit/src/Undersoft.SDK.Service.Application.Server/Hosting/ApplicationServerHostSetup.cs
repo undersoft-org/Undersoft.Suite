@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 using Undersoft.SDK.Service.Server.Hosting;
 
 namespace Undersoft.SDK.Service.Application.Server.Hosting;
@@ -19,7 +20,7 @@ public class ApplicationServerHostSetup : ServerHostSetup, IApplicationServerHos
     {
         UseHeaderForwarding();       
 
-        if (LocalEnvironment.IsDevelopment())
+        if (_environment.IsDevelopment())
         {
             _builder.UseDeveloperExceptionPage()
                 .UseWebAssemblyDebugging();

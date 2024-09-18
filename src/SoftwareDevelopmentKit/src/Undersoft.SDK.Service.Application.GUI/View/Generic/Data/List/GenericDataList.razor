@@ -4,11 +4,13 @@
 @using Undersoft.SDK;
 @using Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
-@inherits ViewItem<TModel>
+@inherits GenericDataStore<TStore, TDto, TModel>
 
+@typeparam TStore where TStore : IDataServiceStore
+@typeparam TDto where TDto : class, IOrigin, IInnerProxy
 @typeparam TModel where TModel : class, IOrigin, IInnerProxy
 
-<div id="@(Id.ToString()+"datalist")" class="datalist">
+<div id="@BindingId" class="generic-datalist">
 
    
 
@@ -92,3 +94,529 @@
                              .OrderBy(i => i.LastName);
     }
 } *@ 
+
+
+@* 
+@inject DataSource Data
+
+<FluentListbox Items="@Data.People"
+               OptionValue="@(i => i.PersonId.ToString())"
+               @bind-SelectedOption=@Person>
+    <OptionTemplate>
+        <FluentIcon Icon="Icons.Regular.Size16.Person" Slot="end" OnClick="@(() => DemoLogger.WriteLine($"Icon for {@context.LastName} selected"))" />
+        @context.FirstName (@context.LastName)
+    </OptionTemplate>
+</FluentListbox>
+<p>
+    Selected: @Person?.FirstName (@Person?.LastName)
+</p>
+
+@code {
+    public Person Person { get; set; } = default!;
+} *@
+@* 
+<div style="display: block; height: 320px;">
+    <FluentListbox TOption="Person"
+                   Label="Select persons"
+                   Items="@Data.People"
+                   Id="people-listbox2"
+                   Multiple="true"
+                   OptionValue="@(p => p.PersonId.ToString())"
+                   OptionText="@(p => p.LastName + ", " + p.FirstName)"
+                   @bind-Value="@SelectedValue"
+                   @bind-SelectedOptions="@SelectedOptions" />
+
+</div>
+
+
+@code
+{
+    IEnumerable<Person>? SelectedOptions;
+    string? SelectedValue;
+
+    protected override void OnInitialized()
+    {
+        SelectedOptions = Data.People.Skip(2).Take(2);
+        SelectedValue = SelectedOptions.First().PersonId.ToString();
+    }
+
+} *@
+@* 
+<FluentStack VerticalAlignment="VerticalAlignment.Center" Style="margin-left: 32px;">
+    <FluentRating Max="@_maxValue"
+                  @bind-Value="@_value"
+                  IconFilled="@_iconFilled"
+                  IconOutline="@_iconOutline"
+                  ReadOnly="@_readOnly"
+                  IconColor="@_iconColor"
+                  Disabled="@_disabled" ,
+                  AllowReset="@_allowReset" />
+
+    <FluentLabel>Value: @_value</FluentLabel>
+</FluentStack> *@
+
+@*< FluentCombobox Items="@Data.People"
+                OptionValue="@(i => i.PersonId.ToString())"
+                @bind-Value="@value"
+                @bind-SelectedOption=@Person>
+    <OptionTemplate>
+        <FluentIcon Value="@(new Icons.Regular.Size16.Person())" Slot="end" OnClick="@(() => DemoLogger.WriteLine($"Icon for {@context.LastName} selected"))" />
+        @context.FirstName (@context.LastName)
+    </OptionTemplate>
+</FluentCombobox>
+<p>
+    Selected option: @Person <br />
+    Selected value: @value
+</p>
+
+@code {
+    public Person Person { get; set; } = default!;
+    public string? value;
+} *@
+
+
+@* 
+
+<h4>Both Autocomplete</h4>
+<FluentCombobox Id="combobox-with-both-autocomplete" Autocomplete="ComboboxAutocomplete.Both" @bind-Value="@comboboxValue" TOption="string">
+    <FluentOption>William Hartnell</FluentOption>
+    <FluentOption>Patrick Troughton</FluentOption>
+    <FluentOption>Jon Pertwee</FluentOption>
+    <FluentOption>Tom Baker</FluentOption>
+    <FluentOption>Peter Davidson</FluentOption>
+    <FluentOption>Colin Baker</FluentOption>
+    <FluentOption>Sylvester McCoy</FluentOption>
+    <FluentOption>Paul McGann</FluentOption>
+    <FluentOption>Christopher Eccleston</FluentOption>
+    <FluentOption>David Tenant</FluentOption>
+    <FluentOption>Matt Smith</FluentOption>
+    <FluentOption>Peter Capaldi</FluentOption>
+    <FluentOption>Jodie Whittaker</FluentOption>
+</FluentCombobox> *@
+
+@* 
+
+<FluentGrid Justify="JustifyContent.FlexStart" Spacing="3">
+    <FluentGridItem xs="12" sm="6">
+        <h5>List 1</h5>
+        <FluentSortableList Id="clone1" Group="cloning" Clone="true" OnUpdate="@SortListOne" OnRemove="@ListOneRemove" Items="@items1" Context="item">
+            <ItemTemplate>@item.Name</ItemTemplate>
+        </FluentSortableList>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="6">
+        <h5>List 2</h5>
+        <FluentSortableList Id="clone2" Group="cloning" Clone="true" OnUpdate="@SortListTwo" OnRemove="@ListTwoRemove" Items="@items2" Context="item">
+            <ItemTemplate>@item.Name</ItemTemplate>
+        </FluentSortableList>
+    </FluentGridItem>
+</FluentGrid>
+
+@code {
+    public class Item
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+
+        public bool Disabled { get; set; } = false;
+    }
+
+    public List<Item> items1 = Enumerable.Range(1, 10).Select(i => new Item { Id = i, Name = $"Item {i}" }).ToList();
+
+    public List<Item> items2 = Enumerable.Range(11, 10).Select(i => new Item { Id = i, Name = $"Item {i}" }).ToList();
+
+    private void ListOneRemove(FluentSortableListEventArgs args)
+    {
+        if (args is null)
+        {
+            return;
+        }
+
+        // get the item at the old index in list 1
+        var item = items1[args.OldIndex];
+
+        var clone = item;
+
+        // add it to the new index in list 2
+        items2.Insert(args.NewIndex, clone);
+    }
+
+    private void ListTwoRemove(FluentSortableListEventArgs args)
+    {
+        if (args is null)
+        {
+            return;
+        }
+
+        // get the item at the old index in list 2
+        var item = items2[args.OldIndex];
+
+        // make a copy
+        var clone = item;
+
+        // add it to the new index in list 1
+        items1.Insert(args.NewIndex, clone);
+    }
+
+    private void SortListOne(FluentSortableListEventArgs args)
+    {
+        if (args is null || args.OldIndex == args.NewIndex)
+        {
+            return;
+        }
+
+        var oldIndex = args.OldIndex;
+        var newIndex = args.NewIndex;
+
+        var items = this.items1;
+        var itemToMove = items[oldIndex];
+        items.RemoveAt(oldIndex);
+
+        if (newIndex < items.Count)
+        {
+            items.Insert(newIndex, itemToMove);
+        }
+        else
+        {
+            items.Add(itemToMove);
+        }
+    }
+
+    private void SortListTwo(FluentSortableListEventArgs args)
+    {
+        if (args is null || args.OldIndex == args.NewIndex)
+        {
+            return;
+        }
+
+        var oldIndex = args.OldIndex;
+        var newIndex = args.NewIndex;
+
+        var items = this.items2;
+        var itemToMove = items[oldIndex];
+        items.RemoveAt(oldIndex);
+
+        if (newIndex < items.Count)
+        {
+            items.Insert(newIndex, itemToMove);
+        }
+        else
+        {
+            items.Add(itemToMove);
+        }
+    }
+} *@
+@* 
+
+MultiSplitter
+The MultiSplitter splits the page into multiple sections and allows the user to control the page layout.
+
+You can include as many Panes as you like in a container. By default, panes are resizable, but the Resizable property can be used to block this functionality. The initial Size is in percent or pixels and has a Min and Max value. A Panel can be fully collapsed by setting the Collapsible property to True.
+
+These CSS variables are predefined with these values, but can be overwritten (using Style property)
+
+    .fluent-multi-splitter {
+        /* Resize Icon colors */
+        --fluent-multi-splitter-color: var(--neutral-stroke-strong-rest);
+        --fluent-multi-splitter-color-active: var(--neutral-stroke-strong-hover);
+
+        /* Bar colors */
+        --fluent-multi-splitter-background-color: var(--neutral-stroke-rest);
+        --fluent-multi-splitter-background-color-active: var(--neutral-stroke-hover);
+        --fluent-multi-splitter-hover-opacity: 0.8;
+
+        /* Bar size */
+        --fluent-multi-splitter-bar-size: 8px;
+    }
+    
+Why have we created this new component when FluentSplitter already exists?
+
+We want to generalize this component by making it easier to have several (>2) panels per container. We've also used CSS variables to simplify the customization of colors and sizes.
+
+Examples
+Default
+<FluentMultiSplitter OnResize="@OnResizeHandler" Height="150px" Style="border: 1px dashed var(--accent-fill-rest);">
+    <FluentMultiSplitterPane Size="20%" Min="50px" Max="70%">
+        Left Menu
+    </FluentMultiSplitterPane>
+    <FluentMultiSplitterPane Size="50%">
+        <FluentMultiSplitter OnResize="@OnResizeHandler" OnExpand="@OnCollapseExpand" OnCollapse="@OnCollapseExpand" Orientation="Orientation.Vertical">
+            <FluentMultiSplitterPane Collapsible="true">
+                Main Content
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane Collapsible="true">
+                Console log
+            </FluentMultiSplitterPane>
+        </FluentMultiSplitter>
+    </FluentMultiSplitterPane>
+    <FluentMultiSplitterPane Size="30%">
+        Properties
+    </FluentMultiSplitterPane>
+</FluentMultiSplitter>
+
+@code
+{
+    void OnResizeHandler(FluentMultiSplitterResizeEventArgs e)
+    {
+        DemoLogger.WriteLine($"Pane {e.PaneIndex} Resize (New size {e.NewSize})");
+    }
+
+    void OnCollapseExpand(FluentMultiSplitterEventArgs e)
+    {
+        bool willCollapse = !e.Pane.Collapsed;
+        DemoLogger.WriteLine($"Pane {e.PaneIndex} {(willCollapse ? "collapsed" : "expanded")}");
+    }
+} *@
+@* 
+
+<div style="display: flex; width=100%">
+    <FluentButton id="myPopoverButtonl" Appearance="Appearance.Accent" @onclick="() => _visibleL = !_visibleL">
+        Open Callout 1
+    </FluentButton>
+
+    <FluentSpacer />
+
+    <FluentButton id="myPopoverButtonr" Appearance="Appearance.Accent" @onclick="() => _visibleR = !_visibleR">
+        Open Callout 2
+    </FluentButton>
+
+    <FluentPopover Style="width: 300px;" VerticalThreshold="170" AnchorId="myPopoverButtonl" @bind-Open="_visibleL">
+        <Header>Callout Header</Header>
+        <Body>
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentCheckbox>Item 1</FluentCheckbox>
+                <FluentCheckbox>Item 2</FluentCheckbox>
+                <FluentTextField tabindex="0"></FluentTextField>
+            </FluentStack>
+        </Body>
+        <Footer>Callout Footer</Footer>
+    </FluentPopover>
+
+    <FluentPopover Style="width: 300px;" VerticalThreshold="170" AnchorId="myPopoverButtonr" @bind-Open="_visibleR">
+        <Header>Callout Header</Header>
+        <Body>
+            Callout Body
+        </Body>
+        <Footer>Callout Footer</Footer>
+    </FluentPopover>
+</div>
+
+@code {
+    bool _visibleL, _visibleR;
+} *@@* 
+
+  <FluentAppBar Style="height: 100%; background-color: var(--neutral-layer-2);" PopoverVisibilityChanged="HandlePopover" PopoverShowSearch="@_showSearch">
+
+            <FluentAppBarItem Href="/AppBarDefault"
+                              Match="NavLinkMatch.All"
+                              IconRest="ResourcesIcon()"
+                              IconActive="ResourcesIcon(active: true)"
+                              Text="Resources" />
+            <FluentAppBarItem Href="/AppBar"
+                              IconRest="ConsoleLogsIcon()"
+                              IconActive="ConsoleLogsIcon(active: true)"
+                              Text="Console Logs" />
+
+            <FluentAppBarItem Href="/StructuredLogs"
+                              IconRest="StructuredLogsIcon()"
+                              IconActive="StructuredLogsIcon(active: true)"
+                              Text="Logs"
+                              Tooltip="Structured Logs"
+                              Count="4"/>
+            <FluentAppBarItem Href="/Traces"
+                              IconRest="TracesIcon()"
+                              IconActive="TracesIcon(active: true)"
+                              Text="Traces" />
+            <FluentAppBarItem Href="/Metrics"
+                              IconRest="MetricsIcon()"
+                              IconActive="MetricsIcon(active: true)"
+                              Text="Metrics" />
+            <FluentAppBarItem Href="/AppBarPage"
+                              IconRest="ResourcesIcon()"
+                              IconActive="ResourcesIcon(active: true)"
+                              Text="Resources 2" />
+            <FluentAppBarItem Href="/AppBar"
+                              IconRest="ConsoleLogsIcon()"
+                              IconActive="ConsoleLogsIcon(active: true)"
+                              Text="Console Logs 2" />
+
+            <FluentAppBarItem Href="/StructuredLogs"
+                              IconRest="StructuredLogsIcon()"
+                              IconActive="StructuredLogsIcon(active: true)"
+                              Text="Structured Logs 2" />
+            <FluentAppBarItem Href="/Traces"
+                              IconRest="TracesIcon()"
+                              IconActive="TracesIcon(active: true)"
+                              Text="Traces 2" />
+            <FluentAppBarItem Href="/Metrics"
+                              IconRest="MetricsIcon()"
+                              IconActive="MetricsIcon(active: true)"
+                              Text="Metrics 2" />
+            <FluentAppBarItem Href="/AppBarPage"
+                              IconRest="ResourcesIcon()"
+                              IconActive="ResourcesIcon(active: true)"
+                              Text="Resources 3" />
+            <FluentAppBarItem Href="/AppBar"
+                              IconRest="ConsoleLogsIcon()"
+                              IconActive="ConsoleLogsIcon(active: true)"
+                              Text="Console Logs 3" />
+
+            <FluentAppBarItem Href="/StructuredLogs"
+                              IconRest="StructuredLogsIcon()"
+                              IconActive="StructuredLogsIcon(active: true)"
+                              Text="Structured Logs 3" />
+            <FluentAppBarItem Href="/Traces"
+                              IconRest="TracesIcon()"
+                              IconActive="TracesIcon(active: true)"
+                              Text="Traces 3" />
+            <FluentAppBarItem Href="/Metrics"
+                              IconRest="MetricsIcon()"
+                              IconActive="MetricsIcon(active: true)"
+                              Text="Metrics 3" />
+        </FluentAppBar>
+    </FluentStack>
+</div>
+ *@
+@* 
+ <FluentStack Orientation="Orientation.Vertical" Style="height: 330px;">
+    <FluentAppBar Style="height: 100%;">
+        <FluentAppBarItem Href="/"
+                          Match="NavLinkMatch.All"
+                          IconRest="HomeIcon()"
+                          IconActive="HomeIcon(active: true)"
+                          Text="Home"
+                          OnClick="HandleOnClick" />
+        <FluentAppBarItem Href="/AppBar"
+                          IconRest="AppBarIcon()"
+                          IconActive="AppBarIcon(active: true)"
+                          Text="AppBar"
+                          OnClick="HandleOnClick" />
+        <FluentAppBarItem IconRest="WhatsNewIcon()"
+                          IconActive="WhatsNewIcon(active: true)"
+                          Text="What's New'"
+                          OnClick="ShowSuccessAsync" />
+        <FluentAppBarItem Href="@(null)"
+                          IconRest="IconsIcon()"
+                          IconActive="IconsIcon(active: true)"
+                          Text="Icons"
+                          OnClick="ShowWarningAsync" />
+        <FluentAppBarItem Href="/Dialog"
+                          IconRest="DialogIcon()"
+                          IconActive="DialogIcon(active: true)"
+                          Text="Dialog"
+                          OnClick="HandleOnClick" />
+    </FluentAppBar>
+</FluentStack>
+ *@
+@* 
+ <FluentTreeView Items="@Items" @bind-SelectedItem="@SelectedItem" LazyLoadItems="true">
+    <ItemTemplate>
+        @context.Text
+        <span style="color: var(--accent-fill-rest); margin: 0 4px;">
+            @(context.Items == null ? "" : $"[{context.Items.Count()}]")
+        </span>
+    </ItemTemplate>
+</FluentTreeView>
+
+<div>
+    <b>Total items:</b> @Count
+</div>
+<div>
+    <b>Selected item:</b> @SelectedItem?.Text
+</div>
+
+@code
+{
+    private ITreeViewItem? SelectedItem;
+
+    private Icon IconCollapsed = new Icons.Regular.Size20.Folder();
+    private Icon IconExpanded = new Icons.Regular.Size20.FolderOpen();
+
+    private int Count = -1;
+    private IEnumerable<ITreeViewItem>? Items = new List<ITreeViewItem>();
+
+    protected override void OnInitialized()
+    {
+        Items = CreateTree(maxLevel: 5, maxItemsPerLevel: 12).Items;
+        SelectedItem = Items?.ElementAt(3);
+    }
+
+    // Recursive method to create tree
+    private TreeViewItem CreateTree(int maxLevel, int maxItemsPerLevel, int level = 0)
+    {
+        Count++;
+
+        int nbItems = Random.Shared.Next(maxItemsPerLevel - 3, maxItemsPerLevel);
+
+        var treeItem = new TreeViewItem
+            {
+                Text = $"Item {Count}",
+                Disabled = level >= 2 && Count % 7 == 0,
+                IconCollapsed = IconCollapsed,
+                IconExpanded = IconExpanded,
+                Expanded = level >= 2 && Count % 5 == 0,
+                Items = level == maxLevel
+                              ? null
+                              : new List<TreeViewItem>(Enumerable.Range(1, nbItems)
+                                                                 .Select(i => CreateTree(maxLevel, maxItemsPerLevel, level + 1))),
+            };
+
+        return treeItem;
+    }
+} *@
+
+
+@* 
+<FluentGrid Spacing="@Spacing" OnBreakpointEnter="@OnBreakpointEnterHandler" AdaptiveRendering="true" Justify="@Justification" Style="background-color: var(--neutral-layer-3); padding: 4px; ">
+    <FluentGridItem xs="12">
+        <div class="card">
+            xs="12"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="6" HiddenWhen="GridItemHidden.SmAndDown">
+        <div class="card">
+            xs="12" sm="6" Hidden="SmAndDown"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="12" sm="6">
+        <div class="card">
+            xs="12" sm="6"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="6" sm="3">
+        <div class="card">
+            xs="6" sm="3"
+        </div>
+    </FluentGridItem>
+    <FluentGridItem xs="3">
+        <div class="card">
+            xs="3"
+        </div>
+    </FluentGridItem>
+</FluentGrid>
+
+@code
+{
+    JustifyContent Justification = JustifyContent.FlexStart;
+    int Spacing = 3;
+
+    void OnBreakpointEnterHandler(GridItemSize size)
+    {
+        Console.WriteLine($"Page Size: {size}");
+        DemoLogger.WriteLine($"Page Size: {size}");
+    }
+} *@

@@ -309,14 +309,14 @@ public class AccountManager : Registry<IAccount>, IAccountManager
         {
             account.Credentials.PatchFrom(account.User);
             account.User.IsLockedOut = await User.IsLockedOutAsync(account.User);
-            account.Roles = new Listing<Role>(
+            account.Roles = new ObjectSet<Role>(
                 (await User.GetRolesAsync(account.User))
                     .Select(async r => await Role.FindByNameAsync(r))
                     .Select(t => t.Result)
                     .ToList()
                     .Select(async r => new Role(r.Name)
                     {
-                        Claims = new Listing<RoleClaim>((await Role.GetClaimsAsync(r))
+                        Claims = new ObjectSet<RoleClaim>((await Role.GetClaimsAsync(r))
                             .Select(c => new RoleClaim()
                             {
                                 ClaimType = c.Type,
@@ -328,7 +328,7 @@ public class AccountManager : Registry<IAccount>, IAccountManager
                     .Select(r => r.Result)
             );
 
-            account.Claims = new Listing<AccountClaim>(
+            account.Claims = new ObjectSet<AccountClaim>(
                 (await User.GetClaimsAsync(account.User)).Select(c => new AccountClaim()
                 {
                     ClaimType = c.Type,

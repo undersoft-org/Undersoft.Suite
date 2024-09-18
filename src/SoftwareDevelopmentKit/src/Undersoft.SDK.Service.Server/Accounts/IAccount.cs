@@ -11,9 +11,9 @@ namespace Undersoft.SDK.Service.Server.Accounts
 
         AccountUser User { get; set; }
 
-        Listing<Role> Roles { get; set; }
+        ObjectSet<Role> Roles { get; set; }
 
-        Listing<AccountClaim> Claims { get; set; }
+        ObjectSet<AccountClaim> Claims { get; set; }
 
         IEnumerable<System.Security.Claims.Claim> GetClaims();
 

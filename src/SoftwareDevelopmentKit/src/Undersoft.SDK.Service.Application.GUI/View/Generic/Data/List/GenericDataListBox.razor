@@ -1,0 +1,50 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Proxies
+@using Undersoft.SDK.Rubrics
+@using Undersoft.SDK;
+@using Undersoft.SDK.Service.Application.GUI.View.Abstraction
+
+@inherits GenericDataStore<TStore, TDto, TModel>
+
+@typeparam TStore where TStore : IDataServiceStore
+@typeparam TDto where TDto : class, IOrigin, IInnerProxy
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+@* <div id="@BindingId" class="generic-datalistbox" style="display:block;">
+    <FluentListbox Items="@Data.Model"
+                   OptionValue="@(i => i.Id.ToString())"
+                   @bind-SelectedOption=@Person>
+        <OptionTemplate>
+            <FluentIcon Icon="Icons.Regular.Size16.Person" Slot="end" OnClick="@(() => DemoLogger.WriteLine($"Icon for {@context.LastName} selected"))" />
+            @context.FirstName (@context.LastName)
+        </OptionTemplate>
+    </FluentListbox>  
+</div> *@
+
+
+@* <div style="display: block; height: 320px;">
+    <FluentListbox TOption="Person"
+                   Label="Select persons"
+                   Items="@Data.People"
+                   Id="people-listbox2"
+                   Multiple="true"
+                   OptionValue="@(p => p.PersonId.ToString())"
+                   OptionText="@(p => p.LastName + ", " + p.FirstName)"
+                   @bind-Value="@SelectedValue"
+                   @bind-SelectedOptions="@SelectedOptions" />
+
+</div>
+
+
+@code
+{
+    IEnumerable<Person>? SelectedOptions;
+    string? SelectedValue;
+
+    protected override void OnInitialized()
+    {
+        SelectedOptions = Data.People.Skip(2).Take(2);
+        SelectedValue = SelectedOptions.First().PersonId.ToString();
+    }
+
+}  *@

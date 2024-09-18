@@ -1,9 +1,0 @@
-﻿@using Microsoft.AspNetCore.Authorization
-@using Undersoft.SDK.Proxies
-
-@attribute [Authorize]
-
-@page "/presenting/ecosystem/center/applications"
-
-
-<GenericDataGrid TStore="IDataStore" TModel="Contracts.Application" Expandable="true" Multiselect="true" Editable="true" EditMode="EditMode.Row" Title="Applications" />

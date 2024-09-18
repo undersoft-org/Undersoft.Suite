@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Windows Machine Development": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Windows Machine": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    }
+  }
+}
