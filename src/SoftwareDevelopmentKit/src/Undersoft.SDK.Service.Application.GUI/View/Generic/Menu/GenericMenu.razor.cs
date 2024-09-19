@@ -4,7 +4,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
 {
     public partial class GenericMenu : ViewItem
     {
-        private bool _open = false;
+        private bool _isOpen;
 
         protected override void OnInitialized()
         {
@@ -15,7 +15,18 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
             base.OnInitialized();
         }
 
-        public virtual bool IsOpen { get; set; }        
+        public virtual int Openings { get; set; }
+
+        public virtual bool IsOpen
+        {
+            get => _isOpen;
+            set
+            {
+                _isOpen = value;
+                if (value)
+                    Openings++;
+            }
+        }
 
         [Parameter]
         public NavigationManager? NavigationManager { get; set; }
@@ -44,6 +55,14 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
         private event EventHandler<object> _onMenuItemChange = default!;
 
         [Parameter]
-        public virtual EventHandler<object> OnMenuItemChange { get => _onMenuItemChange; set { if (value != null) _onMenuItemChange += value; } }
+        public virtual EventHandler<object> OnMenuItemChange
+        {
+            get => _onMenuItemChange;
+            set
+            {
+                if (value != null)
+                    _onMenuItemChange += value;
+            }
+        }
     }
 }

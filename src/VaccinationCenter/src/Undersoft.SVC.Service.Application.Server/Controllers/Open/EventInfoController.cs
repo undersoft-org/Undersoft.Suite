@@ -6,6 +6,7 @@
 //   server: Undersoft.SVC.Service.Application.Server
 // ********************************************************
 
+using Microsoft.AspNetCore.Authorization;
 using Undersoft.SDK.Service;
 using Undersoft.SDK.Service.Data.Event;
 using Undersoft.SDK.Service.Data.Store;
@@ -16,10 +17,12 @@ namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 /// <summary>
 /// The event controller.
 /// </summary>
+[Authorize]
 public class EventInfoController : OpenEventController<long, IEventStore, Event, EventInfo>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EventInfoController"/> class.
+    /// Initializes a new instance of the <see cref="EventInfoController"/>
+    /// class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public EventInfoController(IServicer servicer) : base(servicer) { }

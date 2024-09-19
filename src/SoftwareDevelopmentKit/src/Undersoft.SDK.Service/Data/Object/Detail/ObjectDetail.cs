@@ -41,7 +41,7 @@ public class ObjectDetail<TDetail, TKind> : DataObject, IJsonDocumentSerializabl
     public virtual string Name { get; set; }
 
     [DataMember(Order = 15)]
-    public virtual IdentifierSet<TDetail>? Identifiers { get; set; }
+    public virtual IdentifierSet<TDetail> Identifiers { get; set; }
 
     [IdentityRubric]
     [DataMember(Order = 16)]

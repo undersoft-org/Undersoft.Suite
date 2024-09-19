@@ -7,7 +7,6 @@ namespace Undersoft.SDK.Service.Access
     {
         private string _value;
         private string _type;
-        private string _prefix;
 
         public AccessString() { }
 

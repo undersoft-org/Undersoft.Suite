@@ -9,14 +9,12 @@ public class ViewDialogAnimations : IViewDialogAnimations
     private const string JAVASCRIPT_FILE =
         "./_content/Undersoft.SDK.Service.Application.GUI/js/ViewDialogAnimations.js";
 
-    IJSObjectReference? JSModule { get; set; }
-
     private async Task InvokeFunction(string functionName, DialogInstance instance)
     {
-        JSModule ??= await (
+       await (await (
             (IGenericDialog)((IViewData)instance.Content).View!
-        ).JSRuntime!.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE);
-        await JSModule.InvokeVoidAsync(functionName, instance.Id);
+        ).JSRuntime!.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE)
+        ).InvokeVoidAsync(functionName, instance.Id);
     }
 
     public EventCallback<DialogInstance> OpeningFromLeft()

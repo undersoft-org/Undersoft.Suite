@@ -22,8 +22,8 @@ namespace Undersoft.SDK.Service.Operation
             ValidatorTypeName = validatorTypeName;
         }
 
-        public Type? ValidatorType { get; set; }
+        public Type ValidatorType { get; set; }
 
-        public string? ValidatorTypeName { get; set; }
+        public string ValidatorTypeName { get; set; }
     }
 }

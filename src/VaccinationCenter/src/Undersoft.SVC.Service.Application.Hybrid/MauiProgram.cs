@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -75,12 +74,11 @@ public static class MauiProgram
 
         builder.Configuration.AddConfiguration(config);
 
-        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        if (env != null && env.Equals("Development"))
-        {
+        var development = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        if(development != null && development.Equals("Development"))
             builder.Services.AddBlazorWebViewDeveloperTools();
-            builder.Logging.AddDebug();
-        }
+
+        builder.Logging.AddDebug();
 
         builder.Services.AddFluentUIComponents();
 

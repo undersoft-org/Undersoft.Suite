@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace Undersoft.SDK.Service.Server.Controller.Open;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OData.Results;
 using Operation.Remote.Command;
 using Operation.Remote.Query;

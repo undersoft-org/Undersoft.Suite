@@ -10,6 +10,7 @@ using Undersoft.SDK.Service.Data.Store;
 
 namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Api
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Undersoft.SDK.Service.Server.Controller.Api;
     using Undersoft.SVC.Service.Contracts.Catalogs;
@@ -17,6 +18,7 @@ namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Api
     /// <summary>
     /// The contact controller.
     /// </summary>
+    [Authorize]
     [Route($"{StoreRoutes.ApiDataRoute}/Manufacturer")]
     public class ManufacturersController
         : ApiCqrsController<
@@ -29,7 +31,8 @@ namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Api
         >
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// Initializes a new instance of the
+        /// <see cref="PatientNodeController"/> class.
         /// </summary>
         /// <param name="servicer">The servicer.</param>
         public ManufacturersController(IServicer servicer)

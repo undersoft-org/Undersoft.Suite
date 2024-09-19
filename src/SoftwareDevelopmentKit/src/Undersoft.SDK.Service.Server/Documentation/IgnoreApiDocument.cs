@@ -56,7 +56,7 @@ namespace Undersoft.SDK.Service.Server.Documentation
                                 Reference = new OpenApiReference
                                 {
                                     Type = ReferenceType.SecurityScheme,
-                                    Id = "oauth2"
+                                    Id = "Bearer"
                                 }
                             }
                         ] = new string[] {  }

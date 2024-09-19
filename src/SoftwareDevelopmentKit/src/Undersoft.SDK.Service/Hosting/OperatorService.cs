@@ -22,7 +22,7 @@ namespace Undersoft.SDK.Service.Hosting
             return _completedTask;
         }
 
-        private void DoWork(object? state)
+        private void DoWork(object state)
         {
             int count = Interlocked.Increment(ref _executionCount);
 

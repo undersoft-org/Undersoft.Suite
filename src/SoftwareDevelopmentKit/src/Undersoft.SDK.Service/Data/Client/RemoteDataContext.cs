@@ -7,8 +7,6 @@ namespace Undersoft.SDK.Service.Data.Client
     {
         protected ISeries<Arguments> CommandRegistry = new Registry<Arguments>();
 
-        private IAccessString _securityString;
-
         protected ApiDataContext ApiData;
 
         protected OpenDataContext OpenData;

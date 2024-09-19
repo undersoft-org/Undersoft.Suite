@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <FluentDesignTheme CustomColor="@Color" Mode="@(AppearanceState.IsDarkMode ? DesignThemeModes.Dark : DesignThemeModes.Light)" />
-<FluentDesignSystemProvider ControlCornerRadius="@ControlCornerRadius" BaseHeightMultiplier="@BaseHeight"  LayerCornerRadius="@LayerCornerRadius" Density="@Density" BaseHorizontalSpacingMultiplier="@BaseHorizontalSpacingMultiplier" FocusStrokeWidth="@FocusStrokeWidth" TypeRampBaseFontSize="@TypeRampBaseFontSize" TypeRampBaseLineHeight="@TypeRampBaseLineHeight" >
+<FluentDesignSystemProvider ControlCornerRadius="@ControlCornerRadius" BaseHeightMultiplier="@BaseHeight" DisabledOpacity="@DisabledOpacity"  LayerCornerRadius="@LayerCornerRadius" Density="@Density" BaseHorizontalSpacingMultiplier="@BaseHorizontalSpacingMultiplier" FocusStrokeWidth="@FocusStrokeWidth" TypeRampBaseFontSize="@TypeRampBaseFontSize" TypeRampBaseLineHeight="@TypeRampBaseLineHeight" >
     <div @ref="@Reference" class="@ClassValue" style="@StyleValue" @attributes="AdditionalAttributes">
         <FluentMessageBarProvider Section="@ViewSection.TOP" />
         <CascadingValue Value="@AppearanceState">
@@ -11,5 +11,6 @@
         <FluentDialogProvider />
         <FluentTooltipProvider />
         <FluentMenuProvider />
+
     </div>
 </FluentDesignSystemProvider>

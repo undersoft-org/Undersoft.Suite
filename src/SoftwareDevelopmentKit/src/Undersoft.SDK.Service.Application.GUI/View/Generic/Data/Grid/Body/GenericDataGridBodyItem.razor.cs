@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Web;
 using Undersoft.SDK.Service.Application.GUI.Models;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 using Undersoft.SDK.Utilities;
@@ -48,15 +49,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
         }
 
         [CascadingParameter]
-        public int RubricOrdinalSeed { get; set; } = 1;
-
-        public void OnItemClick()
-        {
-            if (Checked)
-                Checked = false;
-            else
-                Checked = true;
-        }
+        public int RubricOrdinalSeed { get; set; } = 1;      
 
         [Parameter]
         public Type? ValidatorType { get; set; }

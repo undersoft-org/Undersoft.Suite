@@ -8,12 +8,12 @@ public class Subscription : DataObject, ISubscription
     [VisibleRubric]
     [RubricSize(32)]
     [DisplayRubric("Name")]
-    public string? SubscriptionName { get; set; }
+    public string SubscriptionName { get; set; }
 
     [VisibleRubric]
     [RubricSize(64)]
     [DisplayRubric("Description")]
-    public string? SubscriptionDescription { get; set; }
+    public string SubscriptionDescription { get; set; }
 
     [VisibleRubric]
     [RubricSize(32)]
@@ -38,14 +38,14 @@ public class Subscription : DataObject, ISubscription
     [VisibleRubric]
     [RubricSize(4)]
     [DisplayRubric("Currency")]
-    public string? SubscriptionCurrency { get; set; }
+    public string SubscriptionCurrency { get; set; }
 
     [VisibleRubric]
     [RubricSize(16)]
     [DisplayRubric("Status")]
-    public string? SubscriptionStatus { get; set; }
+    public string SubscriptionStatus { get; set; }
 
-    public string? SubscriptionToken { get; set; }
+    public string SubscriptionToken { get; set; }
 }
 
 

@@ -67,6 +67,9 @@ public partial class GenericLayout : LayoutComponentBase
     [Parameter]
     public int? LayerCornerRadius { get; set; } = 0;
 
+    [Parameter]
+    public float? DisabledOpacity { get; set; } = 1F;
+
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 

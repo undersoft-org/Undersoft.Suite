@@ -48,7 +48,5 @@ public class CreateSetAsyncHandler<TStore, TEntity, TDto>
         _ = _servicer.Publish(new CreatedSet<TStore, TEntity, TDto>(request), cancellationToken).ConfigureAwait(false);
 
         return response;
-
-        return null;
     }
 }

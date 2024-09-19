@@ -11,11 +11,13 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Server.Vaccination.Controllers.Open
 {
+    using Microsoft.AspNetCore.Authorization;
     using Undersoft.SVC.Service.Contracts.Vaccination;
 
     /// <summary>
     /// The contact controller.
     /// </summary>
+    [Authorize]
     public class AppointmentController
         : OpenCqrsController<
             long,
@@ -27,7 +29,8 @@ namespace Undersoft.SVC.Service.Server.Vaccination.Controllers.Open
         >
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// Initializes a new instance of the
+        /// <see cref="PatientNodeController"/> class.
         /// </summary>
         /// <param name="servicer">The servicer.</param>
         public AppointmentController(IServicer servicer) : base(servicer) { }

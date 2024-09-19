@@ -11,6 +11,7 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Server.Controllers.Open;
 
+using Microsoft.AspNetCore.Authorization;
 using Undersoft.SVC.Service.Contracts.Catalogs;
 
 /// <summary>
@@ -23,7 +24,8 @@ public class ManufacturerController
     : OpenDataRemoteController<long, IDataStore, Manufacturer, Manufacturer, ServiceManager>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+    /// Initializes a new instance of the <see cref="PatientNodeController"/>
+    /// class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public ManufacturerController(IServicer servicer) : base(servicer) { }

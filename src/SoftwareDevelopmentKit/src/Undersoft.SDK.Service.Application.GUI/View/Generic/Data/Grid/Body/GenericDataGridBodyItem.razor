@@ -8,7 +8,7 @@
 
 <CascadingValue Value="Data">
 
-    <FluentDataGridRow @onclick="OnItemClick" @key="@ViewId" GridTemplateColumns="@GridTemplateColumns" VerticalAlignment="VerticalAlignment.Center" Style="@Style" TGridItem="string" @ref=Reference>
+    <FluentDataGridRow @key="@ViewId" GridTemplateColumns="@GridTemplateColumns" VerticalAlignment="VerticalAlignment.Center" Style="@Style" TGridItem="string" @ref=Reference>
 
         @if (FeatureFlags.Expandable)
         {

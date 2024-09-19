@@ -6,7 +6,7 @@ public class Place : DataObject
 {
     public PlaceKind? Kind { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     public int? Height { get; set; }
 
@@ -22,13 +22,13 @@ public class Place : DataObject
 
     public int? Size { get; set; }
 
-    public string? Unit { get; set; }
+    public string Unit { get; set; }
 
-    public double? Latitue { get; set; }
+    public double Latitude { get; set; }
 
-    public double? Longitude { get; set; }
+    public double Longitude { get; set; }
 
-    public double? Altitude { get; set; }
+    public double Altitude { get; set; }
 
     public int Volume { get; set; }
 

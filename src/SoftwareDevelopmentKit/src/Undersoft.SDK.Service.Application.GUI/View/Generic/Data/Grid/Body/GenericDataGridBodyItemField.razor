@@ -6,7 +6,7 @@
 
 @inherits ViewItem
 
-<FluentDataGridCell GridColumn=@_ordinal Class="@Rubric.Class" Style="@("padding:0px;" + Rubric.Style)" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
+<FluentDataGridCell @onclick="OnCellClick" GridColumn=@_ordinal Class="@Rubric.Class" Style="@("padding:0px;" + Rubric.Style)" @key="@ViewId" TGridItem="string" title="@Rubric.RubricName" aria-label="@Rubric.RubricName">
     <div id="@($"{ViewId}-context-menu-{Rubric.RubricId}")" class="datagrid-body-item" role="button" style="height:100%">
         <FluentStack Orientation="Orientation.Horizontal" Wrap="true" HorizontalGap="0" VerticalGap="0" VerticalAlignment="VerticalAlignment.Center" Width="100%" Style="padding:0px 2px; height:100%; ">
             <GenericField Rubric="@Rubric" Width="100%" />
@@ -17,7 +17,8 @@
                  VerticalPosition="VerticalPosition.Unset"
                  AnchorId="@($"{ViewId}-context-menu-{Rubric.RubricId}")"
                  Data="@OperationsData"
-                 Anchored="false" />
+                 Anchored="false" 
+                 @ref="Menu" />
 </FluentDataGridCell>
 
 

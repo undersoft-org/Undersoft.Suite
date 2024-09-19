@@ -12,26 +12,26 @@ using Undersoft.SDK.Service.Server.Accounts.Identity;
 
 namespace Undersoft.SDK.Service.Server;
 
-using Accounts;
-using Accounts.Email;
-using Documentation;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using System.Diagnostics.Metrics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Accounts;
+using Accounts.Email;
+using Documentation;
+using IdentityModel;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Undersoft.SDK.Service.Access;
-using Undersoft.SDK.Service.Hosting;
 using Undersoft.SDK.Service.Access.MultiTenancy;
 using Undersoft.SDK.Service.Configuration;
 using Undersoft.SDK.Service.Data.Repository.Source;
 using Undersoft.SDK.Service.Data.Store;
+using Undersoft.SDK.Service.Hosting;
 using Undersoft.SDK.Service.Server.Accounts.Identity;
 using Undersoft.SDK.Service.Server.Accounts.Tokens;
 using Undersoft.SDK.Utilities;
 using Role = Role;
-using IdentityModel;
 
 public partial class ServerSetup : ServiceSetup, IServerSetup
 {
@@ -108,7 +108,7 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
         AddRepositorySources();
 
-        AddDataStoreImplementations();       
+        AddDataStoreImplementations();
 
         base.ConfigureServices(null);
 
@@ -117,10 +117,10 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         AddMediator(null);
 
         registry.Configure<DataProtectionTokenProviderOptions>(o =>
-        o.TokenLifespan = TimeSpan.FromHours(1)
+            o.TokenLifespan = TimeSpan.FromHours(1)
         );
         registry.AddTransient<IAccountManager, AccountManager>();
-       
+
         AddServerSetupCqrsImplementations();
 
         AddServerSetupInvocationImplementations();
@@ -324,7 +324,6 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<TContext>();
-      
 
         registry.AddTransient<AccountEmailConfirmationTokenProvider<AccountUser>>();
         registry.AddTransient<AccountPasswordResetTokenProvider<AccountUser>>();
@@ -344,29 +343,30 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         var jwtOptions = new AccountTokenOptions();
         var jwtFactory = new AccountTokenGenerator(30, jwtOptions);
         registry.Configure<DataProtectionTokenProviderOptions>(o =>
-        o.TokenLifespan = TimeSpan.FromHours(1)
+            o.TokenLifespan = TimeSpan.FromHours(1)
         );
 
         registry.AddObject(jwtFactory);
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(
-                x =>
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                //x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        RoleClaimType = JwtClaimTypes.Role,
-                        NameClaimType = JwtClaimTypes.Email,                        
-                        ValidateIssuerSigningKey = false,
-                        ValidIssuer = jwtOptions.Issuer,
-                        ValidAudience = jwtOptions.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
-                        ValidateAudience = true,                        
-                    };
-                }
-            );
+                    //RoleClaimType = JwtClaimTypes.Role,
+                    //NameClaimType = JwtClaimTypes.Email,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidAudience = jwtOptions.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(jwtOptions.SecurityKey),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true
+                };
+            });
         return this;
     }
 
@@ -420,26 +420,36 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
             options.OperationFilter<JsonIgnoreFilter>();
             options.DocumentFilter<IgnoreApiDocument>();
 
-            options.AddSecurityDefinition(
-                "oauth2",
-                new OpenApiSecurityScheme
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Name = "JWT Authentication",
+                Description = "Enter your JWT token in this field",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT"
+            };
+
+            options.AddSecurityDefinition("Bearer", securityScheme);
+
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
                 {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
+                    new OpenApiSecurityScheme
                     {
-                        Password = new OpenApiOAuthFlow
+                        Reference = new OpenApiReference
                         {
-                            TokenUrl = new Uri(
-                                $"{configuration.BaseUrl}/api/auth/Account/Access/SignIn"
-                            ),
-                            RefreshUrl = new Uri(
-                                $"{configuration.BaseUrl}/api/auth/Account/Access/Renew"
-                            )
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
                         }
-                    }
+                    },
+                    new string[] { }
                 }
-            );
-            options.OperationFilter<AuthorizeCheckOperationFilter>();
+            };
+
+            options.AddSecurityRequirement(securityRequirement);
+
+            //options.OperationFilter<AuthorizeCheckOperationFilter>();
 
             //var filePath = Path.Combine(System.AppContext.BaseDirectory, "Undersoft.SSC.Service.Server.xml");
             //options.IncludeXmlComments(filePath);
@@ -451,7 +461,10 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
 
     public IServiceSetup AddRepositorySources()
     {
-        var sourceTypes = configuration.Sources().ForEach(c => AssemblyUtilities.FindType(c.Key)).Commit();
+        var sourceTypes = configuration
+            .Sources()
+            .ForEach(c => AssemblyUtilities.FindType(c.Key))
+            .Commit();
         return AddRepositorySources(sourceTypes);
     }
 
@@ -469,7 +482,10 @@ public partial class ServerSetup : ServiceSetup, IServerSetup
         {
             string connectionString = config.SourceConnectionString(source);
             if (_tenant != null)
-                connectionString = connectionString.Replace("-db;", $"-{_tenant.Id.ToString()}-db;");
+                connectionString = connectionString.Replace(
+                    "-db;",
+                    $"-{_tenant.Id.ToString()}-db;"
+                );
             SourceProvider provider = config.SourceProvider(source);
             int poolsize = config.SourcePoolSize(source);
             Type contextType = storeTypes.Where(t => t.FullName == source.Key).FirstOrDefault();

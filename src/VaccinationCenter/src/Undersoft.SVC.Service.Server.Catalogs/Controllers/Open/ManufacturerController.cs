@@ -11,6 +11,7 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Open
 {
+    using Microsoft.AspNetCore.Authorization;
     using Undersoft.SVC.Service.Contracts.Catalogs;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Open
     /// <summary>
     /// The contact controller.
     /// </summary>
+    [Authorize]
     public class ManufacturerController
         : OpenCqrsController<
             long,
@@ -30,7 +32,8 @@ namespace Undersoft.SVC.Service.Server.Catalogs.Controllers.Open
         >
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PatientNodeController"/> class.
+        /// Initializes a new instance of the
+        /// <see cref="PatientNodeController"/> class.
         /// </summary>
         /// <param name="servicer">The servicer.</param>
         public ManufacturerController(IServicer servicer)

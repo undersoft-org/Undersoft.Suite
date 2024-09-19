@@ -10,6 +10,7 @@ using Undersoft.SDK.Service.Server.Controller.Open;
 
 namespace Undersoft.SVC.Service.Application.Server.Controllers.Open;
 
+using Microsoft.AspNetCore.Authorization;
 using Undersoft.SDK.Service;
 using Undersoft.SVC.Service.Clients.Abstractions;
 using Undersoft.SVC.Service.Contracts.Vaccination;
@@ -17,11 +18,13 @@ using Undersoft.SVC.Service.Contracts.Vaccination;
 /// <summary>
 /// The contact controller.
 /// </summary>
+[Authorize]
 public class AppointmentController
     : OpenDataRemoteController<long, IVaccinationStore, Appointment, Appointment, ServiceManager>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AppointmentController"/> class.
+    /// Initializes a new instance of the <see cref="AppointmentController"/>
+    /// class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public AppointmentController(IServicer servicer) : base(servicer) { }

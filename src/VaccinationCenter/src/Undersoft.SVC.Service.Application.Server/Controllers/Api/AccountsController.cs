@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 // ********************************************************
 //   Copyright (c) Undersoft. All Rights Reserved.
@@ -29,7 +30,8 @@ public class AccountsController
     >
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AccountsController"/> class.
+    /// Initializes a new instance of the <see cref="AccountsController"/>
+    /// class.
     /// </summary>
     /// <param name="servicer">The servicer.</param>
     public AccountsController(IServicer servicer) : base(servicer) { }

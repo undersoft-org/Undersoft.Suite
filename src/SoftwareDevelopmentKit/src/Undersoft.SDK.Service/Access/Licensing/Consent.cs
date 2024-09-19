@@ -8,7 +8,7 @@ public class Consent : DataObject, IConsent
     [VisibleRubric]
     [RubricSize(512)]
     [DisplayRubric("Terms & Conditions")]
-    public string? TermsText { get; set; }
+    public string TermsText { get; set; }
 
     [VisibleRubric]
     [DisplayRubric("Accept")]
