@@ -32,7 +32,7 @@ First Tests:
 [https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SoftwareDevelopmentKit/bench/Undersoft.SDK.Benchmarks](https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SoftwareDevelopmentKit/bench/Undersoft.SDK.Benchmarks)
 
 #### Design overview screenshots: 
-[https://github.com/undersoft-org/undersoft-org/Undersoft.Suite/src/SharedVaccinationCenter/docs/design/vaccination_software_design_album](https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/SharedVaccinationCenter/docs/design/vaccination_software_design_album/solution)
+[https://github.com/undersoft-org/undersoft-org/Undersoft.Suite/src/VaccinationCenter/docs/design/vaccination_software_design_album](https://github.com/undersoft-org/Undersoft.Suite/tree/master/src/VaccinationCenter/docs/design/vaccination_software_design_album/solution)
 
 
 ### Landing
