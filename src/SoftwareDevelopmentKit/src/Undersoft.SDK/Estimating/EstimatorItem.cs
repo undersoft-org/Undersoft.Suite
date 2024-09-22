@@ -12,7 +12,7 @@ namespace Undersoft.SDK.Estimating
 
         public EstimatorItem()
         {
-            Id = (long)Unique.NewId;
+            Id = Unique.NewId;
         }
 
         public EstimatorItem(long id, string name, object vector)

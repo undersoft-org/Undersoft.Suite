@@ -1,5 +1,6 @@
 ﻿
 
+using Undersoft.SDK.Ethernet.Transfer;
 using Undersoft.SDK.Uniques;
 
 namespace Undersoft.SDK.Ethernet
@@ -17,8 +18,8 @@ namespace Undersoft.SDK.Ethernet
     public class EthernetOperationHandler : IDisposable
     {
         [NonSerialized]
-        public ITransitContext transferContext;
-        private ITransitable _data;
+        public ITransferContext transferContext;
+        private ITransferable _data;
         private EthernetContext dealContext;
         private DirectionType direction;
         private EthernetSite site;
@@ -29,15 +30,15 @@ namespace Undersoft.SDK.Ethernet
             site = EthernetSite.Server;
             direction = DirectionType.None;
             state = ((IUniqueStructure)data).Flags;
-            _data = (ITransitable)data;
+            _data = (ITransferable)data;
         }
 
-        public EthernetOperationHandler(object data, DirectionType directionType, EthernetTransit transfer)
+        public EthernetOperationHandler(object data, DirectionType directionType, EthernetTransfer transfer)
             : this(data)
         {
             direction = directionType;
             transferContext = transfer.Context;
-            dealContext = transfer.MyHeader.Context;
+            dealContext = transfer.ResponseHeader.Context;
         }
 
         public void Dispose() { }

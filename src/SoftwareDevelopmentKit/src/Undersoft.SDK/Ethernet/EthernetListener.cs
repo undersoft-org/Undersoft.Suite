@@ -5,13 +5,14 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
+    using Undersoft.SDK.Ethernet.Transfer;
     using Undersoft.SDK.Invoking;
     using Undersoft.SDK.Series;
     using Undersoft.SDK.Uniques;
 
     public sealed class EthernetListener : IEthernetListener
     {
-        private readonly Registry<ITransitContext> clients = new Registry<ITransitContext>();
+        private readonly Registry<ITransferContext> clients = new Registry<ITransferContext>();
         private readonly ManualResetEvent connectingNotice = new ManualResetEvent(false);
         private bool shutdown = false;
         private int timeout = 50;
@@ -34,9 +35,9 @@
 
         public void ClearClients()
         {
-            foreach (ITransitContext closeContext in clients.AsValues())
+            foreach (ITransferContext closeContext in clients.AsValues())
             {
-                ITransitContext context = closeContext;
+                ITransferContext context = closeContext;
 
                 if (context == null)
                 {
@@ -61,9 +62,9 @@
             clients.Clear();
         }
 
-        public void CloseClient(ISeriesItem<ITransitContext> item)
+        public void CloseClient(ISeriesItem<ITransferContext> item)
         {
-            ITransitContext context = item.Value;
+            ITransferContext context = item.Value;
 
             if (context == null)
             {
@@ -85,7 +86,7 @@
                 }
                 finally
                 {
-                    ITransitContext contextRemoved = clients.Remove(context.Id);
+                    ITransferContext contextRemoved = clients.Remove(context.Id);
                     contextRemoved.Dispose();
                     Echo(string.Format("Client disconnected with Id {0}", context.Id));
                 }
@@ -99,9 +100,9 @@
 
         public void CloseListener()
         {
-            foreach (ITransitContext closeContext in clients.AsValues())
+            foreach (ITransferContext closeContext in clients.AsValues())
             {
-                ITransitContext context = closeContext;
+                ITransferContext context = closeContext;
 
                 if (context == null)
                 {
@@ -134,7 +135,7 @@
             GC.Collect();
         }
 
-        public void EthHeaderReceived(ITransitContext context)
+        public void EthHeaderReceived(ITransferContext context)
         {
             if (context.Size > 0)
             {
@@ -153,7 +154,7 @@
             }
             else
             {
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Header,
                     DirectionType.Receive
@@ -192,11 +193,11 @@
 
         public void HeaderReceivedCallback(IAsyncResult result)
         {
-            ITransitContext context = (ITransitContext)result.AsyncState;
+            ITransferContext context = (ITransferContext)result.AsyncState;
             int receive = context.Listener.EndReceive(result);
 
             if (receive > 0)
-                context.IncomingHeader(receive);
+                context.ReadHeader(receive);
 
             if (context.Protocol == EthernetProtocol.DOTP)
                 EthHeaderReceived(context);
@@ -206,7 +207,7 @@
 
         public void HeaderSentCallback(IAsyncResult result)
         {
-            ITransitContext context = (ITransitContext)result.AsyncState;
+            ITransferContext context = (ITransferContext)result.AsyncState;
             try
             {
                 int sendcount = context.Listener.EndSend(result);
@@ -232,7 +233,7 @@
             }
         }
 
-        public void HttpHeaderReceived(ITransitContext context)
+        public void HttpHeaderReceived(ITransferContext context)
         {
             if (context.Size > 0)
             {
@@ -247,7 +248,7 @@
             }
             else
             {
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Header,
                     DirectionType.Receive
@@ -270,7 +271,7 @@
 
         public bool IsConnected(int id)
         {
-            ITransitContext context = GetClient(id).Value;
+            ITransferContext context = GetClient(id).Value;
             if (context != null && context.Listener != null && context.Listener.Connected)
                 return !(
                     context.Listener.Poll(timeout * 100, SelectMode.SelectRead)
@@ -282,13 +283,13 @@
 
         public void MessageReceivedCallback(IAsyncResult result)
         {
-            ITransitContext context = (ITransitContext)result.AsyncState;
+            ITransferContext context = (ITransferContext)result.AsyncState;
             MarkupType noiseKind = MarkupType.None;
 
             int receive = context.Listener.EndReceive(result);
 
             if (receive > 0)
-                noiseKind = context.IncomingMessage(receive);
+                noiseKind = context.ReadMessage(receive);
 
             if (context.Size > 0)
             {
@@ -314,7 +315,7 @@
                     || (
                         noiseKind == MarkupType.End
                         && (int)readPosition
-                            < (context.Transfer.HeaderReceived.Context.ItemsCount - 1)
+                            < (context.Transfer.RequestHeader.Context.ItemsCount - 1)
                     )
                 )
                     context.Listener.BeginReceive(
@@ -326,7 +327,7 @@
                         context
                     );
 
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Message,
                     DirectionType.Receive
@@ -342,7 +343,7 @@
                 if (
                     noiseKind == MarkupType.End
                     && (int)readPosition
-                        >= (context.Transfer.HeaderReceived.Context.ItemsCount - 1)
+                        >= (context.Transfer.RequestHeader.Context.ItemsCount - 1)
                 )
                 {
                     context.ChunksReceivedNotice.WaitOne();
@@ -363,7 +364,7 @@
 
         public void MessageSentCallback(IAsyncResult result)
         {
-            ITransitContext context = (ITransitContext)result.AsyncState;
+            ITransferContext context = (ITransferContext)result.AsyncState;
             try
             {
                 int sendcount = context.Listener.EndSend(result);
@@ -373,10 +374,10 @@
 
             if (
                 context.OutputId >= 0
-                || context.ItemIndex < (context.Transfer.MyHeader.Context.ItemsCount - 1)
+                || context.ItemIndex < (context.Transfer.ResponseHeader.Context.ItemsCount - 1)
             )
             {
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Message,
                     DirectionType.Send
@@ -418,14 +419,14 @@
             {
                 if (!shutdown)
                 {
-                    ITransitContext context;
+                    ITransferContext context;
                     int id = -1;
                     id = (int)Unique.NewId.UniqueKey32();
-                    context = new TransitContext(
+                    context = new TransferContext(
                         ((Socket)result.AsyncState).EndAccept(result),
                         id
                     );
-                    context.Transfer = new EthernetTransit(null, context);
+                    context.Transfer = new EthernetTransfer(null, context);
                     while (true)
                     {
                         if (!clients.Add(id, context))
@@ -456,14 +457,14 @@
 
         public void Receive(TransitPart messagePart, int id)
         {
-            ITransitContext context = GetClient(id).Value;
+            ITransferContext context = GetClient(id).Value;
 
             AsyncCallback callback = HeaderReceivedCallback;
 
             if (messagePart != TransitPart.Header && context.HasMessageToReceive)
             {
                 callback = MessageReceivedCallback;
-                context.ItemsLeft = context.Transfer.HeaderReceived.Context.ItemsCount;
+                context.ItemsLeft = context.Transfer.RequestHeader.Context.ItemsCount;
                 context.Listener.BeginReceive(
                     context.MessageBuffer,
                     0,
@@ -486,7 +487,7 @@
 
         public void Send(TransitPart messagePart, int id)
         {
-            ITransitContext context = GetClient(id).Value;
+            ITransferContext context = GetClient(id).Value;
             if (!IsConnected(context.Id))
                 throw new Exception("Destination socket is not connected.");
 
@@ -495,7 +496,7 @@
             if (messagePart == TransitPart.Header)
             {
                 callback = HeaderSentCallback;
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Header,
                     DirectionType.Send
@@ -506,7 +507,7 @@
             {
                 callback = MessageSentCallback;
                 context.OutputId = 0;
-                TransitOperation request = new TransitOperation(
+                TransferOperation request = new TransferOperation(
                     context.Transfer,
                     TransitPart.Message,
                     DirectionType.Send
@@ -555,7 +556,7 @@
             }
         }
 
-        private ISeriesItem<ITransitContext> GetClient(int id)
+        private ISeriesItem<ITransferContext> GetClient(int id)
         {
             return clients.GetItem(id);
         }

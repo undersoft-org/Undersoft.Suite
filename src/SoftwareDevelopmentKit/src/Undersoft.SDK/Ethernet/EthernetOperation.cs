@@ -1,17 +1,19 @@
-﻿namespace Undersoft.SDK.Ethernet
+﻿using Undersoft.SDK.Ethernet.Transfer;
+
+namespace Undersoft.SDK.Ethernet
 {
     public class EthernetOperation : IDisposable
     {
-        public ITransitContext transitContext;
+        public ITransferContext transitContext;
         private EthernetContext ethernetContext;
         private EthernetSite site;
-        private EthernetTransit _transit;
+        private EthernetTransfer _transit;
 
-        public EthernetOperation(EthernetTransit transit)
+        public EthernetOperation(EthernetTransfer transit)
         {
             _transit = transit;
             transitContext = transit.Context;
-            ethernetContext = transit.MyHeader.Context;
+            ethernetContext = transit.ResponseHeader.Context;
             site = ethernetContext.IdentitySite;
         }
 

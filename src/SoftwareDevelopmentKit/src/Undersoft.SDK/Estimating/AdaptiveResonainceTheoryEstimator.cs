@@ -7,19 +7,19 @@ namespace Undersoft.SDK.Estimating
 
     public class AdaptiveResonainceTheoryEstimator
     {
-        public List<string> NameList { get; set; }
+        public ISeries<string> NameList { get; set; }
 
         public int ItemSize { get; set; }
 
         public EstimatorSeries Items { get; set; }
 
-        public List<EstimatorCluster> Clusters { get; set; }
+        public ISeries<EstimatorCluster> Clusters { get; set; }
 
-        public List<EstimatorHyperCluster> HyperClusters { get; set; }
+        public ISeries<EstimatorHyperCluster> HyperClusters { get; set; }
 
-        private Registry<EstimatorCluster> ItemsToClusters;
+        private ISeries<EstimatorCluster> ItemsToClusters;
 
-        private Dictionary<EstimatorCluster, EstimatorHyperCluster> ClustersToHyperClusters;
+        private ISeries<(EstimatorCluster, EstimatorHyperCluster)> ClustersToHyperClusters;
 
         public double bValue = 0.2f;
 
@@ -35,12 +35,12 @@ namespace Undersoft.SDK.Estimating
 
         public AdaptiveResonainceTheoryEstimator()
         {
-            NameList = new List<string>();
+            NameList = new Listing<string>();
             Items = new EstimatorSeries();
-            Clusters = new List<EstimatorCluster>();
-            HyperClusters = new List<EstimatorHyperCluster>();
-            ItemsToClusters = new Registry<EstimatorCluster>();
-            ClustersToHyperClusters = new Dictionary<EstimatorCluster, EstimatorHyperCluster>();
+            Clusters = new Listing<EstimatorCluster>();
+            HyperClusters = new Listing<EstimatorHyperCluster>();
+            ItemsToClusters = new Listing<EstimatorCluster>();
+            ClustersToHyperClusters = new Listing<(EstimatorCluster, EstimatorHyperCluster)>();
 
             LoadFile(tempHardFileName);
             Items = NormalizeItemList(Items);
@@ -67,7 +67,7 @@ namespace Undersoft.SDK.Estimating
 
         public void Create(ICollection<EstimatorItem> itemCollection)
         {
-            Items.AddRange(itemCollection);
+            Items.Add(itemCollection);
 
             Clusters.Clear();
             HyperClusters.Clear();
@@ -90,7 +90,7 @@ namespace Undersoft.SDK.Estimating
         {
             int currentCount = Items.Count;
 
-            Items.AddRange(itemCollection);
+            Items.Add(itemCollection);
 
             for (int i = currentCount; i < Items.Count; i++)
             {
@@ -248,9 +248,7 @@ namespace Undersoft.SDK.Estimating
                             {
                                 if (ClustersToHyperClusters.ContainsKey(cluster))
                                 {
-                                    EstimatorHyperCluster previousHyperCluster = ClustersToHyperClusters[
-                                        cluster
-                                    ];
+                                    EstimatorHyperCluster previousHyperCluster = ClustersToHyperClusters[cluster].Item2;
                                     if (ReferenceEquals(newHyperCluster, previousHyperCluster))
                                         break;
                                     if (
@@ -262,7 +260,7 @@ namespace Undersoft.SDK.Estimating
                                     }
                                 }
                                 newHyperCluster.AddClusterToHyperCluster(cluster);
-                                ClustersToHyperClusters[cluster] = newHyperCluster;
+                                ClustersToHyperClusters[cluster] = (cluster, newHyperCluster);
                                 isAssignementChanged = true;
 
                                 break;
@@ -274,7 +272,7 @@ namespace Undersoft.SDK.Estimating
                     {
                         EstimatorHyperCluster newHyperCluster = new EstimatorHyperCluster(cluster);
                         HyperClusters.Add(newHyperCluster);
-                        ClustersToHyperClusters.Add(cluster, newHyperCluster);
+                        ClustersToHyperClusters.Add(cluster, (cluster, newHyperCluster));
                         isAssignementChanged = true;
                     }
                 }
@@ -341,7 +339,7 @@ namespace Undersoft.SDK.Estimating
             if (cluster == null) { }
             else
             {
-                EstimatorHyperCluster hyperCluster = ClustersToHyperClusters[cluster];
+                EstimatorHyperCluster hyperCluster = ClustersToHyperClusters[cluster].Item2;
                 EstimatorSeries hyperClusterItemList = hyperCluster.GetHyperClusterItems();
                 for (int i = 0; i < hyperClusterItemList.Count; i++)
                 {
@@ -390,7 +388,7 @@ namespace Undersoft.SDK.Estimating
             if (!ItemsToClusters.TryGet(item.Id, out EstimatorCluster cluster)) { }
             else
             {
-                EstimatorHyperCluster hyperCluster = ClustersToHyperClusters[cluster];
+                EstimatorHyperCluster hyperCluster = ClustersToHyperClusters[cluster].Item2;
                 for (int j = 0; j < hyperCluster.Clusters.Count; j++)
                 {
                     if (!ReferenceEquals(cluster, hyperCluster.Clusters[j]))
@@ -483,7 +481,7 @@ namespace Undersoft.SDK.Estimating
             return output;
         }
 
-        public static double[] CalculateClusterIntersection(List<EstimatorCluster> input, double[] output)
+        public static double[] CalculateClusterIntersection(ISeries<EstimatorCluster> input, double[] output)
         {
             for (int i = 0; i < output.Length; i++)
             {
@@ -496,7 +494,7 @@ namespace Undersoft.SDK.Estimating
             return output;
         }
 
-        public static double[] CalculateClusterSummary(List<EstimatorCluster> input, double[] output)
+        public static double[] CalculateClusterSummary(ISeries<EstimatorCluster> input, double[] output)
         {
             for (int i = 0; i < output.Length; i++)
             {
@@ -510,7 +508,7 @@ namespace Undersoft.SDK.Estimating
             return output;
         }
 
-        public static double[] UpdateClusterIntersectionByLast(List<EstimatorCluster> input, double[] output)
+        public static double[] UpdateClusterIntersectionByLast(ISeries<EstimatorCluster> input, double[] output)
         {
             int n = input.Count - 1;
             for (int i = 0; i < output.Length; i++)
@@ -520,7 +518,7 @@ namespace Undersoft.SDK.Estimating
             return output;
         }
 
-        public static double[] UpdateClusterSummaryByLast(List<EstimatorCluster> input, double[] output)
+        public static double[] UpdateClusterSummaryByLast(ISeries<EstimatorCluster> input, double[] output)
         {
             int n = input.Count - 1;
             for (int i = 0; i < output.Length; i++)

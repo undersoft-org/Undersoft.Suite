@@ -10,7 +10,6 @@
         protected ChainBase(int capacity = 17, HashBits bits = HashBits.bit64) : base(capacity, bits)
         { }
 
-
         protected ChainBase(
             IEnumerable<V> collection,
             int capacity = 17,
@@ -36,7 +35,6 @@
             last = value;
             return value;
         }
-
         ISeriesItem<V> createNew(long key, V value)
         {
             ISeriesItem<V> newitem = NewItem(key, value);
@@ -110,7 +108,6 @@
                 item = item.Extended;
             }
         }
-
         protected override ISeriesItem<V> InnerPut(V value)
         {
             long key = unique.Key(value);
@@ -151,7 +148,6 @@
                 item = item.Extended;
             }
         }
-
         protected override ISeriesItem<V> InnerPut(long key, V value)
         {
             ulong pos = getPosition(key);
@@ -247,7 +243,6 @@
                 item = item.Extended;
             }
         }
-
         protected override bool InnerAdd(V value)
         {
             long key = unique.Key(value);
@@ -286,7 +281,6 @@
                 item = item.Extended;
             }
         }
-
         protected override bool InnerAdd(long key, V value)
         {
             ulong pos = getPosition(key);

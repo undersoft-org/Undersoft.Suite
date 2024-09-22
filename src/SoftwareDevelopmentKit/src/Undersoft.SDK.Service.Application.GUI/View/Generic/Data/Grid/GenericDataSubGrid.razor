@@ -7,31 +7,36 @@
 
 @inherits ViewStore
 
-<div id="@BindingId" class="datasubgrid">
+<div id="@BindingId" class="generic-datasubgrid">
     <CascadingValue Value="@DataStore">
-        <CascadingValue Value="@EditMode">
-            <CascadingValue Value="@EntryMode">
-            <CascadingValue Value="@FeatureFlags">
-                <CascadingValue Value="@StateFlags">
-                        <CascadingValue Value="@RubricOrdinalSeed">
-                            <CascadingValue Value="@GridTemplateColumns">
-                                <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+        <CascadingValue Value="@RubricOrdinalSeed">
+            <CascadingValue Value="@GridTemplateColumns">
+                <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
 
-                                    <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
+                    @if (ShowTitle)
 
-                                    <GenericDataGridBody Parent="@this" Multiline="@Multiline" />
+                    {
+                        <FluentLabel Typo="Typography.H6" Color="Color.Accent" Style="font-weight:200; padding:0px 0px 4px 4px">
+                            @Title
+                        </FluentLabel>
+                    }
+                    <FluentSpacer />
 
-                                </FluentDataGrid>
+                    <GenericDataGridPagination Parent="this" />
 
-                                <GenericDataGridPagination Parent="this" />
+                </FluentStack>
 
-                            </CascadingValue>
-                        </CascadingValue>
-                    </CascadingValue>
-                </CascadingValue>
+                <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" RowStyle="@ForRowStyle" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+
+                    <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
+
+                    <GenericDataGridBody Parent="@this" Multiline="@Multiline" />
+
+                </FluentDataGrid>
+
             </CascadingValue>
         </CascadingValue>
-        </CascadingValue>
+    </CascadingValue>
 </div>
 
 

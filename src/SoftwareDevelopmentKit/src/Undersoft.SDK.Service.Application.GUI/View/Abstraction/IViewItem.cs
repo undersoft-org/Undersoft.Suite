@@ -14,7 +14,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
         string? Class { get; set; }
         string? Style { get; set; }
         string? Attributes { get; set; }
-        object? Reference { get; set; }
+
+        ComponentBase? Reference { get; set; }
+        
         EditMode EditMode { get; set; }
 
         IJSRuntime? JSRuntime { get; set; }

@@ -1,31 +1,30 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Text.Json;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public class TransitOperation
+    public class TransferOperation
     {
         private DirectionType direction;
         private ProtocolMethod method;
         private TransitPart part;
         private EthernetProtocol protocol;
         private EthernetSite site;
-        private EthernetTransit transit;
-        private ITransitContext transitContext;
+        private EthernetTransfer transit;
+        private ITransferContext transitContext;
         private EthernetContext ethernetContext;
 
-        public TransitOperation(
-            EthernetTransit _transaction,
+        public TransferOperation(
+            EthernetTransfer _transaction,
             TransitPart _part,
             DirectionType _direction
         )
         {
             transit = _transaction;
             transitContext = transit.Context;
-            ethernetContext = transit.MyHeader.Context;
+            ethernetContext = transit.ResponseHeader.Context;
             site = ethernetContext.IdentitySite;
             direction = _direction;
             part = _part;
@@ -33,7 +32,7 @@ namespace Undersoft.SDK.Ethernet
             method = transitContext.Method;
         }
 
-        public void Resolve(ITransitBuffer buffer = null)
+        public void Resolve(ITransferBuffer buffer = null)
         {
             switch (site)
             {
@@ -94,34 +93,34 @@ namespace Undersoft.SDK.Ethernet
             }
         }
 
-        private void ClientReceivedTcpTransitHeader(ITransitBuffer buffer)
+        private void ClientReceivedTcpTransitHeader(ITransferBuffer buffer)
         {
-            TransitHeader headerObject = (TransitHeader)transit.MyHeader.Deserialize(buffer);
+            TransferHeader headerObject = (TransferHeader)transit.ResponseHeader.Deserialize(buffer);
 
             if (headerObject != null)
             {
-                transit.HeaderReceived = headerObject;               
+                transit.RequestHeader = headerObject;
 
-                object reciveContent = transit.HeaderReceived.Data;
+                object reciveContent = transit.RequestHeader.Data;
 
                 Type[] ifaces = reciveContent.GetType().GetInterfaces();
                 if (
-                    ifaces.Contains(typeof(ITransitable))
-                    && ifaces.Contains(typeof(ITransitObject))
+                    ifaces.Contains(typeof(ITransferable))
+                    && ifaces.Contains(typeof(ITransferObject))
                 )
                 {
-                    if (transit.MyHeader.Data == null)
-                        transit.MyHeader.Data = ((ITransitObject)reciveContent).Locate();
+                    if (transit.ResponseHeader.Data == null)
+                        transit.ResponseHeader.Data = ((ITransferObject)reciveContent).Locate();
 
-                    object myContent = transit.MyHeader.Data;
+                    object myContent = transit.ResponseHeader.Data;
 
-                    ((ITransitObject)myContent).Merge(reciveContent);
+                    ((ITransferObject)myContent).Merge(reciveContent);
 
-                    int objectCount = transit.HeaderReceived.Context.ItemsCount;
+                    int objectCount = transit.RequestHeader.Context.ItemsCount;
                     if (objectCount == 0)
                         transitContext.HasMessageToReceive = false;
                     else
-                        transit.MessageReceived = new TransitMessage(
+                        transit.RequestMessage = new TransferMessage(
                             transit,
                             DirectionType.Receive,
                             myContent
@@ -146,15 +145,15 @@ namespace Undersoft.SDK.Ethernet
             }
         }
 
-        private void ClientReceivedTcpTransitMessage(ITransitBuffer buffer)
+        private void ClientReceivedTcpTransitMessage(ITransferBuffer buffer)
         {
-            object serialItemsObj = ((object[])transit.MessageReceived.Data)[
+            object serialItemsObj = ((object[])transit.RequestMessage.Data)[
                 buffer.InputId
             ];
-            ITransitable serialItems = (ITransitable)serialItemsObj;
+            ITransferable serialItems = (ITransferable)serialItemsObj;
 
             object deserialItemsObj = serialItems.Deserialize(buffer);
-            ITransitable deserialItems = (ITransitable)deserialItemsObj;
+            ITransferable deserialItems = (ITransferable)deserialItemsObj;
             if (
                 deserialItems.InputChunks <= deserialItems.CurrentChunk
                 || deserialItems.CurrentChunk == 0
@@ -168,24 +167,24 @@ namespace Undersoft.SDK.Ethernet
         private void ClientSendTcpTransitHeader()
         {
             transit.Manager.HeaderContent(
-                transitContext.Transfer.MyHeader.Data,
-                transitContext.Transfer.MyHeader.Data,
+                transitContext.Transfer.ResponseHeader.Data,
+                transitContext.Transfer.ResponseHeader.Data,
                 DirectionType.Send
             );
 
-            if (transit.MyHeader.Context.ItemsCount == 0)
+            if (transit.ResponseHeader.Context.ItemsCount == 0)
                 transitContext.HasMessageToSend = false;
 
-            transitContext.Transfer.MyHeader.Serialize(transitContext, 0, 0);
+            transitContext.Transfer.ResponseHeader.Serialize(transitContext, 0, 0);
         }
 
         private void ClientSendTcpTrnsitMessage()
         {
-            object serialitems = ((object[])transit.MyMessage.Data)[
+            object serialitems = ((object[])transit.ResponseMessage.Data)[
                 transitContext.ItemIndex
             ];
 
-            int serialBlockId = ((ITransitable)serialitems).Serialize(
+            int serialBlockId = ((ITransferable)serialitems).Serialize(
                 transitContext,
                 transitContext.OutputId,
                 5000
@@ -193,7 +192,7 @@ namespace Undersoft.SDK.Ethernet
             if (serialBlockId < 0)
             {
                 if (
-                    transitContext.ItemIndex < (transit.MyHeader.Context.ItemsCount - 1)
+                    transitContext.ItemIndex < transit.ResponseHeader.Context.ItemsCount - 1
                 )
                 {
                     transitContext.ItemIndex++;
@@ -203,75 +202,75 @@ namespace Undersoft.SDK.Ethernet
             }
             transitContext.OutputId = serialBlockId;
         }
-      
-        private void ServerReceivedTcpTransitHeader(ITransitBuffer buffer)
+
+        private void ServerReceivedTcpTransitHeader(ITransferBuffer buffer)
         {
             bool isError = false;
             string errorMessage = "";
             try
             {
-                TransitHeader headerObject = (TransitHeader)transit.MyHeader.Deserialize(buffer);
+                TransferHeader headerObject = (TransferHeader)transit.ResponseHeader.Deserialize(buffer);
                 if (headerObject != null)
                 {
-                    transit.HeaderReceived = headerObject;
+                    transit.RequestHeader = headerObject;
 
 
-                        if (transit.HeaderReceived.Context.ContentType != null)
+                    if (transit.RequestHeader.Context.ContentType != null)
+                    {
+                        object _content = transit.RequestHeader.Data;
+
+                        Type[] ifaces = _content.GetType().GetInterfaces();
+                        if (
+                            ifaces.Contains(typeof(ITransferable))
+                            && ifaces.Contains(typeof(ITransferObject))
+                        )
                         {
-                            object _content = transit.HeaderReceived.Data;
+                            int objectCount = transit.RequestHeader.Context.ItemsCount;
+                            transitContext.Synchronic = transit
+                                .RequestHeader
+                                .Context
+                                .Synchronic;
 
-                            Type[] ifaces = _content.GetType().GetInterfaces();
-                            if (
-                                ifaces.Contains(typeof(ITransitable))
-                                && ifaces.Contains(typeof(ITransitObject))
-                            )
+                            object myheader = ((ITransferObject)_content).Locate();
+
+                            if (myheader != null)
                             {
-                                int objectCount = transit.HeaderReceived.Context.ItemsCount;
-                                transitContext.Synchronic = transit
-                                    .HeaderReceived
-                                    .Context
-                                    .Synchronic;
-
-                                object myheader = ((ITransitObject)_content).Locate();
-
-                                if (myheader != null)
+                                if (objectCount == 0)
                                 {
-                                    if (objectCount == 0)
-                                    {
-                                        transitContext.HasMessageToReceive = false;
+                                    transitContext.HasMessageToReceive = false;
 
-                                        transit.MyHeader.Data = myheader;
-                                    }
-                                    else
-                                    {
-                                        transit.MyHeader.Data = (
-                                            (ITransitObject)myheader
-                                        ).Merge(_content);
-                                        transit.MessageReceived = new TransitMessage(
-                                            transit,
-                                            DirectionType.Receive,
-                                            transit.MyHeader.Data
-                                        );
-                                    }
+                                    transit.ResponseHeader.Data = myheader;
                                 }
                                 else
                                 {
-                                    isError = true;
-                                    errorMessage += "Prime not exist - incorrect object target ";
+                                    transit.ResponseHeader.Data = (
+                                        (ITransferObject)myheader
+                                    ).Merge(_content);
+                                    transit.RequestMessage = new TransferMessage(
+                                        transit,
+                                        DirectionType.Receive,
+                                        transit.ResponseHeader.Data
+                                    );
                                 }
                             }
                             else
                             {
                                 isError = true;
-                                errorMessage += "Incorrect DPOT object - deserialization error ";
+                                errorMessage += "Prime not exist - incorrect object target ";
                             }
                         }
                         else
                         {
-                            transit.MyHeader.Data = new Hashtable() { { "Register", true } };
-                            transit.MyHeader.Context.Echo +=
-                                "Registration success - ContentType: null ";
-                        }                    
+                            isError = true;
+                            errorMessage += "Incorrect DPOT object - deserialization error ";
+                        }
+                    }
+                    else
+                    {
+                        transit.ResponseHeader.Data = new Hashtable() { { "Register", true } };
+                        transit.ResponseHeader.Context.Echo +=
+                            "Registration success - ContentType: null ";
+                    }
                 }
                 else
                 {
@@ -293,20 +292,20 @@ namespace Undersoft.SDK.Ethernet
 
                 if (errorMessage != "")
                 {
-                    transit.MyHeader.Data += errorMessage;
-                    transit.MyHeader.Context.Echo += errorMessage;
+                    transit.ResponseHeader.Data += errorMessage;
+                    transit.ResponseHeader.Context.Echo += errorMessage;
                 }
-                transit.MyHeader.Context.Errors++;
+                transit.ResponseHeader.Context.Errors++;
             }
         }
 
-        private void ServerReceivedTcpTransitMessage(ITransitBuffer buffer)
+        private void ServerReceivedTcpTransitMessage(ITransferBuffer buffer)
         {
-            object serialItemsObj = ((object[])transit.MessageReceived.Data)[
+            object serialItemsObj = ((object[])transit.RequestMessage.Data)[
                 buffer.InputId
             ];
-            object deserialItemsObj = ((ITransitable)serialItemsObj).Deserialize(buffer);
-            ITransitable deserialItems = (ITransitable)deserialItemsObj;
+            object deserialItemsObj = ((ITransferable)serialItemsObj).Deserialize(buffer);
+            ITransferable deserialItems = (ITransferable)deserialItemsObj;
             if (
                 deserialItems.InputChunks <= deserialItems.CurrentChunk
                 || deserialItems.CurrentChunk == 0
@@ -320,27 +319,27 @@ namespace Undersoft.SDK.Ethernet
         private void ServerSendTcpTransitHeader()
         {
             transit.Manager.HeaderContent(
-                transitContext.Transfer.MyHeader.Data,
-                transitContext.Transfer.MyHeader.Data,
+                transitContext.Transfer.ResponseHeader.Data,
+                transitContext.Transfer.ResponseHeader.Data,
                 DirectionType.Send
             );
 
-            if (transit.MyHeader.Context.ItemsCount == 0)
+            if (transit.ResponseHeader.Context.ItemsCount == 0)
                 transitContext.HasMessageToSend = false;
 
-            transitContext.Transfer.MyHeader.Serialize(transitContext, 0, 0);
+            transitContext.Transfer.ResponseHeader.Serialize(transitContext, 0, 0);
         }
 
         private void ServerSendTcpTransitMessage()
         {
-            int serialBlockId = ((ITransitable[])transit.MyMessage.Data)[
+            int serialBlockId = ((ITransferable[])transit.ResponseMessage.Data)[
                 transitContext.ItemIndex
             ].Serialize(transitContext, transitContext.OutputId, 5000);
 
             if (serialBlockId < 0)
             {
                 if (
-                    transitContext.ItemIndex < (transit.MyHeader.Context.ItemsCount - 1)
+                    transitContext.ItemIndex < transit.ResponseHeader.Context.ItemsCount - 1
                 )
                 {
                     transitContext.ItemIndex++;
@@ -349,6 +348,6 @@ namespace Undersoft.SDK.Ethernet
                 }
             }
             transitContext.OutputId = serialBlockId;
-        }    
+        }
     }
 }

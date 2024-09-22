@@ -7,9 +7,10 @@
 
     public abstract class TypedRegistryBase<V> : TypedListingBase<V> where V : IIdentifiable
     {
-        const int WAIT_READ_TIMEOUT = 5000;
-        const int WAIT_REHASH_TIMEOUT = 5000;
+        const int WAIT_READ_TIMEOUT = 3000;
+        const int WAIT_REHASH_TIMEOUT = 7000;
         const int WAIT_WRITE_TIMEOUT = 5000;
+
         internal readonly ManualResetEventSlim readAccess = new ManualResetEventSlim(true, 128);
         internal readonly ManualResetEventSlim rehashAccess = new ManualResetEventSlim(true, 128);
         internal readonly ManualResetEventSlim writeAccess = new ManualResetEventSlim(true, 128);
@@ -79,14 +80,12 @@
             if (!readAccess.Wait(WAIT_READ_TIMEOUT))
                 throw new TimeoutException("Wait read Timeout");
         }
-
         protected void acquireRehash()
         {
             if (!rehashAccess.Wait(WAIT_REHASH_TIMEOUT))
                 throw new TimeoutException("Wait rehash Timeout");
             readAccess.Reset();
         }
-
         protected void acquireWriter()
         {
             do
@@ -96,18 +95,16 @@
                 writeAccess.Reset();
             } while (!writePass.Wait(0));
         }
-
+        
         protected void releaseReader()
         {
             if (0 == Interlocked.Decrement(ref readers))
                 rehashAccess.Set();
         }
-
         protected void releaseRehash()
         {
             readAccess.Set();
         }
-
         protected void releaseWriter()
         {
             writePass.Release();

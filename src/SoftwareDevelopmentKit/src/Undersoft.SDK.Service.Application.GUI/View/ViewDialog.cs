@@ -8,13 +8,13 @@ public class ViewDialog<TDialog, TModel> : IViewDialog<TModel>
     where TDialog : IDialogContentComponent<IViewData<TModel>>
     where TModel : class, IOrigin, IInnerProxy
 {
-    public ViewDialog(IDialogService dialogService, IViewDialogAnimations animations)
+    public ViewDialog(IDialogService dialogService, IViewAnimations animations)
     {
         Service = dialogService;
         Animations = animations;
     }
 
-    public IViewDialogAnimations Animations { get; set; }
+    public IViewAnimations Animations { get; set; }
 
     public IJSRuntime? JSRuntime { get; private set; }
 

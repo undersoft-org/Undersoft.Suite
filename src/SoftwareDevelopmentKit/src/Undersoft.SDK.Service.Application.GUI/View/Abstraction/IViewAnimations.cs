@@ -2,12 +2,12 @@
 
 namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
-    public interface IViewDialogAnimations
+    public interface IViewAnimations
     {
-        EventCallback<DialogInstance> Closing();
+        EventCallback<DialogInstance> ClosingCentral();
         EventCallback<DialogInstance> ClosingToRight();
         EventCallback<DialogInstance> ClosingToTop();
-        EventCallback<DialogInstance> Opening();
+        EventCallback<DialogInstance> OpeningCentral();
         EventCallback<DialogInstance> OpeningFromBottom();
         EventCallback<DialogInstance> OpeningFromLeft();
     }

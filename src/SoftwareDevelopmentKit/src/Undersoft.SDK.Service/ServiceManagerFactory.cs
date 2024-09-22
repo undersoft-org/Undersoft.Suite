@@ -9,19 +9,9 @@ namespace Undersoft.SDK.Service
         readonly IServiceManager _manager;
         readonly DefaultServiceProviderFactory _providerFactory;
 
-        public ServiceManagerFactory()
-        {
-            _options = new ServiceProviderOptions();
-            _providerFactory = new DefaultServiceProviderFactory(_options);
-            _manager = new ServiceManager();
-        }
+        public ServiceManagerFactory() : this(new ServiceManager()) { }
 
-        public ServiceManagerFactory(IServiceManager manager)
-        {
-            _options = new ServiceProviderOptions();
-            _providerFactory = new DefaultServiceProviderFactory(_options);
-            _manager = manager;
-        }
+        public ServiceManagerFactory(IServiceManager manager) : this(manager, new ServiceProviderOptions()) { }
 
         public ServiceManagerFactory(IServiceManager manager, ServiceProviderOptions options)
         {

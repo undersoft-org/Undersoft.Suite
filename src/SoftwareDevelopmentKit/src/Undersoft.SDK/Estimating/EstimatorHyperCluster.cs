@@ -1,10 +1,12 @@
-﻿namespace Undersoft.SDK.Estimating
+﻿using Undersoft.SDK.Series;
+
+namespace Undersoft.SDK.Estimating
 {
-    public class EstimatorHyperCluster
+    public class EstimatorHyperCluster : Identifiable
     {
         public double[] HyperClusterVector { get; set; }
 
-        public List<EstimatorCluster> Clusters { get; set; }
+        public Listing<EstimatorCluster> Clusters { get; set; }
 
         public EstimatorSeries HyperClusterItems { get; set; }
 
@@ -12,12 +14,9 @@
 
         public EstimatorHyperCluster(EstimatorCluster cluster)
         {
-            HyperClusterVector = new double[cluster.ClusterVector.Length];
-            Array.Copy(cluster.ClusterVector, HyperClusterVector, cluster.ClusterVector.Length);
-            HyperClusterVectorSummary = new double[cluster.ClusterVectorSummary.Length];
-            Array.Copy(cluster.ClusterVectorSummary, HyperClusterVectorSummary, cluster.ClusterVectorSummary.Length);
-            Clusters = new List<EstimatorCluster>();
-            Clusters.Add(cluster);
+            HyperClusterVector = cluster.ClusterVector[..cluster.ClusterVector.Length];
+            HyperClusterVectorSummary = cluster.ClusterVectorSummary[..cluster.ClusterVectorSummary.Length];
+            Clusters = new Listing<EstimatorCluster>([cluster]);
         }
 
         public bool RemoveClusterFromHyperCluster(EstimatorCluster cluster)

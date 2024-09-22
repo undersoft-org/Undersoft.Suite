@@ -7,18 +7,18 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
     [Serializable]
-    public class TransitMessage : ITransitable, IDisposable
+    public class TransferMessage : ITransferable, IDisposable
     {
         private object data;
         private DirectionType direction;
 
         [NonSerialized]
-        private EthernetTransit transaction;
+        private EthernetTransfer transaction;
 
-        public TransitMessage()
+        public TransferMessage()
         {
             data = new object();
             OutputChunks = 0;
@@ -26,8 +26,8 @@ namespace Undersoft.SDK.Ethernet
             direction = DirectionType.Receive;
         }
 
-        public TransitMessage(
-            EthernetTransit _transaction,
+        public TransferMessage(
+            EthernetTransfer _transaction,
             DirectionType _direction,
             object message = null
         )
@@ -54,21 +54,21 @@ namespace Undersoft.SDK.Ethernet
 
         public int ItemsCount
         {
-            get { return (data != null) ? ((ITransitable[])data).Sum(t => t.ItemsCount) : 0; }
+            get { return data != null ? ((ITransferable[])data).Sum(t => t.ItemsCount) : 0; }
         }
 
         public string Notice { get; set; }
 
         public int ObjectsCount
         {
-            get { return (data != null) ? ((ITransitable[])data).Length : 0; }
+            get { return data != null ? ((ITransferable[])data).Length : 0; }
         }
 
         public int CurrentChunk { get; set; }
 
         public int OutputChunks { get; set; }
 
-        public object Deserialize(ITransitBuffer buffer)
+        public object Deserialize(ITransferBuffer buffer)
         {
             return -1;
         }
@@ -86,23 +86,23 @@ namespace Undersoft.SDK.Ethernet
         public object GetHeader()
         {
             if (direction == DirectionType.Send)
-                return transaction.MyHeader.Data;
+                return transaction.ResponseHeader.Data;
             else
-                return transaction.HeaderReceived.Data;
+                return transaction.RequestHeader.Data;
         }
 
         public object[] GetMessage()
         {
             if (data != null)
-                return (ITransitable[])data;
+                return (ITransferable[])data;
             return null;
         }
 
-        public int Serialize(ITransitBuffer buffer, int offset, int batchSize)
+        public int Serialize(ITransferBuffer buffer, int offset, int batchSize)
         {
             buffer = transaction.Context;
             buffer.Output = this.ToJsonBytes();
-            return (int)buffer.Output.Length;
+            return buffer.Output.Length;
         }
 
         public int Serialize(Stream tostream, int offset, int batchSize)

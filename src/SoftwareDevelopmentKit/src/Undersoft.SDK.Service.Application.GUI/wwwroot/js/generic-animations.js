@@ -1,4 +1,6 @@
-﻿export async function dialogClosingToRight(id) {    
+﻿var GenericAnimations = GenericAnimations || {};
+
+GenericAnimations.closingToRight = function (id) {
 
     let dialog = document.getElementById(id)?.dialog;
 
@@ -8,9 +10,7 @@
     dialog.style.opacity = "0.0";
 
     let animation = dialog.animate([
-
         { opacity: "1", transform: "" },
-
         { opacity: "0", transform: "translateX(100%)" }
     ],
         {
@@ -18,13 +18,10 @@
         }
 
     );
+    return animation.finished;
+};
 
-    return animation.finished; 
-}
-
-export async function dialogOpeningFromLeft(id) {
-    
-
+GenericAnimations.openingFromLeft = function (id) {
     let dialog = document.getElementById(id)?.dialog;
 
     if (!dialog)
@@ -34,15 +31,14 @@ export async function dialogOpeningFromLeft(id) {
         { opacity: "0", transform: "translateX(-100%)" },
         { opacity: "1", transform: "" }
     ],
-        {        
+        {
             duration: 250
         }
     );
     return animation.finished;
-}
+};
 
-
-export async function dialogClosingToTop(id) {
+GenericAnimations.closingToTop = function (id) {
 
     let dialog = document.getElementById(id)?.dialog;
 
@@ -52,22 +48,17 @@ export async function dialogClosingToTop(id) {
     dialog.style.opacity = "0.0";
 
     let animation = dialog.animate([
-
         { opacity: "1", transform: "" },
-
         { opacity: "0", transform: "translateY(-100%)" }
     ],
         {
             duration: 250
         }
-
     );
-
     return animation.finished;
-}
+};
 
-export async function dialogOpeningFromBottom(id) {
-
+GenericAnimations.openningFromBottom = function (id) {
 
     let dialog = document.getElementById(id)?.dialog;
 
@@ -83,10 +74,9 @@ export async function dialogOpeningFromBottom(id) {
         }
     );
     return animation.finished;
-}
+};
 
-
-export async function dialogClosing(id) {
+GenericAnimations.closingCentral = function (id) {
 
     let dialog = document.getElementById(id)?.dialog;
 
@@ -96,22 +86,17 @@ export async function dialogClosing(id) {
     dialog.style.opacity = "0.0";
 
     let animation = dialog.animate([
-
         { opacity: "1", transform: "" },
-
         { opacity: "0", transform: "" }
     ],
         {
             duration: 250
         }
-
     );
-
     return animation.finished;
-}
+};
 
-export async function dialogOpening(id) {
-
+GenericAnimations.openingCentral = function (id) {
 
     let dialog = document.getElementById(id)?.dialog;
 
@@ -127,4 +112,4 @@ export async function dialogOpening(id) {
         }
     );
     return animation.finished;
-}
+};

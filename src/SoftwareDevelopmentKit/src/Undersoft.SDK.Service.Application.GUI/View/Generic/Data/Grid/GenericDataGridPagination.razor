@@ -9,7 +9,7 @@
 
 <div class="generic-datagrid-pagination">
 
-    <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.End" VerticalAlignment="VerticalAlignment.Center" Wrap="true" HorizontalGap="3">
+    <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.End" VerticalAlignment="VerticalAlignment.Center" Wrap="true" HorizontalGap="1">
         @if (DataStore.Pagination!.TotalCount > DataStore.Pagination.PageSize)
         {
             <FluentButton @onclick="@(() => GoToPageAsync(1))"

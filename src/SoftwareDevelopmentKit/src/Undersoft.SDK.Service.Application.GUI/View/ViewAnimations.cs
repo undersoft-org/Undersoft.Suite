@@ -4,24 +4,20 @@ using Undersoft.SDK.Service.Application.GUI.View.Generic;
 
 namespace Undersoft.SDK.Service.Application.GUI;
 
-public class ViewDialogAnimations : IViewDialogAnimations
+public class ViewAnimations : IViewAnimations
 {
-    private const string JAVASCRIPT_FILE =
-        "./_content/Undersoft.SDK.Service.Application.GUI/js/ViewDialogAnimations.js";
-
     private async Task InvokeFunction(string functionName, DialogInstance instance)
     {
-       await (await (
+       await (
             (IGenericDialog)((IViewData)instance.Content).View!
-        ).JSRuntime!.InvokeAsync<IJSObjectReference>("import", JAVASCRIPT_FILE)
-        ).InvokeVoidAsync(functionName, instance.Id);
+        ).JSRuntime!.InvokeVoidAsync(functionName, instance.Id);
     }
 
     public EventCallback<DialogInstance> OpeningFromLeft()
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogOpeningFromLeft", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.openingFromLeft", instance)
         );
         return a;
     }
@@ -30,7 +26,7 @@ public class ViewDialogAnimations : IViewDialogAnimations
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogClosingToRight", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.closingToRight", instance)
         );
         return a;
     }
@@ -39,7 +35,7 @@ public class ViewDialogAnimations : IViewDialogAnimations
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogOpeningFromBottom", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.openingFromBottom", instance)
         );
         return a;
     }
@@ -48,25 +44,25 @@ public class ViewDialogAnimations : IViewDialogAnimations
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogClosingToTop", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.closingToTop", instance)
         );
         return a;
     }
 
-    public EventCallback<DialogInstance> Opening()
+    public EventCallback<DialogInstance> OpeningCentral()
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogOpening", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.openingCentral", instance)
         );
         return a;
     }
 
-    public EventCallback<DialogInstance> Closing()
+    public EventCallback<DialogInstance> ClosingCentral()
     {
         var a = EventCallback.Factory.Create<DialogInstance>(
             this,
-            async (instance) => await InvokeFunction("dialogClosing", instance)
+            async (instance) => await InvokeFunction("GenericAnimations.closingCentral", instance)
         );
         return a;
     }

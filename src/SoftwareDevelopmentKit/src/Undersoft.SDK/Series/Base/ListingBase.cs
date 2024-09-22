@@ -47,6 +47,47 @@
                     InnerAdd(c);
         }
 
+
+        protected override void Rehash(int newsize)
+        {
+            int finish = count;
+            int _newsize = newsize;
+            uint newMaxId = (uint)(_newsize - 1);
+            ISeriesItem<V>[] newItemTable = EmptyTable(_newsize);
+            ISeriesItem<V>[] newBaseDeck = EmptyVector(_newsize);
+            if (removed != 0)
+            {
+                rehashAndReindex(newItemTable, newBaseDeck, newMaxId);
+                vector = newBaseDeck;
+            }
+            else
+            {
+                rehash(newItemTable, newMaxId);
+                Array.Copy(vector, 0, newBaseDeck, 0, finish);
+                vector = newBaseDeck;
+            }
+            table = newItemTable;
+            maxid = newMaxId;
+            size = newsize;
+        }
+        protected virtual void Reindex()
+        {
+            ISeriesItem<V> item = null;
+            first = EmptyItem();
+            int total = count + removed;
+            int _counter = 0;
+            for (int i = 0; i < total; i++)
+            {
+                item = vector[i];
+                if ((item != null) && !item.Removed)
+                {
+                    item.Index = _counter;
+                    vector[_counter++] = item;
+                }
+            }
+            removed = 0;
+        }
+
         void rehash(ISeriesItem<V>[] newItemTable, uint newMaxId)
         {
             int _conflicts = 0;
@@ -83,7 +124,6 @@
             }
             conflicts = _conflicts;
         }
-
         void rehashAndReindex(ISeriesItem<V>[] newItemTable, ISeriesItem<V>[] newBaseDeck, uint newMaxId)
         {
             int _conflicts = 0;
@@ -136,7 +176,6 @@
             conflicts = _conflicts;
             removed = 0;
         }
-
         void reindexWithInsert(int index, ISeriesItem<V> item)
         {
             ISeriesItem<V> _item = null;
@@ -160,6 +199,28 @@
             removed = 0;
         }
 
+        protected override void renewClear(int capacity)
+        {
+            if ((capacity != size) || (count > 0))
+            {
+                size = capacity;
+                maxid = (uint)(capacity - 1);
+                conflicts = 0;
+                removed = 0;
+                count = 0;
+                table = EmptyTable(size);
+                vector = EmptyVector(size);
+                first = EmptyItem();
+                last = first;
+            }
+        }
+
+        public override void Clear()
+        {
+            base.Clear();
+            vector = EmptyVector(minsize);
+        }
+
         protected ISeriesItem<V> createNew(ISeriesItem<V> item)
         {
             int id = count + removed;
@@ -167,7 +228,6 @@
             vector[id] = item;
             return item;
         }
-
         protected ISeriesItem<V> createNew(long key, V value)
         {
             int id = count + removed;
@@ -175,6 +235,28 @@
             newitem.Index = id;
             vector[id] = newitem;
             return newitem;
+        }
+
+        protected virtual ISeriesItem<V> swapRepeated(ISeriesItem<V> item)
+        {
+            V value = item.Value;
+            ISeriesItem<V> _item = item.Next;
+            item.Value = _item.Value;
+            _item.Value = value;
+            item.Next = _item.Next;
+            _item.Next = _item;
+            return _item;
+        }
+
+        protected void repeatedDecrement()
+        {
+            removedDecrement();
+            --repeated;
+        }
+        protected void repeatedIncrement()
+        {
+            countIncrement();
+            ++repeated;
         }
 
         protected void createRepeated(ISeriesItem<V> item, V value)
@@ -185,7 +267,6 @@
             item.Next = _item;
             _item.Repeated = true;
         }
-
         protected void createRepeated(ISeriesItem<V> item, ISeriesItem<V> newitem)
         {
             ISeriesItem<V> _item = createNew(newitem);
@@ -195,16 +276,6 @@
             _item.Next = item.Next;
             item.Next = _item;
             _item.Repeated = true;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                renewClear(minsize);
-
-                disposedValue = true;
-            }
         }
 
         protected virtual ISeriesItem<V> GetItem(long key, V item)
@@ -230,6 +301,17 @@
             }
 
             return mem;
+        }
+        public override ISeriesItem<V> GetItem(int index)
+        {
+            if (index < count)
+            {
+                if (removed > 0)
+                    Reindex();
+
+                return vector[index];
+            }
+            throw new IndexOutOfRangeException("Index out of range");
         }
 
         protected override int IndexOf(long key, V item)
@@ -324,7 +406,6 @@
                 item = item.Extended;
             }
         }
-
         protected override ISeriesItem<V> InnerPut(V value)
         {
             long key = unique.Key(value);
@@ -365,7 +446,6 @@
                 item = item.Extended;
             }
         }
-
         protected override ISeriesItem<V> InnerPut(long key, V value)
         {
             ulong pos = getPosition(key);
@@ -428,7 +508,6 @@
             }
             return default(V);
         }
-
         protected override V InnerRemove(long key, V item)
         {
             ISeriesItem<V> _item = table[getPosition(key)];
@@ -460,84 +539,10 @@
             return default(V);
         }
 
-        protected override void Rehash(int newsize)
+        public virtual bool TryRemove(long key, V item)
         {
-            int finish = count;
-            int _newsize = newsize;
-            uint newMaxId = (uint)(_newsize - 1);
-            ISeriesItem<V>[] newItemTable = EmptyTable(_newsize);
-            ISeriesItem<V>[] newBaseDeck = EmptyVector(_newsize);
-            if (removed != 0)
-            {
-                rehashAndReindex(newItemTable, newBaseDeck, newMaxId);
-                vector = newBaseDeck;
-            }
-            else
-            {
-                rehash(newItemTable, newMaxId);
-                Array.Copy(vector, 0, newBaseDeck, 0, finish);
-                vector = newBaseDeck;
-            }
-            table = newItemTable;
-            maxid = newMaxId;
-            size = newsize;
-        }
-
-        protected virtual void Reindex()
-        {
-            ISeriesItem<V> item = null;
-            first = EmptyItem();
-            int total = count + removed;
-            int _counter = 0;
-            for (int i = 0; i < total; i++)
-            {
-                item = vector[i];
-                if ((item != null) && !item.Removed)
-                {
-                    item.Index = _counter;
-                    vector[_counter++] = item;
-                }
-            }
-            removed = 0;
-        }
-
-        protected override void renewClear(int capacity)
-        {
-            if ((capacity != size) || (count > 0))
-            {
-                size = capacity;
-                maxid = (uint)(capacity - 1);
-                conflicts = 0;
-                removed = 0;
-                count = 0;
-                table = EmptyTable(size);
-                vector = EmptyVector(size);
-                first = EmptyItem();
-                last = first;
-            }
-        }
-
-        protected void repeatedDecrement()
-        {
-            removedDecrement();
-            --repeated;
-        }
-
-        protected void repeatedIncrement()
-        {
-            countIncrement();
-            ++repeated;
-        }
-
-        protected virtual ISeriesItem<V> swapRepeated(ISeriesItem<V> item)
-        {
-            V value = item.Value;
-            ISeriesItem<V> _item = item.Next;
-            item.Value = _item.Value;
-            _item.Value = value;
-            item.Next = _item.Next;
-            _item.Next = _item;
-            return _item;
+            V output = InnerRemove(key, item);
+            return (output != null) ? true : false;
         }
 
         protected override bool InnerAdd(ISeriesItem<V> value)
@@ -583,7 +588,6 @@
                 item = item.Extended;
             }
         }
-
         protected override bool InnerAdd(V value)
         {
             long key = unique.Key(value);
@@ -629,7 +633,6 @@
                 item = item.Extended;
             }
         }
-
         protected override bool InnerAdd(long key, V value)
         {
             ulong pos = getPosition(key);
@@ -674,22 +677,14 @@
             }
         }
 
-        public override void Clear()
-        {
-            base.Clear();
-            vector = EmptyVector(minsize);
-        }
-
         public override bool Contains(ISeriesItem<V> item)
         {
             return IndexOf(item.Id, item.Value) > -1;
         }
-
         public override bool Contains(V item)
         {
             return IndexOf(item) > -1;
         }
-
         public override bool Contains(long key, V item)
         {
             return IndexOf(key, item) > -1;
@@ -707,7 +702,6 @@
             for (int j = 0; j < c; j++)
                 array.SetValue(GetItem(j).Value, i++);
         }
-
         public override void CopyTo(ISeriesItem<V>[] array, int index)
         {
             int c = count,
@@ -722,7 +716,6 @@
                 array[i++] = GetItem(j);
             }
         }
-
         public override void CopyTo(V[] array, int index)
         {
             int c = count,
@@ -736,32 +729,14 @@
                 array[i++] = GetItem(j).Value;
         }
 
-        public override V Dequeue()
-        {
-            ISeriesItem<V> _output = Next(first);
-            if (_output == null)
-                return default(V);
-
-            if (repeatable && (_output.Next != null))
-                _output = swapRepeated(_output);
-            else
-                first = _output;
-
-            _output.Removed = true;
-            removedIncrement();
-            return _output.Value;
-        }
-
         public override ISeriesItem<V> EmptyItem()
         {
             return new SeriesItem<V>();
         }
-
         public override ISeriesItem<V>[] EmptyTable(int size)
         {
             return new SeriesItem<V>[size];
         }
-
         public virtual ISeriesItem<V>[] EmptyVector(int size)
         {
             return new SeriesItem<V>[size];
@@ -773,18 +748,6 @@
             vector = EmptyVector(size);
         }
 
-        public override ISeriesItem<V> GetItem(int index)
-        {
-            if (index < count)
-            {
-                if (removed > 0)
-                    Reindex();
-
-                return vector[index];
-            }
-            throw new IndexOutOfRangeException("Index out of range");
-        }
-
         public override int IndexOf(V item)
         {
             return IndexOf(unique.Key(item), item);
@@ -794,17 +757,14 @@
         {
             return new SeriesItem<V>(item);
         }
-
         public override ISeriesItem<V> NewItem(V value)
         {
             return new SeriesItem<V>(value);
         }
-
         public override ISeriesItem<V> NewItem(object key, V value)
         {
             return new SeriesItem<V>(key, value);
         }
-
         public override ISeriesItem<V> NewItem(long key, V value)
         {
             return new SeriesItem<V>(key, value);
@@ -829,6 +789,22 @@
             return array;
         }
 
+        public override V Dequeue()
+        {
+            ISeriesItem<V> _output = Next(first);
+            if (_output == null)
+                return default(V);
+
+            if (repeatable && (_output.Next != null))
+                _output = swapRepeated(_output);
+            else
+                first = _output;
+
+            _output.Removed = true;
+            removedIncrement();
+            return _output.Value;
+        }
+
         public override bool TryDequeue(out V output)
         {
             output = default(V);
@@ -849,7 +825,6 @@
             output = _output.Value;
             return true;
         }
-
         public override bool TryDequeue(out ISeriesItem<V> output)
         {
             output = null;
@@ -872,16 +847,19 @@
             return true;
         }
 
-        public virtual bool TryRemove(long key, V item)
-        {
-            V output = InnerRemove(key, item);
-            return (output != null) ? true : false;
-        }
-
         public override ISeriesItem<V> First => first;
+        public override ISeriesItem<V> Last => vector[(count + removed) - 1];
 
         public override bool IsRepeatable => repeatable;
 
-        public override ISeriesItem<V> Last => vector[(count + removed) - 1];
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                renewClear(minsize);
+
+                disposedValue = true;
+            }
+        }
     }
 }

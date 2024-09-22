@@ -48,14 +48,12 @@ namespace Undersoft.SDK.Series.Base
             if (!readAccess.Wait(WAIT_READ_TIMEOUT))
                 throw new TimeoutException("Wait read timeout");
         }
-
         protected void acquireRehash()
         {
             if (!rehashAccess.Wait(WAIT_REHASH_TIMEOUT))
                 throw new TimeoutException("Wait rehash Timeout");
             readAccess.Reset();
         }
-
         protected void acquireWriter()
         {
             do
@@ -65,18 +63,16 @@ namespace Undersoft.SDK.Series.Base
             } while (!writePass.Wait(1));
             writeAccess.Reset();
         }
-
+        
         protected void releaseReader()
         {
             if (0 == Interlocked.Decrement(ref readers))
                 rehashAccess.Set();
         }
-
         protected void releaseRehash()
         {
             readAccess.Set();
         }
-
         protected void releaseWriter()
         {
             writePass.Release();

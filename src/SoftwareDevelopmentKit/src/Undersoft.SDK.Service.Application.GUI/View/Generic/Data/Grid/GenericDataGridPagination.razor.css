@@ -1,7 +1,7 @@
 ﻿
 /* Style the custom page links*/
 .generic-datagrid-pagination {
-    margin-top: 10px;
+    margin-top: 5px;
     align-items: center;
 }
 
@@ -11,7 +11,7 @@
         padding: 0.22rem 0.5rem;
         border-radius: 0.4rem;        
         transition: transform 0.3s ease-out;
-        margin: 0.2rem;
+        margin: 0.1rem;
     }
 
         .generic-datagrid-pagination button:active {                                    

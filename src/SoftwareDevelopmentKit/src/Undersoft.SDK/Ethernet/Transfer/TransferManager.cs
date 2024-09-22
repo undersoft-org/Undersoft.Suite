@@ -1,21 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public class TransitManager
+    public class TransferManager
     {
         private EthernetContext ethernetContext;
         private EthernetSite site;
-        private EthernetTransit transit;
-        private ITransitContext transitContext;
+        private EthernetTransfer transit;
+        private ITransferContext transitContext;
         private EthernetOperation operation;
 
-        public TransitManager(EthernetTransit _transit)
+        public TransferManager(EthernetTransfer _transit)
         {
             transit = _transit;
             transitContext = transit.Context;
-            ethernetContext = transit.MyHeader.Context;
+            ethernetContext = transit.ResponseHeader.Context;
             site = ethernetContext.IdentitySite;
             operation = new EthernetOperation(_transit);
         }
@@ -27,12 +26,12 @@ namespace Undersoft.SDK.Ethernet
             if (_data != null)
             {
                 Type[] ifaces = _data.GetType().GetInterfaces();
-                if (ifaces.Contains(typeof(ITransitable)))
+                if (ifaces.Contains(typeof(ITransferable)))
                 {
-                    transit.MyHeader.Context.ContentType = _data.GetType();
+                    transit.ResponseHeader.Context.ContentType = _data.GetType();
 
                     if (direction == DirectionType.Send)
-                        _data = ((ITransitable)value).GetHeader();
+                        _data = ((ITransferable)value).GetHeader();
 
                     object[] messages_ = null;
                     if (operation.Execute(_data, direction, out messages_))
@@ -42,18 +41,18 @@ namespace Undersoft.SDK.Ethernet
                             ethernetContext.ItemsCount = messages_.Length;
                             for (int i = 0; i < ethernetContext.ItemsCount; i++)
                             {
-                                ITransitable message = ((ITransitable[])messages_)[i];
-                                ITransitable head = (ITransitable)
-                                    ((ITransitable[])messages_)[i].GetHeader();
+                                ITransferable message = ((ITransferable[])messages_)[i];
+                                ITransferable head = (ITransferable)
+                                    ((ITransferable[])messages_)[i].GetHeader();
                                 message.OutputChunks = message.ItemsCount;
                                 head.OutputChunks = message.ItemsCount;
                             }
 
                             if (direction == DirectionType.Send)
-                                transit.MyMessage.Data = messages_;
+                                transit.ResponseMessage.Data = messages_;
                             else
-                                transit.MyMessage.Data = (
-                                    (ITransitable)_data
+                                transit.ResponseMessage.Data = (
+                                    (ITransferable)_data
                                 ).GetHeader();
                         }
                     }
@@ -71,17 +70,17 @@ namespace Undersoft.SDK.Ethernet
                 if (direction == DirectionType.Receive)
                 {
                     Type[] ifaces = _content.GetType().GetInterfaces();
-                    if (ifaces.Contains(typeof(ITransitable)))
+                    if (ifaces.Contains(typeof(ITransferable)))
                     {
-                        object[] messages_ = ((ITransitable)value).GetMessage();
+                        object[] messages_ = ((ITransferable)value).GetMessage();
                         if (messages_ != null)
                         {
                             int length = messages_.Length;
                             for (int i = 0; i < length; i++)
                             {
-                                ITransitable message = ((ITransitable[])messages_)[i];
-                                ITransitable head = (ITransitable)
-                                    ((ITransitable[])messages_)[i].GetHeader();
+                                ITransferable message = ((ITransferable[])messages_)[i];
+                                ITransferable head = (ITransferable)
+                                    ((ITransferable[])messages_)[i].GetHeader();
                                 message.OutputChunks = head.OutputChunks;
                                 message.InputChunks = head.InputChunks;
                             }

@@ -49,6 +49,12 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
         }
 
         [CascadingParameter]
+        public virtual string? SubRowClass { get; set; } = "";
+
+        [CascadingParameter]
+        public virtual string? SubRowStyle { get; set; }
+
+        [CascadingParameter]
         public int RubricOrdinalSeed { get; set; } = 1;      
 
         [Parameter]

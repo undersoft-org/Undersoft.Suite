@@ -1,4 +1,5 @@
-﻿using Undersoft.SDK.Invoking;
+﻿using Undersoft.SDK.Ethernet.Transfer;
+using Undersoft.SDK.Invoking;
 
 namespace Undersoft.SDK.Ethernet.Client
 {
@@ -6,7 +7,7 @@ namespace Undersoft.SDK.Ethernet.Client
     {
         IInvoker Connected { get; set; }
 
-        ITransitContext Context { get; set; }
+        ITransferContext Context { get; set; }
 
         IInvoker HeaderReceived { get; set; }
 

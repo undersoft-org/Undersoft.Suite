@@ -1,23 +1,18 @@
 ﻿namespace Undersoft.SDK.Estimating
 {
-    public class EstimatorCluster
+    public class EstimatorCluster : Identifiable
     {
         public double[] ClusterVector { get; set; }
 
-
         public EstimatorSeries ClusterItems { get; set; }
-
 
         public double[] ClusterVectorSummary { get; set; }
 
         public EstimatorCluster(EstimatorItem item)
         {
-            ClusterVector = new double[item.Vector.Length];
-            Array.Copy(item.Vector, ClusterVector, item.Vector.Length);
-            ClusterVectorSummary = new double[item.Vector.Length];
-            Array.Copy(item.Vector, ClusterVectorSummary, item.Vector.Length);
-            ClusterItems = new EstimatorSeries();
-            ClusterItems.Add(item);
+            ClusterVector = item.Vector[..item.Vector.Length];
+            ClusterVectorSummary = item.Vector[..item.Vector.Length];
+            ClusterItems = new EstimatorSeries([item]);
         }
 
         public bool RemoveItemFromCluster(EstimatorItem item)

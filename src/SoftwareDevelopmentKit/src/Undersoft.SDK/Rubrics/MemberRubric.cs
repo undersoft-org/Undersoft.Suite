@@ -29,7 +29,7 @@
         public MemberRubric(IMemberRubric member) : this()
         {
             RubricInfo = (MemberInfo)member;
-            RubricName = member.RubricName;
+            DisplayName = RubricName = member.RubricName;
             RubricId = member.RubricId;
             Visible = member.Visible;
             Editable = member.Editable;

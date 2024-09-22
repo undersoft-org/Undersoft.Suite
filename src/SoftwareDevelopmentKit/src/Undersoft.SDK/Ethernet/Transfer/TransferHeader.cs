@@ -7,22 +7,22 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
     [Serializable]
-    public class TransitHeader : ITransitable, IDisposable
+    public class TransferHeader : ITransferable, IDisposable
     {
         [NonSerialized]
-        private EthernetTransit transaction;
+        private EthernetTransfer transaction;
 
-        public TransitHeader()
+        public TransferHeader()
         {
             Context = new EthernetContext();
             OutputChunks = 0;
             InputChunks = 0;
         }
 
-        public TransitHeader(EthernetTransit _transaction)
+        public TransferHeader(EthernetTransfer _transaction)
         {
             Context = new EthernetContext();
             transaction = _transaction;
@@ -30,7 +30,7 @@ namespace Undersoft.SDK.Ethernet
             InputChunks = 0;
         }
 
-        public TransitHeader(EthernetTransit _transaction, ITransitContext context)
+        public TransferHeader(EthernetTransfer _transaction, ITransferContext context)
         {
             Context = new EthernetContext();
             Context.LocalEndPoint = (IPEndPoint)context.Listener.LocalEndPoint;
@@ -40,9 +40,9 @@ namespace Undersoft.SDK.Ethernet
             InputChunks = 0;
         }
 
-        public TransitHeader(
-            EthernetTransit _transaction,
-            ITransitContext context,
+        public TransferHeader(
+            EthernetTransfer _transaction,
+            ITransferContext context,
             EthernetSite site
         )
         {
@@ -55,7 +55,7 @@ namespace Undersoft.SDK.Ethernet
             InputChunks = 0;
         }
 
-        public TransitHeader(EthernetTransit _transaction, EthernetSite site)
+        public TransferHeader(EthernetTransfer _transaction, EthernetSite site)
         {
             Context = new EthernetContext();
             Context.IdentitySite = site;
@@ -79,13 +79,13 @@ namespace Undersoft.SDK.Ethernet
 
         public int OutputChunks { get; set; }
 
-        public void BindContext(ITransitContext context)
+        public void BindContext(ITransferContext context)
         {
             Context.LocalEndPoint = (IPEndPoint)context.Listener.LocalEndPoint;
             Context.RemoteEndPoint = (IPEndPoint)context.Listener.RemoteEndPoint;
         }
 
-        public object Deserialize(ITransitBuffer buffer)
+        public object Deserialize(ITransferBuffer buffer)
         {
             return null;
         }
@@ -110,10 +110,10 @@ namespace Undersoft.SDK.Ethernet
             return null;
         }
 
-        public int Serialize(ITransitBuffer buffer, int offset, int batchSize)
+        public int Serialize(ITransferBuffer buffer, int offset, int batchSize)
         {
             buffer.Output = this.ToJsonBytes();
-            return (int)buffer.Output.Length;
+            return buffer.Output.Length;
         }
 
         public int Serialize(Stream tostream, int offset, int batchSize)

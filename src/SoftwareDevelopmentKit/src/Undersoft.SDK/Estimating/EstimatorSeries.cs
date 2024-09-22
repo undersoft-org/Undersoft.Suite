@@ -1,30 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using Undersoft.SDK.Series.Base;
 
 namespace Undersoft.SDK.Estimating
 {
-    public class EstimatorSeries : KeyedCollection<long, EstimatorItem>
+    public class EstimatorSeries : RegistryBase<EstimatorItem>
     {
-        public EstimatorSeries()
-        {
+        public EstimatorSeries() : base() { }
 
-        }
-
-        public EstimatorSeries(IList<EstimatorItem> range)
-        {
-
-        }
-
-        public void AddRange(IEnumerable<EstimatorItem> range)
-        {
-            foreach (EstimatorItem de in range)
-            {
-                this.Add(de);
-            }
-        }
-
-        protected override long GetKeyForItem(EstimatorItem item)
-        {
-            return item.Id;
-        }
-    }
+        public EstimatorSeries(IEnumerable<EstimatorItem> range) : base(range) { }
+    }    
 }

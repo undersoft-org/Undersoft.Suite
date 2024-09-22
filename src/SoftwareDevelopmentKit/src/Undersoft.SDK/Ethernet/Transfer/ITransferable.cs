@@ -1,9 +1,8 @@
-﻿namespace System
+﻿namespace Undersoft.SDK.Ethernet.Transfer
 {
     using System.IO;
-    using Undersoft.SDK.Ethernet;
 
-    public interface ITransitable
+    public interface ITransferable
     {
         int InputChunks { get; set; }
 
@@ -13,16 +12,16 @@
 
         int OutputChunks { get; set; }
 
-        object Deserialize(ITransitBuffer buffer);
-
-        object Deserialize(Stream stream);
-
         object GetHeader();
 
         object[] GetMessage();
 
+        object Deserialize(ITransferBuffer buffer);
+
+        object Deserialize(Stream stream);
+
         int Serialize(
-            ITransitBuffer buffer,
+            ITransferBuffer buffer,
             int offset,
             int batchSize
         );

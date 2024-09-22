@@ -1,22 +1,17 @@
-﻿namespace Undersoft.SDK.Ethernet
+﻿namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public interface ITransitBuffer : IDisposable
+    public interface ITransferBuffer : IDisposable
     {
         int Offset { get; set; }
-
         long Size { get; set; }
 
         byte[] Input { get; }
-
         int InputId { get; set; }
-
-        IntPtr InputPtr { get; }
+        nint InputPtr { get; }
 
         byte[] Output { get; set; }
-
         int OutputId { get; set; }
-
-        IntPtr OutputPtr { get; }
+        nint OutputPtr { get; }
 
         EthernetSite Site { get; }
     }

@@ -41,7 +41,7 @@
         base.OnInitialized();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
@@ -54,7 +54,7 @@
                     var reference = _firstRubric.ViewItem?.Reference;
                     if (reference != null)
                     {
-                        ((FluentComponentBase)reference).Element.FocusAsync();
+                        await JSRuntime!.InvokeVoidAsync("GenericUtilities.setFocusByElement", ((FluentComponentBase)reference).Element);
                     }
                 }
             }
@@ -77,4 +77,5 @@
     [Parameter]
     public EventHandler<FieldChangedEventArgs>? OnFieldChanged { get => onFieldChanged; set => onFieldChanged += value; }
 }
+
 

@@ -78,10 +78,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
         }
 
         [Parameter]
-        public Func<string, string> ForRowStyle { get; set; } = s => s + " max-height:80px; overflow-y:scroll;";
+        public Func<string, string> ForRowStyle { get; set; } = s => s + " max-height:80px;";
 
         [Parameter]
         public Func<string, string> ForRowClass { get; set; } = c => c + " datagrid-item";
+
+        [Parameter]
+        public Func<string, string> ForSubRowStyle { get; set; } = s => s + " max-height:80px;";
+
+        [Parameter]
+        public Func<string, string> ForSubRowClass { get; set; } = c => c + " datagrid-item";
 
         [Parameter]
         public string? RowStyle { get; set; }

@@ -1,17 +1,16 @@
 ﻿using System.Collections.ObjectModel;
+using Undersoft.SDK.Series.Base;
 
 namespace Undersoft.SDK.Series.Complex
 {
-    public partial class Plot<T> : KeyedCollection<long, Place<T>>
+    public partial class Plot<T> : RegistryBase<Place<T>>
         where T : class, IIdentifiable
     {
         private bool _directed = true;
         private bool _measured = true;
         private Metrics _metrics = new Metrics([new Metric(MetricKind.Time, "Seconds")]);
 
-        public Plot()
-        {
-        }
+        public Plot() { }
 
         public Plot(Metrics metrics, bool directed = true, bool measured = true)
             : this(directed, measured)
@@ -25,44 +24,32 @@ namespace Undersoft.SDK.Series.Complex
             _measured = measured;
         }
 
-        public Route<T> this[int indexFrom, int indexTo]
-        {
-            get
-            {
-                return this[((IList<Place<T>>)this)[indexFrom], ((IList<Place<T>>)this)[indexTo]];
-            }
-        }
-
-        public Route<T> this[T from, T to]
-        {
-            get { return this[this[from], this[to]]; }
-        }
-
+        public Route<T> this[int indexFrom, int indexTo] => this[((IList<Place<T>>)this)[indexFrom], ((IList<Place<T>>)this)[indexTo]];                    
+        public Route<T> this[T from, T to] => this[this[from], this[to]]; 
         public Route<T> this[Place<T> placeFrom, Place<T> placeTo]
         {
             get
             {
-                if (placeFrom.Contains(placeTo.Id))
+                if (placeFrom.ContainsKey(placeTo.Id))
                 {
                     var routeId = $"{placeFrom.Id}{placeTo.Id}".GetHashCode();
                     Route<T> route = new Route<T>()
                     {
                         From = placeFrom,
                         To = placeTo,
-                        Metrics = placeFrom.Metrics.Contains(routeId)
+                        Metrics = placeFrom.Metrics.ContainsKey(routeId)
                             ? placeFrom.Metrics[routeId]
-                            : new Metrics(_metrics, placeFrom, placeTo)
+                            : new Metrics(_metrics, placeFrom, placeTo),
                     };
                     return route;
                 }
                 return null;
             }
         }
-
         public Place<T> this[T item]
         {
             get { return this[item.Id]; }
-            set { Dictionary[item.Id] = value; }
+            set { this[item.Id] = value; }
         }
 
         public void AddRoute(T from, T to, Metrics set = null)
@@ -97,7 +84,7 @@ namespace Undersoft.SDK.Series.Complex
 
         public void RemoveRoute(Place<T> from, Place<T> to)
         {
-            if (from.Contains(to.Id))
+            if (from.ContainsKey(to.Id))
             {
                 from.Remove(to.Id);
                 from.Metrics.Remove(to.Id);
@@ -118,9 +105,9 @@ namespace Undersoft.SDK.Series.Complex
                         {
                             From = from,
                             To = to,
-                            Metrics = from.Metrics.Contains(routeId)
+                            Metrics = from.Metrics.ContainsKey(routeId)
                                 ? from.Metrics[routeId]
-                                : new Metrics(_metrics, from, to)
+                                : new Metrics(_metrics, from, to),
                         };
                         routes.Add(route);
                     }
@@ -150,32 +137,36 @@ namespace Undersoft.SDK.Series.Complex
 
             int[] previous = new int[Count];
             Array.Fill(previous, -1);
+
             double[] neighborValues = new double[Count];
             Array.Fill(neighborValues, double.MaxValue);
+
             neighborValues[source.Index] = 0;
-            
-            var neighborsPriority = new PriorityQueue<Place<T>, double>();        
-            neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], 0);            
+
+            var neighborsPriority = new PriorityQueue<Place<T>, double>();
+
+            neighborsPriority.Enqueue(((IList<Place<T>>)this)[source.Index], 0);
 
             while (neighborsPriority.TryDequeue(out var lowestNeighbor, out var priority))
             {
                 for (int i = 0; i < lowestNeighbor.Count; i++)
                 {
-                    int lowestNeighborIndex = lowestNeighbor.Index;
                     double value = ((IList<Metrics>)lowestNeighbor.Metrics)[i][kind].Value;
+
                     bool inRange = false;
-                    foreach(var range in ranges)  
+                    foreach (var range in ranges)
                         if (range.Minimum <= value && range.Maximum >= value)
                         {
                             inRange = true;
                             break;
-                        }             
-                    
+                        }
                     if (inRange)
                     {
-                        double total = neighborValues[lowestNeighborIndex] + value;
                         Place<T> lowestNeighborNeighbor = ((IList<Place<T>>)lowestNeighbor)[i];
                         int lowestNeighborNeughborIndex = lowestNeighborNeighbor.Index;
+
+                        int lowestNeighborIndex = lowestNeighbor.Index;
+                        double total = neighborValues[lowestNeighborIndex] + value;
                         if (neighborValues[lowestNeighborNeughborIndex] > total)
                         {
                             neighborValues[lowestNeighborNeughborIndex] = total;
@@ -185,25 +176,21 @@ namespace Undersoft.SDK.Series.Complex
                     }
                 }
             }
-           
-            IList<int> indices = new List<int>();
-            int index = target.Index;
-            while (index > -1)
-            {
-                indices.Add(index);
-                index = previous[index];
-            }
 
-            indices = indices.Reverse().ToArray();
-            Table<Route<T>> result = new Table<Route<T>>();
+            int index = target.Index;
+            var indices = new List<int>();
+            do indices.Add(index);
+            while ((index = previous[index]) > -1);
+
+            indices.Reverse();
+
+            var result = new Table<Route<T>>();
             for (int i = 0; i < indices.Count - 1; i++)
-            {
-                Route<T> route = this[indices[i], indices[i + 1]];
-                result.Add(route);
-            }
+                result.Add(this[indices[i], indices[i + 1]]);
+
             return result;
         }
-       
+
         public int[] Color()
         {
             int[] colors = new int[Count];
@@ -234,32 +221,6 @@ namespace Undersoft.SDK.Series.Complex
                 colors[i] = colorIndex;
             }
             return colors;
-        }
-
-        protected override long GetKeyForItem(Place<T> item)
-        {
-            return item.Id == 0 ? DateTime.UtcNow.Ticks.ToString().GetHashCode() : item.Id;
-        }
-
-        protected override void InsertItem(int index, Place<T> item)
-        {
-            item.Index = index;
-            base.InsertItem(index, item);
-        }
-
-        protected override void RemoveItem(int index)
-        {
-            for (int i = index + 1; i < Count; i++)
-            {
-                this[i].Index = i - 1;
-            }
-            base.RemoveItem(index);
-        }
-
-        protected override void SetItem(int index, Place<T> item)
-        {
-            item.Index = index;
-            base.SetItem(index, item);
         }
     }
 }

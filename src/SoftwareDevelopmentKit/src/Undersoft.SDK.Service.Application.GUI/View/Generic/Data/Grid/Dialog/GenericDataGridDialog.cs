@@ -8,7 +8,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid;
 
 public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel>, IGenericDataGridDialog where TDialog : IDialogContentComponent<IViewData<TModel>> where TModel : class, IOrigin, IInnerProxy
 {
-    public GenericDataGridDialog(IDialogService dialogService, IViewDialogAnimations animations) : base(dialogService, animations)
+    public GenericDataGridDialog(IDialogService dialogService, IViewAnimations animations) : base(dialogService, animations)
     {
     }
 
@@ -32,7 +32,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogClosing = Animations.Closing()
+                OnDialogClosing = Animations.ClosingCentral()
             });
 
             await ProcessDialog();
@@ -56,7 +56,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogClosing = Animations.Closing()
+                OnDialogClosing = Animations.ClosingCentral()
             });
 
             await ProcessDialog();
@@ -80,7 +80,7 @@ public class GenericDataGridDialog<TDialog, TModel> : ViewDialog<TDialog, TModel
                 ShowDismiss = false,
                 Modal = true,
                 PreventScroll = true,
-                OnDialogClosing = Animations.Closing()
+                OnDialogClosing = Animations.ClosingCentral()
             });
 
             await ProcessDialog();

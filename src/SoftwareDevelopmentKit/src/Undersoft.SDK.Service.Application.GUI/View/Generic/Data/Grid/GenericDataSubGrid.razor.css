@@ -1,0 +1,10 @@
+﻿.generic-datasubgrid {
+    overflow-y: visible;
+    max-height: calc(100dvh / 4);
+    width: 100%;
+    padding: 5px 5px 5px 0px
+}
+
+.datasubgrid{
+
+}

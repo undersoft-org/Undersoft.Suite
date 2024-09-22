@@ -18,9 +18,15 @@
 
         public Universe() : this(int.MaxValue, false) { }
 
-        public Universe(int size, bool safeThread)
+        public Universe(int size, bool threadSafe)
         {
-            Initialize(size);
+            Initialize(size, threadSafe);
+        }
+
+        public V this[int key]
+        {
+            get => registry[key];
+            set => registry[key] = value;
         }
 
         public int Count => registry.Count;
@@ -37,19 +43,24 @@
 
         public int Size { get; }
 
-        public void Initialize(int range = 0, bool safeThred = false)
-        {
-            scopes = new Registry<Universe>();
-            sigmaScopes = new Registry<Universe>();
-
+        public void Initialize(int range = 0, bool threadSafe = false)
+        {           
             if (range == 0 || range > int.MaxValue)
             {
                 range = int.MaxValue;
             }
-            if (!safeThred)
-                registry = new Registry<V>(false, range);
+            if (!threadSafe)
+            {
+                registry = new Listing<V>(false, range);
+                scopes = new Listing<Universe>();
+                sigmaScopes = new Listing<Universe>();
+            }
             else
+            {
                 registry = new Registry<V>(false, range);
+                scopes = new Registry<Universe>();
+                sigmaScopes = new Registry<Universe>();
+            }
 
             size = range;
 
@@ -60,7 +71,7 @@
 
         public bool Add(int key, V obj)
         {
-            if (registry.Add(key, obj))
+            if (registry.TryAdd(key, obj))
             {
                 root.Add(0, 1, 0, key);
                 return true;
@@ -75,7 +86,7 @@
 
         public V Get(int key)
         {
-            return registry.Get(key);
+            return registry[key];
         }
 
         public IEnumerator<ISeriesItem<V>> GetEnumerator()
@@ -108,21 +119,19 @@
             return registry.Set(key, value) != null;
         }
 
-        public bool TryAdd(int key)
+        public void Acquire(int key)
         {
             root.Add(0, 1, 0, key);
-            return true;
         }
 
-        public bool TryContains(int key)
+        public bool Possesses(int key)
         {
             return root.Contains(0, 1, 0, key);
         }
 
-        public bool TryRemove(int key)
+        public bool Release(int key)
         {
-            root.Remove(0, 1, 0, key);
-            return true;
+           return root.Remove(0, 1, 0, key);
         }
 
         private void BuildSigmaScopes(

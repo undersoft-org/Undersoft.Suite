@@ -26,7 +26,7 @@
 
                                             <GenericDataSearch Anchored="true" AnchorId="genericdatasearch" Parent="this" VerticalPosition="VerticalPosition.Center" Position="HorizontalPosition.Left" />
 
-                                            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom" Wrap="true">
+                                            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center" Wrap="true">
 
                                                 @if (ShowTitle)
                                                 {
@@ -42,7 +42,7 @@
 
                                             <div class="datagrid" tabindex="-1">
 
-                                                <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
+                                                <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" RowStyle="@ForRowStyle" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
                                                     <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 

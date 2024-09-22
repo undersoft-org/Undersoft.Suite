@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     /// <param name="configuration">Library configuration</param>
     public static IServiceCollection AddViewServices(this IServiceCollection services)
     {
-        services.AddScoped<IViewDialogAnimations, ViewDialogAnimations>();
+        services.AddScoped<IViewAnimations, ViewAnimations>();
         return services;
     }
 }

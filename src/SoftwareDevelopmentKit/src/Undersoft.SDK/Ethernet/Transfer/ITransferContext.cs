@@ -3,9 +3,9 @@ using System.Net.Sockets;
 using System.Text;
 using Undersoft.SDK.Series;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public interface ITransitContext : ITransitBuffer
+    public interface ITransferContext : ITransferBuffer
     {
         ManualResetEvent ChunksReceivedNotice { get; set; }
 
@@ -14,8 +14,6 @@ namespace Undersoft.SDK.Ethernet
         bool Close { get; set; }
 
         bool Denied { get; set; }
-
-        string Echo { get; }
 
         byte[] HeaderBuffer { get; }
 
@@ -47,11 +45,11 @@ namespace Undersoft.SDK.Ethernet
 
         bool Synchronic { get; set; }
 
-        EthernetTransit Transfer { get; set; }
+        EthernetTransfer Transfer { get; set; }
 
-        MarkupType IncomingHeader(int received);
+        MarkupType ReadHeader(int received);
 
-        MarkupType IncomingMessage(int received);
+        MarkupType ReadMessage(int received);
 
         void Reset();
     }

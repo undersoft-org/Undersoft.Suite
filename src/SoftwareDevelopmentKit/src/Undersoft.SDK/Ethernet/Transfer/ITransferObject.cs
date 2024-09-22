@@ -1,6 +1,6 @@
-﻿namespace System
+﻿namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public interface ITransitObject
+    public interface ITransferObject
     {
         object Locate(object path = null);
 

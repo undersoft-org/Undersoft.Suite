@@ -4,35 +4,35 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Undersoft.SDK.Series;
 
-namespace Undersoft.SDK.Ethernet
+namespace Undersoft.SDK.Ethernet.Transfer
 {
-    public sealed class TransitContext : ITransitContext, IDisposable
+    public sealed class TransferContext : ITransferContext, IDisposable
     {
-        private const int BUFFER_SIZE = 4096;
+        const int BUFFER_SIZE = 4096;
 
-        private readonly EthernetStream instream;
+        readonly EthernetStream instream;
 
-        private readonly EthernetStream outstream;
+        readonly EthernetStream outstream;
 
-        public byte[] receiveData = new byte[0];
+        byte[] inputData = new byte[0];
 
-        public IntPtr receiveDataAddress;
+        private nint inputDataPtr;
 
-        public IntPtr receiveDataHandler;
+        private nint inputHandlePtr;
 
-        public byte[] sendData = new byte[0];
+        private byte[] sendData = new byte[0];
 
-        public IntPtr sendDataAddress;
+        private nint outputDataPtr;
 
-        public IntPtr sendDataHandler;
+        private nint outputHandlePtr;
 
-        public IntPtr headerBufferAddress;
+        private nint headerBufferAddress;
 
-        public IntPtr headerBufferHandler;
+        private nint headerBufferHandler;
 
-        public IntPtr messageBufferAddress;
+        private nint messageBufferAddress;
 
-        public IntPtr messageBufferHandler;
+        private nint messageBufferHandler;
 
         public MemoryStream receiveStream;
 
@@ -51,17 +51,15 @@ namespace Undersoft.SDK.Ethernet
 
         private ISeries<byte[]> resources;
 
-        private StringBuilder sb = new StringBuilder();
+        private EthernetTransfer tr;
 
-        private EthernetTransit tr;
-
-        public TransitContext(Socket listener, int _id = -1, bool withStream = false)
+        public TransferContext(Socket listener, int _id = -1, bool withStream = false)
         {
-            this._listener = listener;
+            _listener = listener;
             if (withStream)
             {
-                this.instream = new EthernetStream(listener);
-                this.outstream = new EthernetStream(listener);
+                instream = new EthernetStream(listener);
+                outstream = new EthernetStream(listener);
             }
 
             GCHandle gc = GCHandle.Alloc(messagebuffer, GCHandleType.Pinned);
@@ -71,16 +69,16 @@ namespace Undersoft.SDK.Ethernet
             headerBufferHandler = GCHandle.ToIntPtr(gc);
             headerBufferAddress = gc.AddrOfPinnedObject();
 
-            this.id = _id;
-            this.Close = false;
-            this.Denied = false;
-            this.ItemIndex = 0;
-            this.ItemsLeft = 0;
-            this.InputId = 0;
-            this.Size = 0;
-            this.HasMessageToSend = true;
-            this.HasMessageToReceive = true;
-            this.disposed = true;
+            id = _id;
+            Close = false;
+            Denied = false;
+            ItemIndex = 0;
+            ItemsLeft = 0;
+            InputId = 0;
+            Size = 0;
+            HasMessageToSend = true;
+            HasMessageToReceive = true;
+            disposed = true;
 
             HeaderSentNotice.Reset();
             HeaderReceivedNotice.Reset();
@@ -113,12 +111,12 @@ namespace Undersoft.SDK.Ethernet
             get
             {
                 byte[] result = null;
-                lock (receiveData)
+                lock (inputData)
                 {
                     disposed = false;
                     Size = 0;
-                    result = receiveData;
-                    receiveData = new byte[0];
+                    result = inputData;
+                    inputData = new byte[0];
                 }
                 return result;
             }
@@ -126,37 +124,32 @@ namespace Undersoft.SDK.Ethernet
 
         public int InputId { get; set; }
 
-        public IntPtr InputPtr => receiveDataAddress;
-
-        public string Echo
-        {
-            get { return this.sb.ToString(); }
-        }
+        public nint InputPtr => inputDataPtr;
 
         public byte[] HeaderBuffer
         {
-            get { return this.headerbuffer; }
+            get { return headerbuffer; }
         }
 
         public ManualResetEvent HeaderReceivedNotice { get; set; } = new ManualResetEvent(false);
 
-        public ManualResetEvent HeaderSentNotice { get; set; } = new ManualResetEvent(false);      
+        public ManualResetEvent HeaderSentNotice { get; set; } = new ManualResetEvent(false);
 
         public int Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return id; }
+            set { id = value; }
         }
 
         public Socket Listener
         {
-            get { return this._listener; }
-            set { this._listener = value; }
+            get { return _listener; }
+            set { _listener = value; }
         }
 
         public byte[] MessageBuffer
         {
-            get { return this.messagebuffer; }
+            get { return messagebuffer; }
         }
 
         public ManualResetEvent MessageReceivedNotice { get; set; } = new ManualResetEvent(false);
@@ -172,7 +165,7 @@ namespace Undersoft.SDK.Ethernet
         public EthernetProtocol Protocol { get; set; } = EthernetProtocol.NONE;
 
         public bool HasMessageToReceive { get; set; }
-      
+
         public bool HasMessageToSend { get; set; }
 
         public byte[] Output
@@ -204,42 +197,37 @@ namespace Undersoft.SDK.Ethernet
 
         public int OutputId { get; set; }
 
-        public IntPtr OutputPtr => sendDataAddress;
+        public nint OutputPtr => outputDataPtr;
 
         public EthernetSite Site
         {
-            get { return Transfer.MyHeader.Context.IdentitySite; }
+            get { return Transfer.ResponseHeader.Context.IdentitySite; }
         }
 
         public bool Synchronic { get; set; }
 
-        public EthernetTransit Transfer
+        public EthernetTransfer Transfer
         {
-            get { return this.tr; }
+            get { return tr; }
             set
             {
                 if (value.Context == null)
                 {
                     value.Context = this;
-                    value.MyHeader.BindContext(value.Context);
+                    value.ResponseHeader.BindContext(value.Context);
                 }
-                if (value.MyMessage.Data != null)
+                if (value.ResponseMessage.Data != null)
                 {
-                    if (value.MyMessage.Data.GetType() == typeof(object[][]))
-                        value.MyHeader.Context.ItemsCount = (
-                            (object[][])value.MyMessage.Data
+                    if (value.ResponseMessage.Data.GetType() == typeof(object[][]))
+                        value.ResponseHeader.Context.ItemsCount = (
+                            (object[][])value.ResponseMessage.Data
                         ).Length;
                 }
-                this.tr = value;
+                tr = value;
             }
         }
 
         internal EthernetMethod SendEcho { get; set; }
-
-        public void Append(string text)
-        {
-            this.sb.Append(text);
-        }
 
         public void DirSearch(string dir, List<string> jspfiles)
         {
@@ -257,24 +245,23 @@ namespace Undersoft.SDK.Ethernet
         {
             if (!disposed)
             {
-                sb.Clear();
                 sendStream.Dispose();
                 receiveStream.Dispose();
                 GCHandle gc;
-                lock (receiveData)
+                lock (inputData)
                 {
-                    if (!receiveDataHandler.Equals(IntPtr.Zero))
+                    if (!inputHandlePtr.Equals(nint.Zero))
                     {
-                        gc = GCHandle.FromIntPtr(receiveDataHandler);
+                        gc = GCHandle.FromIntPtr(inputHandlePtr);
                         gc.Free();
                     }
-                    receiveData = null;
+                    inputData = null;
                 }
                 lock (sendData)
                 {
-                    if (!sendDataHandler.Equals(IntPtr.Zero))
+                    if (!outputHandlePtr.Equals(nint.Zero))
                     {
-                        gc = GCHandle.FromIntPtr(sendDataHandler);
+                        gc = GCHandle.FromIntPtr(outputHandlePtr);
                         gc.Free();
                     }
                     sendData = null;
@@ -295,38 +282,36 @@ namespace Undersoft.SDK.Ethernet
 
                 disposed = true;
             }
-        }                    
-
-        public MarkupType IncomingHeader(int received)
-        {
-            disposed = false;
-            return SyncHeader(received);
         }
 
-        public unsafe MarkupType IncomingMessage(int received)
+        public MarkupType ReadHeader(int received)
         {
             disposed = false;
-            return SyncMessage(received);
-        }       
+            return ProcessHeader(received);
+        }
+
+        public unsafe MarkupType ReadMessage(int received)
+        {
+            disposed = false;
+            return ProcessMessage(received);
+        }
 
         public void Reset()
         {
             if (!disposed)
             {
-                sb.Clear();
-                sb = new StringBuilder();
                 sendStream.Dispose();
                 sendStream = new MemoryStream();
                 receiveStream.Dispose();
                 receiveStream = new MemoryStream();
 
-                lock (receiveData)
+                lock (inputData)
                 {
-                    if (!receiveDataHandler.Equals(IntPtr.Zero))
+                    if (!inputHandlePtr.Equals(nint.Zero))
                     {
-                        GCHandle gc = GCHandle.FromIntPtr(receiveDataHandler);
+                        GCHandle gc = GCHandle.FromIntPtr(inputHandlePtr);
                         gc.Free();
-                        receiveData = new byte[0];
+                        inputData = new byte[0];
                     }
                 }
                 lock (sendData)
@@ -334,24 +319,24 @@ namespace Undersoft.SDK.Ethernet
             }
         }
 
-        public unsafe MarkupType SyncHeader(int received)
+        public unsafe MarkupType ProcessHeader(int received)
         {
             MarkupType noiseKind = MarkupType.None;
 
-            lock (receiveData)
+            lock (inputData)
             {
                 int offset = 0,
                     length = received;
                 bool inprogress = false;
                 if (Size == 0)
                 {
-                    Size = *((int*)(headerBufferAddress + 4).ToPointer());
-                    InputId = *((int*)(headerBufferAddress + 12).ToPointer());
+                    Size = *(int*)(headerBufferAddress + 4).ToPointer();
+                    InputId = *(int*)(headerBufferAddress + 12).ToPointer();
 
-                    receiveData = new byte[BufferSize];
-                    GCHandle gc = GCHandle.Alloc(receiveData, GCHandleType.Pinned);
-                    receiveDataHandler = GCHandle.ToIntPtr(gc);
-                    receiveDataAddress = gc.AddrOfPinnedObject();
+                    inputData = new byte[BufferSize];
+                    GCHandle gc = GCHandle.Alloc(inputData, GCHandleType.Pinned);
+                    inputHandlePtr = GCHandle.ToIntPtr(gc);
+                    inputDataPtr = gc.AddrOfPinnedObject();
 
                     offset = Offset;
                     length -= Offset;
@@ -368,12 +353,12 @@ namespace Undersoft.SDK.Ethernet
                     noiseKind = HeaderBuffer.SeekMarkup(out endPosition, SeekDirection.Backward);
                 }
 
-                int destid = (int)(receiveData.Length - (Size + length));
+                int destid = (int)(inputData.Length - (Size + length));
 
                 if (inprogress)
                 {
                     Extracting.Extract.CopyBlock(
-                        receiveDataAddress,
+                        inputDataPtr,
                         destid,
                         headerBufferAddress,
                         offset,
@@ -384,11 +369,11 @@ namespace Undersoft.SDK.Ethernet
             return noiseKind;
         }
 
-        public unsafe MarkupType SyncMessage(int received)
+        public unsafe MarkupType ProcessMessage(int received)
         {
             MarkupType noiseKind = MarkupType.None;
 
-            lock (receiveData)
+            lock (inputData)
             {
                 int offset = 0,
                     length = received;
@@ -396,13 +381,13 @@ namespace Undersoft.SDK.Ethernet
 
                 if (Size == 0)
                 {
-                    Size = *((int*)(messageBufferAddress + 4).ToPointer());
-                    InputId = *((int*)(messageBufferAddress + 12).ToPointer());
+                    Size = *(int*)(messageBufferAddress + 4).ToPointer();
+                    InputId = *(int*)(messageBufferAddress + 12).ToPointer();
 
-                    receiveData = new byte[Size];
-                    GCHandle gc = GCHandle.Alloc(receiveData, GCHandleType.Pinned);
-                    receiveDataHandler = GCHandle.ToIntPtr(gc);
-                    receiveDataAddress = gc.AddrOfPinnedObject();
+                    inputData = new byte[Size];
+                    GCHandle gc = GCHandle.Alloc(inputData, GCHandleType.Pinned);
+                    inputHandlePtr = GCHandle.ToIntPtr(gc);
+                    inputDataPtr = gc.AddrOfPinnedObject();
 
                     offset = Offset;
                     length -= Offset;
@@ -419,11 +404,11 @@ namespace Undersoft.SDK.Ethernet
                     noiseKind = MessageBuffer.SeekMarkup(out endPosition, SeekDirection.Backward);
                 }
 
-                int destid = (int)(receiveData.Length - (Size + length));
+                int destid = (int)(inputData.Length - (Size + length));
                 if (inprogress)
                 {
                     Extracting.Extract.CopyBlock(
-                        receiveDataAddress,
+                        inputDataPtr,
                         destid,
                         messageBufferAddress,
                         offset,
@@ -432,6 +417,6 @@ namespace Undersoft.SDK.Ethernet
                 }
             }
             return noiseKind;
-        }       
+        }
     }
 }

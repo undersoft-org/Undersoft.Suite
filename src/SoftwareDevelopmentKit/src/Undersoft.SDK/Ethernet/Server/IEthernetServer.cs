@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Undersoft.SDK.Ethernet.Transfer;
 using Undersoft.SDK.Invoking;
 
 namespace Undersoft.SDK.Ethernet
@@ -8,11 +9,11 @@ namespace Undersoft.SDK.Ethernet
         void ClearClients();
         void Close();
         void Echo(string message);
-        ITransitContext HeaderReceived(object inetdealcontext);
-        ITransitContext HeaderSent(object inetdealcontext);
+        ITransferContext HeaderReceived(object inetdealcontext);
+        ITransferContext HeaderSent(object inetdealcontext);
         bool IsActive();
-        ITransitContext MessageReceived(object inetdealcontext);
-        ITransitContext MessageSent(object inetdealcontext);
+        ITransferContext MessageReceived(object inetdealcontext);
+        ITransferContext MessageSent(object inetdealcontext);
         void Start(IPEndPoint endPoint, IInvoker echoMethod = null);
     }
 }

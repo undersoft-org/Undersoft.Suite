@@ -3,6 +3,7 @@
     using System.Net;
     using System.Threading;
     using Undersoft.SDK.Ethernet.Client;
+    using Undersoft.SDK.Ethernet.Transfer;
     using Undersoft.SDK.Invoking;
 
     public interface IEthernetConnection
@@ -11,7 +12,7 @@
 
         void Close();
 
-        ITransitContext Initiate(bool isAsync = true);
+        ITransferContext Initiate(bool isAsync = true);
 
         void Reconnect();
 
@@ -38,7 +39,7 @@
         )
         {
             EthernetClient client = new EthernetClient(endPoint);
-            Transit = new EthernetTransit();
+            Transit = new EthernetTransfer();
 
             connected = new EthernetMethod(nameof(this.Connected), this);
             headerSent = new EthernetMethod(nameof(this.HeaderSent), this);
@@ -62,13 +63,13 @@
 
         public object Content
         {
-            get { return Transit.MyHeader.Data; }
-            set { Transit.MyHeader.Data = value; }
+            get { return Transit.ResponseHeader.Data; }
+            set { Transit.ResponseHeader.Data = value; }
         }
 
-        public ITransitContext Context { get; set; }
+        public ITransferContext Context { get; set; }
 
-        public EthernetTransit Transit { get; set; }
+        public EthernetTransfer Transit { get; set; }
 
         private EthernetClient Client { get; set; }
 
@@ -77,10 +78,10 @@
             Client.Dispose();
         }
 
-        public ITransitContext Connected(object inetdealclient)
+        public ITransferContext Connected(object inetdealclient)
         {
             WriteEcho("Client Connection Established");
-            Transit.MyHeader.Context.Echo = "Client say Hello. ";
+            Transit.ResponseHeader.Context.Echo = "Client say Hello. ";
             Context = Client.Context;
             Client.Context.Transfer = Transit;
 
@@ -91,9 +92,9 @@
             return idc.Context;
         }
 
-        public ITransitContext HeaderReceived(object inetdealclient)
+        public ITransferContext HeaderReceived(object inetdealclient)
         {
-            string serverEcho = Transit.HeaderReceived.Context.Echo;
+            string serverEcho = Transit.RequestHeader.Context.Echo;
             WriteEcho(string.Format("Server header received"));
             if (serverEcho != null && serverEcho != "")
                 WriteEcho(string.Format("Server echo: {0}", serverEcho));
@@ -125,7 +126,7 @@
             return idc.Context;
         }
 
-        public ITransitContext HeaderSent(object inetdealclient)
+        public ITransferContext HeaderSent(object inetdealclient)
         {
             WriteEcho("Client header sent");
             IEthernetClient idc = (IEthernetClient)inetdealclient;
@@ -137,7 +138,7 @@
             return idc.Context;
         }
 
-        public ITransitContext Initiate(bool IsAsync = true)
+        public ITransferContext Initiate(bool IsAsync = true)
         {
             isAsync = IsAsync;
             Client.Connect();
@@ -150,11 +151,11 @@
             return null;
         }
 
-        public ITransitContext MessageReceived(object inetdealclient)
+        public ITransferContext MessageReceived(object inetdealclient)
         {
             WriteEcho(string.Format("Server message received"));
 
-            ITransitContext context = ((IEthernetClient)inetdealclient).Context;
+            ITransferContext context = ((IEthernetClient)inetdealclient).Context;
             if (context.Close)
                 ((IEthernetClient)inetdealclient).Dispose();
 
@@ -165,7 +166,7 @@
             return context;
         }
 
-        public ITransitContext MessageSent(object inetdealclient)
+        public ITransferContext MessageSent(object inetdealclient)
         {
             WriteEcho("Client message sent");
 
@@ -189,7 +190,7 @@
             IPEndPoint endpoint = new IPEndPoint(Client.EndPoint.Address, Client.EndPoint.Port);
             Transit.Dispose();
             EthernetClient client = new EthernetClient(endpoint);
-            Transit = new EthernetTransit(endpoint);
+            Transit = new EthernetTransfer(endpoint);
             client.Connected = connected;
             client.HeaderSent = headerSent;
             client.MessageSent = messageSent;

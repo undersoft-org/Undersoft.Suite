@@ -86,16 +86,16 @@ public class Stock : IStock
             GetSector((uint)index, out ushort[] zyx)[zyx[2]] = value;
         }
     }
-    public virtual object this[Uscn serialcode]
+    public virtual object this[Uscn code]
     {
-        get => Get(serialcode);
+        get => Get(code);
         set
         {
-            if (!serialcode.GetFlagBit(0))
+            if (!code.GetFlagBit(0))
             {
-                var sector = GetSector(serialcode);
+                var sector = GetSector(code);
                 if (sector != null)
-                    sector[serialcode.BlockX] = value;
+                    sector[code.BlockX] = value;
             }
         }
     }
@@ -220,12 +220,10 @@ public class Stock : IStock
         zyx = new ushort[] { (ushort)blockZ, (ushort)blockY, (ushort)blockX };
         return GetSector(zyx[0], zyx[1]);
     }
-
     public ITableStock GetSector(Uscn serialcode)
     {
         return GetSector(serialcode.BlockZ, serialcode.BlockY);
     }
-
     public ITableStock GetSector(IInstant figure)
     {
         return GetSector(figure.Code);
@@ -243,7 +241,6 @@ public class Stock : IStock
         }
         return cluster;
     }
-
     private ITableStock GetSector(ushort clusterId, ushort sectorId)
     {
         IStock[] _cluster = GetCluster(clusterId);

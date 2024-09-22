@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading;
+using Undersoft.SDK.Ethernet.Transfer;
 using Undersoft.SDK.Invoking;
 
 namespace Undersoft.SDK.Ethernet
@@ -29,33 +30,33 @@ namespace Undersoft.SDK.Ethernet
             }
         }
 
-        public ITransitContext HeaderReceived(object inetdealcontext)
+        public ITransferContext HeaderReceived(object inetdealcontext)
         {
-            string clientEcho = ((ITransitContext)inetdealcontext)
+            string clientEcho = ((ITransferContext)inetdealcontext)
                 .Transfer
-                .HeaderReceived
+                .RequestHeader
                 .Context
                 .Echo;
             Echo(string.Format("Client header received"));
             if (clientEcho != null && clientEcho != "")
                 Echo(string.Format("Client echo: {0}", clientEcho));
 
-            EthernetContext trctx = ((ITransitContext)inetdealcontext).Transfer.MyHeader.Context;
+            EthernetContext trctx = ((ITransferContext)inetdealcontext).Transfer.ResponseHeader.Context;
             if (trctx.Echo == null || trctx.Echo == "")
                 trctx.Echo = "Server say Hello";
-            if (!((ITransitContext)inetdealcontext).Synchronic)
-                server.Send(TransitPart.Header, ((ITransitContext)inetdealcontext).Id);
+            if (!((ITransferContext)inetdealcontext).Synchronic)
+                server.Send(TransitPart.Header, ((ITransferContext)inetdealcontext).Id);
             else
-                server.Receive(TransitPart.Message, ((ITransitContext)inetdealcontext).Id);
+                server.Receive(TransitPart.Message, ((ITransferContext)inetdealcontext).Id);
 
-            return ((ITransitContext)inetdealcontext);
+            return ((ITransferContext)inetdealcontext);
         }
 
-        public ITransitContext HeaderSent(object inetdealcontext)
+        public ITransferContext HeaderSent(object inetdealcontext)
         {
             Echo("Server header sent");
 
-            ITransitContext context = (ITransitContext)inetdealcontext;
+            ITransferContext context = (ITransferContext)inetdealcontext;
             if (context.Close)
             {
                 context.Transfer.Dispose();
@@ -88,18 +89,18 @@ namespace Undersoft.SDK.Ethernet
             }
         }
 
-        public ITransitContext MessageReceived(object inetdealcontext)
+        public ITransferContext MessageReceived(object inetdealcontext)
         {
             Echo(string.Format("Client message received"));
-            if (((ITransitContext)inetdealcontext).Synchronic)
-                server.Send(TransitPart.Header, ((ITransitContext)inetdealcontext).Id);
-            return (ITransitContext)inetdealcontext;
+            if (((ITransferContext)inetdealcontext).Synchronic)
+                server.Send(TransitPart.Header, ((ITransferContext)inetdealcontext).Id);
+            return (ITransferContext)inetdealcontext;
         }
 
-        public ITransitContext MessageSent(object inetdealcontext)
+        public ITransferContext MessageSent(object inetdealcontext)
         {
             Echo("Server message sent");
-            ITransitContext result = (ITransitContext)inetdealcontext;
+            ITransferContext result = (ITransferContext)inetdealcontext;
             if (result.Close)
             {
                 result.Transfer.Dispose();

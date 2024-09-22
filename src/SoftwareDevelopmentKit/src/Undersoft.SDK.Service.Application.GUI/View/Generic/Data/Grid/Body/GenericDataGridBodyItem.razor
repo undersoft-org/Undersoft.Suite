@@ -82,11 +82,9 @@
 {
     foreach (var data in Data.Where(d => d.StateFlags.Expanded))
     {
-        <FluentDataGridRow @key="@data.ViewId" TGridItem="string">
-
+        <tr>
             <GenericDataSubGrid FeatureFlags="@Root!.FeatureFlags" DataStore="@((IViewDataStore)data)" />
-
-        </FluentDataGridRow>
+        </tr>
     }
 }
 

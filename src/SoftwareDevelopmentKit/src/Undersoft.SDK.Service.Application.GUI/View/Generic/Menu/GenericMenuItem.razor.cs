@@ -99,8 +99,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
             else if (Rubric.Extended && !Rubric.IsMenuGroup)
             {
                 Data.ForOnly(d => d.StateFlags.Expanded, d => d.StateFlags.Expanded = false).Commit();
-                if(ExpandData != null)
+                if (ExpandData != null)
+                {
                     ExpandData.StateFlags.Expanded = true;
+                    RenderView();
+                }
             }
             IsOpen = false;
         }

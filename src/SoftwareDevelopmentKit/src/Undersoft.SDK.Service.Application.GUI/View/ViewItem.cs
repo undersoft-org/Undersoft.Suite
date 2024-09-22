@@ -39,7 +39,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         protected Uscn code;
 
         protected override void OnInitialized()
-        {
+        {            
             code.SetId(Unique.NewId);
             IsNew = true;
             if (Parent != null)
@@ -51,6 +51,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             base.OnInitialized();
         }
 
+        [Inject]
         public virtual IJSRuntime? JSRuntime { get; set; }
 
         [Parameter]
@@ -146,7 +147,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         }
         private IViewRubric _rubric = default!;
 
-        public object? Reference { get; set; }
+        [Parameter]
+        public ComponentBase? Reference { get; set; }
 
         [CascadingParameter]
         public virtual IViewItem? Root { get; set; }
@@ -259,6 +261,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         {
             return origin.GetPriority();
         }
+
+
 
         public virtual void RenderView()
         {
