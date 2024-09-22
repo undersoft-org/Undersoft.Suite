@@ -20,7 +20,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 
         Type? FilteredType { get; set; }
 
-        IViewItem ViewFilter { get; set; }
+        IViewItem? ViewFilter { get; set; }
 
         string[]? SortMembers { get; set; }
 

@@ -37,12 +37,16 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         : base(model)
     {
         Pagination = new Pagination();
+        LoadSingle(model);
+        MapRubrics();
     }
 
-    public ViewDataStore(IList<TModel> models)
-        : this()
+    public ViewDataStore(ISeries<TModel> models)
+        : base(models.FirstOrDefault())
     {
+        Pagination = new Pagination();
         Load(models);
+        MapRubrics();
     }
 
     public ViewDataStore(IViewStore? store)
@@ -63,6 +67,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         if (setup != null)
             setup(this);
     }
+
+    public override long Id { get => Models.Id; set => Models.Id = value; }
 
     public virtual void MapRubrics()
     {
@@ -167,20 +173,26 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
 
     public IQueryParameters? Query { get; set; }
 
+    public virtual void LoadSingle(TModel single)
+    {
+        if (_session != null)
+            single = RemoteStore().Find<TModel>(single.Id);
+
+        if (single != null)
+        {
+            Models = new Listing<TModel>(single.ToEnumerable());
+            Models.Id = single.Id;
+            Items = new Listing<IViewData>(Attach(single).ToEnumerable());
+            Pagination?.SetTotalCount(1);
+        }
+
+        if (LoadCompleted != null && Items != null)
+            LoadCompleted.Invoke(this, Items);
+    }
+
     public virtual async Task LoadSingleAsync(TModel single)
     {
-        await Task.Run(() =>
-        {
-            var m = RemoteStore().Find<TModel>(single.Id);
-            if (m != null)
-            {
-                var models = new Listing<TModel>();
-                models.Add(m);
-                Models = models;
-                Items = new Listing<IViewData>(Attach(m).ToEnumerable());
-                Pagination.SetTotalCount(1);
-            }
-        });
+        await Task.Run(() => LoadSingle(single));
     }
 
     private async Task<QueryOperationResponse<TDto>> LoadRemoteAsync(
@@ -433,7 +445,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                 ? (IViewStore?)ViewItem!
                 : null;
 
-    public ISeries<TModel>? Models { get; set; }
+    public ISeries<TModel> Models { get; set; } = default!;
 
     public ISeries<IViewData>? Items { get; set; }
 
@@ -468,16 +480,15 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                     }
 
                     if (type.IsAssignableTo(typeof(IEnumerable)))
-                    {
                         type = type.GetEnumerableElementType();
-                        return typeof(ViewDataStore<,>)
-                            .MakeGenericType(typeof(TStore), type)
-                            .New<IViewData>(value);
-                    }
-                    else
-                    {
-                        return typeof(ViewData<>).MakeGenericType(type).New<IViewData>(value);
-                    }
+
+                    IViewDataStore extend = typeof(ViewDataStore<,>)
+                        .MakeGenericType(typeof(TStore), type)
+                        .New<IViewDataStore>(value);
+
+                    extend.Root = this.Root;
+                    return extend;
+
                 })
                 .Commit();
 
@@ -520,8 +531,8 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
                         type = type.GetEnumerableElementType();
 
                     return typeof(ViewDataStore<,>)
-                        .MakeGenericType(typeof(TStore), type)
-                        .New<IViewData>(value);
+                          .MakeGenericType(typeof(TStore), type)
+                          .New<IViewData>(value);
                 })
                 .Commit();
 
@@ -579,20 +590,23 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         return Items = query.ForEach(d => Attach(d, patch)).ToListing();
     }
 
-    public virtual void Load(IList<TModel> models, bool patch = false)
+    public virtual void Load(ISeries<TModel> models, bool patch = false)
     {
-        if (models == null || models.Count == 0)
+        if (models == null || !models.Any())
             return;
-
-        if (Models != null && Models.Count > 0)
+        var offset = 0;
+        if (Models != null && Models.Any())
+        {
+            offset = Models.Count;
             Models.Put(models);
+        }
         else
-            Models = models.ToListing();
+            Models = models;
 
         var loadedData = LoadLocal(patch);
 
         if(!patch)
-            Pagination!.IncreaseTotalCount(models.Count);
+            Pagination!.IncreaseTotalCount(Models.Count - offset);
 
         if (LoadCompleted != null)
             LoadCompleted.Invoke(this, loadedData);
@@ -608,7 +622,7 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
         await Task.Factory.StartNew(() => Load(models));
     }
 
-    public virtual async Task LoadAsync(IList<TModel> models, bool patch = false)
+    public virtual async Task LoadAsync(ISeries<TModel> models, bool patch = false)
     {
         await Task.Factory.StartNew(() => Load(models, patch));
     }
@@ -642,9 +656,34 @@ public class ViewDataStore<TStore, TDto, TModel> : ViewData<TModel>, IViewDataSt
     }
 }
 
+public class ViewDataStore<TModel> : ViewDataStore<IDataStore, TModel>
+    where TModel : class, IOrigin, IInnerProxy
+{
+    public ViewDataStore()
+        : base()
+    {
+    }
+
+    public ViewDataStore(TModel model)
+        : base(model) { }
+
+    public ViewDataStore(ISeries<TModel> models)
+        : base(models) { }
+
+    public ViewDataStore(IViewStore? store)
+        : base(store) { }
+
+    public ViewDataStore(IViewStore store, Action<ViewDataStore<TModel>>? setup)
+        : base(store)
+    {
+        if (setup != null)
+            setup(this);
+    }
+}
+
 public class ViewDataStore<TStore, TModel> : ViewDataStore<TStore, TModel, TModel>
     where TModel : class, IOrigin, IInnerProxy
-    where TStore : IDataServiceStore
+    where TStore : class, IDataServiceStore
 {
     public ViewDataStore()
         : base()
@@ -655,7 +694,7 @@ public class ViewDataStore<TStore, TModel> : ViewDataStore<TStore, TModel, TMode
     public ViewDataStore(TModel model)
         : base(model) { }
 
-    public ViewDataStore(IList<TModel> models)
+    public ViewDataStore(ISeries<TModel> models)
         : base(models) { }
 
     public ViewDataStore(IViewStore? store)

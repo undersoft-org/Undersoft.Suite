@@ -10,12 +10,10 @@
         {
             try
             {
-                double _rate1 = rate1;
-                double _rate2 = rate2;
-                double result = _rate2 / _rate1;
+                double result = rate2 / rate1;
                 Debug.WriteLine("Result : " + result.ToString());
 
-                return new object[] { _rate1, _rate2, result };
+                return new object[] { rate1, rate2, result };
             }
             catch (Exception ex)
             {

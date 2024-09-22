@@ -38,8 +38,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             DataStore = typeof(ViewDataStore<,,>)
                 .MakeGenericType(typeof(TStore), contractType, typeof(TModel))
                 .New<IViewDataStore>(this, Setup);
-            await SetAuthorization();
-            await DataStore.LoadAsync();
+            if (await SetAuthorization().ConfigureAwait(false))
+                await DataStore.LoadAsync();
             ProgressVisible = false;
         }
 
@@ -49,9 +49,9 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             {
                 ProgressVisible = true;
                 DataStore = new ViewDataStore<TStore, T, TModel>(this);
-                await SetAuthorization();
-                await DataStore.LoadAsync();
-                ProgressVisible = true;
+                if(await SetAuthorization().ConfigureAwait(false))
+                    await DataStore.LoadAsync();
+                ProgressVisible = false;
             }
         }
 
@@ -61,8 +61,8 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             {
                 ProgressVisible = true;
                 DataStore = new ViewDataStore<TStore, TDto, TModel>(this, Setup);
-                await SetAuthorization();
-                await DataStore.LoadAsync();
+                if (await SetAuthorization().ConfigureAwait(false))
+                    await DataStore.LoadAsync();
                 ProgressVisible = false;
             }
         }
@@ -71,6 +71,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View
     public class ViewStore<TStore, TModel> : ViewStore<TStore, TModel, TModel>, IViewStore<TStore, TModel>
         where TModel : class, IOrigin, IInnerProxy
         where TStore : IDataServiceStore
+    {
+    }
+
+    public class ViewStore<TModel> : ViewStore<IDataStore, TModel>, IViewStore<TModel>
+       where TModel : class, IOrigin, IInnerProxy
     {
     }
 
@@ -85,7 +90,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View
         public virtual IDialogService? DialogService { get; set; }
 
         [Parameter]
-        public virtual IAccessProvider? Access { get; set; }
+        public virtual IAccessContext? Access { get; set; }
 
         public virtual IEnumerable<IViewData>? Items => DataStore.Items;
 
@@ -96,13 +101,19 @@ namespace Undersoft.SDK.Service.Application.GUI.View
             set => base.Data = value;
         }
 
-        public async Task SetAuthorization()
+        public async Task<bool> SetAuthorization()
         {
             if (Access != null)
             {
-                await Access.CurrentState();
-                DataStore.Authorization = Access.Authorization;
+                var user = await Access.RefreshAsync().ConfigureAwait(false);
+                if (user != null)
+                {
+                    DataStore.Authorization = Access.Current;
+                    if(!user.Identity!.IsAuthenticated)
+                        return false;
+                }
             }
+            return true;
         }
 
         public bool ProgressVisible { get; set; }

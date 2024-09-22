@@ -10,6 +10,6 @@ namespace Undersoft.SDK.Service.Access
         Task<IAuthorization> SignedIn(IAuthorization account);
         Task<IAuthorization> SignedUp(IAuthorization account);
 
-        Task<ClaimsPrincipal> CurrentState();
+        Task<ClaimsPrincipal> RefreshAsync();
     }
 }

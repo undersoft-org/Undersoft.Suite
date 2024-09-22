@@ -22,7 +22,7 @@ public class Subscription : DataObject, ISubscription
 
     [VisibleRubric]
     [RubricSize(8)]
-    [DisplayRubric("Expiration date")]
+    [DisplayRubric("Expires date")]
     public DateTime SubscriptionExpireDate { get; set; } = DateTime.Parse("01.01.1990");
 
     [VisibleRubric]

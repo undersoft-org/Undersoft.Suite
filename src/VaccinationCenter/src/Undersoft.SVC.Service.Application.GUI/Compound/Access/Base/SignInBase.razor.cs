@@ -131,7 +131,7 @@ public partial class SignInBase : ComponentBase
                 {
                     if (_access != null)
                     {
-                        var state = await _access.CurrentState();
+                        var state = await _access.RefreshAsync();
                         if (state != null)
                         {
                             if (state.IsInRole("Administrator"))

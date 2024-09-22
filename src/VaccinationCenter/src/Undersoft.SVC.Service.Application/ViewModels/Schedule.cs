@@ -20,11 +20,11 @@ namespace Undersoft.SVC.Service.Application.ViewModels
         public virtual ScheduleType Type { get; set; }
 
         [VisibleRubric]
-        [DisplayRubric("Start date")]
+        [DisplayRubric("Post date")]
         public virtual DateTime? StartDate { get; set; } = DateTime.Now.Date;
 
         [VisibleRubric]
-        [DisplayRubric("Start Time")]
+        [DisplayRubric("Post Time")]
         public virtual TimeOnly? StartTime { get; set; }
 
         [VisibleRubric]

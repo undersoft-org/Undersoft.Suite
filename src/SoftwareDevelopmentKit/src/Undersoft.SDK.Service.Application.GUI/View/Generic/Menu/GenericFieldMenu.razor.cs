@@ -13,11 +13,11 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
     private readonly Dictionary<string, GenericFieldMenuItem> items = [];
     private IJSObjectReference _jsModule = default!;
 
-    /// <summary />
+    /// <summary/>
     internal string? ClassValue => new CssBuilder(Class)
         .Build();
 
-    /// <summary />
+    /// <summary/>
     internal string? StyleValue => new StyleBuilder(Style)
         .AddStyle("min-width: min-content")
         .AddStyle("width", Width, () => !string.IsNullOrEmpty(Width))
@@ -35,18 +35,20 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
         .AddStyle("top", $"{_clickedPoint.Y}px", () => !Anchored && _clickedPoint.Y != 0)
         .Build();
 
-    /// <summary />
+    /// <summary/>
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the identifier of the source component clickable by the end user.
+    /// Gets or sets the identifier of the source component clickable by the end
+    /// user.
     /// </summary>
     [Parameter]
     public string Anchor { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the automatic trigger. See <seealso cref="MouseButton"/>
+    /// Gets or sets the automatic trigger. See
+    /// <seealso cref="MouseButton"/>
     /// Possible values are None (default), Left, Middle, Right, Back, Forward
     /// </summary>
     [Parameter]
@@ -103,20 +105,22 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
     public EventCallback<bool> OpenChanged { get; set; }
 
     /// <summary>
-    /// Draw the menu below the component clicked (true) or
-    /// using the mouse coordinates (false).
+    /// Draw the menu below the component clicked (true) or using the mouse
+    /// coordinates (false).
     /// </summary>
     [Parameter]
     public bool Anchored { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets how short the space allocated to the default position has to be before the tallest area is selected for layout.
+    /// Gets or sets how short the space allocated to the default position has
+    /// to be before the tallest area is selected for layout.
     /// </summary>
     [Parameter]
     public int VerticalThreshold { get; set; } = 0;
 
     /// <summary>
-    /// Gets or sets how narrow the space allocated to the default position has to be before the widest area is selected for layout.
+    /// Gets or sets how narrow the space allocated to the default position has
+    /// to be before the widest area is selected for layout.
     /// </summary>
     [Parameter]
     public int HorizontalThreshold { get; set; } = 200;
@@ -130,15 +134,16 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
         base.OnInitialized();
     }
 
-    /// <summary />
+    /// <summary/>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+
             if (Trigger != MouseButton.None)
             {
                 _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import",
-                    "./_content/Microsoft.FluentUI.AspNetCore.Components/Components/Menu/FluentMenu.razor.js");
+                    "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/Menu/GenericFieldMenu.razor.js");
 
                 _dotNetHelper = DotNetObjectReference.Create(this);
 
@@ -216,6 +221,6 @@ public partial class GenericFieldMenu : FluentComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        _dotNetHelper?.Dispose();
+        //_dotNetHelper?.Dispose();
     }
 }

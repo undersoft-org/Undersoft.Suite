@@ -12,9 +12,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
         private string? _label { get; set; }
         private List<Option<string>>? _operandOptions { get; set; }
         private List<Option<string>>? _linkOptions { get; set; }
+
         private IJSObjectReference _jsModule = default!;
 
-        private FluentSearch fluentSearch = default!;
+        public FluentSearch? FluentSearch { get; set; }
 
         [Inject]
         public override IJSRuntime? JSRuntime { get; set; }
@@ -41,16 +42,18 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Search
             _label = _name;
 
             base.OnInitialized();
-
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            _jsModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",
-                "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/Data/Search/GenericDataSearchItem.razor.js");
+            if (IsOpen && FluentSearch != null)
+                await FluentSearch.Element.FocusAsync();
 
-            await _jsModule.InvokeVoidAsync("focusElement", "fluentsearchbar");
+            //_jsModule = await JSRuntime!.InvokeAsync<IJSObjectReference>("import",
+            //    "./_content/Undersoft.SDK.Service.Application.GUI/View/Generic/Data/Search/GenericDataSearchItem.razor.js");
 
+            //await _jsModule.InvokeVoidAsync("focusElement", "fluentsearchbar");
+            
             await base.OnAfterRenderAsync(firstRender);
         }
 

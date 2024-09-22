@@ -8,15 +8,19 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
 {
     public interface IViewDataStore<TModel> : IViewDataStore, IViewData<TModel> where TModel : class, IOrigin, IInnerProxy
     {
-        ISeries<TModel>? Models { get; set; }
+        ISeries<TModel> Models { get; set; }
 
         IViewData Attach(TModel model, bool patch = false);
 
         IViewData Detach(TModel model);
 
-        void Load(IList<TModel> models, bool patch = false);
+        void Load(ISeries<TModel> models, bool patch = false);
 
-        Task LoadAsync(IList<TModel> models, bool patch = false);
+        Task LoadAsync(ISeries<TModel> models, bool patch = false);
+
+        void LoadSingle(TModel model);
+
+        Task LoadSingleAsync(TModel single);
 
         event EventHandler<IEnumerable<IViewData>> LoadCompleted;
 

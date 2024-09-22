@@ -1,5 +1,6 @@
 using Microsoft.FluentUI.AspNetCore.Components;
 using Undersoft.SDK.Proxies;
+using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SDK.Service.Application.GUI.View;
@@ -15,7 +16,7 @@ public class ViewPanel<TPanel, TModel> : ComponentBase, IViewPanel<TModel>
         Service = dialogService;
     }
 
-    public IDialogService Service { get; private set; }
+    public IDialogService? Service { get; private set; }
 
     public IViewData<TModel>? Content { get => Data != null ? (IViewData<TModel>)Data : null; set => Data = value; }
 

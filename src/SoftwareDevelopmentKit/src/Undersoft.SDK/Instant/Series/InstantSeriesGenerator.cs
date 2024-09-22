@@ -129,9 +129,9 @@
 
         public MemberRubrics CloneRubrics()
         {
-            var rubrics = new MemberRubrics(Rubrics.Select(r => r.ShallowCopy(null)));
+            var rubrics = new MemberRubrics(Rubrics.ForEach(r => r.ShallowCopy(null)));
             rubrics.KeyRubrics = new MemberRubrics(
-                Rubrics.KeyRubrics.Select(r => r.ShallowCopy(null))
+                Rubrics.KeyRubrics.ForEach(r => r.ShallowCopy(null))
             );
             rubrics.Update();
             return rubrics;

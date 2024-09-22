@@ -47,8 +47,8 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Vaccination
         [RubricSize(16)]
         [Filterable]
         [Sortable]
-        [OpenQuery("State")]
-        [DisplayRubric("State")]
+        [OpenQuery("RefreshAsync")]
+        [DisplayRubric("RefreshAsync")]
         public virtual VaccinationState State { get; set; }
 
         [JsonIgnore]
@@ -126,7 +126,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Vaccination
         [DisplayRubric("Date")]
         public virtual string? Date
         {
-            get => _date ??= $"Start:{Schedule?.StartDate} End:{Schedule?.EndDate}";
+            get => _date ??= $"Post:{Schedule?.StartDate} End:{Schedule?.EndDate}";
             set => _date = value;
         }
 
@@ -139,7 +139,7 @@ namespace Undersoft.SVC.Service.Application.ViewModels.Vaccination
         [DisplayRubric("Time")]
         public virtual string? TimeFrame
         {
-            get => _time ??= $"Start:{Schedule?.StartTime} End:{Schedule?.EndTime}";
+            get => _time ??= $"Post:{Schedule?.StartTime} End:{Schedule?.EndTime}";
             set => _time = value;
         }
 

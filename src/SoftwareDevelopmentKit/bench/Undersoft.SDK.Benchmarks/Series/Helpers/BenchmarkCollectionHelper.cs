@@ -5,6 +5,8 @@ namespace System.Series.Tests
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Linq;
+    using System.Threading.Channels;
+    using Undersoft.SDK.Extracting;
 
     public class BenchmarkCollectionHelper
     {
@@ -30,6 +32,8 @@ namespace System.Series.Tests
 
         public ConcurrentQueue<string> queue { get; set; }
 
+        public Channel<string> channel { get; set; } = Channel.CreateUnbounded<string>();
+
         public IList<KeyValuePair<object, string>> stringKeyTestCollection { get; set; }
 
         public void TryAdd_Test(IEnumerable<KeyValuePair<object, string>> testCollection, IDictionary<string, string> registry)
@@ -38,7 +42,7 @@ namespace System.Series.Tests
             {
                 registry.TryAdd(item.Key.ToString(), item.Value);
             }
-        }
+        }        
 
         public void Add_Test(IEnumerable<KeyValuePair<object, string>> testCollection, IDictionary<string, string> registry)
         {
@@ -281,6 +285,15 @@ namespace System.Series.Tests
             foreach (var item in registry)
             {
                 object r = item;
+            }
+        }
+
+        public void Enqueue_Test(IEnumerable<KeyValuePair<object, string>> testCollection, Channel<string, string> registry)
+        {
+            var writer = registry.Writer;
+            foreach (var item in testCollection)
+            {
+                writer.TryWrite(item.Value);
             }
         }
 

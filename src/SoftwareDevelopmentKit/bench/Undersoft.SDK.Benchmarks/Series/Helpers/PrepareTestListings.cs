@@ -58,16 +58,6 @@ namespace System.Series.Tests
                     )
                 );
             }
-            List<object> keys = new List<object>();
-            for (int i = 0; i < 2000 * 100; i++)
-            {
-                keys.Add(list[i].Key);
-            }
-            List<long> hashes = new List<long>();
-            foreach (var s in keys)
-            {
-                hashes.Add(s.UniqueKey64());
-            }
             return list;
         }
     }

@@ -84,7 +84,7 @@
     {
         <FluentDataGridRow @key="@data.ViewId" TGridItem="string">
 
-            <GenericDataGridBodyItemSubGrid DataStore="@((IViewDataStore)data)" />
+            <GenericDataSubGrid FeatureFlags="@Root!.FeatureFlags" DataStore="@((IViewDataStore)data)" />
 
         </FluentDataGridRow>
     }

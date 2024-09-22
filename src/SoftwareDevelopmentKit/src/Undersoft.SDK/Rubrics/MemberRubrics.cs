@@ -59,12 +59,12 @@ namespace Undersoft.SDK.Rubrics
             return new RubricItem[size];
         }
 
-        public unsafe byte[] GetBytes(IInstant figure)
+        public unsafe byte[] GetBytes(IInstant instant)
         {
-            int size = figure.GetSize();
+            int size = instant.GetSize();
             byte* figurePtr = stackalloc byte[size * 2];
             byte* bufferPtr = figurePtr + size;
-            figure.StructureTo(figurePtr);
+            instant.StructureTo(figurePtr);
             int destOffset = 0;
             foreach (var rubric in AsValues())
             {
@@ -78,12 +78,12 @@ namespace Undersoft.SDK.Rubrics
             return b;
         }
 
-        public unsafe byte[] GetUniqueBytes(IInstant figure, uint seed = 0)
+        public unsafe byte[] GetUniqueBytes(IInstant instant, uint seed = 0)
         {
-            int size = figure.GetSize();
+            int size = instant.GetSize();
             byte* figurePtr = stackalloc byte[size * 2];
             byte* bufferPtr = figurePtr + size;
-            figure.StructureTo(figurePtr);
+            instant.StructureTo(figurePtr);
             int destOffset = 0;
             foreach (var rubric in AsValues())
             {
@@ -98,12 +98,12 @@ namespace Undersoft.SDK.Rubrics
             return b;
         }
 
-        public unsafe long GetUniqueKey(IInstant figure, uint seed = 0)
+        public unsafe long GetUniqueKey(IInstant instant, uint seed = 0)
         {
-            int size = figure.GetSize();
+            int size = instant.GetSize();
             byte* figurePtr = stackalloc byte[size * 2];
             byte* bufferPtr = figurePtr + size;
-            figure.StructureTo(figurePtr);
+            instant.StructureTo(figurePtr);
             int destOffset = 0;
             foreach (var rubric in AsValues())
             {
@@ -134,9 +134,9 @@ namespace Undersoft.SDK.Rubrics
             return new RubricItem(key, value);
         }
 
-        public void SetUniqueKey(IInstant figure, uint seed = 0)
+        public void SetUniqueKey(IInstant instant, uint seed = 0)
         {
-            figure.Id = GetUniqueKey(figure, seed);
+            instant.Id = GetUniqueKey(instant, seed);
         }
 
         public void Update()

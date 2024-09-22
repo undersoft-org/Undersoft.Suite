@@ -44,8 +44,8 @@ namespace Undersoft.SDK.Tests.Workflows
             for (int i = 1; i < 7; i++)
             {
                 download
-                    .Work<FirstCurrency>((w) => w.GetCurrency).Start("EUR", i)
-                    .Work<SecondCurrency>((w) => w.GetCurrency).Start("USD", i);
+                    .Work<FirstCurrency>((w) => w.GetCurrency).Post("EUR", i)
+                    .Work<SecondCurrency>((w) => w.GetCurrency).Post("USD", i);
             }
 
             Task.Delay(5000);
@@ -57,11 +57,11 @@ namespace Undersoft.SDK.Tests.Workflows
         [TestMethod]
         public void Workout_Integration_Test()
         {
-            var ql0 = new Workout(new Invoker<FirstCurrency>(), "EUR", 1);
-            var ql1 = new Workout(new Invoker<SecondCurrency>(), "USD", 1);
+            var ql0 = new Work<FirstCurrency>("EUR", 1);
+            var ql1 = new Work<SecondCurrency>("USD", 1);
 
-            ql0 = Workout.Run<FirstCurrency>(true, "EUR", 1);
-            ql1 = Workout.Run<SecondCurrency>(false, "USD", 1);
+            var ql2 = Work.Run<FirstCurrency>(true, "EUR", 1);
+            var ql3 = Work.Run<SecondCurrency>(true, "USD", 1);
 
             Task.Delay(5000);
         }

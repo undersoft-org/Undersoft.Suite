@@ -6,60 +6,60 @@
 
     public class InstantSqlDb
     {
-        private SqlAccessor accessor;
-        private SqlDelete delete;
-        private InstantSqlOptions identity;
-        private SqlInsert insert;
-        private SqlMapper mapper;
-        private SqlMutator mutator;
-        private SqlConnection sqlcn;
-        private SqlUpdate update;
+        private SqlAccessor _accessor;
+        private SqlDelete _delete;
+        private InstantSqlOptions _options;
+        private SqlInsert _insert;
+        private SqlMapper _mapper;
+        private SqlMutator _mutator;
+        private SqlConnection _sqlcn;
+        private SqlUpdate _update;
 
         public InstantSqlDb(SqlConnection SqlDbConnection) : this(SqlDbConnection.ConnectionString) { }
 
         public InstantSqlDb(InstantSqlOptions sqlIdentity)
         {
-            identity = sqlIdentity;
-            sqlcn = new SqlConnection(cnString);
+            _options = sqlIdentity;
+            _sqlcn = new SqlConnection(cnString);
             Initialization();
         }
 
         public InstantSqlDb(string SqlConnectionString)
         {
-            identity = new InstantSqlOptions();
+            _options = new InstantSqlOptions();
             cnString = SqlConnectionString;
-            sqlcn = new SqlConnection(cnString);
+            _sqlcn = new SqlConnection(cnString);
             Initialization();
         }
 
         private string cnString
         {
-            get => identity.ConnectionString;
-            set => identity.ConnectionString = value;
+            get => _options.ConnectionString;
+            set => _options.ConnectionString = value;
         }
 
         public IInstantSeries Get(string sqlQry, string tableName, ISeries<string> keyNames = null)
         {
-            return accessor.Get(cnString, sqlQry, tableName, keyNames);
+            return _accessor.Get(cnString, sqlQry, tableName, keyNames);
         }
 
         public ISeries<ISeries<IInstant>> Add(IInstantSeries cards)
         {
-            return mutator.Set(cnString, cards, false);
+            return _mutator.Set(cnString, cards, false);
         }
 
         public ISeries<ISeries<IInstant>> BatchDelete(IInstantSeries cards, bool buildMapping)
         {
-            if (delete == null)
-                delete = new SqlDelete(sqlcn);
-            return delete.BatchDelete(cards, buildMapping);
+            if (_delete == null)
+                _delete = new SqlDelete(_sqlcn);
+            return _delete.BatchDelete(cards, buildMapping);
         }
 
         public ISeries<ISeries<IInstant>> BatchInsert(IInstantSeries cards, bool buildMapping)
         {
-            if (insert == null)
-                insert = new SqlInsert(sqlcn);
-            return insert.BatchInsert(cards, buildMapping);
+            if (_insert == null)
+                _insert = new SqlInsert(_sqlcn);
+            return _insert.BatchInsert(cards, buildMapping);
         }
 
         public ISeries<ISeries<IInstant>> BatchUpdate(
@@ -70,9 +70,9 @@
             string[] updateExcept = null
         )
         {
-            if (update == null)
-                update = new SqlUpdate(sqlcn);
-            return update.BatchUpdate(cards, keysFromDeck, buildMapping, updateKeys, updateExcept);
+            if (_update == null)
+                _update = new SqlUpdate(_sqlcn);
+            return _update.BatchUpdate(cards, keysFromDeck, buildMapping, updateKeys, updateExcept);
         }
 
         public ISeries<ISeries<IInstant>> BulkDelete(
@@ -82,9 +82,9 @@
             BulkPrepareType tempType = BulkPrepareType.Trunc
         )
         {
-            if (delete == null)
-                delete = new SqlDelete(sqlcn);
-            return delete.Delete(cards, keysFromDeck, buildMapping, tempType);
+            if (_delete == null)
+                _delete = new SqlDelete(_sqlcn);
+            return _delete.Delete(cards, keysFromDeck, buildMapping, tempType);
         }
 
         public ISeries<ISeries<IInstant>> BulkInsert(
@@ -94,9 +94,9 @@
             BulkPrepareType tempType = BulkPrepareType.Trunc
         )
         {
-            if (insert == null)
-                insert = new SqlInsert(sqlcn);
-            return insert.Insert(cards, keysFromDeck, buildMapping, false, null, tempType);
+            if (_insert == null)
+                _insert = new SqlInsert(_sqlcn);
+            return _insert.Insert(cards, keysFromDeck, buildMapping, false, null, tempType);
         }
 
         public ISeries<ISeries<IInstant>> BulkUpdate(
@@ -108,9 +108,9 @@
             BulkPrepareType tempType = BulkPrepareType.Trunc
         )
         {
-            if (update == null)
-                update = new SqlUpdate(sqlcn);
-            return update.BulkUpdate(
+            if (_update == null)
+                _update = new SqlUpdate(_sqlcn);
+            return _update.BulkUpdate(
                 cards,
                 keysFromDeck,
                 buildMapping,
@@ -122,7 +122,7 @@
 
         public ISeries<ISeries<IInstant>> Delete(IInstantSeries cards)
         {
-            return mutator.Delete(cnString, cards);
+            return _mutator.Delete(cnString, cards);
         }
 
         public ISeries<ISeries<IInstant>> Delete(
@@ -137,7 +137,7 @@
 
         public int Execute(string query)
         {
-            SqlCommand cmd = sqlcn.CreateCommand();
+            SqlCommand cmd = _sqlcn.CreateCommand();
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.CommandText = query;
             return cmd.ExecuteNonQuery();
@@ -160,41 +160,41 @@
             string tablePrefix = ""
         )
         {
-            mapper = new SqlMapper(cards, keysFromDeck, dbTableNames, tablePrefix);
-            return mapper.CardsMapped;
+            _mapper = new SqlMapper(cards, keysFromDeck, dbTableNames, tablePrefix);
+            return _mapper.CardsMapped;
         }
 
         public ISeries<ISeries<IInstant>> Put(IInstantSeries cards)
         {
-            return mutator.Set(cnString, cards, true);
+            return _mutator.Set(cnString, cards, true);
         }
 
         public int SimpleDelete(IInstantSeries cards)
         {
-            if (delete == null)
-                delete = new SqlDelete(sqlcn);
-            return delete.SimpleDelete(cards);
+            if (_delete == null)
+                _delete = new SqlDelete(_sqlcn);
+            return _delete.SimpleDelete(cards);
         }
 
         public int SimpleDelete(IInstantSeries cards, bool buildMapping)
         {
-            if (delete == null)
-                delete = new SqlDelete(sqlcn);
-            return delete.SimpleDelete(cards, buildMapping);
+            if (_delete == null)
+                _delete = new SqlDelete(_sqlcn);
+            return _delete.SimpleDelete(cards, buildMapping);
         }
 
         public int SimpleInsert(IInstantSeries cards)
         {
-            if (insert == null)
-                insert = new SqlInsert(sqlcn);
-            return insert.SimpleInsert(cards);
+            if (_insert == null)
+                _insert = new SqlInsert(_sqlcn);
+            return _insert.SimpleInsert(cards);
         }
 
         public int SimpleInsert(IInstantSeries cards, bool buildMapping)
         {
-            if (insert == null)
-                insert = new SqlInsert(sqlcn);
-            return insert.SimpleInsert(cards, buildMapping);
+            if (_insert == null)
+                _insert = new SqlInsert(_sqlcn);
+            return _insert.SimpleInsert(cards, buildMapping);
         }
 
         public int SimpleUpdate(
@@ -204,9 +204,9 @@
             string[] updateExcept = null
         )
         {
-            if (update == null)
-                update = new SqlUpdate(sqlcn);
-            return update.SimpleUpdate(cards, buildMapping, updateKeys, updateExcept);
+            if (_update == null)
+                _update = new SqlUpdate(_sqlcn);
+            return _update.SimpleUpdate(cards, buildMapping, updateKeys, updateExcept);
         }
 
         public ISeries<ISeries<IInstant>> Update(
@@ -230,14 +230,14 @@
 
         private void Initialization()
         {
-            string dbName = sqlcn.Database;
-            SqlSchemaBuild SchemaBuild = new SqlSchemaBuild(sqlcn);
+            string dbName = _sqlcn.Database;
+            SqlSchemaBuild SchemaBuild = new SqlSchemaBuild(_sqlcn);
             SchemaBuild.SchemaPrepare();
-            sqlcn.ChangeDatabase("tempdb");
+            _sqlcn.ChangeDatabase("tempdb");
             SchemaBuild.SchemaPrepare(BuildDbSchemaType.Temp);
-            sqlcn.ChangeDatabase(dbName);
-            accessor = new SqlAccessor();
-            mutator = new SqlMutator(this);
+            _sqlcn.ChangeDatabase(dbName);
+            _accessor = new SqlAccessor();
+            _mutator = new SqlMutator(this);
         }
     }
 

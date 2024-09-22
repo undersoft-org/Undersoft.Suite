@@ -8,6 +8,9 @@
     using Undersoft.SDK.Invoking;
     using Undersoft.SDK.Series;
     using Undersoft.SDK.Utilities;
+    using System.Threading.Channels;
+    using static System.Runtime.InteropServices.JavaScript.JSType;
+    using Microsoft.Win32;
 
     public static class SeriesLinqExtensions
     {
@@ -35,9 +38,10 @@
             {
                 int i = 0;
                 foreach (var item in items)
-                {
+                {                
                     if (condition(item))
-                        yield return action(item, i++);
+                        yield return action(item, i);
+                    i++;
                 }
             }
         }
@@ -50,7 +54,8 @@
                 foreach (var item in items)
                 {
                     if (condition(item))
-                        yield return await Task.FromResult<TResult>(action(item, i++));
+                        yield return await Task.Factory.StartNew(() => action(item, i), TaskCreationOptions.AttachedToParent);
+                    i++;
                 }
             }
         }
@@ -61,7 +66,7 @@
                 foreach (var item in items)
                 {
                     if (condition(item))
-                        yield return await Task.FromResult<TResult>(action(item));
+                        yield return await Task.Factory.StartNew(() => action(item), TaskCreationOptions.AttachedToParent);
                 }
             }
         }
@@ -92,7 +97,7 @@
 
         public static Task ForOnlyAsync<TItem>(this IEnumerable<TItem> items, Func<TItem, bool> condition, Action<TItem> action)
         {
-            return Task.Run(() => items.ForOnly(condition, action));
+            return Task.Factory.StartNew(() => items.ForOnly(condition, action), TaskCreationOptions.AttachedToParent);
         }
 
         public static void ForEach<TItem>(this IEnumerable<TItem> items, Action<TItem> action)
@@ -132,21 +137,21 @@
             int i = 0;
             foreach (var item in items)
             {
-                yield return await Task.Run(() => action(item, i++));
+                yield return await Task.Factory.StartNew(() => action(item, i++), TaskCreationOptions.AttachedToParent);
             }
         }
         public static async IAsyncEnumerable<TResult> ForEachAsync<TItem, TResult>(this IEnumerable<TItem> items, Func<TItem, TResult> action)
         {
             foreach (var item in items)
             {
-                yield return await Task.Run(() => action(item));
+                yield return await Task.Factory.StartNew(() => action(item), TaskCreationOptions.AttachedToParent);
             }
         }
         public static async IAsyncEnumerable<TResult> ForEachAsync<TItem, TResult>(this IAsyncEnumerable<TItem> items, Func<TItem, TResult> action)
         {
             await foreach (var item in items)
             {
-                yield return await Task.Run(() => action(item));
+                yield return await Task.Factory.StartNew(() => action(item), TaskCreationOptions.AttachedToParent);
             }
         }
 
@@ -162,11 +167,15 @@
 
         public static Task ForEachAsync<TItem>(this IEnumerable<TItem> items, Action<TItem> action)
         {
-            return Task.Run(() => items.ForEach(action));
+            return Task.Factory.StartNew(() => items.ForEach(action), TaskCreationOptions.AttachedToParent);
         }
         public static Task ForEachAsync<TItem>(this IEnumerable<TItem> items, Action<TItem, int> action)
         {
-            return Task.Run(() => items.ForEach(action));
+            return Task.Factory.StartNew(() => items.ForEach(action), TaskCreationOptions.AttachedToParent);
+        }
+        public static Task ForEachAsync<TItem>(this ParallelQuery<TItem> items, Action<TItem> action)
+        {
+            return Task.Factory.StartNew(() => items.ForAll(action), TaskCreationOptions.AttachedToParent);
         }
 
         public static Task<List<TItem>> ToListAsync<TItem>(this IEnumerable<TItem> items, IInvoker callback = null)
@@ -210,9 +219,9 @@
         {
             var listing = new Listing<TItem>(items);
 
-            if (callback == null) return listing;
-
-            callback.InvokeAsync(listing);
+            if (callback != null) 
+                callback.InvokeAsync(listing);
+            
             return listing;
         }
 
@@ -225,9 +234,9 @@
         {
             var listing = new Chain<TItem>(items);
 
-            if (callback == null) return listing;
+            if (callback != null) 
+                callback.InvokeAsync(listing);
 
-            callback.InvokeAsync(listing);
             return listing;
         }
 
@@ -235,9 +244,9 @@
         {
             var registry = new Registry<TItem>(items, 31, repeatable);
 
-            if (callback == null) return registry;
+            if (callback != null) 
+                callback.InvokeAsync(registry);
 
-            callback.InvokeAsync(registry);
             return registry;
         }
 
@@ -245,9 +254,9 @@
         {
             var catalog = new Catalog<TItem>(items);
 
-            if (callback == null) return catalog;
+            if (callback != null)
+                callback.InvokeAsync(catalog);
 
-            callback.InvokeAsync(catalog);
             return catalog;
         }
 
@@ -255,9 +264,9 @@
         {
             var registry = new TypedRegistry<TItem>(items, 17, repeatable);
 
-            if (callback == null) return registry;
+            if (callback != null)
+                callback.InvokeAsync(registry);
 
-            callback.InvokeAsync(registry);
             return registry;
         }
 
@@ -273,12 +282,14 @@
 
         public static TItem[] Commit<TItem>(this IEnumerable<TItem> items, Action<TItem[]> actionAfterCommit)
         {
+            TItem[] array;
             using (TransactionScope ts = CreateLockTransaction())
             {
-                var array = items.ToArray();
+                array = items.ToArray();
+                ts.Complete();
                 actionAfterCommit.Invoke(array);
-                return array;
             }
+            return array;
         }
 
         public static ObservableCollection<TItem> ToObservableCollection<TItem>(this IEnumerable<TItem> items)
@@ -290,7 +301,7 @@
         {
             var options = new TransactionOptions
             {
-                IsolationLevel = IsolationLevel.ReadCommitted
+                IsolationLevel = IsolationLevel.RepeatableRead
             };
             return new TransactionScope(TransactionScopeOption.Required, options);
         }

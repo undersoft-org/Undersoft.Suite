@@ -8,6 +8,7 @@ using Undersoft.SDK.Service.Operation;
 
 namespace Undersoft.SVC.Service.Contracts
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.InteropServices;
     using Undersoft.SDK.Service.Access;
     using Undersoft.SDK.Service.Access.Identity;

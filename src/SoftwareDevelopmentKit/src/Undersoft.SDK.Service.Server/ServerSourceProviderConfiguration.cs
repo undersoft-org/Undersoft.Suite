@@ -55,7 +55,7 @@ namespace Undersoft.SDK.Service.Server
                     default:
                         break;
                 }
-                _registry.AddEntityFrameworkProxies();
+                //_registry.AddEntityFrameworkProxies();
 
             return _registry;
         }
@@ -65,65 +65,61 @@ namespace Undersoft.SDK.Service.Server
          SourceProvider provider,
          string connectionString)
         {
+            builder.UseInternalServiceProvider(_registry.Manager);
+                //.UseLazyLoadingProxies();
+
             switch (provider)
             {
                 case SourceProvider.SqlServer:
                     return builder
-                        .UseSqlServer(connectionString)
-                        .UseLazyLoadingProxies();
+                        .UseSqlServer(connectionString);                     
+
                 case SourceProvider.AzureSql:
                     return builder
-                        .UseSqlServer(connectionString)
-                        .UseLazyLoadingProxies();
+                        .UseSqlServer(connectionString);
+                  
 
                 case SourceProvider.PostgreSql:
                     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                     AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
-                    return builder.UseInternalServiceProvider(
-                         _registry.Manager)
+                    return builder
                         .UseNpgsql(connectionString);
-                        //.UseLazyLoadingProxies();
 
                 case SourceProvider.Sqlite:
                     return builder
-                        .UseSqlite(connectionString)
-                        .UseLazyLoadingProxies();
+                        .UseSqlite(connectionString);                      
 
                 case SourceProvider.MariaDb:
                     return builder
                         .UseMySql(
                             ServerVersion
-                            .AutoDetect(connectionString))
-                        .UseLazyLoadingProxies();
+                            .AutoDetect(connectionString));                     
 
                 case SourceProvider.MySql:
                     return builder
                         .UseMySql(
                             ServerVersion
-                            .AutoDetect(connectionString))
-                        .UseLazyLoadingProxies();
+                            .AutoDetect(connectionString));                      
 
                 case SourceProvider.Oracle:
                     return builder
-                        .UseOracle(connectionString)
-                        .UseLazyLoadingProxies();
+                        .UseOracle(connectionString);                     
 
                 case SourceProvider.CosmosDb:
                     return builder
                         .UseCosmos(
                             connectionString.Split('#')[0],
                             connectionString.Split('#')[1],
-                            connectionString.Split('#')[2])
-                        .UseLazyLoadingProxies();
+                            connectionString.Split('#')[2]);                     
 
                 case SourceProvider.MemoryDb:
-                    return builder.UseInternalServiceProvider(_registry.Manager)
-                        .UseInMemoryDatabase(connectionString)
-                        .UseLazyLoadingProxies()
+                    return builder
+                        .UseInMemoryDatabase(connectionString)                     
                         .ConfigureWarnings(
                             w => w.Ignore(
                                 InMemoryEventId
                                 .TransactionIgnoredWarning));
+
                 default:
                     break;
             }

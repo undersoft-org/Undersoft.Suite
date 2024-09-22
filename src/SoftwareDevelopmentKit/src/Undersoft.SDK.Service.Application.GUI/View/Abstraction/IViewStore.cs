@@ -22,6 +22,10 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Abstraction
     {
     }
 
+    public interface IViewStore<TModel> : IViewStore<IDataStore, TModel>      
+      where TModel : class, IOrigin, IInnerProxy
+    {
+    }
 
     public interface IViewStore : IViewItem, IViewProgress, IViewLoadable
     {

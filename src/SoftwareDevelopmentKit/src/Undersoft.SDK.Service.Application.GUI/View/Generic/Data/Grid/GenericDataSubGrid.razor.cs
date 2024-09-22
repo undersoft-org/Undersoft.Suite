@@ -1,8 +1,8 @@
 using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
-namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
+namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid
 {
-    public partial class GenericDataGridBodyItemSubGrid : ViewStore
+    public partial class GenericDataSubGrid : ViewStore
     {
         private string GridTemplateColumns = string.Empty;
 
@@ -68,6 +68,28 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data.Grid.Body
         {
             get => base.Root;
             set => base.Root = value;
+        }
+
+        [Parameter]
+        public Func<string, string> ForRowStyle { get; set; } = s => s + " max-height:80px; overflow-y:scroll;";
+
+        [Parameter]
+        public Func<string, string> ForRowClass { get; set; } = c => c + " datasubgrid-item";
+
+        [Parameter]
+        public string? RowStyle { get; set; }
+
+        [CascadingParameter]
+        public bool Multiline { get; set; } = true;
+
+        [CascadingParameter]
+        public bool ShowHover { get; set; } = false;
+
+        [Parameter]
+        public bool Checked
+        {
+            get => Data.StateFlags.Checked;
+            set => Data.StateFlags.Checked = value;
         }
 
     }

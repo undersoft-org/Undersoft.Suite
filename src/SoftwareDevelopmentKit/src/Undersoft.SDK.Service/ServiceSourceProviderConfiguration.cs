@@ -33,13 +33,11 @@ namespace Undersoft.SDK.Service
                     case SourceProvider.MemoryDb:
                         _registry.AddEntityFrameworkInMemoryDatabase();
                         break;
-                    case SourceProvider.Sqlite:
-                        _registry.AddEntityFrameworkSqlite();
-                        break;
                     default:
                         break;
                 }
                 //_registry.AddEntityFrameworkProxies();
+
             return _registry;
         }
 
@@ -49,19 +47,17 @@ namespace Undersoft.SDK.Service
             string connectionString
         )
         {
+            builder.UseInternalServiceProvider(_registry.Manager);
+            //.UseLazyLoadingProxies();
+
             switch (provider)
             {
                 case SourceProvider.MemoryDb:
                     return builder
-                        .UseInternalServiceProvider(new ServiceManager())
                         .UseInMemoryDatabase(connectionString)
-                        .UseLazyLoadingProxies()
                         .ConfigureWarnings(
                             w => w.Ignore(InMemoryEventId.TransactionIgnoredWarning)
                         );
-
-                case SourceProvider.Sqlite:
-                    return builder.UseSqlite(connectionString).UseLazyLoadingProxies();
 
                 default:
                     break;

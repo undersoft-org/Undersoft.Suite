@@ -37,13 +37,16 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
                 TypeId = _type.UniqueKey(Parent.TypeId);
             }
 
-            if (Rubric != null && Rubric.IsMenuGroup && _type.IsClass)
+            if (Rubric != null && Rubric.Extended && _type.IsClass)
             {
                 if (!Data.TryGet(Value, out IViewData expandData))
                 {
-                    expandData = typeof(ViewData<>).MakeGenericType(_type).New<IViewData>(Value);
-                    expandData.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
-                    Data.Put(expandData);
+                    if (Rubric.IsMenuGroup)
+                    {
+                        expandData = typeof(ViewData<>).MakeGenericType(_type).New<IViewData>(Value);
+                        expandData.MapRubrics(t => t.ExtendedRubrics, p => p.Extended);
+                        Data.Put(expandData);
+                    }                    
                 }
                 ExpandData = expandData;
             }
@@ -93,10 +96,11 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Menu
             {
                 OnMenuItemChange(this, Data);
             }
-            else if (Rubric.Extended && Rubric.IsMenuGroup)
+            else if (Rubric.Extended && !Rubric.IsMenuGroup)
             {
                 Data.ForOnly(d => d.StateFlags.Expanded, d => d.StateFlags.Expanded = false).Commit();
-                ExpandData.StateFlags.Expanded = true;
+                if(ExpandData != null)
+                    ExpandData.StateFlags.Expanded = true;
             }
             IsOpen = false;
         }

@@ -21,7 +21,7 @@
             {
                 if (DbHand.Schema == null || DbHand.Schema.DbTables.Count == 0)
                 {
-                    InstantSqlDb sqb = new InstantSqlDb(sqlConnectString);
+                    _ = new InstantSqlDb(sqlConnectString);
                 }
                 SqlAdapter sqa = new SqlAdapter(sqlConnectString);
 

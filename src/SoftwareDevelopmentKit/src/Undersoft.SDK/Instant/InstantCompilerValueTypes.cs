@@ -108,7 +108,7 @@
 
         public override void CreateGetBytesMethod(TypeBuilder tb)
         {
-            MethodInfo createArray = typeof(IByteable).GetMethod("GetBytes");
+            MethodInfo createArray = typeof(IBinaryAccessor).GetMethod("GetBytes");
 
             ParameterInfo[] args = createArray.GetParameters();
             Type[] argTypes = Array.ConvertAll(args, a => a.ParameterType);
@@ -625,7 +625,7 @@
             );
 
             tb.AddInterfaceImplementation(typeof(IInstant));
-            tb.AddInterfaceImplementation(typeof(IByteable));
+            tb.AddInterfaceImplementation(typeof(IBinaryAccessor));
             tb.AddInterfaceImplementation(typeof(IValueArray));
 
             return tb;

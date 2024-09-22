@@ -2,14 +2,8 @@
 
 namespace Undersoft.SDK.Service.Access
 {
-    public interface IAccessProvider
+    public interface IAccessProvider<TModel> : IAccessService<TModel>, IAccessContext where TModel : class, IOrigin, IAuthorization
     {
-        IAuthorization Authorization { get; }
 
-        DateTime? AccessExpiration { get; }
-
-        Task<ClaimsPrincipal> CurrentState();
-
-        Task<ClaimsPrincipal> RefreshState();
     }
 }

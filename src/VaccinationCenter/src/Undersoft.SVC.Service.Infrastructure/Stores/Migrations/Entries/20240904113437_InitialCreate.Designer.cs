@@ -165,7 +165,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Property<string>("Postcode")
                         .HasColumnType("text");
 
-                    b.Property<string>("State")
+                    b.Property<string>("GetState")
                         .HasColumnType("text");
 
                     b.Property<string>("Street")
@@ -1637,7 +1637,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Property<string>("Dose")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("Expiration")
+                    b.Property<DateTime?>("Expires")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Index")
@@ -1757,7 +1757,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Entries
                     b.Property<long?>("ScheduleId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("State")
+                    b.Property<int>("GetState")
                         .HasColumnType("integer");
 
                     b.Property<long>("TypeId")

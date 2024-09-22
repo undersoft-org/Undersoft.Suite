@@ -8,18 +8,20 @@
     using Undersoft.SDK.Series;
     using Undersoft.SDK.Uniques;
 
-    public interface IDataReader<T> where T : class
+    public interface IDataReader<T>
+        where T : class
     {
-        ISeries<ISeries<IInstant>> DeleteRead(IInstantSeries toInsertCards);
+        ISeries<ISeries<IInstant>> ReadDelete(IInstantSeries toInsertCards);
 
-        IInstantSeries ReadLoaded(string tableName, ISeries<string> keyNames = null);
+        IInstantSeries ReadSelect(string tableName, ISeries<string> keyNames = null);
 
-        ISeries<ISeries<IInstant>> InsertRead(IInstantSeries toInsertCards);
+        ISeries<ISeries<IInstant>> ReadInsert(IInstantSeries toInsertCards);
 
-        ISeries<ISeries<IInstant>> UpdateRead(IInstantSeries toUpdateCards);
+        ISeries<ISeries<IInstant>> ReadUpdate(IInstantSeries toUpdateCards);
     }
 
-    public class SqlReader<T> : IDataReader<T> where T : class
+    public class SqlReader<T> : IDataReader<T>
+        where T : class
     {
         private IDataReader dr;
 
@@ -28,345 +30,286 @@
             dr = _dr;
         }
 
-        public IInstantSeries DeckFromSchema(
-            DataTable schema,
-            ISeries<MemberRubric> operColumns,
+        public IInstantSeries CreateSeries(
+            DataTable table,
+            IRubrics keyRubrics,
             bool insAndDel = false
         )
         {
-            List<MemberRubric> columns = new List<MemberRubric>(
-                schema.Rows
-                    .Cast<DataRow>()
-                    .AsEnumerable()
-                    .AsQueryable()
-                    .Select(
-                        c =>
-                            new MemberRubric(
-                                new FieldRubric(
-                                    Type.GetType(c["DataType"].ToString()),
-                                    c["ColumnName"].ToString(),
-                                    Convert.ToInt32(c["ColumnSize"]),
-                                    Convert.ToInt32(c["ColumnOrdinal"])
-                                )
-                                {
-                                    RubricSize = Convert.ToInt32(c["ColumnSize"])
-                                }
-                            )
-                            {
-                                FieldId = Convert.ToInt32(c["ColumnOrdinal"]),
-                                IsIdentity = Convert.ToBoolean(c["IsIdentity"]),
-                                IsAutoincrement = Convert.ToBoolean(c["IsAutoincrement"]),
-                                IsDBNull = Convert.ToBoolean(c["AllowDBNull"])
-                            }
-                    )
-                    .ToList()
-            );
-
-            List<MemberRubric> _columns = new List<MemberRubric>();
-
+            var _rubrics = GetTableRubrics(table);
             if (insAndDel)
-                for (int i = 0; i < (int)(columns.Count / 2); i++)
-                    _columns.Add(columns[i]);
-            else
-                _columns.AddRange(columns);
+                _rubrics = new MemberRubrics(_rubrics.Take(_rubrics.Count / 2));
 
-            InstantGenerator rt = new InstantGenerator(_columns.ToArray(), "SchemaInstantGenerator");
-            InstantSeriesGenerator tab = new InstantSeriesGenerator(rt, "Schema");
-            IInstantSeries deck = tab.Generate();
+            IInstantSeries series = new InstantSeriesGenerator(
+                new InstantGenerator(_rubrics, "SchemaInstantGenerator"),
+                "Schema"
+            ).Generate();
 
-            List<DbTable> dbtabs = DbHand.Schema.DataDbTables.List;
-            MemberRubric[] pKeys = columns
-                .Where(
-                    c =>
-                        dbtabs
-                            .SelectMany(t => t.GetKeyForDataTable.Select(d => d.RubricName))
-                            .Contains(c.RubricName)
-                        && operColumns.Select(o => o.RubricName).Contains(c.RubricName)
+            var dbKeyNames = DbHand
+                .Schema.DataDbTables.List.SelectMany(t =>
+                    t.GetKeyForDataTable.Select(d => d.RubricName)
                 )
+                .Distinct()
                 .ToArray();
-            if (pKeys.Length > 0)
-                deck.Rubrics.KeyRubrics = new MemberRubrics(pKeys);
-            deck.Rubrics.Update();
-            return deck;
+            _rubrics.ForOnly(c => dbKeyNames.Contains(c.RubricName), c => c.IsKey = true).Commit();
+
+            var pKeys = _rubrics.Where(c =>
+                dbKeyNames.Contains(c.RubricName) && keyRubrics.ContainsKey(c.RubricName)
+            );
+            if (pKeys.Any())
+                series.Rubrics.KeyRubrics = new MemberRubrics(pKeys);
+            series.Rubrics.Update();
+            return series;
         }
 
-        public ISeries<ISeries<IInstant>> DeleteRead(IInstantSeries toDeleteCards)
+        public ISeries<ISeries<IInstant>> ReadDelete(IInstantSeries deleteSeries)
         {
-            IInstantSeries deck = toDeleteCards;
-            ISeries<IInstant> deletedList = new Catalog<IInstant>();
-            ISeries<IInstant> brokenList = new Catalog<IInstant>();
+            IInstantSeries series = deleteSeries;
+            ISeries<IInstant> deleted = new Chain<IInstant>();
+            ISeries<IInstant> broken = new Chain<IInstant>();
 
             int i = 0;
             do
             {
-                int columnsCount = deck.Rubrics.Count;
+                int count = series.Rubrics.Count;
 
-                if (i == 0 && deck.Rubrics.Count == 0)
+                if (i == 0 && series.Rubrics.Count == 0)
                 {
-                    IInstantSeries tab = DeckFromSchema(dr.GetSchemaTable(), deck.Rubrics.KeyRubrics);
-                    deck = tab;
-                    columnsCount = deck.Rubrics.Count;
+                    series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics);
+                    count = series.Rubrics.Count;
                 }
-                object[] itemArray = new object[columnsCount];
-                int[] keyIndexes = deck.Rubrics.KeyRubrics.Ordinals;
+                object[] itemArray = new object[count];
+                int[] keyOrdinals = series.Rubrics.KeyRubrics.Ordinals;
                 while (dr.Read())
                 {
-                    if ((columnsCount - 1) != dr.FieldCount)
+                    if ((count - 1) != dr.FieldCount)
                     {
-                        IInstantSeries tab = DeckFromSchema(dr.GetSchemaTable(), deck.Rubrics.KeyRubrics);
-                        deck = tab;
-                        columnsCount = deck.Rubrics.Count;
-                        itemArray = new object[columnsCount];
-                        keyIndexes = deck.Rubrics.KeyRubrics.Ordinals;
+                        series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics);
+                        count = series.Rubrics.Count;
+                        itemArray = new object[count];
+                        keyOrdinals = series.Rubrics.KeyRubrics.Ordinals;
                     }
 
                     dr.GetValues(itemArray);
 
-                    IInstant row = deck.NewInstant();
+                    IInstant instant = series.NewInstant();
 
-                    ((IValueArray)row).ValueArray = itemArray
-                        .Select(
-                            (a, y) => itemArray[y] = (a == DBNull.Value) ? a.GetType().Default() : a
+                    ((IValueArray)instant).ValueArray = itemArray
+                        .ForEach(
+                            (a, y) => (a == DBNull.Value) ? itemArray[y] = a.GetType().Default() : a
                         )
                         .ToArray();
 
-                    deletedList.Add(row);
+                    deleted.Add(instant);
                 }
 
-                foreach (IInstant ir in toDeleteCards)
-                    if (!deletedList.ContainsKey(ir))
-                        brokenList.Add(ir);
+                broken.Add(deleteSeries.Where(u => !deleted.ContainsKey(u)));
             } while (dr.NextResult());
 
-            ISeries<ISeries<IInstant>> iSet = new Catalog<ISeries<IInstant>>();
+            var result = new Chain<ISeries<IInstant>>();
+            result.Add("Failed", broken);
+            result.Add("Deleted", deleted);
 
-            iSet.Add("Failed", brokenList);
-
-            iSet.Add("Deleted", deletedList);
-
-            return iSet;
+            return result;
         }
 
-        public IInstantSeries ReadLoaded(string tableName, ISeries<string> keyNames = null)
+        public IInstantSeries ReadSelect(string tableName, ISeries<string> keyNames = null)
         {
-            DataTable schema = dr.GetSchemaTable();
-            List<MemberRubric> columns = new List<MemberRubric>(
-                schema.Rows
-                    .Cast<DataRow>()
-                    .AsEnumerable()
-                    .AsQueryable()
-                    .Where(n => n["ColumnName"].ToString() != "code")
-                    .Select(
-                        c =>
-                            new MemberRubric(
-                                new FieldRubric(
-                                    Type.GetType(c["DataType"].ToString()),
-                                    c["ColumnName"].ToString(),
-                                    Convert.ToInt32(c["ColumnSize"]),
-                                    Convert.ToInt32(c["ColumnOrdinal"])
-                                )
-                                {
-                                    RubricSize = Convert.ToInt32(c["ColumnSize"])
-                                }
-                            )
-                            {
-                                FieldId = Convert.ToInt32(c["ColumnOrdinal"]),
-                                IsIdentity = Convert.ToBoolean(c["IsIdentity"]),
-                                IsAutoincrement = Convert.ToBoolean(c["IsAutoincrement"]),
-                                IsDBNull = Convert.ToBoolean(c["AllowDBNull"]),
-                            }
-                    )
-                    .ToList()
-            );
+            var rubrics = GetTableRubrics(dr.GetSchemaTable());
 
             bool takeDbKeys = false;
             if (keyNames != null)
                 if (keyNames.Count > 0)
                     foreach (var k in keyNames)
-                    {
-                        columns.Where(c => c.Name == k).Select(ck => ck.IsKey = true).ToArray();
-                    }
+                        if (rubrics.TryGet(k, out MemberRubric rubric))
+                            rubric.IsKey = true;
+                        else
+                            takeDbKeys = true;
                 else
                     takeDbKeys = true;
-            else
-                takeDbKeys = true;
 
             if (takeDbKeys && DbHand.Schema != null && DbHand.Schema.DataDbTables.List.Count > 0)
             {
-                List<DbTable> dbtabs = DbHand.Schema.DataDbTables.List;
-                MemberRubric[] pKeys = columns
-                    .Where(
-                        c =>
-                            dbtabs
-                                .SelectMany(t => t.GetKeyForDataTable.Select(d => d.RubricName))
-                                .Contains(c.RubricName)
+                var dbKeyNames = DbHand
+                    .Schema.DataDbTables.List.SelectMany(t =>
+                        t.GetKeyForDataTable.Select(d => d.RubricName)
                     )
-                    .ToArray();
-
-                if (pKeys.Length > 0)
-                {
-                    pKeys.Select(pk => pk.IsKey = true);
-                }
+                    .Distinct();
+                rubrics
+                    .ForOnly(c => dbKeyNames.Contains(c.RubricName), c => c.IsKey = true)
+                    .Commit();
             }
 
-            InstantGenerator rt = new InstantGenerator(columns.ToArray(), tableName);
-            InstantSeriesGenerator deck = new InstantSeriesGenerator(rt, tableName + "_InstantSeriesGenerator");
-            IInstantSeries tab = deck.Generate();
+            IInstantSeries series = new InstantSeriesGenerator(
+                new InstantGenerator(rubrics, tableName),
+                tableName + "_InstantSeriesGenerator"
+            ).Generate();
 
             if (dr.Read())
             {
                 int columnsCount = dr.FieldCount;
                 object[] itemArray = new object[columnsCount];
-                int[] keyOrder = tab.Rubrics.KeyRubrics.Ordinals;
+                int[] keyOrder = series.Rubrics.KeyRubrics.Ordinals;
 
                 do
                 {
-                    IInstant figure = tab.NewInstant();
+                    IInstant instant = series.NewInstant();
 
                     dr.GetValues(itemArray);
 
-                    ((IValueArray)figure).ValueArray = itemArray
-                        .Select(
-                            (a, y) => itemArray[y] = (a == DBNull.Value) ? a.GetType().Default() : a
+                    ((IValueArray)instant).ValueArray = itemArray
+                        .ForEach(
+                            (a, y) => (a == DBNull.Value) ? itemArray[y] = a.GetType().Default() : a
                         )
                         .ToArray();
 
-                    figure.Id = keyOrder.Select(i => itemArray[i]).ToArray().UniqueKey64();
+                    instant.Id = keyOrder.ForEach(i => itemArray[i]).Commit().UniqueKey64();
 
-                    tab.Put(figure);
+                    series.Put(instant);
                 } while (dr.Read());
+
                 itemArray = null;
             }
             dr.Dispose();
-            return tab;
+            return series;
         }
 
-        public ISeries<ISeries<IInstant>> InsertRead(IInstantSeries toInsertCards)
+        public ISeries<ISeries<IInstant>> ReadInsert(IInstantSeries insertSeries)
         {
-            IInstantSeries deck = toInsertCards;
-            ISeries<IInstant> insertedList = new Catalog<IInstant>();
-            ISeries<IInstant> brokenList = new Catalog<IInstant>();
+            IInstantSeries series = insertSeries;
+            ISeries<IInstant> inserted = new Chain<IInstant>();
+            ISeries<IInstant> broken = new Chain<IInstant>();
 
             int i = 0;
             do
             {
-                int columnsCount = deck.Rubrics.Count;
+                int count = series.Rubrics.Count;
 
-                if (i == 0 && deck.Rubrics.Count == 0)
+                if (i == 0 && series.Rubrics.Count == 0)
                 {
-                    IInstantSeries tab = DeckFromSchema(dr.GetSchemaTable(), deck.Rubrics.KeyRubrics);
-                    deck = tab;
-                    columnsCount = deck.Rubrics.Count;
+                    series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics);
+                    count = series.Rubrics.Count;
                 }
-                object[] itemArray = new object[columnsCount];
-                int[] keyIndexes = deck.Rubrics.KeyRubrics.Ordinals;
+                object[] itemArray = new object[count];
+                int[] keyOrdinals = series.Rubrics.KeyRubrics.Ordinals;
                 while (dr.Read())
                 {
-                    if ((columnsCount - 1) != dr.FieldCount)
+                    if ((count - 1) != dr.FieldCount)
                     {
-                        IInstantSeries tab = DeckFromSchema(dr.GetSchemaTable(), deck.Rubrics.KeyRubrics);
-                        deck = tab;
-                        columnsCount = deck.Rubrics.Count;
-                        itemArray = new object[columnsCount];
-                        keyIndexes = deck.Rubrics.KeyRubrics
-                            .AsValues()
+                        series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics);
+                        count = series.Rubrics.Count;
+                        itemArray = new object[count];
+                        keyOrdinals = series
+                            .Rubrics.KeyRubrics.AsValues()
                             .Select(k => k.FieldId)
                             .ToArray();
                     }
 
                     dr.GetValues(itemArray);
 
-                    IInstant row = deck.NewInstant();
+                    IInstant instant = series.NewInstant();
 
-                    ((IValueArray)row).ValueArray = itemArray
-                        .Select(
-                            (a, y) => itemArray[y] = (a == DBNull.Value) ? a.GetType().Default() : a
+                    ((IValueArray)instant).ValueArray = itemArray
+                        .ForEach(
+                            (a, y) => (a == DBNull.Value) ? itemArray[y] = a.GetType().Default() : a
                         )
                         .ToArray();
 
-                    insertedList.Add(row);
+                    inserted.Add(instant);
                 }
-
-                foreach (IInstant ir in toInsertCards)
-                    if (!insertedList.ContainsKey(ir))
-                        brokenList.Add(ir);
+                broken.Add(insertSeries.Where(u => !inserted.ContainsKey(u)));
             } while (dr.NextResult());
 
-            ISeries<ISeries<IInstant>> iSet = new Catalog<ISeries<IInstant>>();
+            var result = new Chain<ISeries<IInstant>>();
 
-            iSet.Add("Failed", brokenList);
+            result.Add("Failed", broken);
+            result.Add("Inserted", inserted);
 
-            iSet.Add("Inserted", insertedList);
-
-            return iSet;
+            return result;
         }
 
-        public ISeries<ISeries<IInstant>> UpdateRead(IInstantSeries toUpdateCards)
+        public ISeries<ISeries<IInstant>> ReadUpdate(IInstantSeries updateSeries)
         {
-            IInstantSeries deck = toUpdateCards;
-            ISeries<IInstant> updatedList = new Catalog<IInstant>();
-            ISeries<IInstant> toInsertList = new Catalog<IInstant>();
+            IInstantSeries series = updateSeries;
+            ISeries<IInstant> updated = new Chain<IInstant>();
+            ISeries<IInstant> insertSeries = new Chain<IInstant>();
 
             int i = 0;
             do
             {
-                int columnsCount = deck.Rubrics != null ? deck.Rubrics.Count : 0;
+                int count = series.Rubrics != null ? series.Rubrics.Count : 0;
 
-                if (i == 0 && columnsCount == 0)
+                if (i == 0 && count == 0)
                 {
-                    IInstantSeries tab = DeckFromSchema(
-                        dr.GetSchemaTable(),
-                        deck.Rubrics.KeyRubrics,
-                        true
-                    );
-                    deck = tab;
-                    columnsCount = deck.Rubrics.Count;
+                    series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics, true);
+                    count = series.Rubrics.Count;
                 }
-                object[] itemArray = new object[columnsCount];
-                int[] keyOrder = deck.Rubrics.KeyRubrics.Ordinals;
+                object[] itemArray = new object[count];
+                int[] keyOrdinals = series.Rubrics.KeyRubrics.Ordinals;
                 while (dr.Read())
                 {
-                    if ((columnsCount - 1) != (int)(dr.FieldCount / 2))
+                    if ((count - 1) != (int)(dr.FieldCount / 2))
                     {
-                        IInstantSeries tab = DeckFromSchema(
-                            dr.GetSchemaTable(),
-                            deck.Rubrics.KeyRubrics,
-                            true
-                        );
-                        deck = tab;
-                        columnsCount = deck.Rubrics.Count;
-                        itemArray = new object[columnsCount];
-                        keyOrder = deck.Rubrics.KeyRubrics
-                            .AsValues()
+                        series = CreateSeries(dr.GetSchemaTable(), series.Rubrics.KeyRubrics, true);
+                        count = series.Rubrics.Count;
+                        itemArray = new object[count];
+                        keyOrdinals = series
+                            .Rubrics.KeyRubrics.AsValues()
                             .Select(k => k.FieldId)
                             .ToArray();
                     }
 
                     dr.GetValues(itemArray);
 
-                    IInstant row = deck.NewInstant();
+                    IInstant instant = series.NewInstant();
 
-                    ((IValueArray)row).ValueArray = itemArray
-                        .Select(
+                    ((IValueArray)instant).ValueArray = itemArray
+                        .ForEach(
                             (a, y) => itemArray[y] = (a == DBNull.Value) ? a.GetType().Default() : a
                         )
                         .ToArray();
 
-                    updatedList.Add(row);
+                    updated.Add(instant);
                 }
-
-                foreach (IInstant ir in toUpdateCards)
-                    if (!updatedList.ContainsKey(ir))
-                        toInsertList.Add(ir);
+                insertSeries.Add(updateSeries.Where(u => !updated.ContainsKey(u)));
             } while (dr.NextResult());
 
-            ISeries<ISeries<IInstant>> iSet = new Catalog<ISeries<IInstant>>();
+            var result = new Chain<ISeries<IInstant>>();
 
-            iSet.Add("Failed", toInsertList);
+            result.Add("Failed", insertSeries);
+            result.Add("Updated", updated);
 
-            iSet.Add("Updated", updatedList);
+            return result;
+        }
 
-            return iSet;
+        private IRubrics GetTableRubrics(DataTable table)
+        {
+            return new MemberRubrics(
+                table
+                    .Rows.Cast<DataRow>()
+                    .AsEnumerable()
+                    .AsQueryable()
+                    .ForOnly(
+                        n => n["ColumnName"].ToString() != "code",
+                        c => new MemberRubric(
+                            new FieldRubric(
+                                Type.GetType(c["DataType"].ToString()),
+                                c["ColumnName"].ToString(),
+                                Convert.ToInt32(c["ColumnSize"]),
+                                Convert.ToInt32(c["ColumnOrdinal"])
+                            )
+                            {
+                                RubricSize = Convert.ToInt32(c["ColumnSize"]),
+                            }
+                        )
+                        {
+                            FieldId = Convert.ToInt32(c["ColumnOrdinal"]),
+                            IsIdentity = Convert.ToBoolean(c["IsIdentity"]),
+                            IsAutoincrement = Convert.ToBoolean(c["IsAutoincrement"]),
+                            IsDBNull = Convert.ToBoolean(c["AllowDBNull"]),
+                        }
+                    )
+            );
         }
     }
 }

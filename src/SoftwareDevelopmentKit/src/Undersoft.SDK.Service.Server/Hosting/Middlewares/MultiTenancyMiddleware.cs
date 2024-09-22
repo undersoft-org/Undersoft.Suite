@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RTools_NTS.Util;
 using Undersoft.SDK.Service.Access;
 using Undersoft.SDK.Service.Access.MultiTenancy;
 
@@ -10,18 +11,12 @@ namespace Undersoft.SDK.Service.Server.Hosting.Middlewares;
 public class MultiTenancyMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IAuthorization _authorization;
     private IServicer _servicer;
 
-    public MultiTenancyMiddleware(
-        RequestDelegate next,
-        IServicer servicer,
-        IAuthorization authorization
-    )
+    public MultiTenancyMiddleware(RequestDelegate next, IServicer servicer)
     {
         _next = next;
         _servicer = servicer;
-        _authorization = authorization;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -34,14 +29,29 @@ public class MultiTenancyMiddleware
             )
         )
         {
-            var tenant = _servicer.GetKeyedObject<ITenant>(tenantId);
-            if (tenant == null)
+            IServiceManager manager = null;
+            if (_servicer.GetKeyedObject<ITenant>(tenantId) == null)
             {
-                tenant = new Tenant() { Id = tenantId };
-                var setup = new ServerSetup(tenant);
-                setup.ConfigureTenant(_servicer);
-                _servicer = _servicer.GetManager().GetService<IServicer>();
-                DataMigrations(_servicer.GetKeyedObject<IServiceManager>(tenantId));
+                await ApplySourceMigrations(
+                        manager = new ServerSetup(new Tenant() { Id = tenantId })
+                            .ConfigureTenant(_servicer)
+                            .Manager
+                    )
+                    .ConfigureAwait(false);
+            }
+            else if (
+                (manager = _servicer.GetManager().GetKeyedObject<IServiceManager>(tenantId)) == null
+            )
+            {
+                manager = _servicer.GetManager();
+            }
+
+            var token = context.Request.Headers["Authorization"].FirstOrDefault();
+            if (token != null)
+            {
+                manager.GetService<IAuthorization>().Credentials.SessionToken = token
+                    .Split(" ")
+                    .LastOrDefault();
             }
         }
         await _next(context);
@@ -59,21 +69,26 @@ public class MultiTenancyMiddleware
         }
     }
 
-    private void DataMigrations(IServiceManager manager)
+    private async Task ApplySourceMigrations(IServiceManager manager)
     {
         using (IServiceScope scope = manager.CreateScope())
         {
             try
             {
-                scope
-                    .ServiceProvider.GetRequiredService<IServicer>()
-                    .GetSources()
-                    .ForEach(e => e.Context.Database.Migrate());
+                await Task.WhenAll(
+                        scope
+                            .ServiceProvider.GetRequiredService<IServicer>()
+                            .GetSources()
+                            .ForEach(async e =>
+                                await e.Context.Database.MigrateAsync().ConfigureAwait(false)
+                            )
+                    )
+                    .ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 this.Error<Applog>(
-                    "DataServer migration initial create - unable to connect the database engine",
+                    "Unable to establish connection with data source engine",
                     null,
                     ex
                 );

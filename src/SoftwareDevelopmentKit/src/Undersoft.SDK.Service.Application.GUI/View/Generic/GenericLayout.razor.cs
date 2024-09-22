@@ -77,7 +77,7 @@ public partial class GenericLayout : LayoutComponentBase
     public IJSRuntime JS { get; set; } = default!;
 
     [Inject]
-    public IAccessProvider Access { get; set; } = default!;
+    public IAccessContext Access { get; set; } = default!;
 
     [Inject]
     private AppearanceState AppearanceState { get; set; } = default!;
@@ -154,22 +154,22 @@ public partial class GenericLayout : LayoutComponentBase
             && new Uri(_prevUri!).AbsolutePath != new Uri(e.Location).AbsolutePath
         )
         {
-            if (Access.AccessExpiration != null)
+            if (Access.Expiration != null)
             {
-                if(DateTime.Now.AddMinutes(5) > Access.AccessExpiration)
+                if (DateTime.Now.AddMinutes(5) > Access.Expiration)
                 {
-                    if (DateTime.Now.AddSeconds(30) > Access.AccessExpiration)
+                    if (DateTime.Now.AddSeconds(30) > Access.Expiration)
                         NavigationManager.NavigateTo("", true);
-                    else
-                        Access.RefreshState();
+                    else                    
+                        _ = Access.RefreshAsync();                    
                 }
-            }
 
-            _prevUri = e.Location;
-            if (_mobile && _menuChecked == true)
-            {
-                _menuChecked = false;
-                StateHasChanged();
+                _prevUri = e.Location;
+                if (_mobile && _menuChecked == true)
+                {
+                    _menuChecked = false;
+                    StateHasChanged();
+                }
             }
         }
     }

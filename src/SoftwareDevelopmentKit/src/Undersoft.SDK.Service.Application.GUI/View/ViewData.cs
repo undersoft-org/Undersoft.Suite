@@ -19,17 +19,17 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
     protected IViewItem _viewItem = default!;
     protected long? typeId;
 
-    public ViewData() : this(typeof(TModel).New<TModel>(), OperationType.Any) { }
+    public ViewData() : this(null, OperationType.Any) { }
 
-    public ViewData(OperationType mode) : this(typeof(TModel).New<TModel>(), mode) { }
+    public ViewData(OperationType mode) : this(null, mode) { }
 
-    public ViewData(TModel data) : this(data, OperationType.Any) { }
+    public ViewData(TModel? data) : this(data, OperationType.Any) { }
 
-    public ViewData(TModel data, IViewData parent) : this(data, OperationType.Any) { Parent = parent; }
+    public ViewData(TModel? data, IViewData parent) : this(data, OperationType.Any) { Parent = parent; }
 
-    public ViewData(TModel data, OperationType mode, string title = "") : base(true)
+    public ViewData(TModel? data, OperationType mode, string title = "") : base(true)
     {
-        Model = data;
+        Model = data ?? typeof(TModel).New<TModel>();
         Title = title;
         Operation = mode;
     }
@@ -213,7 +213,7 @@ public class ViewData<TModel> : ListingBase<IViewData>, IViewData<TModel>
 
     public ViewStack? Stack { get; set; }
 
-    public string Height { get; set; }
+    public string Height { get; set; } = "auto";
 
     public string Width { get; set; } = "400px";
 

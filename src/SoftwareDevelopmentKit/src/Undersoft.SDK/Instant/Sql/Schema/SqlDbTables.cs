@@ -52,7 +52,7 @@
             }
         }
 
-        public MemberRubric[] GetKeyForDataTable
+        public IEnumerable<MemberRubric> GetKeyForDataTable
         {
             get
             {
@@ -76,8 +76,7 @@
                                 IsDBNull = c.isDBNull,
                                 IsIdentity = c.isIdentity
                             }
-                    )
-                    .ToArray();
+                    );
             }
         }
 

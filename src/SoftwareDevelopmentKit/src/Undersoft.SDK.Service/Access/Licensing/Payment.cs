@@ -16,7 +16,7 @@ public class Payment : DataObject, IPayment
     public string CardType { get; set; }
 
     [VisibleRubric]
-    [DisplayRubric("Expiration date")]
+    [DisplayRubric("Expires date")]
     public string CardExpirationDate { get; set; }
 
     [VisibleRubric]

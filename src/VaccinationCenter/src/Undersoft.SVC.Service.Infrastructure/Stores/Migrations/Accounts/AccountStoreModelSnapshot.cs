@@ -203,7 +203,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Property<string>("Errors")
                         .HasColumnType("text");
 
-                    b.Property<string>("Info")
+                    b.Property<string>("Current")
                         .HasColumnType("text");
 
                     b.Property<int>("Status")
@@ -417,7 +417,7 @@ namespace Undersoft.SVC.Service.Infrastructure.Stores.Migrations.Accounts
                     b.Property<string>("Postcode")
                         .HasColumnType("text");
 
-                    b.Property<string>("State")
+                    b.Property<string>("GetState")
                         .HasColumnType("text");
 
                     b.Property<string>("Street")

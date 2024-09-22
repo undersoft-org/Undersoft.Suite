@@ -76,10 +76,13 @@ public class Program
                     .AddScoped<IAccess, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
-                    .AddScoped<IAccessProvider, AccessProvider<Account>>(sp =>
+                    .AddScoped<IAccessContext, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IAccessService<Account>, AccessProvider<Account>>(sp =>
+                        sp.GetRequiredService<AccessProvider<Account>>()
+                    )
+                      .AddScoped<IAccessProvider<Account>, AccessProvider<Account>>(sp =>
                         sp.GetRequiredService<AccessProvider<Account>>()
                     )
                     .AddScoped<IValidator<IViewData<Credentials>>, AccessValidator>()

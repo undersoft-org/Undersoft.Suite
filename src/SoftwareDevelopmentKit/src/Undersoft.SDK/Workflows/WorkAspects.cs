@@ -31,7 +31,7 @@ namespace Undersoft.SDK.Workflows
         public override void Add(WorkAspect aspect)
         {
             aspect.Case = this;
-            aspect.Workspace = new Workspace(aspect);
+            aspect.Space = new Workspace(aspect);
             Put(aspect.Name, aspect);
         }
 
@@ -40,7 +40,7 @@ namespace Undersoft.SDK.Workflows
             foreach (var aspect in aspects)
             {
                 aspect.Case = this;
-                aspect.Workspace = new Workspace(aspect);
+                aspect.Space = new Workspace(aspect);
                 Put(aspect.Name, aspect);
             }
         }
@@ -48,7 +48,7 @@ namespace Undersoft.SDK.Workflows
         public override bool Add(object key, WorkAspect value)
         {
             value.Case = this;
-            value.Workspace = new Workspace(value);
+            value.Space = new Workspace(value);
             Put(key, value);
             return true;
         }
@@ -57,7 +57,7 @@ namespace Undersoft.SDK.Workflows
         {
             WorkAspect msn = new WorkAspect(key.ToString(), value);
             msn.Case = this;
-            msn.Workspace = new Workspace(msn);
+            msn.Space = new Workspace(msn);
             Put(key, msn);
         }
 
@@ -65,7 +65,7 @@ namespace Undersoft.SDK.Workflows
         {
             WorkAspect msn = new WorkAspect(key.ToString(), value);
             msn.Case = this;
-            msn.Workspace = new Workspace(msn);
+            msn.Space = new Workspace(msn);
             Put(key, msn);
             return msn;
         }
@@ -75,7 +75,7 @@ namespace Undersoft.SDK.Workflows
             List<IInvoker> cml = new List<IInvoker>() { value };
             WorkAspect msn = new WorkAspect(key.ToString(), cml);
             msn.Case = this;
-            msn.Workspace = new Workspace(msn);
+            msn.Space = new Workspace(msn);
             Put(key, msn);
         }
 
@@ -89,7 +89,7 @@ namespace Undersoft.SDK.Workflows
             set
             {
                 value.Case = this;
-                value.Workspace = new Workspace(value);
+                value.Space = new Workspace(value);
                 Put(key, value);
             }
         }

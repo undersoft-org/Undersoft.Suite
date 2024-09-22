@@ -11,7 +11,7 @@ namespace Undersoft.SDK.Service.Application.GUI.View.Generic.Data
         public override IServicer? Servicer { get; set; }
 
         [Inject]
-        public override IAccessProvider? Access { get; set; }
+        public override IAccessContext? Access { get; set; }
 
         [Inject]
         public override IDialogService? DialogService { get; set; }

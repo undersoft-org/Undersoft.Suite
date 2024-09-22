@@ -6,7 +6,7 @@
 
     public class PresentResult
     {
-        public object Present(double rate1, double rate2, double result)
+        public void Present(double rate1, double rate2, double result)
         {
             try
             {
@@ -18,7 +18,6 @@
                     + " EUR->USD : "
                     + result.ToString();
                 Debug.WriteLine(present);
-                return present;
             }
             catch (Exception ex)
             {

@@ -31,6 +31,9 @@
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
+    [Inject]
+    public IAccessProvider<TModel> Access { get; set; } = default!;
+
     private string? _image = null;
 
     public void RenderView()

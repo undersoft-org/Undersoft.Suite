@@ -2,8 +2,8 @@
 
 namespace Undersoft.SDK.Workflows
 {
-    public class Work<T> : WorkItem
+    public class WorkItem<T> : WorkItem
     {
-        public Work(Func<T, string> method) : base(new Invoker<T>(method)) { }
+        public WorkItem(Func<T, string> method) : base(new Invoker<T>(method)) { }
     }
 }

@@ -9,19 +9,17 @@
         SqlLite
     }
 
-    [Serializable]
     public class InstantSqlOptions
     {
-        public string AuthId;
-        public string Database;
-        public int Id;
-        public string Name;
-        public string Password;
-        public int Port;
-        public SqlProvider Provider;
-        public bool Security;
-        public string Server;
-        public string UserId;
+        public string Database { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public int Port { get; set; }
+        public SqlProvider Provider { get; set; }
+        public bool Security { get; set; }
+        public string Server { get; set; }
+        public string UserId { get; set; }
 
         public InstantSqlOptions() { }
 

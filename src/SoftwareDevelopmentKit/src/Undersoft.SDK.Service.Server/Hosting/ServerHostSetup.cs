@@ -165,7 +165,6 @@ public class ServerHostSetup : IServerHostSetup
             .UseAuthorization();
         
         UseMultitenancy();        
-        UseJwtMiddleware();
 
         UseEndpoints();
 

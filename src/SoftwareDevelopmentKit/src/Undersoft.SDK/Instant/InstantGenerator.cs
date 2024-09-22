@@ -27,12 +27,12 @@
         private Type compiledType;
 
         public InstantGenerator(
-            IList<MemberInfo> instantMembers,
+            IEnumerable<MemberInfo> instantMembers,
             InstantType modeType = InstantType.Reference
         ) : this(instantMembers.ToArray(), null, modeType) { }
 
         public InstantGenerator(
-            IList<MemberInfo> instantMembers,
+            IEnumerable<MemberInfo> instantMembers,
             string createdTypeName,
             InstantType modeType = InstantType.Reference
         )

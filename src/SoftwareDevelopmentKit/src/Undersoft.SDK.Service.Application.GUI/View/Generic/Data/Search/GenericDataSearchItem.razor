@@ -9,7 +9,7 @@
 <GenericFieldMenuItem Id="@ViewId"  Style="height:auto" >
     <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.End" HorizontalGap="0" VerticalGap="0" VerticalAlignment="VerticalAlignment.Center">
 
-        <FluentSearch Id="fluentsearchbar"  @ref="fluentSearch" Class="@(Class + "searchbar")" @bind-Value="SearchValue"  Appearance="FluentInputAppearance.Outline" @oninput="@(e => SearchValue = e.Value?.ToString())" @bind-Value:after="HandleSearchAsync" />
+        <FluentSearch Id="fluentsearchbar"  @ref="FluentSearch" Class="@(Class + "searchbar")" @bind-Value="SearchValue"  Appearance="FluentInputAppearance.Outline" @oninput="@(e => SearchValue = e.Value?.ToString())" @bind-Value:after="HandleSearchAsync" />
        
     </FluentStack>
 

@@ -236,7 +236,7 @@
 
         public ISeries<ISeries<IInstant>> ExecuteDelete(
             string sqlqry,
-            IInstantSeries cards,
+            IInstantSeries series,
             bool disposeCmd = false
         )
         {
@@ -247,25 +247,25 @@
             cmd.Prepare();
             if (_cn.State == ConnectionState.Closed)
                 _cn.Open();
-            IDataReader sdr = cmd.ExecuteReader();
-            SqlReader<IInstantSeries> dr = new SqlReader<IInstantSeries>(sdr);
-            var _is = dr.DeleteRead(cards);
-            sdr.Dispose();
+            IDataReader dr = cmd.ExecuteReader();
+            SqlReader<IInstantSeries> sr = new SqlReader<IInstantSeries>(dr);
+            var _is = sr.ReadDelete(series);
+            dr.Dispose();
             if (disposeCmd)
                 cmd.Dispose();
             return _is;
         }
 
-        public IInstantSeries ExecuteLoad(string sqlqry, string tableName = null)
+        public IInstantSeries ExecuteSelect(string sqlqry, string tableName = null)
         {
             SqlCommand cmd = new SqlCommand(sqlqry, _cn);
             cmd.Prepare();
             if (_cn.State == ConnectionState.Closed)
                 _cn.Open();
-            IDataReader sdr = cmd.ExecuteReader();
-            SqlReader<IInstantSeries> dr = new SqlReader<IInstantSeries>(sdr);
-            IInstantSeries it = dr.ReadLoaded(tableName);
-            sdr.Dispose();
+            IDataReader dr = cmd.ExecuteReader();
+            SqlReader<IInstantSeries> sr = new SqlReader<IInstantSeries>(dr);
+            IInstantSeries it = sr.ReadSelect(tableName);
+            dr.Dispose();
             cmd.Dispose();
             return it;
         }
@@ -282,12 +282,12 @@
                 cmd.Prepare();
                 if (_cn.State == ConnectionState.Closed)
                     _cn.Open();
-                IDataReader sdr = cmd.ExecuteReader();
-                SqlReader<IInstantSeries> dr = new SqlReader<IInstantSeries>(sdr);
-                IInstantSeries it = dr.ReadLoaded(tableName, keyNames);
-                sdr.Dispose();
+                IDataReader dr = cmd.ExecuteReader();
+                SqlReader<IInstantSeries> sdr = new SqlReader<IInstantSeries>(dr);
+                IInstantSeries s = sdr.ReadSelect(tableName, keyNames);
+                dr.Dispose();
                 cmd.Dispose();
-                return it;
+                return s;
             }
             catch (Exception ex)
             {
@@ -315,7 +315,7 @@
 
         public ISeries<ISeries<IInstant>> ExecuteInsert(
             string sqlqry,
-            IInstantSeries cards,
+            IInstantSeries series,
             bool disposeCmd = false
         )
         {
@@ -326,13 +326,13 @@
             cmd.Prepare();
             if (_cn.State == ConnectionState.Closed)
                 _cn.Open();
-            IDataReader sdr = cmd.ExecuteReader();
-            SqlReader<IInstantSeries> dr = new SqlReader<IInstantSeries>(sdr);
-            var _is = dr.InsertRead(cards);
-            sdr.Dispose();
+            IDataReader dr = cmd.ExecuteReader();
+            SqlReader<IInstantSeries> sr = new SqlReader<IInstantSeries>(dr);
+            var result = sr.ReadInsert(series);
+            dr.Dispose();
             if (disposeCmd)
                 cmd.Dispose();
-            return _is;
+            return result;
         }
 
         public int ExecuteUpdate(string sqlqry, bool disposeCmd = false)
@@ -368,7 +368,7 @@
                 _cn.Open();
             IDataReader sdr = cmd.ExecuteReader();
             SqlReader<IInstantSeries> dr = new SqlReader<IInstantSeries>(sdr);
-            var _is = dr.UpdateRead(cards);
+            var _is = dr.ReadUpdate(cards);
             sdr.Dispose();
             if (disposeCmd)
                 cmd.Dispose();

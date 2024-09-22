@@ -14,24 +14,25 @@ using Undersoft.SDK.Service.Application.GUI.View.Abstraction;
 
 namespace Undersoft.SVC.Service.Application.GUI.Compound.Access;
 
+using Undersoft.SDK.Service.Application.GUI.View.Generic.Accounts;
 using Undersoft.SVC.Service.Contracts;
 
 public class AccountPanel
 {
     public AccountPanel() { }
 
-    public async Task Open(IViewPanel<Account> _panel)
+    public async Task Open(IViewPanel<Account> panel)
     {
         IViewData<Account> data;
-        if (_panel.Content != null)
-            data = _panel.Content;
+        if (panel.Content != null)
+            data = panel.Content;
         else
             data = new ViewData<Account>(new Account(), OperationType.Any);
 
         data.EntryMode = EntryMode.Tabs;
         data.Width = "390px";
 
-        await _panel.Show(
+        await panel.Show(
             data,
             (p) =>
             {
@@ -43,12 +44,18 @@ public class AccountPanel
             }
         );
 
-        HandlePanel(_panel.Content);
+        HandlePanel(panel);
     }
 
     /// <summary>
     /// </summary>
     /// <param name="result"></param>
     /// <TODO> Handle saving account panel</TODO>
-    public void HandlePanel(IViewData<Account>? result) { }
+    public void HandlePanel(IViewPanel<Account> panel)
+    {
+        if (panel.Content != null && panel.Reference != null)
+            ((GenericAccountPanel<Account, AccountValidator>)panel.Reference).Access.Register(
+                panel.Content.Model
+            );
+    }
 }

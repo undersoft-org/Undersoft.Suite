@@ -88,7 +88,7 @@
 
         public Delegate Method => Process.Method;
 
-        public WorkAspect Start(params object[] input)
+        public WorkAspect Post(params object[] input)
         {
             Worker.SetInput(input);
             Aspect.Run(this);
@@ -97,7 +97,7 @@
 
         public object Invoke(params object[] parameters)
         {
-            Start(parameters);
+            Post(parameters);
             return null;
         }
 

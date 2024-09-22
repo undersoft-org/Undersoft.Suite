@@ -46,14 +46,14 @@
                 .AsQueryable();
             List<DbTable> dbTables = table
                 .Select(
-                    t =>
+                    r =>
                         new DbTable()
                         {
-                            TableName = t["TABLE_NAME"].ToString(),
+                            TableName = r["TABLE_NAME"].ToString(),
                             DataDbColumns = new DbColumns()
                             {
                                 List = columns
-                                    .Where(c => t["TABLE_NAME"].Equals(c["TABLE_NAME"]))
+                                    .Where(c => r["TABLE_NAME"].Equals(c["TABLE_NAME"]))
                                     .Select(
                                         k =>
                                             new DbColumn
@@ -78,7 +78,7 @@
                                     .ToList()
                             },
                             DbPrimaryKey = index
-                                .Where(i => t["TABLE_NAME"].Equals(i["table_name"]))
+                                .Where(i => r["TABLE_NAME"].Equals(i["table_name"]))
                                 .Where(
                                     it =>
                                         columns

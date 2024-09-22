@@ -15,15 +15,16 @@
                 <CascadingValue Value="@StateFlags">
                         <CascadingValue Value="@RubricOrdinalSeed">
                             <CascadingValue Value="@GridTemplateColumns">
-                                <FluentDataGrid GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid" @ref="Reference">
+                                <FluentDataGrid ShowHover="@ShowHover" RowClass="@ForRowClass" GenerateHeader=GenerateHeaderOption.None GridTemplateColumns="@GridTemplateColumns" TGridItem="string" role="grid">
 
-                                    <GenericDataGridHeader Parent="this" Resizable="Resizable" />
+                                    <GenericDataGridHeader Parent="@this" Resizable="@Resizable" />
 
-                                    <GenericDataGridBody Parent="this" />
+                                    <GenericDataGridBody Parent="@this" Multiline="@Multiline" />
 
                                 </FluentDataGrid>
 
-                                <GenericDataGridFooter Parent="this" />
+                                <GenericDataGridPagination Parent="this" />
+
                             </CascadingValue>
                         </CascadingValue>
                     </CascadingValue>

@@ -37,7 +37,7 @@
         object[] ValueArray { get; set; }
     }
 
-    public interface IByteable
+    public interface IBinaryAccessor
     {
         byte[] GetBytes();
     }

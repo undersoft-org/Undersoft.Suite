@@ -14,59 +14,59 @@ namespace Undersoft.SDK.Benchmarks.Instant.Math
     [SimpleJob(RunStrategy.ColdStart, targetCount: 5)]
     public class InstantSeriesMathBenchmark
     {
-        private InstantCreator figure;
-        private InstantSeriesCreator factory;
-        private InstantMath seriesMathA;
-        private InstantMath<InstantSeriesMathMockModel> seriesMathB;
-        private IInstantSeries InstantSeries;
+        internal InstantSeriesGenerator generator;
+        internal InstantMath<InstantSeriesMathMockModel> math;
+        internal IInstantSeries listing;
 
         public InstantSeriesMathBenchmark()
         {
-            factory = new InstantSeriesCreator<InstantSeriesMathMockModel>(
-                "InstantSeriesCreator_InstantSeriesMath_Test", InstantType.Reference, false
+            generator = new InstantSeriesGenerator<InstantSeriesMathMockModel>(
+                "InstantSeriesCreator_InstantSeriesMath_Test", InstantType.Derived, false
             );
 
-            InstantSeries = factory.Create();
-
-            InstantSeriesMathMockModel fom = new InstantSeriesMathMockModel();
+            listing = generator.Generate();
 
             for (int i = 0; i < 5000 * 2000; i++)
             {
-                IInstant f = InstantSeries.NewInstant();
+                var instant = listing.NewInstant();
+                var model = (InstantSeriesMathMockModel)instant;
 
-                f["NetPrice"] = (double)f["NetPrice"] + i;
-                f["SellFeeRate"] = (double)f["SellFeeRate"] / 2;
-                InstantSeries.Add(i, f);
+                model.NetPrice = model.NetPrice + i;
+                model.SellFeeRate = model.SellFeeRate / 2;
+                listing.Add(i, instant);
             }
-
-            seriesMathB = new InstantMath<InstantSeriesMathMockModel>(InstantSeries);
-
-            var mathsetB0 = seriesMathB[r => r.SellNetPrice];
-
-            mathsetB0.Formula = mathsetB0[r => r.NetPrice] * (mathsetB0[r => r.SellFeeRate] / 100D) + mathsetB0[r => r.NetPrice];
-
-            var mathsetB1 = seriesMathB[r => r.SellGrossPrice];
-
-            mathsetB1.Formula = mathsetB0 * mathsetB1[r => r.TaxRate];
         }
 
         [Benchmark]
         public void Parallel_Instant_Series_Undersoft_SDK_Instant_Math_Engine()
         {
-            seriesMathB.Compute(10);
+
+            math = new InstantMath<InstantSeriesMathMockModel>(listing);
+
+            var netMath = math[r => r.SellNetPrice];
+
+            netMath.Formula = netMath[r => r.NetPrice] * (netMath[r => r.SellFeeRate] / 100D) + netMath[r => r.NetPrice];
+
+            var grossMath = math[r => r.SellGrossPrice];
+
+            grossMath.Formula = netMath * grossMath[r => r.TaxRate];
+
+            math.Compute(10);
         }
 
         [Benchmark]
         public void Parallel_Instant_Series_DotNet_Standard_Math_Expression()
         {
-            InstantSeries
+            listing
                 .AsParallel()
-                .ForEach(
-                    (c) =>
+                .ForAll(
+                    instant =>
                     {
-                        c["SellNetPrice"] = (double)c["NetPrice"] * ((double)c["SellFeeRate"] / 100D) + (double)c["NetPrice"];
+                        var m = (InstantSeriesMathMockModel)instant;
 
-                        c["SellGrossPrice"] = (double)c["SellNetPrice"] * (double)c["TaxRate"];
+                        m.SellNetPrice = (m.NetPrice * (m.SellFeeRate / 100D)) + m.NetPrice;
+
+                        m.SellGrossPrice = m.SellNetPrice * m.TaxRate;
                     }
                 );
         }

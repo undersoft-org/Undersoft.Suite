@@ -15,7 +15,7 @@ using Claim = System.Security.Claims.Claim;
 
 namespace Undersoft.SDK.Service.Application.Access;
 
-public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessService<TAccount>, IAccessProvider where TAccount : class, IAuthorization
+public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessProvider<TAccount> where TAccount : class, IAuthorization
 {
     private readonly IJSRuntime js;
     private IAuthorization _authorization;
@@ -25,7 +25,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
     private readonly string EMAILKEY = "EMAILKEY";
     private TAccount? _account;
     private AccessState? _accessState;
-    private DateTime? accessExpiration;
+    private DateTime? _expiration;
 
     private AuthenticationState Anonymous =>
         new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
@@ -41,9 +41,9 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         _authorization = authorization;
     }
 
-    public IAuthorization Authorization => _authorization;
+    public IAuthorization Current => _authorization;
 
-    public DateTime? AccessExpiration => accessExpiration;
+    public DateTime? Expiration => _expiration;
 
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -60,12 +60,12 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         {
             DateTimeOffset expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expirationTimeString));
 
-            if (IsTokenExpired(expirationTime.LocalDateTime))
+            if (IsExpired(expirationTime.LocalDateTime))
             {
                 await CleanUp();
                 return Anonymous;
             }
-            if (IsTokenExpired(expirationTime.LocalDateTime.AddMinutes(-5)))
+            if (IsExpired(expirationTime.LocalDateTime.AddMinutes(-5)))
             {
                 var auth = await SignedIn(
                     new Authorization()
@@ -89,14 +89,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         return await GetAccessStateAsync(token);
     }
 
-    public async Task<ClaimsPrincipal?> CurrentState()
-    {
-        if (_accessState == null)
-            return (await GetAuthenticationStateAsync()).User;
-        return _accessState.User;
-    }
-
-    public async Task<ClaimsPrincipal?> RefreshState()
+    public async Task<ClaimsPrincipal?> RefreshAsync()
     {
         return (await GetAuthenticationStateAsync()).User;
     }
@@ -105,7 +98,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
     {
         _authorization.Credentials.SessionToken = token;
         _accessState = new AccessState(
-            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt", "name", "role"))
+            new ClaimsPrincipal(new ClaimsIdentity(GetClaims(token), "jwt", "name", "role"))
         );
         if (_accessState.User.Identity != null)
             _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
@@ -119,7 +112,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         _authorization.Credentials.SessionToken = token;
         await Registered(typeof(TAccount).New<TAccount>());
         _accessState = new AccessState(
-            new ClaimsPrincipal(new ClaimsIdentity(GetTokenClaims(token), "jwt", "name", "role"))
+            new ClaimsPrincipal(new ClaimsIdentity(GetClaims(token), "jwt", "name", "role"))
         );
         if (_accessState.User.Identity != null)
             _authorization.Credentials.Authenticated = _accessState.User.Identity.IsAuthenticated;
@@ -128,11 +121,11 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         return _accessState;
     }
 
-    private ISeries<Claim> GetTokenClaims(string jwt)
+    private ISeries<Claim> GetClaims(string jwt)
     {
         var claims = new Registry<Claim>();
         var payload = jwt.Split('.')[1];
-        var token = GetJsonToken(payload);
+        var token = DecodeBase64(payload);
 
         var keyValuePairs = token.FromJson<Dictionary<string, object>>();
         if (keyValuePairs != null)
@@ -143,14 +136,14 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
 
         if (claims.TryGet(JwtClaimTypes.Expiration, out Claim expiration))
         {
-            accessExpiration = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiration.Value)).LocalDateTime;
+            this._expiration = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiration.Value)).LocalDateTime;
             js.SetInLocalStorage(EXPIRATIONTOKENKEY, expiration.Value);
         }
 
         return claims;
     }
 
-    private byte[] GetJsonToken(string base64)
+    private byte[] DecodeBase64(string base64)
     {
         switch (base64.Length % 4)
         {
@@ -164,7 +157,7 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
         return Convert.FromBase64String(base64);
     }
 
-    private bool IsTokenExpired(DateTime expirationTime)
+    private bool IsExpired(DateTime expirationTime)
     {
         return expirationTime <= DateTime.Now;
     }
@@ -258,16 +251,6 @@ public class AccessProvider<TAccount> : AuthenticationStateProvider, IAccessServ
     public async Task<IAuthorization?> ConfirmEmail(IAuthorization auth)
     {
         var result = await _repository.Action(nameof(ConfirmEmail), auth);
-
-        if (result == null)
-            return null;
-
-        return result.PatchTo(_authorization);
-    }
-
-    public async Task<IAuthorization?> CompleteRegistration(IAuthorization auth)
-    {
-        var result = await _repository.Setup(nameof(CompleteRegistration), auth);
 
         if (result == null)
             return null;

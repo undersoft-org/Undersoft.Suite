@@ -27,7 +27,5 @@
         public string[] SortMembers { get; set; }
 
         public string[] AggregateMembers { get; set; }
-
-        public string[] ExpandMembers { get; set; }
     }
 }

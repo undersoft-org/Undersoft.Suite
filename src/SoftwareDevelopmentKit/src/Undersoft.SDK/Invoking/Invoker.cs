@@ -13,7 +13,8 @@ namespace Undersoft.SDK.Invoking
 
         public Invoker() { }
 
-        public Invoker(Arguments args) : this(args.TargetType.New(), args) { }
+        public Invoker(Arguments args)
+            : this(args.TargetType.New(), args) { }
 
         public Invoker(object targetObject, Arguments args)
         {
@@ -23,9 +24,8 @@ namespace Undersoft.SDK.Invoking
             var methodName = args.MethodName;
 
             MethodInfo m = t.GetMethods()
-                .Where(
-                    a =>
-                        a.Name == methodName && a.GetParameters().Length <= args.Count && a.IsPublic
+                .Where(a =>
+                    a.Name == methodName && a.GetParameters().Length <= args.Count && a.IsPublic
                 )
                 .FirstOrDefault();
             if (m != null)
@@ -99,14 +99,12 @@ namespace Undersoft.SDK.Invoking
             : this(
                 targetType
                     .GetMethods()
-                    .Where(
-                        m =>
-                            m.IsPublic
-                            && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
+                    .Where(m =>
+                        m.IsPublic
+                        && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
                     )
                     .FirstOrDefault()
-            )
-        { }
+            ) { }
 
         public Invoker(
             Type targetType,
@@ -116,14 +114,12 @@ namespace Undersoft.SDK.Invoking
             : this(
                 targetType
                     .GetMethods()
-                    .FirstOrDefault(
-                        m =>
-                            m.IsPublic
-                            && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
+                    .FirstOrDefault(m =>
+                        m.IsPublic
+                        && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
                     ),
                 constructorParameters
-            )
-        { }
+            ) { }
 
         public Invoker(Type targetType, params object[] constructorParameters)
             : this(targetType.GetMethods().FirstOrDefault(m => m.IsPublic), constructorParameters)
@@ -139,7 +135,8 @@ namespace Undersoft.SDK.Invoking
             object targetObject,
             string methodName,
             params object[] constructorParameters
-        ) : this(targetObject, methodName, null) { }
+        )
+            : this(targetObject, methodName, null) { }
 
         public Invoker(Type targetType, string methodName)
             : this(InstanceUtilities.New(targetType), methodName, null) { }
@@ -155,7 +152,9 @@ namespace Undersoft.SDK.Invoking
             string methodName,
             Type[] parameterTypes,
             params object[] constructorParams
-        ) : this(InstanceUtilities.New(targetType, constructorParams), methodName, parameterTypes) { }
+        )
+            : this(InstanceUtilities.New(targetType, constructorParams), methodName, parameterTypes)
+        { }
 
         public Invoker(string targetName, string methodName)
             : this(InstanceUtilities.New(targetName), methodName, null) { }
@@ -168,7 +167,9 @@ namespace Undersoft.SDK.Invoking
             string methodName,
             Type[] parameterTypes,
             params object[] constructorParams
-        ) : this(InstanceUtilities.New(targetName, constructorParams), methodName, parameterTypes) { }
+        )
+            : this(InstanceUtilities.New(targetName, constructorParams), methodName, parameterTypes)
+        { }
 
         public Invoker(MethodInfo methodInvokeInfo)
             : this(methodInvokeInfo.DeclaringType.New(), methodInvokeInfo) { }
@@ -394,15 +395,21 @@ namespace Undersoft.SDK.Invoking
         {
             try
             {
-                var obj = Invoke(parameters);
-                if (obj == null)
-                    return Task.CompletedTask;
+                return await Task.Factory.StartNew(
+                    () =>
+                    {
+                        var obj = Invoke(parameters);
+                        if (obj == null)
+                            return Task.CompletedTask;
 
-                var resultProperty = obj.GetType().GetRuntimeProperty("Result");
-                if (resultProperty != null)
-                    return (await Task.FromResult(resultProperty.GetValue(obj)));
-                else
-                    return (await Task.FromResult(obj));
+                        var resultProperty = obj.GetType().GetRuntimeProperty("Result");
+                        if (resultProperty != null)
+                            return resultProperty.GetValue(obj);
+                        else
+                            return obj;
+                    },
+                    TaskCreationOptions.AttachedToParent
+                );
             }
             catch (Exception e)
             {
@@ -418,19 +425,25 @@ namespace Undersoft.SDK.Invoking
         {
             try
             {
-                if (!withTarget)
-                {
-                    parameters = new[] { target }.Concat(parameters).ToArray();
-                    target = TargetObject;
-                }
+                return await Task.Factory.StartNew(
+                    () =>
+                    {
+                        if (!withTarget)
+                        {
+                            parameters = new[] { target }.Concat(parameters).ToArray();
+                            target = TargetObject;
+                        }
 
-                var obj = Invoke(target, parameters);
+                        var obj = Invoke(target, parameters);
 
-                var resultProperty = obj.GetType().GetRuntimeProperty("Result");
-                if (resultProperty != null)
-                    return (await Task.FromResult(resultProperty.GetValue(obj)));
-                else
-                    return (await Task.FromResult(obj));
+                        var resultProperty = obj.GetType().GetRuntimeProperty("Result");
+                        if (resultProperty != null)
+                            return resultProperty.GetValue(obj);
+                        else
+                            return obj;
+                    },
+                    TaskCreationOptions.AttachedToParent
+                );
             }
             catch (Exception e)
             {
@@ -438,13 +451,20 @@ namespace Undersoft.SDK.Invoking
             }
         }
 
-        public virtual async Task<T> InvokeAsync<T>(params object[] parameters) where T : class
+        public virtual async Task<T> InvokeAsync<T>(params object[] parameters)
+            where T : class
         {
             try
             {
-                var obj = Invoke(parameters);
+                return await Task.Factory.StartNew(
+                    () =>
+                    {
+                        var obj = Invoke(parameters);
 
-                return await GetObjectTaskResult<T>(obj);
+                        return GetObjectTaskResult<T>(obj);
+                    },
+                    TaskCreationOptions.AttachedToParent
+                );
             }
             catch (Exception e)
             {
@@ -456,19 +476,26 @@ namespace Undersoft.SDK.Invoking
             bool withTarget,
             object target,
             params object[] parameters
-        ) where T : class
+        )
+            where T : class
         {
             try
             {
-                if (!withTarget)
-                {
-                    parameters = new[] { target }.Concat(parameters).ToArray();
-                    target = TargetObject;
-                }
+                return await Task.Factory.StartNew(
+                    () =>
+                    {
+                        if (!withTarget)
+                        {
+                            parameters = new[] { target }.Concat(parameters).ToArray();
+                            target = TargetObject;
+                        }
 
-                var obj = Invoke(target, parameters);
+                        var obj = Invoke(target, parameters);
 
-                return await GetObjectTaskResult<T>(obj);
+                        return GetObjectTaskResult<T>(obj);
+                    },
+                    TaskCreationOptions.AttachedToParent
+                );
             }
             catch (Exception e)
             {
@@ -476,14 +503,15 @@ namespace Undersoft.SDK.Invoking
             }
         }
 
-        private async Task<T> GetObjectTaskResult<T>(object obj) where T : class
+        private T GetObjectTaskResult<T>(object obj)
+            where T : class
         {
             var resultProperty = obj.GetType().GetRuntimeProperty("Result");
             object result = null;
             if (resultProperty != null)
-                result = (await Task.FromResult(resultProperty.GetValue(obj)));
+                result = resultProperty.GetValue(obj);
             else
-                result = (await Task.FromResult(obj));
+                result = obj;
 
             if (result.GetType() == typeof(T))
                 return (T)result;
@@ -515,7 +543,8 @@ namespace Undersoft.SDK.Invoking
             );
         }
 
-        public virtual async Task<T> InvokeAsync<T>(Arguments arguments) where T : class
+        public virtual async Task<T> InvokeAsync<T>(Arguments arguments)
+            where T : class
         {
             return await InvokeAsync<T>(
                 arguments
@@ -528,7 +557,8 @@ namespace Undersoft.SDK.Invoking
             bool withTarget,
             object target,
             Arguments arguments
-        ) where T : class
+        )
+            where T : class
         {
             return await InvokeAsync<T>(
                 withTarget,
@@ -610,11 +640,9 @@ namespace Undersoft.SDK.Invoking
             {
                 return getFullName(
                     type.GetMethods()
-                        .FirstOrDefault(
-                            m =>
-                                m.IsPublic
-                                && m.GetParameters()
-                                    .All(p => parameterTypes.Contains(p.ParameterType))
+                        .FirstOrDefault(m =>
+                            m.IsPublic
+                            && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
                         )
                 );
             }
@@ -641,11 +669,10 @@ namespace Undersoft.SDK.Invoking
         )
         {
             var m = type.GetMethods()
-                .FirstOrDefault(
-                    m =>
-                        m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
-                        && m.IsPublic
-                        && m.Name == methodName
+                .FirstOrDefault(m =>
+                    m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
+                    && m.IsPublic
+                    && m.Name == methodName
                 );
             return getQualifiedName(m, m.GetParameters());
         }
@@ -653,10 +680,9 @@ namespace Undersoft.SDK.Invoking
         public static string GetQualifiedName(Type type, params Type[] parameterTypes)
         {
             var m = type.GetMethods()
-                .FirstOrDefault(
-                    m =>
-                        m.IsPublic
-                        && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
+                .FirstOrDefault(m =>
+                    m.IsPublic
+                    && m.GetParameters().All(p => parameterTypes.Contains(p.ParameterType))
                 );
             return getQualifiedName(m, m.GetParameters());
         }
@@ -694,7 +720,7 @@ namespace Undersoft.SDK.Invoking
 
         Patching,
 
-        Patched
+        Patched,
     };
 
     public enum StateOn

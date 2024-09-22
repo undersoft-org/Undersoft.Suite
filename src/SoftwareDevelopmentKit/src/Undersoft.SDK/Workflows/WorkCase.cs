@@ -84,34 +84,34 @@
         {
             foreach (WorkAspect aspect in AsValues())
             {
-                if (aspect.Workspace == null)
+                if (aspect.Space == null)
                 {
-                    aspect.Workspace = new Workspace(aspect);
+                    aspect.Space = new Workspace(aspect);
                 }
-                if (!aspect.Workspace.Ready)
+                if (!aspect.Space.Ready)
                 {
                     aspect.Allocate();
                 }
             }
         }
 
-        public void Run(string workName, params object[] input)
+        public void Run(string name, params object[] args)
         {
-            WorkItem[] works = AsValues()
-                .Where(m => m.ContainsKey(workName))
+            WorkItem[] items = AsValues()
+                .Where(m => m.ContainsKey(name))
                 .SelectMany(w => w.AsValues())
                 .ToArray();
 
-            foreach (WorkItem work in works)
-                work.Invoke(input);
+            foreach (WorkItem item in items)
+                item.Invoke(args);
         }
 
-        public void Run(IDictionary<string, object[]> worksAndParams)
+        public void Run(IDictionary<string, object[]> methodsWithArgs)
         {
-            foreach (KeyValuePair<string, object[]> workAndParam in worksAndParams)
+            foreach (KeyValuePair<string, object[]> methodAndArgs in methodsWithArgs)
             {
-                object input = workAndParam.Value;
-                string workName = workAndParam.Key;
+                object input = methodAndArgs.Value;
+                string workName = methodAndArgs.Key;
                 WorkItem[] works = AsValues()
                     .Where(m => m.ContainsKey(workName))
                     .SelectMany(w => w.AsValues())

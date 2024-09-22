@@ -23,12 +23,12 @@
 
         public static IQueryable<T> ToQueryable<T>(this T entity)
         {
-            return ((entity == null) ? new T[0] : new T[1] { entity }).AsQueryable();
+            return ((entity == null) ? Array.Empty<T>() : [ entity ]).AsQueryable();
         }
 
         public static IEnumerable<T> ToEnumerable<T>(this T entity)
         {
-            return ((entity == null) ? new T[0] : new T[1] { entity }).AsEnumerable();
+            return ((entity == null) ? Array.Empty<T>() : [ entity ]).AsEnumerable();
         }
 
         public static IEnumerable<T> Concentrate<T>(params IEnumerable<T>[] List)

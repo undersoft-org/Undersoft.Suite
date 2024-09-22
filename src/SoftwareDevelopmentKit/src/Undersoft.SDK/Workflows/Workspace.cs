@@ -11,8 +11,8 @@
 
         private ManualResetEventSlim postAccess = new ManualResetEventSlim(true, 128);
         private SemaphoreSlim postPass = new SemaphoreSlim(1);
-        private object inlock = new object();
-        private object outlock = new object();
+        private object inputHolder = new object();
+        private object outputHolder = new object();
 
         private void acquirePostAccess()
         {
@@ -36,7 +36,7 @@
         public WorkAspect Aspect;
         private Thread[] workers;
         private int WorkersCount => Aspect.WorkersCount;
-        private Registry<Worker> Works = new Registry<Worker>();
+        private Registry<Worker> Items = new Registry<Worker>();
 
         public Workspace(WorkAspect aspect)
         {
@@ -78,18 +78,14 @@
 
         public void Run(WorkItem work)
         {
-            lock (inlock)
+            lock (inputHolder)
             {
                 if (work != null)
-                {
-                    Works.Enqueue(work.Worker.Clone());
-                    Monitor.Pulse(inlock);
-                }
+                    Items.Enqueue(work.Worker.Clone());
                 else
-                {
-                    Works.Enqueue(DateTime.Now.Ticks, null);
-                    Monitor.Pulse(inlock);
-                }
+                    Items.Enqueue(DateTime.Now.Ticks, null);
+
+                Monitor.Pulse(inputHolder);
             }
         }
 
@@ -107,20 +103,13 @@
                 Worker worker;
                 object input;
 
-                lock (inlock)
+                lock (inputHolder)
                 {
-                    while (!Works.TryDequeue(out worker))
-                    {
-                        Monitor.Wait(inlock);
-                    }
-                }
+                    while (!Items.TryDequeue(out worker))                    
+                        Monitor.Wait(inputHolder);                    
 
-                lock (outlock)
-                {
-                    if (worker != null)
-                    {
-                        input = worker.GetInput();
-                    }
+                    if (worker != null)                    
+                        input = worker.GetInput();                    
                     else
                         return;
                 }
@@ -129,10 +118,10 @@
 
                 if (input != null)
                 {
+                    object[] inputArray = [input];
                     if (input is IList)
-                        output = worker.Process.Invoke((object[])input);
-                    else
-                        output = worker.Process.Invoke(input);
+                        inputArray = (object[])input;
+                    output = worker.Process.Invoke(inputArray);
                 }
                 else
                 {
@@ -143,7 +132,8 @@
                 {
                     Thread.Sleep(10);
                 }
-                lock (outlock)
+
+                lock (outputHolder)
                 {
                     Outpost(worker, output);
                 }

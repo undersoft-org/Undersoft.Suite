@@ -20,8 +20,6 @@
 
   <ItemGroup>  
     <PackageReference Include="IdentityModel" Version="6.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*-*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.*-*" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.*-*" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*-*" />
     <PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
